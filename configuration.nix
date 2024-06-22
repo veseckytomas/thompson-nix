@@ -54,12 +54,47 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    git
+    alacritty
+    ansible
+    asciidoc
     bat
+    bitwarden
+    blueman
+    bluez
+    clang
+    cmake
+    cppcheck
+    curl
+    docker-compose
+    doxygen
+    evince
+    fd
     fzf
-    zsh
+    git
+    gzip
+    htop
+    librewolf
+    lua
+    luarocks
+    gnumake
+    neovim
+    ntfs3g
+    # python
+    ripgrep
+    # rust
+    shellcheck
+    steam
+    stow
+    gnutar
+    xfce.thunar
+    tmux
+    traceroute
+    unzip
+    virtualbox
+    vscodium
+    xclip
+    zip
+    zoxide
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
