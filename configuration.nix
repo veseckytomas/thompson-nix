@@ -52,7 +52,7 @@
     isNormalUser = true;
     description = "Tomas Vesecky";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [];
+    shell = pkgs.zsh;
   };
 
   # Allow unfree packages
@@ -89,6 +89,7 @@
     ripgrep
     shellcheck
     steam
+    starship
     stow
     gnutar
     xfce.thunar
@@ -100,8 +101,13 @@
     xclip
     zip
     zoxide
-    zsh
   ];
+
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "Hack" ]; })
+  ];
+
+  programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
