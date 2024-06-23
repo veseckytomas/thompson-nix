@@ -13,8 +13,8 @@
   networking.hostName = "TomasVesa-NTB2-NixOS"; # Define your hostname.
 
   # Enable networking
-  networking.wireless.enable = true;
-  # networking.networkmanager.enable = true;
+  # networking.wireless.enable = true;
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Prague";
@@ -39,6 +39,13 @@
     layout = "us";
     xkbVariant = "";
   };
+
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
+
 
   # Define a user accounts
   users.users.vesecto = {
@@ -79,9 +86,7 @@
     gnumake
     neovim
     ntfs3g
-    # python
     ripgrep
-    # rust
     shellcheck
     steam
     stow
@@ -95,6 +100,7 @@
     xclip
     zip
     zoxide
+    zsh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
