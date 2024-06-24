@@ -36,8 +36,8 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    xkb.Variant = "";
   };
 
   services.xserver = {
@@ -57,6 +57,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
