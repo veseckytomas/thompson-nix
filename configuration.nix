@@ -75,6 +75,7 @@
     docker-compose
     doxygen
     evince
+    eza
     fd
     fzf
     git
