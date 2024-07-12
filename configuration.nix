@@ -80,6 +80,7 @@
     fd
     fzf
     git
+    gnupg
     gzip
     htop
     librewolf
@@ -87,7 +88,9 @@
     luarocks
     gnumake
     neovim
+    nodejs
     ntfs3g
+    python3
     ripgrep
     shellcheck
     steam
