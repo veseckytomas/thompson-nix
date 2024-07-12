@@ -2,7 +2,7 @@
   description = "Thompson NixOS config flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.05";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
   };
 
   outputs = { self, nixpkgs }:
@@ -19,7 +19,6 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
-          # ./configuration.nix
         ];
       };
     };
