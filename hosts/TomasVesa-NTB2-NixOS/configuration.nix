@@ -70,6 +70,7 @@
     bitwarden
     blueman
     bluez
+    cargo
     clang
     cmake
     cppcheck
