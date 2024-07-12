@@ -81,6 +81,7 @@
     fd
     fzf
     git
+    git-crypt
     gzip
     htop
     librewolf
