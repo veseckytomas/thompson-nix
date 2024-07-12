@@ -1,31 +1,16 @@
 {
-  description = "ZaneyOS";
+  description = "Thompson nixos configuration flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
-  outputs =
-    { nixpkgs, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      host = "default";
-      username = "vesecto";
-    in
-    {
-      nixosConfigurations = {
-        "${host}" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit system;
-            inherit inputs;
-            inherit username;
-            inherit host;
-          };
-          modules = [
-            ./hosts/${host}/config.nix
-            inputs.stylix.nixosModules.stylix
-          ];
-        };
-      };
-    };
+  outputs = { self, nixpkgs }: 
+  let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system}
+  in
+  {
+
+  };
 }
