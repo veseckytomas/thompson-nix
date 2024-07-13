@@ -90,6 +90,7 @@
     evince
     eza
     fd
+    feh
     fzf
     git
     git-crypt
@@ -99,11 +100,12 @@
     lua
     luarocks
     gnumake
-    neovim
     nodejs
     ntfs3g
+    obsidian
     python3
     ripgrep
+    rofi
     shellcheck
     steam
     starship
@@ -124,6 +126,10 @@
     (nerdfonts.override { fonts = [ "Hack" ]; })
   ];
 
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
   programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
