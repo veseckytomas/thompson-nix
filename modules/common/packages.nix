@@ -54,7 +54,7 @@
     xclip
     zip
     zoxide
-    clion
+    jetbrains.clion
   ];
 
   fonts.packages = with pkgs; [
