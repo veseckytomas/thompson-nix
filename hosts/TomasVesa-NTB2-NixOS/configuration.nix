@@ -49,7 +49,12 @@
     enable = true;
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
-    windowManager.qtile.enable = true;
+    windowManager.qtile = {
+      enable = true;
+      extraPackages = python3Packages: with python3Packages; [
+        qtile-extras
+      ];
+    };
   };
 
 
@@ -64,7 +69,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  # nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
