@@ -47,6 +47,7 @@
 
   services.xserver = {
     enable = true;
+    libinput.naturalScrolling = true;
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
     windowManager.qtile = {
