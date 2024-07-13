@@ -12,4 +12,8 @@
       ];
     };
   };
+  environment.systemPackages = with pkgs; [
+    feh
+    rofi
+  ];
 }
