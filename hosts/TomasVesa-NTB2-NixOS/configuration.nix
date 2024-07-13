@@ -47,7 +47,7 @@
 
   services.xserver = {
     enable = true;
-    # libinput.naturalScrolling = true;
+    libinput.naturalScrolling = true;
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
     windowManager.qtile = {
@@ -133,20 +133,20 @@
   };
   programs.zsh.enable = true;
 
-  environment.etc = {
-    # "X11/xorg.conf.d/01-touchpad.conf".source = "./modules/touchpad/01-touchpad.conf";
-    "X11/xorg.conf.d/01-touchpad.conf" = {
-      text = ''
-        Section "InputClass"
-          Indetifier "touchpad"
-          MatchIsTouchpad "true"
-          MatchDriver "libinput"
-          Option "NaturalScrolling" "true"
-        EndSection
-      '';
-      # mode = 0644;
-    };
-  };
+  # environment.etc = {
+  #   # "X11/xorg.conf.d/01-touchpad.conf".source = "./modules/touchpad/01-touchpad.conf";
+  #   "X11/xorg.conf.d/01-touchpad.conf" = {
+  #     text = ''
+  #       Section "InputClass"
+  #         Indetifier "touchpad"
+  #         MatchIsTouchpad "true"
+  #         MatchDriver "libinput"
+  #         Option "NaturalScrolling" "true"
+  #       EndSection
+  #     '';
+  #     # mode = 0644;
+  #   };
+  # };
 
 
   # Some programs need SUID wrappers, can be configured further or are
