@@ -15,7 +15,7 @@
     lib = nixpkgs.lib;
   in {
     nixosConfigurations = {
-      testbox = lib.nixosSystem {
+      TomasVesa-NTB2-NixOS = lib.nixosSystem {
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
