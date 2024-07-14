@@ -4,7 +4,7 @@
   services.libinput.touchpad.naturalScrolling = true;
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
+    displayManager.sddm.enable = true;
     windowManager.qtile = {
       enable = true;
       extraPackages = python3Packages: with python3Packages; [
