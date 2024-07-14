@@ -13,5 +13,6 @@
   environment.systemPackages = with pkgs; [
     feh
     rofi
+    i3lock
   ];
 }

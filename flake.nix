@@ -19,13 +19,7 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
-          ./modules/common/common.nix
-          ./modules/common/locale.nix
-          ./modules/common/packages.nix
-          ./modules/common/users.nix
-          ./modules/desktopManagers/lightdm.nix
-          ./modules/windowManagers/gnome.nix
-          ./modules/windowManagers/qtile.nix
+          ./main.nix
         ];
       };
 
@@ -33,12 +27,7 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
-          ./modules/common/common.nix
-          ./modules/common/locale.nix
-          ./modules/common/packages.nix
-          ./modules/common/users.nix
-          ./modules/windowManagers/gnome.nix
-          ./modules/windowManagers/qtile.nix
+          ./main.nix
         ];
       };
     };
