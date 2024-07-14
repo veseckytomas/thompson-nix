@@ -14,7 +14,11 @@
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
-  security.pam.u2f.enable = true;
+  # security.pam.u2f.enable = true;
+  security.pam.u2f = {
+    enable = true;
+    control = "required";
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Prague";
