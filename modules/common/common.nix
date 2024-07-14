@@ -18,7 +18,8 @@
   security.pam.u2f = {
     enable = true;
     cue = true;
-    control = "required";
+    # control = "required";
+    control = "sufficient";
   };
 
   # Set your time zone.
