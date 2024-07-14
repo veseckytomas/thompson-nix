@@ -10,6 +10,6 @@
       ./modules/loginManagers/sddm.nix
       ./modules/windowManagers/gnome.nix
       ./modules/windowManagers/qtile.nix
-      # ./modules/themes/theme.nix
+      ./modules/themes/theme.nix
     ];
 }

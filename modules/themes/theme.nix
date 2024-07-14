@@ -3,6 +3,6 @@
 {
   imports = [
     qt/qt.nix
-    gtk/gtk.nix
+    # gtk/gtk.nix
   ];
 }
