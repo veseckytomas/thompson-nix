@@ -17,7 +17,7 @@
   # security.sudo.wheelNeedsPassword = false;
   security.pam.u2f = {
     enable = true;
-    cue = true;
+    settings.cue = true;
     control = "required";
   };
 
