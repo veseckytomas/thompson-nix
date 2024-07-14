@@ -14,5 +14,6 @@
     feh
     rofi
     i3lock
+    picom
   ];
 }
