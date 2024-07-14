@@ -70,6 +70,8 @@
     vlc
     wireshark
     kdePackages.kcalc
+    lazygit
+    lazydocker
   ];
 
   # Install nerdfonts
