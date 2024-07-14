@@ -14,7 +14,7 @@
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
-  security.sudo.wheelNeedsPassword = false;
+  # security.sudo.wheelNeedsPassword = false;
   security.pam.u2f = {
     enable = true;
     cue = true;
