@@ -23,6 +23,7 @@
           ./modules/common/locale.nix
           ./modules/common/packages.nix
           ./modules/common/users.nix
+          ./modules/desktopManagers/lightdm.nix
           ./modules/windowManagers/gnome.nix
           ./modules/windowManagers/qtile.nix
         ];
