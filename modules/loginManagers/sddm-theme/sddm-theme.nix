@@ -1,11 +1,11 @@
 { pkgs }:
 
 let
-  imgLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/blob/master/modules/loginManagers/sddm-theme/sddm_bg.png";
+  imgLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/master/modules/loginManagers/sddm-theme/sddm_bg.png?inline=false";
 
   img = pkgs.fetchurl {
     url = imgLink;
-    sha256 = "19lc4k4y3xj26d52v1p3hql9nnimw846faabnrcss71k521vzxs7";
+    sha256 = "sha256-RdrkvsVB6fHnyDZQ6wCGc7lUP7FoDYGvx2jfWB1WSvI=";
   };
 in 
 pkgs.stdenv.mkDerivation {
