@@ -2,4 +2,5 @@
 
 nix flake update
 sudo nixos-rebuild switch --flake .#
-sudo nix-collect-garbage --delete-older-than 5d
+sudo nix-env --delete-generations +5
+./rebuild.sh
