@@ -13,6 +13,10 @@
     epiphany
     geary
     totem
+    gnome-calendar
+    gnome-calculator
+    simple-scan
+    devhelp
   ]) ++ (with pkgs.gnome; [
     gnome-music
     gnome-characters
@@ -20,5 +24,10 @@
     iagno
     hitori
     atomix
+    gnome-contacts
+    gnome-weather
+    gnome-clocks
+    gnome-maps
+    gnome-software
   ]);
 }
