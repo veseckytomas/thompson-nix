@@ -11,7 +11,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Enable networking
-  networking.wireless.enable = true;
   networking.networkmanager.enable = false;
 
   # security.sudo.wheelNeedsPassword = false;
