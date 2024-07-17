@@ -4,9 +4,8 @@
   # Define a user accounts
   users.users.vesecto = {
     isNormalUser = true;
-    initialPassword = "P@ssw0rd";
     description = "Tomas Vesecky";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "user-with-access-to-virtualbox" ];
     shell = pkgs.zsh;
   };
 }

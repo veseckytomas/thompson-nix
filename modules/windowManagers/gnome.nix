@@ -8,7 +8,6 @@
     gnome-photos
     gnome-tour
     cheese
-    gnome-terminal
     gedit
     epiphany
     geary
@@ -16,14 +15,9 @@
     gnome-calendar
     gnome-calculator
     simple-scan
-    devhelp
   ]) ++ (with pkgs.gnome; [
     gnome-music
     gnome-characters
-    tali
-    iagno
-    hitori
-    atomix
     gnome-contacts
     gnome-weather
     gnome-clocks

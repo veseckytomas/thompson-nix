@@ -7,6 +7,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    google-chrome
+    firefox
     alacritty
     ansible
     asciidoc
@@ -14,7 +16,6 @@
     bat
     bitwarden
     cargo
-    chromium
     clang
     cmake
     cppcheck
@@ -52,7 +53,7 @@
     tmux
     traceroute
     unzip
-    virtualbox
+    # virtualbox
     vscodium
     xclip
     zip
@@ -85,15 +86,16 @@
     defaultEditor = true;
   };
 
+  #enable web browsers for developments
+  programs.firefox.enable = true;
+  programs.chromium.enable = true;
+
   # Enable zsh
   programs.zsh.enable = true;
 
   # Enable docker
   virtualisation.docker.enable = true;
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
