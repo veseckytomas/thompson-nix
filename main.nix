@@ -4,7 +4,7 @@
   imports =
     [
       ./modules/audio/pipewire.nix
-      ./modules/bootLoaders/grub.nix
+      ./modules/bootLoaders/systemd-boot.nix
       ./modules/common/common.nix
       ./modules/common/locale.nix
       ./modules/common/packages.nix
