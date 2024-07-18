@@ -28,6 +28,7 @@
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
           ./main.nix
+          ./modules/common/notebook.nix
         ];
       };
 
@@ -36,6 +37,7 @@
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./main.nix
+          ./modules/common/notebook.nix
         ];
       };
     };

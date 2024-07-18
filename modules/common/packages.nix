@@ -7,6 +7,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    atuin
     google-chrome
     firefox
     alacritty
@@ -86,7 +87,7 @@
     defaultEditor = true;
   };
 
-  #enable web browsers for developments
+  # Enable web browsers for developments
   programs.firefox.enable = true;
   programs.chromium.enable = true;
 
@@ -100,4 +101,7 @@
     enable = true;
     enableSSHSupport = true;
   };
+
+  # Disable xterm
+  services.xserver.excludePackages = [ pkgs.xterm ];
 }
