@@ -9,6 +9,7 @@
   environment.systemPackages = with pkgs; [
     atuin
     google-chrome
+    chromium
     firefox
     alacritty
     ansible

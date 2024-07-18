@@ -10,8 +10,8 @@
     cheese
     gedit
     epiphany
-    # geary
-    # totem
+    geary
+    totem
     gnome-calendar
     gnome-calculator
     simple-scan

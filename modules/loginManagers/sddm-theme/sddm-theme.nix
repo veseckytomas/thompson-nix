@@ -2,7 +2,7 @@
 
 let
   imgLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/master/modules/loginManagers/sddm-theme/sddm_bg.png?inline=false";
-  configLink = "";
+  configLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/master/modules/loginManagers/sddm-theme/sddm-config.conf?inline=false";
 
   img = pkgs.fetchurl {
     url = imgLink;
@@ -10,7 +10,7 @@ let
   };
   config = pkgs.fetchurl {
     url = configLink;
-    sha256 = "";
+    sha256 = "0xr30w00jg2hlrnqiwrhdnmsdyalddjyy0yrwmb7fr7ls9y0jj2y";
 
   };
 in 
