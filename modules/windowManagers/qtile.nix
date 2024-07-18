@@ -2,6 +2,7 @@
 
 {
   services.libinput.touchpad.naturalScrolling = true;
+  services.acpid.enable = true;
   services.xserver = {
     windowManager.qtile = {
       enable = true;

@@ -2,10 +2,16 @@
 
 let
   imgLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/master/modules/loginManagers/sddm-theme/sddm_bg.png?inline=false";
+  configLink = "";
 
   img = pkgs.fetchurl {
     url = imgLink;
     sha256 = "sha256-RdrkvsVB6fHnyDZQ6wCGc7lUP7FoDYGvx2jfWB1WSvI=";
+  };
+  config = pkgs.fetchurl {
+    url = configLink;
+    sha256 = "";
+
   };
 in 
 pkgs.stdenv.mkDerivation {
@@ -21,5 +27,7 @@ pkgs.stdenv.mkDerivation {
     cp -R ./* $out/
     rm Background.jpg
     cp -r ${img} $out/Background.jpg
+    rm theme.conf
+    cp -r ${config} theme.conf
   '';
 }
