@@ -7,6 +7,5 @@
     };
     efi.canTouchEfiVariables = true;
     # timeout = null;
-    timeout = 0;
   };
 }
