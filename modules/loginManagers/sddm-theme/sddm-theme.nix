@@ -10,7 +10,7 @@ let
   };
   config = pkgs.fetchurl {
     url = configLink;
-    sha256 = "0xr30w00jg2hlrnqiwrhdnmsdyalddjyy0yrwmb7fr7ls9y0jj2y";
+    sha256 = "0q0hb5cq0fx88sgcvyw8nj1rc6z5bd6dxnqmxvrxq8970fsx9zyi";
 
   };
 in 
