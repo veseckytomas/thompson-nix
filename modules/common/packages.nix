@@ -88,6 +88,7 @@
     codeium
     jdk
     swt
+    wget
   ];
 
   # Install nerdfonts
