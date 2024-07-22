@@ -19,7 +19,11 @@
   '';
 
   # Enable networking
-  networking.networkmanager.enable = false;
+  networking.networkmanager = {
+    enable = false;
+    plugins = [ pkgs.networkmanagerapplet  ];
+    unmanaged = [ "docker0" ];
+  };
   programs.nm-applet.enable = true;
 
   # Enable Yubikey support

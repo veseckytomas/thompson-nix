@@ -24,6 +24,7 @@
       ./modules/virtualisation/virt-manager.nix
       ./modules/virtualisation/virtualbox.nix
       ./modules/windowManagers/gnome.nix
+      ./modules/windowManagers/plasma.nix
       ./modules/windowManagers/qtile.nix
     ];
 }

@@ -26,6 +26,7 @@
     gnome-calendar
     gnome-calculator
     simple-scan
+    seahorse
   ]) ++ (with pkgs.gnome; [
     gnome-music
     gnome-characters
