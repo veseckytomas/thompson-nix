@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "Please touch the device."
+git pull
 git add --all
 sudo nixos-rebuild switch --flake .#
 if test $? != 0; then
