@@ -11,4 +11,4 @@
 # GitLab: vesecky.tomas
 
 nix flake update
-./rebuild.sh
+./scripts/rebuild.sh
