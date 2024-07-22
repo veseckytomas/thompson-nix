@@ -66,7 +66,6 @@
     tmux
     traceroute
     unzip
-    # virtualbox
     vscodium
     xclip
     zip
@@ -86,7 +85,7 @@
     kdePackages.kcalc
     lazygit
     lazydocker
-    vimPlugins.codeium-nvim
+    codeium
   ];
 
   # Install nerdfonts
