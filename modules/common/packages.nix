@@ -86,6 +86,7 @@
     lazygit
     lazydocker
     codeium
+    jdk
   ];
 
   # Install nerdfonts
