@@ -44,7 +44,7 @@ command_timeout = 300
 scan_timeout = 15
 
 [directory]
-format = "[  $path ]($style)"
+format = "[   $path ]($style)"
 style = "fg:dir_fg bg:dir_bg"
 fish_style_pwd_dir_length = 1
 

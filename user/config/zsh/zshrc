@@ -102,14 +102,9 @@ function save_obsidian {
 	git push
 	popd > /dev/null
 }
-function apply_system {
+function nixos-run {
 	pushd ~/NixOS > /dev/null
-	./rebuild.sh
-	popd > /dev/null
-}
-function update_system {
-	pushd ~/NixOS > /dev/null
-	./update.sh
+	./scripts/main.sh
 	popd > /dev/null
 }
 

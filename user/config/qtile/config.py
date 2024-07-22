@@ -1,3 +1,14 @@
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+
 # Copyright (c) 2010 Aldo Cortesi
 # Copyright (c) 2010, 2014 dequis
 # Copyright (c) 2012 Randall Ma
@@ -25,6 +36,7 @@
 # SOFTWARE.
 
 import os
+import platform
 import subprocess
 
 import colors
@@ -47,6 +59,15 @@ editor = "alacritty -e nvim"
 music_player = "spotify"
 bluetooth = "blueman-manager"
 keyboard_layout = "us"
+
+# Set widget image
+distro = platform.freedesktop_os_release()["NAME"].split(" ")[0]
+if distro == "Arch":
+    widget_image = "~/.config/qtile/images/arch.png"
+elif distro == "NixOS":
+    widget_image = "~/.config/qtile/images/nixos.png"
+else:
+    widget_image = "~/.config/qtile/images/linux.png"
 
 
 # A function to change keyboard layout
@@ -123,6 +144,19 @@ keys = [
     # Switch focus of monitors
     Key([mod], "period", lazy.next_screen(), desc="Move focus to next monitor"),
     Key([mod], "comma", lazy.prev_screen(), desc="Move focus to prev monitor"),
+    # Change brightness
+    Key(
+        [],
+        "XF86MonBrightnessUp",
+        lazy.spawn("xbacklight -inc 5"),
+        desc="Increase brightness",
+    ),
+    Key(
+        [],
+        "XF86MonBrightnessDown",
+        lazy.spawn("xbacklight -dec 5"),
+        desc="Decrease brightness",
+    ),
 ]
 
 groups = []
@@ -237,7 +271,8 @@ extension_defaults = widget_defaults.copy()
 def init_widgets_list():
     widgets_list = [
         widget.Image(
-            filename="~/.config/qtile/images/arch.png",
+            filename=widget_image,
+            # filename="~/.config/qtile/images/arch.png",
             scale="False",
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal)},
         ),
@@ -375,6 +410,18 @@ def init_widgets_list():
             ],
         ),
         widget.Spacer(length=8),
+        widget.Backlight(
+            foreground=colors[6],
+            backlight_name="intel_backlight",
+            format="󰃠 Brightness: {percent:2.0%}",
+            decorations=[
+                BorderDecoration(
+                    colour=colors[6],
+                    border_width=[0, 0, 2, 0],
+                ),
+            ],
+        ),
+        widget.Spacer(length=8),
         widget.Clock(
             foreground=colors[8],
             format="󰥔 %a, %b %d - %H:%M",
@@ -397,10 +444,10 @@ def init_widgets_screen1():
     return ws1
 
 
-# All other monitors' bars will display everything but widgets 24 (systray) and 25 (spacer).
+# All other monitors' bars will display everything but widgets 26 (systray) and 27 (spacer).
 def init_widgets_screen2():
     ws2 = init_widgets_list()
-    del ws2[24:26]
+    del ws2[26:28]
     return ws2
 
 
