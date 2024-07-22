@@ -18,4 +18,5 @@
     ];
 
   networking.hostName = "TomasVesa-NTB2-NixOS"; # Define your hostname.
+  # networking.wireless.interfaces = [ "wlp5s0" ];
 }

@@ -20,7 +20,7 @@
 
   # Enable networking
   networking.networkmanager.enable = false;
-  networking.wireless.enable = true;
+  programs.nm-applet.enable = true;
 
   # Enable Yubikey support
   security.pam.u2f = {
