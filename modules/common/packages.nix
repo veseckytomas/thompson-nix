@@ -86,6 +86,7 @@
     kdePackages.kcalc
     lazygit
     lazydocker
+    vimPlugins.codeium-nvim
   ];
 
   # Install nerdfonts
