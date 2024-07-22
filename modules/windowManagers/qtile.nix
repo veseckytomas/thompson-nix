@@ -27,5 +27,6 @@
     rofi
     i3lock
     picom
+    networkmanagerapplet
   ];
 }
