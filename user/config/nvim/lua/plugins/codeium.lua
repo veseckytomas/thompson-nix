@@ -16,6 +16,10 @@ return {
     "hrsh7th/nvim-cmp",
   },
   config = function()
-    require("codeium").setup({})
+    require("codeium").setup({
+      options = {
+        bin = /run/current-system/sw/bin/codeium_language_server
+      }
+    })
   end,
 }
