@@ -89,8 +89,6 @@
     jdk
     swt
     wget
-    # networkmanager
-    # gnome.networkmanager-openvpn
   ];
 
   # Install nerdfonts

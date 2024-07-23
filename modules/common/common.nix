@@ -20,12 +20,6 @@
 
   # Enable networking
   networking.wireless.enable = true;
-  # networking.networkmanager = {
-  #   enable = false;
-  #   plugins = [ pkgs.networkmanagerapplet  ];
-  #   unmanaged = [ "docker0" ];
-  # };
-  # programs.nm-applet.enable = true;
 
   # Enable Yubikey support
   security.pam.u2f = {
