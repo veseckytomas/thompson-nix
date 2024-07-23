@@ -12,8 +12,8 @@
 { pkgs }:
 
 let
-  imgLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/master/modules/loginManagers/sddm-theme/sddm_bg.png?inline=false";
-  configLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/master/modules/loginManagers/sddm-theme/sddm-config.conf?inline=false";
+  imgLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/4496ae9e0f068094fa168df801b6f869bd0bece2/modules/loginManagers/sddm-theme/sddm_bg.png";
+  configLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/4496ae9e0f068094fa168df801b6f869bd0bece2/modules/loginManagers/sddm-theme/sddm-config.conf";
 
   img = pkgs.fetchurl {
     url = imgLink;
