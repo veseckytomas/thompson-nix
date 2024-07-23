@@ -17,11 +17,11 @@ let
 
   img = pkgs.fetchurl {
     url = imgLink;
-    sha256 = "sha256-RdrkvsVB6fHnyDZQ6wCGc7lUP7FoDYGvx2jfWB1WSvI=";
+    sha256 = "1wjaaqfmipv8qypq23b8n4zm9fbkhq0fnl1nr3kz3sa1qnzf9nj5";
   };
   config = pkgs.fetchurl {
     url = configLink;
-    sha256 = "0q0hb5cq0fx88sgcvyw8nj1rc6z5bd6dxnqmxvrxq8970fsx9zyi";
+    sha256 = "1s0mw3rbif5kyhiz13c6z92mkxwc8jjahyxdfw8vzzfhhz0d4294";
 
   };
 in 
