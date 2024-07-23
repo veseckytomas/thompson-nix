@@ -26,7 +26,7 @@
   security.pam.u2f = {
     enable = true;
     settings.cue = true;
-    control = "required";
+    control = "sufficient";
   };
 
   # Enable CUPS to print documents.
