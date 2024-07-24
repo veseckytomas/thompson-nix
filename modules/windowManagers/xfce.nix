@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   services.xserver = {

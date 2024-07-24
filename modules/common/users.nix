@@ -16,7 +16,7 @@
   users.users.vesecto = {
     isNormalUser = true;
     description = "Tomas Vesecky";
-    extraGroups = [ "networkmanager" "wheel" "docker" "user-with-access-to-virtualbox" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "user-with-access-to-virtualbox" "video"];
     shell = pkgs.zsh;
   };
 }
