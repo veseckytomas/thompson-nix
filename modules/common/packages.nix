@@ -89,6 +89,7 @@
     jdk
     swt
     wget
+    acpilight
   ];
 
   # Install nerdfonts
