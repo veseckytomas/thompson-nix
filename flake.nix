@@ -30,7 +30,7 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-PC-NixOS/configuration.nix
-          ./main.nix
+          ./main.nix { inherit lib; }
         ];
       };
 
@@ -38,7 +38,7 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
-          ./main.nix
+          ./main.nix { inherit lib; }
           ./modules/common/notebook.nix
         ];
       };
@@ -47,7 +47,7 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
-          ./main.nix
+          ./main.nix { inherit lib; }
           ./modules/common/notebook.nix
         ];
       };

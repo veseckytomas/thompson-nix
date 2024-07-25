@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Allow unfree packages
@@ -116,6 +116,7 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    pinentryPackage = lib.mkForce pkgs.pinentry-qt;
   };
   # programs.ssh.startAgent = true;
 
