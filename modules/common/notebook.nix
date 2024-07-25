@@ -12,7 +12,6 @@
 { config, pkgs, ... }:
 
 {
-  # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
-  networking.wireless.enable = true;
+  hardware.acpilight.enable = true;
 }

@@ -14,10 +14,6 @@
 {
   # Enable nix flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # nix.package = pkgs.nixFlakes;
-  # nix.extraOptions = ''
-  #   experimental-features = nix-command flakes
-  # '';
 
   # Enable networking
   networking.wireless.enable = true;

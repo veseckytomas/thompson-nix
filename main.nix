@@ -31,6 +31,6 @@
       # ./modules/windowManagers/cinnamon.nix
       # ./modules/windowManagers/enlightenment.nix
       # ./modules/windowManagers/plasma.nix
-      # ./modules/windowManagers/xfce.nix
+      ./modules/windowManagers/xfce.nix
     ];
 }

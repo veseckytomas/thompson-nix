@@ -89,7 +89,7 @@
     jdk
     swt
     wget
-    acpilight
+    gcc
   ];
 
   # Install nerdfonts
@@ -115,8 +115,9 @@
 
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    # enableSSHSupport = true;
   };
+  programs.ssh.startAgent = true;
 
   # Disable xterm
   services.xserver.excludePackages = [ pkgs.xterm ];
