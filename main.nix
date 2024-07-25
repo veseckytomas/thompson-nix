@@ -30,10 +30,10 @@
       ./modules/windowManagers/awesome.nix
       # ./modules/windowManagers/cinnamon.nix
       # ./modules/windowManagers/enlightenment.nix
-      ./modules/windowManagers/gnome.nix
-      ./modules/windowManagers/i3.nix
-      ./modules/windowManagers/plasma.nix
-      ./modules/windowManagers/xfce.nix
-      ./modules/windowManagers/xmonad.nix
+      # ./modules/windowManagers/gnome.nix
+      # ./modules/windowManagers/i3.nix
+      # ./modules/windowManagers/plasma.nix
+      # ./modules/windowManagers/xfce.nix
+      # ./modules/windowManagers/xmonad.nix
     ];
 }
