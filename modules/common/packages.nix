@@ -90,6 +90,7 @@
     swt
     wget
     gcc
+    texlive.combined.scheme-full
   ];
 
   # Install nerdfonts
@@ -116,7 +117,8 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    pinentryPackage = lib.mkForce pkgs.pinentry-qt;
+    # pinentryPackage = lib.mkForce pkgs.pinentry-qt;
+    pinentryPackage = lib.mkForce pkgs.pinentry-gtk2;
   };
   # programs.ssh.startAgent = true;
 

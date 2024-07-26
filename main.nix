@@ -27,7 +27,7 @@
 
 
 
-      ./modules/windowManagers/awesome.nix
+      # ./modules/windowManagers/awesome.nix
       # ./modules/windowManagers/cinnamon.nix
       # ./modules/windowManagers/enlightenment.nix
       ./modules/windowManagers/gnome.nix
