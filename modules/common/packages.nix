@@ -91,6 +91,8 @@
     wget
     gcc
     texlive.combined.scheme-full
+    gnome.gnome-keyring
+    seahorse
   ];
 
   # Install nerdfonts
