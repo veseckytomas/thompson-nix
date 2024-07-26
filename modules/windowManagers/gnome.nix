@@ -28,6 +28,12 @@
     simple-scan
   ]) ++ (with pkgs.gnome; [
     gnome-music
+    tali
+    iagno
+    hitori
+    atomix
+    yelp
+    gnome-initial-setup
     gnome-characters
     gnome-contacts
     gnome-weather
@@ -35,4 +41,7 @@
     gnome-maps
     gnome-software
   ]);
+  environment.systemPackages = with pkgs; [
+    gnome.gnome-tweaks
+  ];
 }
