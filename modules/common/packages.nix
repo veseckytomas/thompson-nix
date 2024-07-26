@@ -91,7 +91,6 @@
     wget
     gcc
     texlive.combined.scheme-full
-    gnome-keyring
     seahorse
   ];
 
