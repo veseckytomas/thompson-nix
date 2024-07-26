@@ -92,6 +92,7 @@
     gcc
     texlive.combined.scheme-full
     seahorse
+    dig
   ];
 
   # Install nerdfonts
