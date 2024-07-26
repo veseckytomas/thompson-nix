@@ -17,6 +17,7 @@
 
   # Enable networking
   networking.wireless.enable = true;
+  networking.networkmanager.enable = true;
 
   # Enable Yubikey support
   security.pam.u2f = {
