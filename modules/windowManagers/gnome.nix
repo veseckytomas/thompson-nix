@@ -26,13 +26,13 @@
     gnome-calendar
     gnome-calculator
     simple-scan
+    yelp
   ]) ++ (with pkgs.gnome; [
     gnome-music
     tali
     iagno
     hitori
     atomix
-    yelp
     gnome-initial-setup
     gnome-characters
     gnome-contacts
@@ -42,6 +42,6 @@
     gnome-software
   ]);
   environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
+    gnome-tweaks
   ];
 }
