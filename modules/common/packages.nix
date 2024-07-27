@@ -19,20 +19,13 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     atuin
-    google-chrome
-    chromium
     firefox
-    # alacritty
     kitty
     ansible
     asciidoc
     jetbrains.datagrip
     bat
     bitwarden
-    cargo
-    clang
-    cmake
-    cppcheck
     curl
     discord
     docker-compose
@@ -45,35 +38,37 @@
     git-crypt
     gzip
     htop
-    # hugo
-    keepass
     librewolf
-    lua
-    luarocks
-    gnumake
     qbittorrent
     gotop
-    nodejs
     ntfs3g
     obsidian
-    python3
-    ripgrep
-    shellcheck
     steam
     starship
-    stow
     gnutar
     xfce.thunar
     tmux
     traceroute
     unzip
     vscodium
-    xclip
     zip
     zoxide
     postman
     teams-for-linux
     protonvpn-gui
+    clang
+    cmake
+    cppcheck
+    gnumake
+    cargo
+    keepass
+    lua
+    luarocks
+    ripgrep
+    xclip
+    nodejs
+    python3
+    shellcheck
     protonvpn-cli
     spotify
     whatsapp-for-linux
@@ -95,6 +90,14 @@
     seahorse
     dig
     yazi
+
+
+
+    # Chrome
+    google-chrome
+    chromium
+    # alacritty
+    hugo
   ];
 
   # Install nerdfonts
