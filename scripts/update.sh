@@ -11,5 +11,4 @@
 # GitLab: vesecky.tomas
 
 nix flake update
-sudo nix-channel --update nixos
 ./scripts/rebuild.sh
