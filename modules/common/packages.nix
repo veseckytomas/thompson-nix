@@ -22,7 +22,8 @@
     google-chrome
     chromium
     firefox
-    alacritty
+    # alacritty
+    kitty
     ansible
     asciidoc
     jetbrains.datagrip
