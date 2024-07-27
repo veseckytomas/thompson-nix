@@ -93,6 +93,7 @@
     texlive.combined.scheme-full
     seahorse
     dig
+    yazi
   ];
 
   # Install nerdfonts
