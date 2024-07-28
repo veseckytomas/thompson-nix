@@ -10,7 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-which flatpak
-if test $? != 0; then
-	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-fi
+# which flatpak
+# if test $? != 0; then
+# 	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+# fi
