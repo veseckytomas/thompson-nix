@@ -18,57 +18,84 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    # Shell
     atuin
-    firefox
-    kitty
-    ansible
-    asciidoc
-    jetbrains.datagrip
     bat
-    bitwarden
     curl
-    discord
-    docker-compose
-    doxygen
-    evince
     eza
     fd
     fzf
-    git
-    git-crypt
     gzip
     htop
-    librewolf
-    qbittorrent
     gotop
-    ntfs3g
-    obsidian
-    steam
     starship
     gnutar
-    xfce.thunar
     tmux
     traceroute
     unzip
-    vscodium
     zip
     zoxide
+    gcc
+    wget
+    texlive.combined.scheme-full
+    dig
+
+    # Lesamaj
+    hugo
+
+    # Teminal
+    kitty
+
+    # Programming
+    ansible
+    asciidoc
+    jetbrains.datagrip
+    doxygen
     postman
-    teams-for-linux
-    protonvpn-gui
     clang
     cmake
     cppcheck
     gnumake
     cargo
+    shellcheck
+    nodejs
+    python3
+
+    # Docker
+    docker-compose
+
+    # DWH
     keepass
+    jdk
+    swt
+
+    # Neovim
     lua
     luarocks
     ripgrep
     xclip
-    nodejs
-    python3
-    shellcheck
+    codeium
+
+    # Web browsers
+    librewolf
+    google-chrome
+    chromium
+
+    # Text editors
+    vscodium
+
+    # Other
+    bitwarden
+    discord
+    evince
+    git
+    git-crypt
+    qbittorrent
+    ntfs3g
+    obsidian
+    xfce.thunar
+    teams-for-linux
+    protonvpn-gui
     protonvpn-cli
     spotify
     whatsapp-for-linux
@@ -81,23 +108,10 @@
     kdePackages.kcalc
     lazygit
     lazydocker
-    codeium
-    jdk
-    swt
-    wget
-    gcc
-    texlive.combined.scheme-full
     seahorse
-    dig
-    yazi
 
-
-
-    # Chrome
-    google-chrome
-    chromium
     # alacritty
-    hugo
+    # firefox
   ];
 
   # Install flatpak
