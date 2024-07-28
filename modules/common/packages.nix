@@ -78,7 +78,6 @@
 
     # Web browsers
     librewolf
-    google-chrome
     chromium
 
     # Text editors
@@ -100,7 +99,6 @@
     spotify
     whatsapp-for-linux
     gimp
-    libreoffice
     thunderbird
     telegram-desktop
     vlc
@@ -110,9 +108,19 @@
     lazydocker
     seahorse
 
+    # libreoffice
+    libreoffice
+    hunspell
+    hunspellDicts.cs-cz
+    hunspellDicts.en-us
+
     # alacritty
     # firefox
   ];
+
+  # Install flatpak
+  xdg.portal.enable = true;
+  services.flatpak.enable = true;
 
   # Install nerdfonts
   fonts.packages = with pkgs; [
@@ -137,11 +145,14 @@
 
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    # enableSSHSupport = true;
     pinentryPackage = lib.mkForce pkgs.pinentry-qt;
     # pinentryPackage = lib.mkForce pkgs.pinentry-gtk2;
   };
 
+  # programs.xfce.thunar.excludePackages = with pkgs; [  ];
+  # programs.xfconf.enable = true;
+
   # Disable xterm
-  services.xserver.excludePackages = [ pkgs.xterm ];
+  services.xserver.excludePackages = with pkgs; [ xterm ];
 }
