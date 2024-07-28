@@ -100,6 +100,10 @@
     hugo
   ];
 
+  # Install flatpak
+  xdg.portal.enable = true;
+  services.flatpak.enable = true;
+
   # Install nerdfonts
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Hack" ]; })
