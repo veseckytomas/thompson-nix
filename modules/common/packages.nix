@@ -113,9 +113,6 @@
     hunspell
     hunspellDicts.cs-cz
     hunspellDicts.en-us
-
-    # alacritty
-    # firefox
   ];
 
   # Install flatpak
@@ -145,13 +142,8 @@
 
   programs.gnupg.agent = {
     enable = true;
-    # enableSSHSupport = true;
     pinentryPackage = lib.mkForce pkgs.pinentry-qt;
-    # pinentryPackage = lib.mkForce pkgs.pinentry-gtk2;
   };
-
-  # programs.xfce.thunar.excludePackages = with pkgs; [  ];
-  # programs.xfconf.enable = true;
 
   # Disable xterm
   services.xserver.excludePackages = with pkgs; [ xterm ];
