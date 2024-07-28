@@ -17,4 +17,5 @@ sudo nixos-rebuild test --flake .#
 if test $? != 0; then
 	echo "Build failed"
 fi
+./scripts/setup.sh
 git restore --staged :/ >/dev/null
