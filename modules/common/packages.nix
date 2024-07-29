@@ -108,6 +108,7 @@
     lazydocker
     seahorse
     alsa-utils
+    home-manager
 
     # libreoffice
     libreoffice
