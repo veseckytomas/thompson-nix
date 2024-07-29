@@ -107,6 +107,7 @@
     lazygit
     lazydocker
     seahorse
+    alsa-utils
 
     # libreoffice
     libreoffice
