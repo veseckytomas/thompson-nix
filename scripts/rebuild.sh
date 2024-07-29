@@ -19,7 +19,6 @@ if test $? != 0; then
 	git restore --staged :/ >/dev/null
 	exit 1
 fi
-./scripts/setup.sh
 gen=$(nixos-rebuild list-generations | grep current | cut -d' ' -f1)
 git commit -m "$(hostname): Gen $gen"
 echo "Please touch the device."
