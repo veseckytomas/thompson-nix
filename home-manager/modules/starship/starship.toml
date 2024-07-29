@@ -1,0 +1,104 @@
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+
+format = """\
+[  ](bg:logo_bg fg:logo_fg)\
+[](fg:logo_bg bg:dir_bg)\
+$directory\
+[](fg:dir_bg)\
+$git_branch\
+$git_status\
+$git_state\
+$fill\
+$cmd_duration\
+$time
+$character\
+"""
+
+# format = """\
+# [ 󰣇 ](bg:logo_bg fg:logo_fg)\
+# [](fg:logo_bg bg:dir_bg)\
+# $directory\
+# [](fg:dir_bg)\
+# $git_branch\
+# $git_status\
+# $git_state\
+# $fill\
+# $cmd_duration\
+# $time
+# $character\
+# """
+
+palette = "foo"
+add_newline = true
+command_timeout = 300
+scan_timeout = 15
+
+[directory]
+format = "[   $path ]($style)"
+style = "fg:dir_fg bg:dir_bg"
+fish_style_pwd_dir_length = 1
+
+[git_branch]
+format = "\b[](fg:dir_bg bg:git_bg)[ $symbol $branch ]($style)"
+symbol = ""
+style = "fg:git_fg bg:git_bg"
+
+[git_status]
+ahead = "[($count) ](bg:git_bg fg:git_fg)"
+behind = "[($count) ](bg:git_bg fg:git_fg)"
+diverged = "[${ahead_count}${behind_count}](bg:git_bg fg:git_fg)"
+untracked = "[($count)? ](bg:git_bg fg:git_fg)"
+stashed = "[($count)* ](bg:git_bg fg:git_fg)"
+modified = "[($count)! ](bg:git_bg fg:git_fg)"
+staged = "[+$count ](bg:git_bg fg:git_fg)"
+conflicted = "[=$count ](bg:git_bg fg:git_fg)"
+deleted = "[$count󰆴 ](bg:git_bg fg:git_fg)"
+renamed = "[$count ](bg:git_bg fg:git_fg)"
+format = "[$all_status$ahead_behind]($style)[](fg:git_bg)"
+
+[git_state]
+rebase = "rebasing"
+merge = "merging"
+revert = "reverting"
+cherry_pick = "cherry-picking"
+bisect = "bisecting"
+am = "am"
+am_or_rebase = "am/rebase"
+format = "\b[](fg:git_bg bg:git_bg_error)([ $state( $progress_current/$progress_total )](bg:git_bg_error fg:git_fg))[](fg:git_bg_error) "
+
+[fill]
+symbol = " "
+disabled = true
+
+[cmd_duration]
+format = "[  $duration ]($style)[](fg:time_bg)"
+style = "fg:cmd_fg bg:time_bg"
+disabled = true
+
+[time]
+time_format = "%R"
+style = "bg:#1d2230"
+format = "[[ 󱑍 $time ](bg:time_bg fg:time_fg)]($style)"
+disabled = true
+
+[palettes.foo]
+logo_fg = "#090c0c"
+logo_bg = "#b5b1b2"
+dir_fg = "#e4e4e4"
+dir_bg = "#0536fc"
+git_bg = "#15c101"
+git_bg_error = "#ff0000"
+git_fg = "#1c1c1c"
+cmd_fg = "bright-white"
+time_bg = "#1c3a5e"
+time_fg = "#8dfbd2"
+

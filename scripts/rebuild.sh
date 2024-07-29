@@ -14,6 +14,7 @@ echo "Please touch the device."
 git pull
 git add --all
 sudo nixos-rebuild switch --flake .#
+home-manager switch --flake .#vesecto
 if test $? != 0; then
 	echo "Build failed"
 	git restore --staged :/ >/dev/null

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+
+rofi \
+	-show drun \
+	-modi run,drun,ssh \
+	-scroll-method 0 \
+	-drun-match-fields all \
+	-drun-display-format "{name}" \
+	-no-drun-show-actions \
+	-terminal alacritty \
+	-theme "$HOME"/.config/rofi/config/launcher.rasi
