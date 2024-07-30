@@ -90,11 +90,6 @@
     hunspellDicts.cs-cz
     hunspellDicts.en-us
 
-    # Yubikey
-    pam_u2f
-    yubico-pam
-    yubikey-manager
-
     # Other
     bitwarden
     discord
