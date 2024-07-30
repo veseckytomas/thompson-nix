@@ -84,6 +84,12 @@
     # Text editors
     vscodium
 
+    # libreoffice
+    libreoffice
+    hunspell
+    hunspellDicts.cs-cz
+    hunspellDicts.en-us
+
     # Other
     bitwarden
     discord
@@ -109,12 +115,9 @@
     seahorse
     alsa-utils
     home-manager
-
-    # libreoffice
-    libreoffice
-    hunspell
-    hunspellDicts.cs-cz
-    hunspellDicts.en-us
+    usbutils
+    udiskie
+    udisks
   ];
 
   # Install nerdfonts
@@ -157,4 +160,6 @@
 
   # Disable xterm
   services.xserver.excludePackages = with pkgs; [ xterm ];
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 }
