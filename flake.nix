@@ -56,6 +56,15 @@
           ./modules/common/notebook.nix
         ];
       };
+
+      TomasVesa-Portable-NixOS = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/TomasVesa-Portable-NixOS/configuration.nix
+          ./main.nix { inherit lib; }
+          ./modules/common/notebook.nix
+        ];
+      };
     };
 
     homeConfigurations = {
