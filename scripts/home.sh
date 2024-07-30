@@ -16,10 +16,6 @@ git add --all
 home-manager switch --flake .#vesecto
 bat cache --build
 if test $? != 0; then
-	echo "Build failed"
-	git restore --staged :/ >/dev/null
-	exit 1
+  echo "Build failed"
 fi
-git commit -m "Home-manager $(date -Iseconds)"
-echo "Please touch the device."
-git push
+git restore --staged :/ >/dev/null
