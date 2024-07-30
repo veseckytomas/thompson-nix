@@ -4,21 +4,27 @@
   catppuccin = {
     flavor = "mocha";
     accent = "mauve";
-    catppuccin.pointerCursor = {
+    pointerCursor = {
       enable = true;
       flavor = "mocha";
-      flavor = "mauve";
+      accent = "mauve";
     };
   };
   gtk.catppuccin = {
     enable = true;
-    acent = "mauve";
     flavor = "mocha";
+    accent = "mauve";
     size = "standard";
     icon = {
       enable = true;
-      accent = "mauve";
       flavor = "mocha";
+      accent = "mauve";
     };
+  };
+  qt.style.catppuccin = {
+    enable = true;
+    apply = true;
+    flavor = "mocha";
+    accent = "mauve";
   };
 }

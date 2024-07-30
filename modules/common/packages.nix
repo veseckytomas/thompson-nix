@@ -93,7 +93,6 @@
     qbittorrent
     ntfs3g
     obsidian
-    xfce.thunar
     teams-for-linux
     protonvpn-gui
     protonvpn-cli
@@ -123,27 +122,38 @@
     (nerdfonts.override { fonts = [ "Hack" ]; })
   ];
 
-  # Enable neovim and set as default editor
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
+  programs = {
+    # Enable neovim and set as default editor
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+    };
+
+    # Enable thunar
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-volman
+      ];
+    };
+
+    # Enable web browsers for developments
+    firefox.enable = true;
+    chromium.enable = true;
+
+    # Enable zsh
+    zsh.enable = true;
+
+    # Enable gnupg
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryPackage = lib.mkForce pkgs.pinentry-qt;
+    };
   };
-
-  # Enable web browsers for developments
-  programs.firefox.enable = true;
-  programs.chromium.enable = true;
-
-  # Enable zsh
-  programs.zsh.enable = true;
 
   # Enable docker
   virtualisation.docker.enable = true;
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    pinentryPackage = lib.mkForce pkgs.pinentry-qt;
-  };
 
   # Disable xterm
   services.xserver.excludePackages = with pkgs; [ xterm ];

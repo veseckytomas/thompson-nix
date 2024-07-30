@@ -20,9 +20,11 @@
   programs.home-manager.enable = true;
 
   imports = [
+    ./catppuccin.nix
     # ./modules/alacritty/alacritty.nix
-    # ./modules/bash/bash.nix
-    ./modules/bat/bat.nix
+    ./modules/bat.nix
+    ./modules/clangd/clangd.nix
+    # ./modules/fish/fish.nix
     ./modules/zsh/zsh.nix
   ];
 }
