@@ -14,13 +14,14 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    catppuccin.url = "github:catppuccin/nix";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, catppuccin, ... }:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -62,6 +63,7 @@
         inherit pkgs;
         modules = [
           ./home-manager/home.nix
+          catppuccin.homeManagerModules.catppuccin
         ];
       };
     };
