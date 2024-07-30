@@ -39,6 +39,7 @@
     wget
     texlive.combined.scheme-full
     dig
+    yazi
 
     # Lesamaj
     hugo
