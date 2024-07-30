@@ -154,6 +154,7 @@
       pinentryPackage = lib.mkForce pkgs.pinentry-qt;
     };
   };
+  services.pcscd.enable = false;
 
   # Enable docker
   virtualisation.docker.enable = true;
