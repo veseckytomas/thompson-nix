@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  programs.bat.enable = true;
   programs.bat = {
     enable = true;
     themes = {
