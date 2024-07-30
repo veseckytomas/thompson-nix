@@ -22,7 +22,7 @@
   imports = [
     # ./modules/alacritty/alacritty.nix
     # ./modules/bash/bash.nix
-    # ./modules/bat/bat.nix
+    ./modules/bat/bat.nix
     ./modules/zsh/zsh.nix
   ];
 }
