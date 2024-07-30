@@ -20,8 +20,9 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ./modules/alacritty/alacritty.nix
+    # ./modules/alacritty/alacritty.nix
     # ./modules/bash/bash.nix
+    # ./modules/bat/bat.nix
     ./modules/zsh/zsh.nix
   ];
 }
