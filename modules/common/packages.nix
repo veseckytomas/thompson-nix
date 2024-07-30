@@ -90,6 +90,11 @@
     hunspellDicts.cs-cz
     hunspellDicts.en-us
 
+    # Yubikey
+    pam_u2f
+    yubico-pam
+    yubikey-manager
+
     # Other
     bitwarden
     discord
@@ -154,13 +159,14 @@
       pinentryPackage = lib.mkForce pkgs.pinentry-qt;
     };
   };
-  services.pcscd.enable = false;
 
   # Enable docker
   virtualisation.docker.enable = true;
 
   # Disable xterm
   services.xserver.excludePackages = with pkgs; [ xterm ];
+
+  # Enable auto drive mounts
   services.gvfs.enable = true;
   services.udisks2.enable = true;
 }
