@@ -12,23 +12,25 @@
 { config, pkgs, ... }:
 
 let
-  gruvboxPlus = import ./gruvbox-plus.nix { inherit pkgs; };
+  gruvboxplus = import ./gruvbox-plus.nix { inherit pkgs; };
 in 
 {
   gtk = {
     enable = true;
+
     cursorTheme = {
-      name = "Catppuccin-Mocha-Light-Cursors";
-      package = pkgs.catppuccin-cursors.mochaLight;
-      size = 16;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
     };
-    theme = {
-      name = "adw-gtk3";
-      package = pkgs.adw-gtk3;
-    };
+
+    # theme = {
+    #   package = pkgs.adw-gtk3;
+    #   name = "adw-gtk3";
+    # };
+
     iconTheme = {
+      package = gruvboxplus;
       name = "GruvboxPlus";
-      package = gruvboxPlus;
     };
   };
 }

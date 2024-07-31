@@ -12,8 +12,6 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    qt/qt.nix
-    # gtk/gtk.nix
-  ];
+  # home.file.".config/gtk-4.0/gtk.css".source = ./gtk.css;
+  home.file.".config/gtk-3.0/gtk.css".source = ./gtk.css;
 }

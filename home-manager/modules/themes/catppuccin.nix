@@ -12,7 +12,13 @@
 { config, pkgs, ... }:
 
 {
-  qt.enable = true;
-  qt.platformTheme = "gnome";
-  qt.style = "adwaita-dark";
+  catppuccin = {
+    flavor = "mocha";
+    accent = "mauve";
+    pointerCursor = {
+      enable = true;
+      flavor = "mocha";
+      accent = "mauve";
+    };
+  };
 }
