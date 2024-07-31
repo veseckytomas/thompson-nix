@@ -117,6 +117,7 @@
     usbutils
     udiskie
     udisks
+    plex-media-player
   ];
 
   # Install nerdfonts
