@@ -54,6 +54,7 @@
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./main.nix { inherit lib; }
           ./modules/common/notebook.nix
+          ./modules/common/gaming.nix
         ];
       };
 
