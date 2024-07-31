@@ -16,27 +16,31 @@ echo "2. Home-manager"
 echo "3. Rebuild Test"
 echo "4. Update"
 echo "5. Garbage collect"
-echo "6. Exit"
+echo "6. Setup"
+echo "7. Exit"
 
 read -r input
 
 case $input in
 "2")
-	./scripts/home.sh
-	;;
+  ./scripts/home.sh
+  ;;
 "3")
-	./scripts/test.sh
-	;;
+  ./scripts/test.sh
+  ;;
 "4")
-	./scripts/update.sh
-	;;
+  ./scripts/update.sh
+  ;;
 "5")
-	./scripts/clean.sh
-	;;
+  ./scripts/clean.sh
+  ;;
 "6")
-	echo "Exiting..."
-	;;
+  ./scripts/setup.sh
+  ;;
+"7")
+  echo "Exiting..."
+  ;;
 *)
-	./scripts/rebuild.sh
-	;;
+  ./scripts/rebuild.sh
+  ;;
 esac
