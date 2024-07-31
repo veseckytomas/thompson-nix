@@ -14,8 +14,11 @@ echo "Run setup script? (y/N)"
 
 read -r input
 
-if [ $input != "y" ]; then
+case $input in
+"y")
+  protonup
+  ;;
+*)
   exit 0
-fi
-
-protonup
+  ;;
+esac
