@@ -118,6 +118,7 @@
     usbutils
     udiskie
     udisks
+    gnome.nautilus
   ];
 
   # Install nerdfonts
@@ -130,14 +131,6 @@
     neovim = {
       enable = true;
       defaultEditor = true;
-    };
-
-    # Enable thunar
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-volman
-      ];
     };
 
     # Enable web browsers for developments

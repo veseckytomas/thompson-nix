@@ -15,7 +15,10 @@ git pull
 git add --all
 sudo nixos-rebuild test --flake .#
 if test $? != 0; then
-	echo "Build failed"
+  echo "Build failed"
 fi
-./scripts/setup.sh
+home-manager switch --flake .#vesecto
+if test $? != 0; then
+  echo "Home-manager build failed"
+fi
 git restore --staged :/ >/dev/null

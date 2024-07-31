@@ -10,15 +10,4 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-echo "Run setup script? (y/N)"
-
-read -r input
-
-case $input in
-"y")
-  protonup
-  ;;
-*)
-  exit 0
-  ;;
-esac
+protonup

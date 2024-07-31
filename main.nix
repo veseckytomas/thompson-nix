@@ -17,6 +17,7 @@
       ./modules/audio/pipewire.nix
       ./modules/bootLoaders/systemd-boot.nix
       ./modules/common/common.nix
+      # ./modules/common/gaming.nix
       ./modules/common/locale.nix
       ./modules/common/packages.nix { inherit lib; }
       ./modules/common/users.nix
