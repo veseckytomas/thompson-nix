@@ -105,7 +105,7 @@ in
 
     iconTheme = {
       package = gruvboxplus;
-      name = "GruvboxPlus";
+      name = "GruvboxPluss";
     };
 
     gtk3.extraCss = gtk-css;
