@@ -118,7 +118,8 @@
     usbutils
     udiskie
     udisks
-    gnome.nautilus
+    nautilus
+    xfce.thunar
   ];
 
   # Install nerdfonts

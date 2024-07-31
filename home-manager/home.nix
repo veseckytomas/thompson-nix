@@ -37,7 +37,6 @@
     ./modules/bat.nix
     ./modules/clangd/clangd.nix
     ./modules/git/git.nix
-    ./modules/gtk/gtk.nix
     ./modules/themes/catppuccin.nix
     ./modules/themes/qt.nix
     ./modules/themes/gtk.nix
