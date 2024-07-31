@@ -118,8 +118,6 @@
     usbutils
     udiskie
     udisks
-    nautilus
-    xfce.thunar
   ];
 
   # Install nerdfonts
@@ -140,6 +138,14 @@
 
     # Enable zsh
     zsh.enable = true;
+
+    # Enable thunar
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-volman
+      ];
+    };
 
     # Enable gnupg
     gnupg.agent = {

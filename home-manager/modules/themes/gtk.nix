@@ -97,18 +97,29 @@ in
 {
   gtk = {
     enable = true;
-
     theme = {
-      package = pkgs.adw-gtk3;
-      name = "adw-gtk3";
+      package = pkgs.gruvbox-dark-gtk;
+      name = "gruvbox-dark-gtk";
     };
 
     iconTheme = {
-      package = gruvboxplus;
-      name = "GruvboxPluss";
+      package = pkgs.gruvbox-plus-icons;
+      name = "gruvbox-plus-icons";
     };
 
-    gtk3.extraCss = gtk-css;
-    gtk4.extraCss = gtk-css;
+
+
+    # theme = {
+    #   package = pkgs.adw-gtk3;
+    #   name = "adw-gtk3";
+    # };
+
+    # iconTheme = {
+    #   package = gruvboxplus;
+    #   name = "GruvboxPluss";
+    # };
+
+    # gtk3.extraCss = gtk-css;
+    # gtk4.extraCss = gtk-css;
   };
 }
