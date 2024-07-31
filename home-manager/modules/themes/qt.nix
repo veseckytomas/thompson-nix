@@ -13,8 +13,8 @@
 
 {
   qt = {
-    # enable = true;
-    # platformTheme = "gtk";
-    # style.name = "adwaita-dark";
+    enable = true;
+    platformTheme = "gtk";
+    style.name = "adwaita-dark";
   };
 }
