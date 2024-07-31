@@ -12,7 +12,6 @@
 { config, pkgs, ... }:
 
 let
-  gruvboxplus = import ./gruvbox-plus.nix { inherit pkgs; };
   gtk-css = "
 @define-color accent_color #83a598;
 @define-color accent_bg_color mix(#83a598, #282828,0.3);
@@ -97,29 +96,33 @@ in
 {
   gtk = {
     enable = true;
-    theme = {
-      package = pkgs.gruvbox-dark-gtk;
-      name = "gruvbox-dark-gtk";
-    };
 
     iconTheme = {
-      package = pkgs.gruvbox-plus-icons;
-      name = "gruvbox-plus-icons";
+      package = pkgs.gnome.adwaita-icon-theme;
+      name = "Adwaita";
     };
 
-
-
     # theme = {
-    #   package = pkgs.adw-gtk3;
-    #   name = "adw-gtk3";
+    #   package = pkgs.gruvbox-dark-gtk;
+    #   name = "gruvbox-dark-gtk";
     # };
 
     # iconTheme = {
-    #   package = gruvboxplus;
-    #   name = "GruvboxPluss";
+    #   package = pkgs.gruvbox-dark-icons-gtk;
+    #   name = "gruvbox-dark-icons-gtk";
     # };
 
-    # gtk3.extraCss = gtk-css;
-    # gtk4.extraCss = gtk-css;
+    # iconTheme = {
+    #   package = pkgs.gruvbox-plus-icons;
+    #   name = "gruvbox-plus-icons";
+    # };
+
+    theme = {
+      package = pkgs.adw-gtk3;
+      name = "adw-gtk3";
+    };
+
+    gtk3.extraCss = gtk-css;
+    gtk4.extraCss = gtk-css;
   };
 }
