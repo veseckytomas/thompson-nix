@@ -17,7 +17,8 @@ echo "3. Rebuild Test"
 echo "4. Update"
 echo "5. Garbage collect"
 echo "6. Setup"
-echo "7. Exit"
+echo "7. Generate ISO"
+echo "8. Exit"
 
 read -r input
 
@@ -38,6 +39,9 @@ case $input in
   ./scripts/setup.sh
   ;;
 "7")
+  ./scripts/gen-iso.sh
+  ;;
+"8")
   echo "Exiting..."
   ;;
 *)

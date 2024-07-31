@@ -21,7 +21,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, ... }:
+  outputs = { self, nixpkgs, home-manager, catppuccin, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -63,6 +63,20 @@
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
           ./main.nix { inherit lib; }
           ./modules/common/notebook.nix
+        ];
+      };
+
+      rescueIso = lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/rescueIso/configuration.nix
+        ];
+      };
+
+      installIso = lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/installIso/configuration.nix
         ];
       };
     };
