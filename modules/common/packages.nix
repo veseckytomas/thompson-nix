@@ -113,7 +113,6 @@
     lazygit
     lazydocker
     seahorse
-    alsa-utils
     home-manager
     usbutils
     udiskie

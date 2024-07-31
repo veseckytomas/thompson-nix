@@ -29,6 +29,9 @@
   # Enable Gnome keyring
   services.gnome.gnome-keyring.enable = true;
 
+  # Enable polkit
+  security.polkit.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
