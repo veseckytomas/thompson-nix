@@ -11,6 +11,9 @@
 
 { config, pkgs, ... }:
 
+let
+  config_dir = ".config/clangd";
+in 
 {
-  home.file.".config/clangd/config.yaml".source = ./config.yaml;
+  home.file."${config_dir}/config.yaml".source = ./config.yaml;
 }

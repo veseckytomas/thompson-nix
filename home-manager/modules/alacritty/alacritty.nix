@@ -11,6 +11,9 @@
 
 { config, pkgs, ... }:
 
+let
+  config_dir = ".config/alacritty";
+in 
 {
   programs.alacritty = {
     enable = true;
@@ -19,5 +22,5 @@
       flavor = "mocha";
     };
   };
-  home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
+  home.file."${config_dir}/alacritty.toml".source = ./alacritty.toml;
 }

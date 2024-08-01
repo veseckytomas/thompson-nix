@@ -41,5 +41,10 @@
     ./modules/themes/qt.nix
     ./modules/themes/gtk.nix
     ./modules/zsh/zsh.nix
+    ./modules/i3lock/i3lock.nix
+    ./modules/kitty/kitty.nix
+    ./modules/lazygit/lazygit.nix
+    ./modules/librewolf/librewolf.nix
+    ./modules/pylint/pylint.nix
   ];
 }
