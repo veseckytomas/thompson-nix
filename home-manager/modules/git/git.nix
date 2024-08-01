@@ -12,37 +12,37 @@
 { config, pkgs, ... }:
 
 {
-  # programs.git = {
-  #   enable = true;
-  #   userEmail = "vesecky@proton.me";
-  #   userName = "Tomáš Vesecký";
-  #   aliases = {
-  #     st = "status";
-  #     ci = "commit";
-  #     co = "checkout";
-  #     swn = "switch -c";
-  #     brd = "branch -D";
-  #     br = "branch";
-  #     ll = "log --oneline --graph --all --decorate";
-  #     f = "fetch -ap";
-  #   };
-  #   extraConfig = {
-  #     core = {
-  #       editor = "nvim";
-  #     };
-  #     push = {
-  #       autoSetupRemote = true;
-  #     };
-  #     pull = {
-  #       rebase = true;
-  #     };
-  #     rerere = {
-  #       enable = true;
-  #     };
-  #     init = {
-  #       defaultBranch = "master";
-  #     };
-  #   };
-  # };
-  home.file.".gitconfig".source = ./gitconfig;
+  programs.git = {
+    enable = true;
+    userEmail = "vesecky@proton.me";
+    userName = "Tomáš Vesecký";
+    signing = {
+      signByDefault = true;
+      key = "86020E9B84233A43E5249EC4E397E45D1BC4E984";
+    };
+    aliases = {
+      st = "status";
+      ci = "commit";
+      co = "checkout";
+      swn = "switch -c";
+      brd = "branch -D";
+      br = "branch";
+      ll = "log --oneline --graph --all --decorate";
+      f = "fetch -ap";
+    };
+    extraConfig = {
+      core = {
+        editor = "nvim";
+      };
+      push = {
+        autoSetupRemote = true;
+      };
+      rerere = {
+        enable = true;
+      };
+      init = {
+        defaultBranch = "master";
+      };
+    };
+  };
 }
