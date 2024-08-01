@@ -11,6 +11,9 @@
 
 { config, pkgs, ... }:
 
+let
+  config_dir = ".config/.librewolf";
+in 
 {
-  home.file."librewolf.overrides.cfg".source = ./librewolf.overrides.cfg;
+  home.file."${config_dir}/librewolf.overrides.cfg".source = ./librewolf.overrides.cfg;
 }

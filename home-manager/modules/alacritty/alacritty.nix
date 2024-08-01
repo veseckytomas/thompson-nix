@@ -15,12 +15,5 @@ let
   config_dir = ".config/alacritty";
 in 
 {
-  programs.alacritty = {
-    enable = true;
-    catppuccin = {
-      enable = true;
-      flavor = "mocha";
-    };
-  };
   home.file."${config_dir}/alacritty.toml".source = ./alacritty.toml;
 }

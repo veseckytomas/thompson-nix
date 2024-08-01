@@ -37,14 +37,21 @@
     ./modules/bat.nix
     ./modules/clangd/clangd.nix
     ./modules/git/git.nix
-    ./modules/themes/catppuccin.nix
-    ./modules/themes/qt.nix
-    ./modules/themes/gtk.nix
-    ./modules/zsh/zsh.nix
     ./modules/i3lock/i3lock.nix
     ./modules/kitty/kitty.nix
     ./modules/lazygit/lazygit.nix
     ./modules/librewolf/librewolf.nix
     ./modules/pylint/pylint.nix
+    ./modules/qtile/qtile.nix
+    # ./modules/ranger/ranger.nix
+    ./modules/rofi/rofi.nix
+    ./modules/starship/starship.nix
+    ./modules/stylua/stylua.nix
+    ./modules/themes/catppuccin.nix
+    ./modules/themes/qt.nix
+    ./modules/themes/gtk.nix
+    ./modules/tmux/tmux.nix
+    ./modules/yazi/yazi.nix
+    ./modules/zsh/zsh.nix
   ];
 }
