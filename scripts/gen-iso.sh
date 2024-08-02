@@ -10,7 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-echo "Please touch the device."
+echo "Please touch the device. (Pull)"
 git pull
 git add --all
 mkdir -p build

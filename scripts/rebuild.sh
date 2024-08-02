@@ -10,7 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-echo "Please touch the device."
+echo "Please touch the device. (Pull)"
 git pull
 git add --all
 sudo nixos-rebuild switch --flake .#
@@ -26,6 +26,7 @@ if test $? != 0; then
   exit 1
 fi
 gen=$(nixos-rebuild list-generations | grep current | cut -d' ' -f1)
+echo "Please touch the device. (Sign commit)"
 git commit -m "$(hostname): Gen $gen"
-echo "Please touch the device."
+echo "Please touch the device. (Push)"
 git push
