@@ -25,7 +25,7 @@
   programs.home-manager.enable = true;
 
   imports = [
-    # ./modules/alacritty/alacritty.nix
+    ./modules/alacritty/alacritty.nix
     ./modules/bat.nix
     ./modules/clangd/clangd.nix
     ./modules/git/git.nix
