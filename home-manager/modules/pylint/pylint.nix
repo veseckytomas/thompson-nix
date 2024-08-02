@@ -12,5 +12,10 @@
 { config, pkgs, ... }:
 
 {
+  # programs.pylint = {
+  #   enable = true;
+  #   settings = {
+  #   };
+  # };
   home.file.".pylintrc".source = ./pylintrc;
 }

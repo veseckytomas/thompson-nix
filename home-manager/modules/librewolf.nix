@@ -11,9 +11,11 @@
 
 { config, pkgs, ... }:
 
-let
-  config_dir = ".config/.librewolf";
-in 
 {
-  home.file."${config_dir}/librewolf.overrides.cfg".source = ./librewolf.overrides.cfg;
+  programs.librewolf = {
+    enable = true;
+    settings = {
+      "identity.fxaccounts.enabled" = true;
+    };
+  };
 }

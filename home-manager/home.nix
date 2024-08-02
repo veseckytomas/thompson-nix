@@ -32,7 +32,7 @@
     ./modules/i3lock/i3lock.nix
     ./modules/kitty.nix
     ./modules/lazygit.nix
-    ./modules/librewolf/librewolf.nix
+    ./modules/librewolf.nix
     ./modules/pylint/pylint.nix
     ./modules/qtile/qtile.nix
     # ./modules/ranger/ranger.nix
