@@ -11,10 +11,18 @@
 
 { config, pkgs, ... }:
 
-let
-  config_dir = ".config/kitty";
-in 
 {
-  home.file."${config_dir}/kitty.conf".source = ./kitty.conf;
-  home.file."${config_dir}/Catppuccin-Mocha.conf".source = ./Catppuccin-Mocha.conf;
+  programs.kitty = {
+    enable = true;
+    theme = "Catppuccin-Mocha";
+    font = {
+      name = "Hack Nerd Font";
+      package = null;
+      size = 10.0;
+    };
+    settings = {
+      enable_audio_bell = false;
+      background_opacity = "0.85";
+    };
+  };
 }

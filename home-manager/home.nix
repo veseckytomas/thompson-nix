@@ -25,13 +25,13 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ./modules/alacritty/alacritty.nix
+    # ./modules/alacritty.nix
     ./modules/bat.nix
     ./modules/clangd/clangd.nix
-    ./modules/git/git.nix
+    ./modules/git.nix
     ./modules/i3lock/i3lock.nix
-    ./modules/kitty/kitty.nix
-    ./modules/lazygit/lazygit.nix
+    ./modules/kitty.nix
+    ./modules/lazygit.nix
     ./modules/librewolf/librewolf.nix
     ./modules/pylint/pylint.nix
     ./modules/qtile/qtile.nix

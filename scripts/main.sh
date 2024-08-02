@@ -18,7 +18,7 @@ echo "4. Update"
 echo "5. Garbage collect"
 echo "6. Setup"
 echo "7. Generate ISO"
-echo "8. Generate ISO"
+echo "8. Run setup"
 echo "9. Exit"
 
 read -r input
