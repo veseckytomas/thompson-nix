@@ -45,4 +45,5 @@
       };
     };
   };
+  home.file."Git/migrate.sh".source = ./migrate.sh;
 }

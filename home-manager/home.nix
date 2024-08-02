@@ -28,7 +28,7 @@
     # ./modules/alacritty.nix
     ./modules/bat.nix
     ./modules/clangd/clangd.nix
-    ./modules/git.nix
+    ./modules/git/git.nix
     ./modules/i3lock/i3lock.nix
     ./modules/kitty.nix
     ./modules/lazygit.nix

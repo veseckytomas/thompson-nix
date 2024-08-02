@@ -113,6 +113,11 @@ function nixos-run {
 	./scripts/main.sh
 	popd > /dev/null
 }
+function migrate_repo {
+  pushd ~/Git > /dev/null
+  ./migrate.sh
+  popd > /dev/null
+}
 
 # Shell integration
 eval "$(fzf --zsh)"
