@@ -40,6 +40,7 @@
     texlive.combined.scheme-full
     dig
     yazi
+    nmap
 
     # Lesamaj
     hugo
