@@ -119,6 +119,7 @@
     udiskie
     udisks
     plex-media-player
+    postgresql
   ];
 
   # Install nerdfonts
