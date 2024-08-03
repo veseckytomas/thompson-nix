@@ -16,4 +16,7 @@ let
 in 
 {
   home.file."${config_dir}/rifle.conf".source = ./rifle.conf;
+  home.packages = with pkgs; [
+    ranger
+  ];
 }

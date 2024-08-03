@@ -1,4 +1,4 @@
-
+#   ________
 #  /_  __/ /_  ____  ____ ___  ____  _________  ____
 #   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
 #  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
@@ -33,7 +33,7 @@
     ./modules/kitty.nix
     ./modules/lazygit.nix
     ./modules/librewolf.nix
-    ./modules/pylint/pylint.nix
+    ./modules/pylint.nix
     ./modules/qtile/qtile.nix
     # ./modules/ranger/ranger.nix
     ./modules/rofi/rofi.nix

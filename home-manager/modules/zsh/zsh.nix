@@ -16,4 +16,7 @@
   home.file.".zshrc".source = ./zshrc;
   home.file.".config/zsh/header.txt".source = ./header.txt;
   home.file.".config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh".source = ./catppuccin_mocha-zsh-syntax-highlighting.zsh;
+  home.packages = with pkgs; [
+    zsh
+  ];
 }

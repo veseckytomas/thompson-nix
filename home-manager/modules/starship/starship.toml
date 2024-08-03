@@ -23,20 +23,6 @@ $time
 $character\
 """
 
-# format = """\
-# [ 󰣇 ](bg:logo_bg fg:logo_fg)\
-# [](fg:logo_bg bg:dir_bg)\
-# $directory\
-# [](fg:dir_bg)\
-# $git_branch\
-# $git_status\
-# $git_state\
-# $fill\
-# $cmd_duration\
-# $time
-# $character\
-# """
-
 palette = "foo"
 add_newline = true
 command_timeout = 300

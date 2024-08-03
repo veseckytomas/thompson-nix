@@ -16,4 +16,7 @@ let
 in 
 {
   home.file."${config_dir}/stylua.toml".source = ./stylua.toml;
+  home.packages = with pkgs; [
+    stylua
+  ];
 }

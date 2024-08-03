@@ -16,4 +16,7 @@ let
 in 
 {
   home.file."${config_dir}/starship.toml".source = ./starship.toml;
+  home.packages = with pkgs; [
+    starship
+  ];
 }

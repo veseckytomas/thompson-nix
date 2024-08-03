@@ -55,6 +55,7 @@
     doxygen
     postman
     clang
+    clang-tools
     cmake
     cppcheck
     gnumake

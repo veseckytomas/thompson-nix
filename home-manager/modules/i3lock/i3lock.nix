@@ -19,4 +19,7 @@ in
   home.file."${config_dir}/linux_lock_screen.png".source = ./linux_lock_screen.png;
   home.file."${config_dir}/nixos_lock_screen.png".source = ./nixos_lock_screen.png;
   home.file."${config_dir}/lock.sh".source = ./lock.sh;
+  home.packages = with pkgs; [
+    i3lock
+  ];
 }

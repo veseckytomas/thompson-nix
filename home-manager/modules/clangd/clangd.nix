@@ -16,4 +16,7 @@ let
 in 
 {
   home.file."${config_dir}/config.yaml".source = ./config.yaml;
+  home.packages = with pkgs; [
+    clang-tools
+  ];
 }

@@ -25,4 +25,7 @@ in
   home.file."${config_dir}/config/launcher.rasi".source = ./config/launcher.rasi;
   home.file."${config_dir}/config/powermenu.rasi".source = ./config/powermenu.rasi;
   home.file."${config_dir}/config/screenshot.rasi".source = ./config/screenshot.rasi;
+  home.packages = with pkgs; [
+    rofi
+  ];
 }

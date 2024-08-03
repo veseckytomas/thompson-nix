@@ -9,8 +9,15 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-[MASTER]
-disable=
-    C0114, # missing-module-docstring
-    C0115, # (missing-class-docstring)
-    C0116, # (missing-function-docstring)
+{ config, pkgs, ... }:
+
+{
+  programs.pylint = {
+    enable = true;
+    settings = {
+      "MASTER" = {
+        disable = [ "C0114" "C0115" "C0116" ];
+      };
+    };
+  };
+}

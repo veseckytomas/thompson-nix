@@ -11,9 +11,18 @@
 
 { config, pkgs, ... }:
 
-let
-  config_dir = ".config/yazi";
-in 
 {
-  home.file."${config_dir}/yazi.toml".source = ./yazi.toml;
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      manager = {
+        ratio = [ 1 4 4 ];
+        sort_by = "natural";
+        sort_dir_first = true;
+        sort_translit = true;
+        show_hidden = true;
+      };
+    };
+  };
 }

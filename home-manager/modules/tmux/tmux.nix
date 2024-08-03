@@ -16,4 +16,7 @@ let
 in 
 {
   home.file."${config_dir}/tmux.conf".source = ./tmux.conf;
+  home.packages = with pkgs; [
+    tmux
+  ];
 }
