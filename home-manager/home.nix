@@ -45,6 +45,7 @@
     # Single files
     # ./modules/alacritty.nix
     ./modules/atuin.nix
+    # ./modules/autorandr.nix
     ./modules/bat.nix
     ./modules/editorconfig.nix
     ./modules/kitty.nix
