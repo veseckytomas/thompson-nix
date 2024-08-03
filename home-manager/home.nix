@@ -21,29 +21,36 @@
     STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
   };
 
+  # home.activation
 
+  news.display = "silent";
   programs.home-manager.enable = true;
 
   imports = [
-    # ./modules/alacritty.nix
-    ./modules/bat.nix
+    # Directories
     ./modules/clangd/clangd.nix
     ./modules/git/git.nix
     ./modules/i3lock/i3lock.nix
-    ./modules/kitty.nix
-    ./modules/lazygit.nix
-    ./modules/librewolf.nix
-    ./modules/pylint.nix
     ./modules/qtile/qtile.nix
     # ./modules/ranger/ranger.nix
     ./modules/rofi/rofi.nix
     ./modules/starship/starship.nix
     ./modules/stylua/stylua.nix
     ./modules/themes/catppuccin.nix
-    ./modules/themes/qt.nix
     ./modules/themes/gtk.nix
+    ./modules/themes/qt.nix
     ./modules/tmux/tmux.nix
-    ./modules/yazi/yazi.nix
     ./modules/zsh/zsh.nix
+
+    # Single files
+    # ./modules/alacritty.nix
+    ./modules/atuin.nix
+    ./modules/bat.nix
+    ./modules/editorconfig.nix
+    ./modules/kitty.nix
+    ./modules/lazygit.nix
+    ./modules/librewolf.nix
+    ./modules/pylint.nix
+    ./modules/yazi.nix
   ];
 }

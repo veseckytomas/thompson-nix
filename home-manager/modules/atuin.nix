@@ -9,11 +9,12 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-# "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+{ config, pkgs, ... }:
 
-[manager]
-ratio          = [ 1, 4, 4 ]
-sort_by        = "natural"
-sort_dir_first = true
-sort_translit = true
-show_hidden    = true
+{
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {};
+  };
+}
