@@ -63,6 +63,7 @@
     shellcheck
     nodejs
     python3
+    pandoc
 
     # Docker
     docker-compose

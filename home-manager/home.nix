@@ -48,9 +48,11 @@
     # ./modules/autorandr.nix
     ./modules/bat.nix
     ./modules/editorconfig.nix
+    ./modules/fzf.nix
     ./modules/kitty.nix
     ./modules/lazygit.nix
     ./modules/librewolf.nix
+    ./modules/pandoc.nix
     ./modules/pylint.nix
     ./modules/yazi.nix
   ];

@@ -83,7 +83,7 @@ alias fzf='fzf --multi --preview "bat --color=always --style=header,grid --line-
 alias nvimf='nvim $(fzf)'
 alias latex='xelatex -interaction=batchmode'
 alias cp='cp -r'
-alias ls='exa --icons -F -H --group-directories-first --git'
+alias ls='eza --icons -F -H --group-directories-first --git'
 alias la='ls -a -1'
 alias cal='cal -m'
 alias y='yazi'
