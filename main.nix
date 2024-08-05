@@ -23,7 +23,7 @@
       ./modules/common/users.nix
       ./modules/loginManagers/sddm.nix
       ./modules/virtualisation/virt-manager.nix
-      ./modules/virtualisation/virtualbox.nix
+      # ./modules/virtualisation/virtualbox.nix
       ./modules/windowManagers/qtile.nix
 
 
