@@ -9,11 +9,11 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-root = true
-[*]
-end_of_line = lf
-insert_final_newline = true
-charset = utf-8
-indent_style = space
-indent_size = 2
+{ config, pkgs, ... }:
+
+{
+  programs.nixvim.plugins.codeium-nvim = {
+    enable = true;
+  };
+}
 

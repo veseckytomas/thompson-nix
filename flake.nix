@@ -13,15 +13,19 @@
   description = "Thompson NixOS config flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
     catppuccin.url = "github:catppuccin/nix";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, catppuccin, nixvim, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -87,6 +91,7 @@
         modules = [
           ./home-manager/home.nix
           catppuccin.homeManagerModules.catppuccin
+          nixvim.homeManagerModules.nixvim
         ];
       };
     };

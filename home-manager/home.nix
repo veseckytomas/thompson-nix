@@ -52,6 +52,7 @@
     ./modules/kitty.nix
     ./modules/lazygit.nix
     ./modules/librewolf.nix
+    ./modules/nvim/nvim.nix
     ./modules/pandoc.nix
     ./modules/pylint.nix
     ./modules/yazi.nix
