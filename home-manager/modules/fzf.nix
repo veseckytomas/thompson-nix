@@ -13,6 +13,10 @@
 
 {
   programs.fzf = {
+    catppuccin = {
+      enable = true;
+      flavor = "mocha";
+    };
     enable = true;
     enableZshIntegration = true;
   };

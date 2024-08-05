@@ -14,6 +14,10 @@
 {
   programs.lazygit = {
     enable = true;
+    catppuccin = {
+      enable = true;
+      flavor = "mocha";
+    };
     settings.gui = {
       theme = {
         activeBorderColor = [ "#a6e3a1" "bold" ];

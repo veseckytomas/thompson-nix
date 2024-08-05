@@ -12,18 +12,23 @@
 { config, pkgs, ... }:
 
 {
-  programs.nixvim.plugins.lualine = {
-    enable = true;
-    globalstatus = true;
-    iconsEnabled = true;
-    theme = "dracula";
-    componentSeparators = {
-      left = "|";
-      right = "|";
+  programs.nixvim = {
+    plugins.lualine = {
+      enable = true;
+      globalstatus = true;
+      iconsEnabled = true;
+      theme = "dracula";
+      componentSeparators = {
+        left = "|";
+        right = "|";
+      };
+      sectionSeparators = {
+        left = "";
+        right = "";
+      };
     };
-    sectionSeparators = {
-      left = "";
-      right = "";
+    opts = {
+      showmode = false;
     };
   };
 }

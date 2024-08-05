@@ -15,6 +15,10 @@
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
+    catppuccin = {
+      enable = true;
+      flavor = "mocha";
+    };
     settings = {
       manager = {
         ratio = [ 1 4 4 ];

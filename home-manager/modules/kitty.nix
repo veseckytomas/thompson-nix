@@ -16,7 +16,7 @@
     enable = true;
     theme = "Catppuccin-Mocha";
     font = {
-      name = "Hack Nerd Font";
+      name = "Hack Nerd Font Mono";
       package = null;
       size = 10.0;
     };
