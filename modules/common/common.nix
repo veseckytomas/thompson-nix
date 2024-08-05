@@ -26,10 +26,6 @@
     control = "required";
   };
 
-  # Enable external binaries
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = [];
-
   # Enable Gnome keyring
   services.gnome.gnome-keyring.enable = true;
 
