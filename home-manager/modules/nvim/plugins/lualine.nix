@@ -26,6 +26,26 @@
         left = "";
         right = "";
       };
+      sections = {
+        lualine_a = [
+          "buffers"
+        ];
+        lualine_b = [
+          "branch"
+        ];
+        lualine_c = [
+          "filetype"
+        ];
+        lualine_x = [
+          "selectioncount"
+        ];
+        lualine_y = [
+          "location"
+        ];
+        lualine_z = [
+          "mode"
+        ];
+      };
     };
     opts = {
       showmode = false;
