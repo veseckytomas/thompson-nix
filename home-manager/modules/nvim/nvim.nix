@@ -84,7 +84,7 @@
   imports = [
     ./keymaps.nix
     ./extraConfig.nix
-    ./plugins.nix
+    ./plugins
   ];
 }
 

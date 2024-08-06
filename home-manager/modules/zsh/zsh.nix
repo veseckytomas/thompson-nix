@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
   programs.bash.enable = true;

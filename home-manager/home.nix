@@ -27,34 +27,6 @@
   programs.home-manager.enable = true;
 
   imports = [
-    # Directories
-    ./modules/clangd/clangd.nix
-    ./modules/git/git.nix
-    ./modules/i3lock/i3lock.nix
-    ./modules/qtile/qtile.nix
-    # ./modules/ranger/ranger.nix
-    ./modules/rofi/rofi.nix
-    ./modules/starship/starship.nix
-    ./modules/stylua/stylua.nix
-    ./modules/themes/catppuccin.nix
-    ./modules/themes/gtk.nix
-    ./modules/themes/qt.nix
-    ./modules/tmux/tmux.nix
-    ./modules/zsh/zsh.nix
-
-    # Single files
-    # ./modules/alacritty.nix
-    ./modules/atuin.nix
-    # ./modules/autorandr.nix
-    ./modules/bat.nix
-    ./modules/editorconfig.nix
-    ./modules/fzf.nix
-    ./modules/kitty.nix
-    ./modules/lazygit.nix
-    ./modules/librewolf.nix
-    ./modules/nvim/nvim.nix
-    ./modules/pandoc.nix
-    ./modules/pylint.nix
-    ./modules/yazi.nix
+    ./modules
   ];
 }

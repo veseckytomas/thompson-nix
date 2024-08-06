@@ -12,20 +12,8 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    # Directories
-    ./plugins/chatgpt/chatgpt.nix
-
-    # Single file
-    ./plugins/alpha.nix
-    ./plugins/codeium-nvim.nix
-    ./plugins/codesnap.nix
-    ./plugins/comment.nix
-    ./plugins/copilot-chat.nix
-    ./plugins/copilot-vim.nix
-    ./plugins/gitsigns.nix
-    ./plugins/lualine.nix
-    ./plugins/nvim-autopairs.nix
-  ];
+  programs.nixvim.plugins.indent-blankline = {
+      enable = true;
+    };
 }
 
