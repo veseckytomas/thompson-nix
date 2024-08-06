@@ -53,6 +53,14 @@
         options.desc = "[P]eek folded under cursor";
       }
     ];
+    extraConfigLua = ''
+      vim.keymap.set("n", "zk", function()
+        local winid = ufo.peekFoldedLinesUnderCursor()
+        if not winid then
+          vim.lsp.buf.hover()
+        end
+      end, { desc = "Peek folded under cursor" })
+    '';
   };
 }
 

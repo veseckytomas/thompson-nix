@@ -17,9 +17,8 @@
       enable = true;
       settings = {
         api_key_cmd = "gpg --decrypt -q /home/vesecto/.openai_api_key.gpg";
-        openai_params = {
-          model = "gpt-4-turbo";
-        };
+        openai_params.model = "gpt-4-turbo";
+        predefined_chat_gpt_params = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/master/.config/nvim/lua/plugins/prompts.csv";
       };
     };
     keymaps = [

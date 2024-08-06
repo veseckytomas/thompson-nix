@@ -29,6 +29,7 @@
     ./noice.nix
     # ./nvim-autopairs.nix
     ./nvim-ufo.nix
+    ./oil.nix
   ];
 }
 
