@@ -21,15 +21,26 @@
     ./copilot-chat.nix
     ./copilot-vim.nix
     ./gitsigns.nix
+    ./indent-blankline.nix
     ./lualine.nix
     ./mini.nix
     ./neo-tree.nix
+    ./neogen.nix
     ./neogit.nix
     # ./neotest.nix
     ./noice.nix
     # ./nvim-autopairs.nix
     ./nvim-ufo.nix
     ./oil.nix
+    ./sleuth.nix
+    # ./telescope.nix
+    ./tmux-navigator.nix
+    ./todo-comments.nix
+    ./treesitter-refactor.nix
+    ./treesitter.nix
+    ./undotree.nix
+    ./wakatime.nix
+    ./which-key.nix
   ];
 }
 

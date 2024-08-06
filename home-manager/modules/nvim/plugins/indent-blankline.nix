@@ -13,7 +13,7 @@
 
 {
   programs.nixvim.plugins.indent-blankline = {
-      enable = true;
-    };
+    enable = true;
+  };
 }
 
