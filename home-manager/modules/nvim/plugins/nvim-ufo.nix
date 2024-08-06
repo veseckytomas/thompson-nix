@@ -40,26 +40,14 @@
         action = ''require("ufo".openAllFolds)'';
         options.desc = "[C]lose all folds";
       }
-      {
-        mode = [ "n" ];
-        key = "<leader>zp";
-        action = ''
-          function()
-            local winid = ufo.peekFoldedLinesUnderCursor()
-            if not winid then
-              vim.lsp.buf.hover()
-          end
-        '';
-        options.desc = "[P]eek folded under cursor";
-      }
     ];
     extraConfigLua = ''
-      vim.keymap.set("n", "zk", function()
+      vim.keymap.set("n", "zp", function()
         local winid = ufo.peekFoldedLinesUnderCursor()
         if not winid then
           vim.lsp.buf.hover()
         end
-      end, { desc = "Peek folded under cursor" })
+      end, { desc = "[P]eek folded under cursor" })
     '';
   };
 }

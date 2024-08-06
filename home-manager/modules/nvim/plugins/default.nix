@@ -21,7 +21,7 @@
     ./copilot-chat.nix
     ./copilot-vim.nix
     ./gitsigns.nix
-    ./indent-blankline.nix
+    # ./indent-blankline.nix
     ./lualine.nix
     ./mini.nix
     ./neo-tree.nix
@@ -33,7 +33,7 @@
     ./nvim-ufo.nix
     ./oil.nix
     ./sleuth.nix
-    # ./telescope.nix
+    ./telescope.nix
     ./tmux-navigator.nix
     ./todo-comments.nix
     ./treesitter-refactor.nix
