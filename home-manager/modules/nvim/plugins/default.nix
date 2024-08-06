@@ -14,6 +14,7 @@
 {
   imports = [
     ./alpha.nix
+    ./cmp.nix
     ./chatgpt/chatgpt.nix
     ./codeium-nvim.nix
     ./codesnap.nix
@@ -22,12 +23,14 @@
     ./copilot-vim.nix
     ./gitsigns.nix
     # ./indent-blankline.nix
+    ./lsp.nix
     ./lualine.nix
     ./mini.nix
     ./neo-tree.nix
     ./neogen.nix
     ./neogit.nix
     # ./neotest.nix
+    ./nix.nix
     ./noice.nix
     # ./nvim-autopairs.nix
     ./nvim-ufo.nix
