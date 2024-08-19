@@ -379,17 +379,6 @@ def init_widgets_list():
             ],
         ),
         widget.Spacer(length=8),
-        widget.Volume(
-            foreground=colors[7],
-            fmt="󰕾 Vol: {}",
-            decorations=[
-                BorderDecoration(
-                    colour=colors[7],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
-        ),
-        widget.Spacer(length=8),
         widget.KeyboardLayout(
             foreground=colors[4],
             fmt="⌨ Kbd: {}",

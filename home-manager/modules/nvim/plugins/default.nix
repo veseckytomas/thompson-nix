@@ -21,10 +21,13 @@
     ./comment.nix
     ./copilot-chat.nix
     ./copilot-vim.nix
+    ./fidget.nix
+    ./friendly-snippets.nix
     ./gitsigns.nix
     # ./indent-blankline.nix
     ./lsp.nix
     ./lualine.nix
+    ./luasnip.nix
     ./mini.nix
     ./neo-tree.nix
     ./neogen.nix

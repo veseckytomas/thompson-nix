@@ -14,5 +14,8 @@ git add --all
 home-manager switch --flake .#vesecto
 if test $? != 0; then
   echo "Build failed"
+  git restore --staged :/ >/dev/null
+  exit 1
 fi
-git restore --staged :/ >/dev/null
+gen=$(home-manager generations | head -1 | cut -d' ' -f5)
+git commit -m "Home-manager $(hostname): Gen $gen"

@@ -16,13 +16,14 @@
     enable = true;
 
     keymaps = {
+      silent = true;
       diagnostic = {
         "<leader>j" = "goto_next";
         "<leader>k" = "goto_prev";
       };
       lspBuf = {
         "<leader>K" = "hover";
-        "<leader>cr" = "reference";
+        "<leader>cr" = "references";
         "<leader>cd" = "definition";
         "<leader>ci" = "implementation";
         "<leader>ct" = "type_definition";
