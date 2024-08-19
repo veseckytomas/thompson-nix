@@ -74,7 +74,6 @@
     swt
 
     # Neovim
-    nodePackages.eslint
     ripgrep
     xclip
 
