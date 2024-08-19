@@ -45,9 +45,9 @@
     keymaps = [
       {
         mode = "n";
-        key = "<leader>ll";
+        key = "<leader>lr";
         action = "lua function() lint.try_lint() end";
-        options.desc = "Trigger linting for current file";
+        options.desc = "[L]inter [R]un";
       }
     ];
   };

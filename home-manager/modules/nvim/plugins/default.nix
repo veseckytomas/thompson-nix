@@ -21,7 +21,7 @@
     ./codeium-nvim.nix
     ./codesnap.nix
     ./comment.nix
-    ./conform-nvim.nix
+    # ./conform-nvim.nix
     ./copilot-chat.nix
     ./copilot-vim.nix
     ./fidget.nix
