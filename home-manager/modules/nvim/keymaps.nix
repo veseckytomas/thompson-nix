@@ -54,14 +54,6 @@
       options.desc = "[H]orizontal [S]plit";
     }
 
-    # Set escape keymap
-    {
-      mode = [ "i" ];
-      key = "jj";
-      action = "<Esc>";
-      options.desc = "Normal mode";
-    }
-
     # Set terminal keymap
     {
       mode = [ "n" ];
@@ -98,6 +90,6 @@
       options.desc = "Clear search";
     }
   ];
-  
+
 }
 

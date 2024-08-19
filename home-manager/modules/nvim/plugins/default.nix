@@ -14,7 +14,9 @@
 {
   imports = [
     ./alpha.nix
+    ./ccc.nix
     ./cmp.nix
+    ./cmp-nvim-lsp.nix
     ./chatgpt/chatgpt.nix
     ./codeium-nvim.nix
     ./codesnap.nix
@@ -44,6 +46,7 @@
     ./todo-comments.nix
     ./treesitter-refactor.nix
     ./treesitter.nix
+    ./ts-autotag.nix
     ./undotree.nix
     ./wakatime.nix
     ./which-key.nix
