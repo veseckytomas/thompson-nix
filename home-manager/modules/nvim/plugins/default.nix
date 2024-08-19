@@ -21,12 +21,14 @@
     ./codeium-nvim.nix
     ./codesnap.nix
     ./comment.nix
+    ./conform-nvim.nix
     ./copilot-chat.nix
     ./copilot-vim.nix
     ./fidget.nix
     ./friendly-snippets.nix
     ./gitsigns.nix
     # ./indent-blankline.nix
+    ./lint.nix
     ./lsp.nix
     ./lualine.nix
     ./luasnip.nix

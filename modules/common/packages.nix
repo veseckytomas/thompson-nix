@@ -74,12 +74,9 @@
     swt
 
     # Neovim
-    lua
-    luarocks
+    nodePackages.eslint
     ripgrep
     xclip
-    codeium
-    steam-run
 
     # Web browsers
     librewolf
