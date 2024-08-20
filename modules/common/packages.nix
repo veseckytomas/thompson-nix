@@ -76,6 +76,30 @@
     # Neovim
     ripgrep
     xclip
+    codespell
+    prettierd
+    nodePackages.prettier
+    rubyPackages.htmlbeautifier
+    jq
+    alejandra
+    isort
+    black
+    rustfmt
+    beautysh
+    pgformatter
+    taplo
+    yamlfix
+    htmlhint
+    nodePackages.eslint
+    nodePackages.jsonlint
+    markdownlint-cli
+    statix
+    pylint
+    ruff
+    clippy
+    shellcheck
+    sqlfluff
+    vale
 
     # Web browsers
     librewolf
