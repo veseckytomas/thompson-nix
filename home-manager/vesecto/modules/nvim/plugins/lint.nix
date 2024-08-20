@@ -32,7 +32,7 @@
         # Rust
         rust = [ "clipy" ];
         # Shell
-        sh = [ "shellcheck" ];
+        bash = [ "shellcheck" ];
         # SQL
         sql = [ "sqlfluff" ];
         # Text

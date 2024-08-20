@@ -19,28 +19,33 @@
       timeoutMs = 500;
     };
     formattersByFt = {
+      # CSS
+      css = [ "prettierd" "prettier" ];
+      scss = [ "prettierd" "prettier" ];
       # HTML
-      html = [ "" ];
+      html = [ "htmlbeautifier" ];
       # JavaScript
-      javascript = [ "" ];
-      javascriptreact = [ "" ];
+      javascript = [ "prettierd" "prettier" ];
+      javascriptreact = [ "prettierd" "prettier" ];
       # JSON
       json = [ "" ];
       # Markdown
-      markdown = [ "" ];
+      markdown = [ "prettierd" "prettier" ];
       # Python
       python = [ "" ];
       # Rust
-      rust = [ "" ];
+      rust = [ "reustfmt" ];
       # Shell
-      sh = [ "" ];
+      bash = [ "beautysh" ];
       # SQL
       sql = [ "" ];
-      # Text
-      text = [ "" ];
+      # TOML
+      toml = [ "taplo" ];
       # TypeScript
-      typescript = [ "" ];
-      typescriptreact = [ "" ];
+      typescript = [ "prettierd" "prettier" ];
+      typescriptreact = [ "prettierd" "prettier" ];
+      # YAML
+      yaml = [ "yamlfix" ];
     };
   };
 }
