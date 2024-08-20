@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.conform-nvim = {
       enable = true;
@@ -20,35 +21,37 @@
         timeoutMs = 500;
       };
       formattersByFt = {
+        # All filetypes
+        "*" = ["codespell"];
         # CSS
-        css = [ "prettierd" "prettier" ];
-        scss = [ "prettierd" "prettier" ];
+        css = ["prettierd" "prettier"];
+        scss = ["prettierd" "prettier"];
         # HTML
-        html = [ "htmlbeautifier" ];
+        html = ["htmlbeautifier"];
         # JavaScript
-        javascript = [ "prettierd" "prettier" ];
-        javascriptreact = [ "prettierd" "prettier" ];
+        javascript = ["prettierd" "prettier"];
+        javascriptreact = ["prettierd" "prettier"];
         # JSON
-        json = [ "jq" ];
+        json = ["jq"];
         # Markdown
-        markdown = [ "prettierd" "prettier" ];
+        markdown = ["prettierd" "prettier"];
         # Nix
-        nix = [ "alejandra" ];
+        nix = ["alejandra"];
         # Python
-        python = [ "isort" "black" ];
+        python = ["isort" "black"];
         # Rust
-        rust = [ "reustfmt" ];
+        rust = ["rustfmt"];
         # Shell
-        bash = [ "beautysh" ];
+        bash = ["beautysh"];
         # SQL
-        sql = [ "pg_format" ];
+        sql = ["pg_format"];
         # TOML
-        toml = [ "taplo" ];
+        toml = ["taplo"];
         # TypeScript
-        typescript = [ "prettierd" "prettier" ];
-        typescriptreact = [ "prettierd" "prettier" ];
+        typescript = ["prettierd" "prettier"];
+        typescriptreact = ["prettierd" "prettier"];
         # YAML
-        yaml = [ "yamlfix" ];
+        yaml = ["yamlfix"];
       };
     };
     extraConfigLua = ''
@@ -58,6 +61,6 @@
         timeout_ms = 500,
       }) end, { desc = "Format" })
     '';
+
   };
 }
-

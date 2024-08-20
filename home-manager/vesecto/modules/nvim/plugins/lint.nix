@@ -26,7 +26,7 @@
         # Markdown
         markdown = [ "markdownlint" ];
         # Nix
-        nix = [ "nix" ];
+        nix = [ "statix_check" ];
         # Python
         python = [ "pylint" "ruff" ];
         # Rust
