@@ -20,8 +20,6 @@
         timeoutMs = 500;
       };
       formattersByFt = {
-        # All filetypes
-        "*" = [ "codespell" ];
         # CSS
         css = [ "prettierd" "prettier" ];
         scss = [ "prettierd" "prettier" ];
@@ -31,7 +29,7 @@
         javascript = [ "prettierd" "prettier" ];
         javascriptreact = [ "prettierd" "prettier" ];
         # JSON
-        json = [ "" ];
+        json = [ "jq" ];
         # Markdown
         markdown = [ "prettierd" "prettier" ];
         # Nix
@@ -51,8 +49,6 @@
         typescriptreact = [ "prettierd" "prettier" ];
         # YAML
         yaml = [ "yamlfix" ];
-        # Other
-        "_" = [ "trim_whitespace" ];
       };
     };
     extraConfigLua = ''
@@ -60,7 +56,7 @@
         lsp_fallback = true,
         async = false,
         timeout_ms = 500,
-      }) end, { desc = "[L]inter [R]un" })
+      }) end, { desc = "Format" })
     '';
   };
 }
