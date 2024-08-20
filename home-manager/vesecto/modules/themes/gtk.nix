@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   gtk-css = "
     @define-color accent_color #83a598;
     @define-color accent_bg_color mix(#83a598, #282828,0.3);
@@ -92,8 +93,7 @@ let
     @define-color dark_4 mix(#282828,black,0.2);
     @define-color dark_5 mix(#282828,black,0.4);
     ";
-in
-{
+in {
   gtk = {
     enable = true;
 

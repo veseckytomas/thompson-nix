@@ -8,15 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.pylint = {
     enable = true;
     settings = {
       "MASTER" = {
-        disable = [ "C0114" "C0115" "C0116" ];
+        disable = ["C0114" "C0115" "C0116"];
       };
     };
   };

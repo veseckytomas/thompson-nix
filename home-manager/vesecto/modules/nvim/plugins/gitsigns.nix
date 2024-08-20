@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.gitsigns = {
       enable = true;
@@ -37,25 +38,25 @@
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>gp";
         action = "<cmd>Gitsigns preview_hunk<CR>";
         options.desc = "[G]it [P]review hunk";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>gg";
         action = "<cmd>Gitsigns<CR>";
         options.desc = "[G]itsigns";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>gr";
         action = "<cmd>Gitsigns restore_hunk<CR>";
         options.desc = "[G]it [R]estore hunk";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>gs";
         action = "<cmd>Gitsigns stage_hunk<CR>";
         options.desc = "[G]it [S]stage hunk";
@@ -63,4 +64,3 @@
     ];
   };
 }
-

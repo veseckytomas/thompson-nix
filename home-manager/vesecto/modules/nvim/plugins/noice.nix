@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.noice = {
       enable = true;
@@ -34,7 +35,7 @@
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>nd";
         action = "<cmd>NoiceDismiss<CR>";
         options.desc = "[N]oice [D]ismiss";
@@ -42,4 +43,3 @@
     ];
   };
 }
-

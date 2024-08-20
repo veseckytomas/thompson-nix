@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     # Directories
     ./clangd/clangd.nix
@@ -44,4 +45,3 @@
     ./yazi.nix
   ];
 }
-

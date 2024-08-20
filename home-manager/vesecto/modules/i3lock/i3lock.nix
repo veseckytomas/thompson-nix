@@ -8,13 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
-let
-  config_dir = ".config/i3lock";
-in 
 {
+  config,
+  pkgs,
+  ...
+}: let
+  config_dir = ".config/i3lock";
+in {
   home.file."${config_dir}/arch_lock_screen.png".source = ./arch_lock_screen.png;
   home.file."${config_dir}/linux_lock_screen.png".source = ./linux_lock_screen.png;
   home.file."${config_dir}/nixos_lock_screen.png".source = ./nixos_lock_screen.png;

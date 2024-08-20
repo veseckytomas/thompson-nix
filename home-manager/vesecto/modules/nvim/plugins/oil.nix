@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.oil = {
       enable = true;
@@ -49,7 +50,7 @@
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>od";
         action = "<cmd>Oil<CR>";
         options.desc = "[O]pen [D]irectory";
@@ -60,4 +61,3 @@
     '';
   };
 }
-

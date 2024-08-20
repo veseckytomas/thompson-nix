@@ -18,7 +18,7 @@ cd tmp_repo || exit
 echo "Please touch the device."
 git fetch -a
 for remote in $(git branch -r | grep -v /HEAD); do
-  git checkout --track "$remote"
+    git checkout --track "$remote"
 done
 git remote remove origin
 echo "Enter target repository URI:"

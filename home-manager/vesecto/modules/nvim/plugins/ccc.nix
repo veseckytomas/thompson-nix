@@ -8,23 +8,24 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.ccc = {
       enable = true;
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>cp";
         action = "<cmd>cccPick<CR>";
         options.desc = "[C]CC [P]ick";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>cc";
         action = "<cmd>cccConvert<CR>";
         options.desc = "[C]CC [C]onvert";
@@ -32,4 +33,3 @@
     ];
   };
 }
-

@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.codesnap = {
       enable = true;
@@ -25,7 +26,7 @@
     };
     keymaps = [
       {
-        mode = [ "v" ];
+        mode = ["v"];
         key = "<leader>cs";
         action = "<cmd>CodeSnapSave<CR>";
         options.desc = "[C]odesnap [S]ave";
@@ -33,4 +34,3 @@
     ];
   };
 }
-

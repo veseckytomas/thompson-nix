@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     enable = true;
 
@@ -77,7 +78,6 @@
 
       # Set highlight on search, but clear on pressing <Esc> in normal mode
       hlsearch = true;
-
     };
   };
 
@@ -87,4 +87,3 @@
     ./plugins
   ];
 }
-

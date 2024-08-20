@@ -8,13 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
-let
-  config_dir = ".config/tmux";
-in 
 {
+  config,
+  pkgs,
+  ...
+}: let
+  config_dir = ".config/tmux";
+in {
   home.file."${config_dir}/tmux.conf".source = ./tmux.conf;
   home.packages = with pkgs; [
     tmux

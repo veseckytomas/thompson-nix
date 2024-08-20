@@ -8,13 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim.plugins.todo-comments = {
     enable = true;
     settings.signs = false;
   };
 }
-

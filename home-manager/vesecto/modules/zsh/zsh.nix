@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.bash.enable = true;
   home.file.".zshrc".source = ./zshrc;
   home.file.".config/zsh/header.txt".source = ./header.txt;

@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
@@ -21,7 +22,7 @@
     };
     settings = {
       manager = {
-        ratio = [ 1 4 4 ];
+        ratio = [1 4 4];
         sort_by = "natural";
         sort_dir_first = true;
         sort_translit = true;

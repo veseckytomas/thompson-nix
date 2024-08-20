@@ -8,17 +8,18 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.copilot-chat = {
       enable = true;
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>cc";
         action = "<cmd>CopilotChat<CR>";
         options.desc = "[C]opilot [C]hat";
@@ -26,4 +27,3 @@
     ];
   };
 }
-

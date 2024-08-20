@@ -8,13 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
-let
-  config_dir = ".config/rofi";
-in 
 {
+  config,
+  pkgs,
+  ...
+}: let
+  config_dir = ".config/rofi";
+in {
   home.file."${config_dir}/bin/launcher".source = ./bin/launcher;
   home.file."${config_dir}/bin/powermenu".source = ./bin/powermenu;
   home.file."${config_dir}/bin/screenshot".source = ./bin/screenshot;

@@ -8,35 +8,36 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.tmux-navigator = {
       enable = true;
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<C-h>";
         action = "<cmd>TmuxNavigateLeft<CR>";
         options.desc = "Window left";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<C-j>";
         action = "<cmd>TmuxNavigateDown<CR>";
         options.desc = "Window down";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<C-k>";
         action = "<cmd>TmuxNavigateUp<CR>";
         options.desc = "Window up";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<C-l>";
         action = "<cmd>TmuxNavigateRight<CR>";
         options.desc = "Window right";
@@ -44,4 +45,3 @@
     ];
   };
 }
-

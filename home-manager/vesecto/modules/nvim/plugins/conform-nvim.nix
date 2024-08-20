@@ -61,6 +61,5 @@
         timeout_ms = 500,
       }) end, { desc = "Format" })
     '';
-
   };
 }

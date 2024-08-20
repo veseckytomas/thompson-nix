@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.telescope = {
       enable = true;
@@ -47,13 +48,13 @@
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>fn";
         action = "<cmd>Telescope noice<CR>";
         options.desc = "[F]ind [N]oice";
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>fm";
         action = "<cmd>Telescope notify<CR>";
         options.desc = "[F]ind Notifications";

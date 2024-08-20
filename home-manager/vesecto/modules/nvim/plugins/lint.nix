@@ -8,38 +8,39 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.lint = {
       enable = true;
       lintersByFt = {
         # HTML
-        html = [ "htmlhint" ];
+        html = ["htmlhint"];
         # JavaScript
-        javascript = [ "eslint" ];
-        javascriptreact = [ "eslint" ];
+        javascript = ["eslint"];
+        javascriptreact = ["eslint"];
         # JSON
-        json = [ "jsonlint" ];
+        json = ["jsonlint"];
         # Markdown
-        markdown = [ "markdownlint" ];
+        markdown = ["markdownlint"];
         # Nix
-        nix = [ "statix_check" ];
+        nix = ["statix_check"];
         # Python
-        python = [ "pylint" "ruff" ];
+        python = ["pylint" "ruff"];
         # Rust
-        rust = [ "clipy" ];
+        rust = ["clipy"];
         # Shell
-        bash = [ "shellcheck" ];
+        bash = ["shellcheck"];
         # SQL
-        sql = [ "sqlfluff" ];
+        sql = ["sqlfluff"];
         # Text
-        text = [ "vale" ];
+        text = ["vale"];
         # TypeScript
-        typescript = [ "eslint" ];
-        typescriptreact = [ "eslint" ];
+        typescript = ["eslint"];
+        typescriptreact = ["eslint"];
       };
     };
     extraConfigLua = ''
@@ -47,4 +48,3 @@
     '';
   };
 }
-

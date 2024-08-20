@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim.plugins.none-ls = {
     enable = true;
     enableLspFormat = true;
@@ -52,4 +53,3 @@
     };
   };
 }
-

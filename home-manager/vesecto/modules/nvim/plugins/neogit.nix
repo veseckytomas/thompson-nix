@@ -8,17 +8,18 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.neogit = {
       enable = true;
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>gt";
         action = "<cmd>Neogit<CR>";
         options.desc = "[G]it s[t]atus";
@@ -26,4 +27,3 @@
     ];
   };
 }
-

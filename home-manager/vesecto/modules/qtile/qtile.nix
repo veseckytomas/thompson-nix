@@ -8,13 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
-let
-  config_dir = ".config/qtile";
-in 
 {
+  config,
+  pkgs,
+  ...
+}: let
+  config_dir = ".config/qtile";
+in {
   home.file."${config_dir}/config.py".source = ./config.py;
   home.file."${config_dir}/colors.py".source = ./colors.py;
   home.file."${config_dir}/autostart.sh".source = ./autostart.sh;

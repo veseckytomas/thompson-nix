@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.librewolf = {
     enable = true;
     settings = {
@@ -28,7 +29,7 @@
       "webgl.disabled" = true;
       "privacy.clearOnShutdown.history" = false;
       "privacy.clearOnShutdown.downloads" = false;
-      "middlemouse.paste"  = false;
+      "middlemouse.paste" = false;
       "general.autoScroll" = true;
     };
   };

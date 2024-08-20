@@ -8,17 +8,18 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.undotree = {
       enable = true;
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<leader>ut";
         action = "<cmd>UndotreeToggle<CR>";
         options.desc = "[U]ndotree [T]oggle";
@@ -26,4 +27,3 @@
     ];
   };
 }
-

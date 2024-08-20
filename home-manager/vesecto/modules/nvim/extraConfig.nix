@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim.extraConfigLua = ''
     -- set underscore as not part of a word
     vim.cmd("set iskeyword-=_")
@@ -20,4 +21,3 @@
     vim.cmd("let g:loaded_perl_provider = 0")
   '';
 }
-

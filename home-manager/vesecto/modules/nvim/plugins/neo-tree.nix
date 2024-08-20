@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     plugins.neo-tree = {
       enable = true;
@@ -40,7 +41,7 @@
     };
     keymaps = [
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<C-n>";
         action = "<cmd>Neotree toggle reveal left<CR>";
         options.desc = "Toggle Neotree";
@@ -48,4 +49,3 @@
     ];
   };
 }
-

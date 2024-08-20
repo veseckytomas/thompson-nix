@@ -8,13 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
-let
-  config_dir = ".config/clangd";
-in 
 {
+  config,
+  pkgs,
+  ...
+}: let
+  config_dir = ".config/clangd";
+in {
   home.file."${config_dir}/config.yaml".source = ./config.yaml;
   home.packages = with pkgs; [
     clang-tools
