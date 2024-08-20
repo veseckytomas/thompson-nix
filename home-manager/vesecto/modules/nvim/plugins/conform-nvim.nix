@@ -19,6 +19,8 @@
       timeoutMs = 500;
     };
     formattersByFt = {
+      # All filetypes
+      "*" = [ "codespell" ];
       # CSS
       css = [ "prettierd" "prettier" ];
       scss = [ "prettierd" "prettier" ];
@@ -31,14 +33,16 @@
       json = [ "" ];
       # Markdown
       markdown = [ "prettierd" "prettier" ];
+      # Nix
+      nix = [ "alejandra" ];
       # Python
-      python = [ "" ];
+      python = [ "isort" "black" ];
       # Rust
       rust = [ "reustfmt" ];
       # Shell
       bash = [ "beautysh" ];
       # SQL
-      sql = [ "" ];
+      sql = [ "pg_format" ];
       # TOML
       toml = [ "taplo" ];
       # TypeScript
@@ -46,6 +50,8 @@
       typescriptreact = [ "prettierd" "prettier" ];
       # YAML
       yaml = [ "yamlfix" ];
+      # Other
+      "_" = [ "trim_whitespace" ];
     };
   };
 }
