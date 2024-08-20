@@ -31,13 +31,13 @@
       {
         mode = [ "n" ];
         key = "<leader>zo";
-        action = ''require("ufo".openAllFolds)'';
+        action = ''require("ufo").openAllFolds'';
         options.desc = "[O]pen all folds";
       }
       {
         mode = [ "n" ];
         key = "<leader>zc";
-        action = ''require("ufo".openAllFolds)'';
+        action = ''require("ufo").closeAllFolds'';
         options.desc = "[C]lose all folds";
       }
     ];
