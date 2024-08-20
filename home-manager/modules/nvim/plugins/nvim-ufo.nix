@@ -27,21 +27,9 @@
       foldlevelstart = 99;
       foldenable = true;
     };
-    keymaps = [
-      {
-        mode = [ "n" ];
-        key = "<leader>zo";
-        action = ''require("ufo").openAllFolds'';
-        options.desc = "[O]pen all folds";
-      }
-      {
-        mode = [ "n" ];
-        key = "<leader>zc";
-        action = ''require("ufo").closeAllFolds'';
-        options.desc = "[C]lose all folds";
-      }
-    ];
     extraConfigLua = ''
+      vim.keymap.set("n", "<leader>zo", require("ufo").openAllFolds, { desc = "[O]pen all folds" })
+      vim.keymap.set("n", "<leader>zc", require("ufo").closeAllFolds, { desc = "[C]lose all folds" })
       vim.keymap.set("n", "zp", function()
         local winid = ufo.peekFoldedLinesUnderCursor()
         if not winid then
