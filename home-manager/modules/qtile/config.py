@@ -438,16 +438,16 @@ def init_widgets_list():
 def init_widgets_screen1():
     ws1 = init_widgets_list()
     if "desktop" in str(chassis.stdout):
-        del ws1[18:22]
+        del ws1[16:20]
     return ws1
 
 
 # All other monitors' bars will display everything but widgets 24 (systray) and 25 (spacer).
 def init_widgets_screen2():
     ws2 = init_widgets_list()
-    del ws2[24:26]
+    del ws2[22:24]
     if "desktop" in str(chassis.stdout):
-        del ws2[18:22]
+        del ws2[16:20]
     return ws2
 
 
