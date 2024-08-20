@@ -46,7 +46,7 @@
       {
         mode = "n";
         key = "<leader>lr";
-        action = "lua function() lint.try_lint() end";
+        action = "<CMD>lua function() lint.try_lint() end<CR>";
         options.desc = "[L]inter [R]un";
       }
     ];
