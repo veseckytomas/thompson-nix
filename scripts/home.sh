@@ -18,4 +18,5 @@ if test $? != 0; then
   exit 1
 fi
 gen=$(home-manager generations | head -1 | cut -d' ' -f5)
+echo "Please touch the device. (Sign commit)"
 git commit -m "Home-manager $(hostname): Gen $gen"

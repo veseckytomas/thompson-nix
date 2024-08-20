@@ -23,5 +23,3 @@ fi
 gen=$(nixos-rebuild list-generations | grep current | cut -d' ' -f1)
 echo "Please touch the device. (Sign commit)"
 git commit -m "$(hostname): Gen $gen"
-echo "Please touch the device. (Push)"
-git push
