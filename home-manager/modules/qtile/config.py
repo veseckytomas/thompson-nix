@@ -295,7 +295,6 @@ def init_widgets_list():
     widgets_list = [
         widget.Image(
             filename=widget_image,
-            # filename="~/.config/qtile/images/arch.png",
             scale="False",
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal)},
         ),
