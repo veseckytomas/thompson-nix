@@ -16,10 +16,10 @@ git add --all
 mkdir -p build
 nix run nixpkgs#nixos-generators -- --format iso --flake .#rescueIso -o build/rescue
 if test $? != 0; then
-  echo "Rescue ISO build failed"
+    echo "Rescue ISO build failed"
 fi
 nix run nixpkgs#nixos-generators -- --format iso --flake .#installIso -o build/install
 if test $? != 0; then
-  echo "Install ISO build failed"
+    echo "Install ISO build failed"
 fi
 git restore --staged :/ >/dev/null

@@ -8,14 +8,14 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ./hardware-configuration.nix
+  ];
   boot.initrd.luks.devices."luks-93144126-933d-426a-9237-5f8eba7c9158".device = "/dev/disk/by-uuid/93144126-933d-426a-9237-5f8eba7c9158";
   networking.hostName = "TomasVesa-NTB-NixOS";
 }

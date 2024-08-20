@@ -13,9 +13,9 @@
 git add home-manager
 home-manager switch --flake .#vesecto
 if test $? != 0; then
-  echo "Build failed"
-  git restore --staged :/ >/dev/null
-  exit 1
+    echo "Build failed"
+    git restore --staged :/ >/dev/null
+    exit 1
 fi
 gen=$(home-manager generations | head -1 | cut -d' ' -f5)
 echo "Please touch the device. (Sign commit)"

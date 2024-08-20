@@ -8,10 +8,12 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -147,7 +149,7 @@
 
   # Install nerdfonts
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Hack" ]; })
+    (nerdfonts.override {fonts = ["Hack"];})
   ];
 
   programs = {
@@ -184,7 +186,7 @@
   virtualisation.docker.enable = true;
 
   # Disable xterm
-  services.xserver.excludePackages = with pkgs; [ xterm ];
+  services.xserver.excludePackages = with pkgs; [xterm];
 
   # Enable auto drive mounts
   services.gvfs.enable = true;

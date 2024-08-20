@@ -8,7 +8,6 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
 {
   description = "Thompson NixOS config flake";
 
@@ -25,12 +24,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, nixvim, ... }@inputs:
-  let
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    catppuccin,
+    nixvim,
+    ...
+  } @ inputs: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      config = { allowUnfree = true; };
+      config = {allowUnfree = true;};
     };
     lib = nixpkgs.lib;
   in {
@@ -39,7 +44,8 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-PC-NixOS/configuration.nix
-          ./main.nix { inherit lib; }
+          ./main.nix
+          {inherit lib;}
         ];
       };
 
@@ -47,7 +53,8 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
-          ./main.nix { inherit lib; }
+          ./main.nix
+          {inherit lib;}
           ./modules/common/notebook.nix
         ];
       };
@@ -56,7 +63,8 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
-          ./main.nix { inherit lib; }
+          ./main.nix
+          {inherit lib;}
           ./modules/common/notebook.nix
         ];
       };
@@ -65,20 +73,21 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
-          ./main.nix { inherit lib; }
+          ./main.nix
+          {inherit lib;}
           ./modules/common/notebook.nix
         ];
       };
 
       rescueIso = lib.nixosSystem {
-        specialArgs = { inherit inputs; };
+        specialArgs = {inherit inputs;};
         modules = [
           ./hosts/rescueIso/configuration.nix
         ];
       };
 
       installIso = lib.nixosSystem {
-        specialArgs = { inherit inputs; };
+        specialArgs = {inherit inputs;};
         modules = [
           ./hosts/installIso/configuration.nix
         ];

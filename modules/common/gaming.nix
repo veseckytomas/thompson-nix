@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, pkgs, ...}:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Load OpenGL
   hardware.opengl = {
     enable = true;
@@ -20,7 +21,7 @@
   };
 
   # Load GPU Drivers
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia.modesetting.enable = true;
 
   # Enable steam
@@ -28,7 +29,6 @@
     enable = true;
     gamescopeSession.enable = true;
   };
-
 
   # Other packages
   environment.systemPackages = with pkgs; [

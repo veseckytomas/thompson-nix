@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{pkgs, modulesPath, ... }:
-
 {
+  pkgs,
+  modulesPath,
+  ...
+}: {
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix.nix"
   ];
@@ -25,6 +26,6 @@
     gparted
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes"];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "24.11";
 }

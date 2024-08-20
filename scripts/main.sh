@@ -23,29 +23,29 @@ echo "8. Exit"
 read -r input
 
 case $input in
-"2")
-  ./scripts/home.sh
-  ;;
-"3")
-  ./scripts/test.sh
-  ;;
-"4")
-  ./scripts/update.sh
-  ;;
-"5")
-  ./scripts/clean.sh
-  ;;
-"6")
-  ./scripts/setup.sh
-  ;;
-"7")
-  ./scripts/gen-iso.sh
-  ;;
-"8")
-  echo "Exiting..."
-  ;;
-*)
-  ./scripts/rebuild.sh
-  ./scripts/home.sh
-  ;;
+    "2")
+        ./scripts/home.sh
+        ;;
+    "3")
+        ./scripts/test.sh
+        ;;
+    "4")
+        ./scripts/update.sh
+        ;;
+    "5")
+        ./scripts/clean.sh
+        ;;
+    "6")
+        ./scripts/setup.sh
+        ;;
+    "7")
+        ./scripts/gen-iso.sh
+        ;;
+    "8")
+        echo "Exiting..."
+        ;;
+    *)
+        ./scripts/rebuild.sh
+        ./scripts/home.sh
+        ;;
 esac

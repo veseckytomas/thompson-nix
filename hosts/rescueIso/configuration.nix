@@ -8,10 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{pkgs, modulesPath, ... }:
-
 {
+  pkgs,
+  modulesPath,
+  ...
+}: {
   imports = [
     # "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
     "${modulesPath}/installer/cd-dvd/iso-image.nix"
@@ -27,6 +28,6 @@
     testdisk
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes"];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "24.11";
 }

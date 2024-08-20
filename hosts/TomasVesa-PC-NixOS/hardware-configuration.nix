@@ -8,40 +8,43 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-
-{ config, lib, pkgs, modulesPath, ... }:
-
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}: {
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "uas" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usbhid" "uas" "sd_mod"];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/f491badc-a573-4746-a242-3c38599dc978";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/f491badc-a573-4746-a242-3c38599dc978";
+    fsType = "ext4";
+  };
 
   boot.initrd.luks.devices."luks-0e27fe0a-b2e3-4df6-822b-af72783d54d2".device = "/dev/disk/by-uuid/0e27fe0a-b2e3-4df6-822b-af72783d54d2";
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/29DE-7728";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/29DE-7728";
+    fsType = "vfat";
+    options = ["fmask=0022" "dmask=0022"];
+  };
 
-  fileSystems."/mnt/hdd" =
-    { device = "/dev/disk/by-uuid/d2a85e35-383a-4de6-b930-381cfe199b92";
-      fsType = "ext4";
-    };
+  fileSystems."/mnt/hdd" = {
+    device = "/dev/disk/by-uuid/d2a85e35-383a-4de6-b930-381cfe199b92";
+    fsType = "ext4";
+  };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/ff4ce559-ffcb-4af6-8e13-f2d428af6a61"; }
-    ];
+  swapDevices = [
+    {device = "/dev/disk/by-uuid/ff4ce559-ffcb-4af6-8e13-f2d428af6a61";}
+  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
