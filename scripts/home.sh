@@ -20,3 +20,5 @@ fi
 gen=$(home-manager generations | head -1 | cut -d' ' -f5)
 echo "Please touch the device. (Sign commit)"
 git commit -m "Home-manager $(hostname): Gen $gen"
+echo "Please touch the device. (Push)"
+git push

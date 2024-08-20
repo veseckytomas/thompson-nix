@@ -25,8 +25,6 @@ read -r input
 case $input in
 "2")
   ./scripts/home.sh
-  echo "Please touch the device. (Push)"
-  git push
   ;;
 "3")
   ./scripts/test.sh
@@ -49,7 +47,5 @@ case $input in
 *)
   ./scripts/rebuild.sh
   ./scripts/home.sh
-  echo "Please touch the device. (Push)"
-  git push
   ;;
 esac
