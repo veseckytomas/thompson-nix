@@ -50,5 +50,6 @@ case $input in
   ;;
 *)
   ./scripts/rebuild.sh
+  ./scripts/home.sh
   ;;
 esac

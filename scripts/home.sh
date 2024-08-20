@@ -10,7 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-git add --all
+git add home-manager
 home-manager switch --flake .#vesecto
 if test $? != 0; then
   echo "Build failed"
