@@ -89,7 +89,7 @@
       vesecto = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./home-manager/home.nix
+          ./home-manager/vesecto/home.nix
           catppuccin.homeManagerModules.catppuccin
           nixvim.homeManagerModules.nixvim
         ];
