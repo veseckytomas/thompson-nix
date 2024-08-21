@@ -20,9 +20,10 @@
       sources = [
         {name = "nvim_lsp";}
         {name = "luasnip";}
-        {name = "path";}
-        {name = "buffer";}
+        {name = "copilot";}
         {name = "codeium";}
+        {name = "buffer";}
+        {name = "path";}
         {name = "crates";}
       ];
       mapping = {
@@ -35,7 +36,11 @@
         "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
       };
       snippet = {
-        expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+        expand = "luasnip";
+      };
+      window = {
+        completion = {border = "solid";};
+        documentation = {border = "solid";};
       };
     };
     cmdline = {

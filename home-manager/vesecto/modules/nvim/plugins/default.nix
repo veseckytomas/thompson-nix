@@ -17,20 +17,26 @@
     ./alpha.nix
     ./ccc.nix
     ./cmp.nix
+    ./cmp-buffer.nix
+    # ./cmp-cmdline.nix
     ./cmp-nvim-lsp.nix
+    ./cmp-path.nix
     ./chatgpt/chatgpt.nix
     ./codeium-nvim.nix
     ./codesnap.nix
     ./comment.nix
     ./conform-nvim.nix
     ./copilot-chat.nix
-    ./copilot-vim.nix
+    ./copilot-cmp.nix
+    ./copilot-lua.nix
+    # ./copilot-vim.nix
     ./fidget.nix
     ./friendly-snippets.nix
     ./gitsigns.nix
     # ./indent-blankline.nix
     ./lint.nix
     ./lsp.nix
+    ./lspkind.nix
     ./lualine.nix
     ./luasnip.nix
     ./mini.nix
