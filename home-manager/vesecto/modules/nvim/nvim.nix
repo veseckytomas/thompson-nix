@@ -78,6 +78,13 @@
 
       # Set highlight on search, but clear on pressing <Esc> in normal mode
       hlsearch = true;
+
+      # Tab options
+      tabstop = 2;
+      shiftwidth = 2;
+      softtabstop = 2;
+      expandtab = true;
+      autoindent = true;
     };
   };
 

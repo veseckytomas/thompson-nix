@@ -21,7 +21,7 @@
       {
         mode = ["n"];
         key = "<leader>cg";
-        action = "<cmd>CodeSnapSave<CR>";
+        action = "<cmd>Copilot<CR>";
         options.desc = "[C]opilot [G]enerate";
       }
     ];

@@ -44,6 +44,8 @@
       jsonls.enable = true;
       nginx-language-server.enable = true;
       tsserver.enable = true;
+      cssls.enable = true;
+      tailwindcss.enable = true;
 
       # Lua
       lua-ls.enable = true;
@@ -67,6 +69,15 @@
 
       # Latex
       texlab.enable = true;
+
+      # Nix
+      nil-ls.enable = true;
+
+      # Markdown
+      marksman.enable = true;
+
+      # YAML
+      yamlls.enable = true;
     };
   };
 }

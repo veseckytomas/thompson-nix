@@ -25,7 +25,8 @@
         # JSON
         json = ["jsonlint"];
         # Markdown
-        markdown = ["markdownlint"]; # Nix
+        markdown = ["markdownlint"];
+        # Nix
         nix = ["statix"];
         # Python
         python = ["pylint" "ruff"];

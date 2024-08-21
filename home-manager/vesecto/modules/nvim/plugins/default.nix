@@ -30,6 +30,8 @@
     ./copilot-cmp.nix
     ./copilot-lua.nix
     # ./copilot-vim.nix
+    ./dap.nix
+    ./diffview.nix
     ./fidget.nix
     ./friendly-snippets.nix
     ./gitsigns.nix
@@ -40,6 +42,7 @@
     ./lualine.nix
     ./luasnip.nix
     ./mini.nix
+    ./multicursors.nix
     ./neo-tree.nix
     ./neogen.nix
     ./neogit.nix
