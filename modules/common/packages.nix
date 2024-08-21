@@ -47,7 +47,7 @@
     # Lesamaj
     hugo
 
-    # Teminal
+    # Terminal
     kitty
 
     # Programming
@@ -102,6 +102,8 @@
     shellcheck
     sqlfluff
     vale
+    python312Packages.debugpy
+    bashdb
 
     # Web browsers
     librewolf
