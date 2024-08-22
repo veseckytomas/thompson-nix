@@ -53,6 +53,7 @@
     ./nvim-ufo.nix
     ./oil.nix
     ./sleuth.nix
+    ./surround.nix
     ./telescope.nix
     ./tmux-navigator.nix
     ./todo-comments.nix
