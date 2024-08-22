@@ -60,6 +60,9 @@
     ./treesitter.nix
     ./ts-autotag.nix
     ./undotree.nix
+    ./vim-dadbod-completion.nix
+    ./vim-dadbod-ui.nix
+    ./vim-dadbod.nix
     ./wakatime.nix
     ./which-key.nix
   ];

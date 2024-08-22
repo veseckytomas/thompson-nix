@@ -1,0 +1,32 @@
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+{
+  config,
+  pkgs,
+  ...
+}: {
+  programs.nixvim = {
+    extraPlugins = [
+      pkgs.vimPlugins.vim-dadbod-ui
+    ];
+    extraConfigLua = ''
+      vim.g.db_ui_use_nerd_fonts = 1
+    '';
+    keymaps = [
+      {
+        mode = ["n"];
+        key = "<leader>db";
+        action = "<cmd>DBUIToggle<CR>";
+        options.desc = "[D]ata[B]ase";
+      }
+    ];
+  };
+}
