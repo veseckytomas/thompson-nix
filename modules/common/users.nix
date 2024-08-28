@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Define a user accounts
   users.users.vesecto = {
     isNormalUser = true;

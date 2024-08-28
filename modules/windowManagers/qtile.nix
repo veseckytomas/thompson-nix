@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   services.libinput.touchpad.naturalScrolling = true;
   services.acpid.enable = true;
   services.xserver = {

@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   # Enable nix flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 

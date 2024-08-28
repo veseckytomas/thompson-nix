@@ -10,7 +10,6 @@
 # GitLab: vesecky.tomas
 {
   pkgs,
-  # lib,
   inputs,
   ...
 }: {
@@ -164,7 +163,6 @@
     };
 
     # Enable web browsers for developments
-    firefox.enable = true;
     chromium.enable = true;
 
     # Enable zsh
@@ -189,10 +187,12 @@
   # Enable docker
   virtualisation.docker.enable = true;
 
-  # Disable xterm
-  services.xserver.excludePackages = with pkgs; [xterm];
+  services = {
+    # Disable xterm
+    xserver.excludePackages = with pkgs; [xterm];
 
-  # Enable auto drive mounts
-  services.gvfs.enable = true;
-  services.udisks2.enable = true;
+    # Enable auto drive mounts
+    gvfs.enable = true;
+    udisks2.enable = true;
+  };
 }

@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  # lib,
-  inputs,
-  ...
-}: {
+{...}: {
   imports = [
     ./modules/audio/pipewire.nix
     ./modules/bootLoaders/systemd-boot.nix

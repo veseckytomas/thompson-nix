@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 

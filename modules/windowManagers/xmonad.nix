@@ -8,12 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{...}: {
   services.xserver = {
     windowManager.xmonad.enable = true;
   };

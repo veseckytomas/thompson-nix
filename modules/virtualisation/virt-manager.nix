@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   # Virt-manager
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;

@@ -8,10 +8,6 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   services.xserver.desktopManager.enlightenment.enable = true;
 }
