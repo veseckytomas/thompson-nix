@@ -74,6 +74,7 @@
     keepass
     jdk
     swt
+    steam-run
 
     # Neovim
     ripgrep
