@@ -13,12 +13,12 @@
   pkgs,
   ...
 }: {
-  programs.nixvim = {
-    plugins.nvim-colorizer = {
-      enable = true;
+  programs.nixvim.plugins.nvim-colorizer = {
+    enable = true;
+    userDefaultOptions = {
+      tailwind = true;
+      sass.enable = true;
+      css = true;
     };
-    extraConfigLua = ''
-      require("colorizer").setup()
-    '';
   };
 }
