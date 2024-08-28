@@ -19,6 +19,7 @@
     # ./ranger/ranger.nix
     ./rofi/rofi.nix
     ./starship/starship.nix
+    ./statix/statix.nix
     ./stylua/stylua.nix
     ./themes/catppuccin.nix
     ./themes/gtk.nix
