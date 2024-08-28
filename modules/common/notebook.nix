@@ -10,9 +10,11 @@
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
   services.libinput.enable = true;
-  hardware.acpilight.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
+  hardware = {
+    acpilight.enable = true;
+    bluetooth.enable = true;
+    bluetooth.powerOnBoot = true;
+  };
   environment.systemPackages = with pkgs; [
     blueman
   ];

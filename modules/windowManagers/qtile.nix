@@ -9,15 +9,17 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
-  services.libinput.touchpad.naturalScrolling = true;
-  services.acpid.enable = true;
-  services.xserver = {
-    windowManager.qtile = {
-      enable = true;
-      extraPackages = python3Packages:
-        with python3Packages; [
-          qtile-extras
-        ];
+  services = {
+    libinput.touchpad.naturalScrolling = true;
+    acpid.enable = true;
+    xserver = {
+      windowManager.qtile = {
+        enable = true;
+        extraPackages = python3Packages:
+          with python3Packages; [
+            qtile-extras
+          ];
+      };
     };
   };
   environment.systemPackages = with pkgs; [
