@@ -22,14 +22,19 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zen-browser = {
+      url = "github:MarceColl/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
-    home-manager,
-    catppuccin,
-    nixvim,
+    # zen-browser,
+    # home-manager,
+    # catppuccin,
+    # nixvim,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -41,6 +46,7 @@
   in {
     nixosConfigurations = {
       TomasVesa-PC-NixOS = lib.nixosSystem {
+        specialArgs = {inherit inputs;};
         inherit system;
         modules = [
           ./hosts/TomasVesa-PC-NixOS/configuration.nix
@@ -95,12 +101,12 @@
     };
 
     homeConfigurations = {
-      vesecto = home-manager.lib.homeManagerConfiguration {
+      vesecto = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./home-manager/vesecto/home.nix
-          catppuccin.homeManagerModules.catppuccin
-          nixvim.homeManagerModules.nixvim
+          inputs.catppuccin.homeManagerModules.catppuccin
+          inputs.nixvim.homeManagerModules.nixvim
         ];
       };
     };
