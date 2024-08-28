@@ -8,3 +8,15 @@ Tomáš Vesecký
 Email: vesecky@proton.me
 GitHub: veseckytomas
 GitLab: vesecky.tomas
+
+
+echo '  ________'
+echo ' /_  __/ /_  ____  ____ ___  ____  _________  ____'
+echo '  / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \'
+echo ' / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /'
+echo '/_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/'
+echo '                         /_/'
+echo 'Tomáš Vesecký'
+echo 'Email: vesecky@proton.me'
+echo 'GitHub: veseckytomas'
+echo 'GitLab: vesecky.tomas'

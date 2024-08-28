@@ -123,5 +123,15 @@ export FZF_DEFAULT_OPTS=" \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 eval "$(zoxide init zsh)"
-cat ~/.config/zsh/header.txt
+# cat ~/.config/zsh/header.txt
 eval "$(atuin init zsh)"
+echo '  ________'
+echo ' /_  __/ /_  ____  ____ ___  ____  _________  ____'
+echo '  / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \'
+echo ' / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /'
+echo '/_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/'
+echo '                         /_/'
+echo 'Tomáš Vesecký'
+echo 'Email: vesecky@proton.me'
+echo 'GitHub: veseckytomas'
+echo 'GitLab: vesecky.tomas'
