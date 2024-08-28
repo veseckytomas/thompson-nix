@@ -50,6 +50,7 @@
     ./nix.nix
     ./noice.nix
     # ./nvim-autopairs.nix
+    ./nvim-colorizer.nix
     ./nvim-ufo.nix
     ./oil.nix
     ./sleuth.nix

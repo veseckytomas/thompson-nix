@@ -25,5 +25,6 @@
       enable_audio_bell = false;
       background_opacity = "0.85";
     };
+    extraConfig = ''term xterm-256color'';
   };
 }
