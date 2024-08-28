@@ -16,42 +16,44 @@
   programs.nixvim = {
     plugins.conform-nvim = {
       enable = true;
-      formatOnSave = {
-        lspFallback = true;
-        timeoutMs = 500;
-      };
-      formattersByFt = {
-        # All filetypes
-        "*" = ["codespell"];
-        # CSS
-        css = ["prettierd" "prettier"];
-        scss = ["prettierd" "prettier"];
-        # HTML
-        html = ["htmlbeautifier"];
-        # JavaScript
-        javascript = ["prettierd" "prettier"];
-        javascriptreact = ["prettierd" "prettier"];
-        # JSON
-        json = ["jq"];
-        # Markdown
-        markdown = ["prettierd" "prettier"];
-        # Nix
-        nix = ["alejandra"];
-        # Python
-        python = ["isort" "black"];
-        # Rust
-        rust = ["rustfmt"];
-        # Shell
-        bash = ["beautysh"];
-        # SQL
-        sql = ["pg_format"];
-        # TOML
-        toml = ["taplo"];
-        # TypeScript
-        typescript = ["prettierd" "prettier"];
-        typescriptreact = ["prettierd" "prettier"];
-        # YAML
-        yaml = ["yamlfix"];
+      settings = {
+        formatOnSave = {
+          lspFallback = true;
+          timeoutMs = 500;
+        };
+        formattersByFt = {
+          # All filetypes
+          "*" = ["codespell"];
+          # CSS
+          css = ["prettierd" "prettier"];
+          scss = ["prettierd" "prettier"];
+          # HTML
+          html = ["htmlbeautifier"];
+          # JavaScript
+          javascript = ["prettierd" "prettier"];
+          javascriptreact = ["prettierd" "prettier"];
+          # JSON
+          json = ["jq"];
+          # Markdown
+          markdown = ["prettierd" "prettier"];
+          # Nix
+          nix = ["alejandra"];
+          # Python
+          python = ["isort" "black"];
+          # Rust
+          rust = ["rustfmt"];
+          # Shell
+          bash = ["beautysh"];
+          # SQL
+          sql = ["pg_format"];
+          # TOML
+          toml = ["taplo"];
+          # TypeScript
+          typescript = ["prettierd" "prettier"];
+          typescriptreact = ["prettierd" "prettier"];
+          # YAML
+          yaml = ["yamlfix"];
+        };
       };
     };
     extraConfigLua = ''

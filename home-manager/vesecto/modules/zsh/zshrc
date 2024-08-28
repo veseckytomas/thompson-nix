@@ -45,7 +45,7 @@ eval "$(starship init zsh)"
 # Keybinds
 bindkey -e
 bindkey '^n' history-search-forward
-bindkey '^p' history-search-backward 
+bindkey '^p' history-search-backward
 bindkey '^o' clear-screen
 
 # History
@@ -65,7 +65,7 @@ setopt hist_find_no_dups
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath' 
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # Variables
 export EDITOR=nvim
@@ -74,11 +74,8 @@ export EDITOR=nvim
 { eval $(gnome-keyring-daemon -s) } &>/dev/null
 
 # Aliases
-alias pentaho='export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && ~/pentaho/spoon.sh'
+alias pentaho='export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh'
 alias root@ebie='ssh -A -L 5431:dv1:5432 -L 2221:dv1:22 -L 2222:dv2:22 -L 2223:dv3:22 -L 2224:dv4:22  -L 8088:dv2:8080 -L 8008:dv2:8008 root@ebie.is.cvut.cz'
-# alias pip='~/python_venv/bin/pip'
-# alias python='~/python_venv/bin/python'
-# alias u='yay -Syu && flatpak update && zinit update'
 alias fzf='fzf --multi --preview "bat --color=always --style=header,grid --line-range :500 {}"'
 alias nvimf='nvim $(fzf)'
 alias latex='xelatex -interaction=batchmode'
@@ -128,4 +125,3 @@ export FZF_DEFAULT_OPTS=" \
 eval "$(zoxide init zsh)"
 cat ~/.config/zsh/header.txt
 eval "$(atuin init zsh)"
-
