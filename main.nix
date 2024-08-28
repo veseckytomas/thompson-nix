@@ -9,9 +9,8 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
-  config,
-  pkgs,
-  lib,
+  # lib,
+  inputs,
   ...
 }: {
   imports = [
@@ -21,7 +20,7 @@
     # ./modules/common/gaming.nix
     ./modules/common/locale.nix
     ./modules/common/packages.nix
-    {inherit lib;}
+    # {inherit lib;}
     ./modules/common/users.nix
     ./modules/loginManagers/sddm.nix
     ./modules/virtualisation/virt-manager.nix
@@ -37,4 +36,7 @@
     # ./modules/windowManagers/xfce.nix
     # ./modules/windowManagers/xmonad.nix
   ];
+  # environment.systemPackages = [
+  #   inputs.zen-browser.packages."x86_64-linux".specific
+  # ];
 }

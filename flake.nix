@@ -24,75 +24,65 @@
     };
     zen-browser = {
       url = "github:MarceColl/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    # zen-browser,
-    # home-manager,
-    # catppuccin,
-    # nixvim,
-    ...
-  } @ inputs: let
+  outputs = {self, ...} @ inputs: let
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
+    pkgs = import inputs.nixpkgs {
       inherit system;
       config = {allowUnfree = true;};
     };
-    lib = nixpkgs.lib;
   in {
     nixosConfigurations = {
-      TomasVesa-PC-NixOS = lib.nixosSystem {
+      TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
         modules = [
           ./hosts/TomasVesa-PC-NixOS/configuration.nix
           ./main.nix
-          {inherit lib;}
         ];
       };
 
-      TomasVesa-NTB2-NixOS = lib.nixosSystem {
+      TomasVesa-NTB2-NixOS = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
           ./main.nix
-          {inherit lib;}
           ./modules/common/notebook.nix
         ];
       };
 
-      TomasVesa-NTB-NixOS = lib.nixosSystem {
+      TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./main.nix
-          {inherit lib;}
           ./modules/common/notebook.nix
         ];
       };
 
-      TomasVesa-Portable-NixOS = lib.nixosSystem {
+      TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
         inherit system;
         modules = [
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
           ./main.nix
-          {inherit lib;}
           ./modules/common/notebook.nix
         ];
       };
 
-      rescueIso = lib.nixosSystem {
+      rescueIso = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         modules = [
           ./hosts/rescueIso/configuration.nix
         ];
       };
 
-      installIso = lib.nixosSystem {
+      installIso = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         modules = [
           ./hosts/installIso/configuration.nix

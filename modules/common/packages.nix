@@ -9,9 +9,9 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
-  config,
   pkgs,
-  lib,
+  # lib,
+  inputs,
   ...
 }: {
   # Allow unfree packages
@@ -109,6 +109,7 @@
     # Web browsers
     librewolf
     chromium
+    inputs.zen-browser.packages."x86_64-linux".specific
 
     # Text editors
     vscodium
@@ -181,7 +182,7 @@
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      pinentryPackage = lib.mkForce pkgs.pinentry-qt;
+      pinentryPackage = inputs.nixpkgs.lib.mkForce pkgs.pinentry-qt;
     };
   };
 
