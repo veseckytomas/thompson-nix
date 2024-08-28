@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   gtk-css = "
     @define-color accent_color #83a598;
     @define-color accent_bg_color mix(#83a598, #282828,0.3);
@@ -101,21 +97,6 @@ in {
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
     };
-
-    # theme = {
-    #   package = pkgs.gruvbox-dark-gtk;
-    #   name = "gruvbox-dark-gtk";
-    # };
-
-    # iconTheme = {
-    #   package = pkgs.gruvbox-dark-icons-gtk;
-    #   name = "gruvbox-dark-icons-gtk";
-    # };
-
-    # iconTheme = {
-    #   package = pkgs.gruvbox-plus-icons;
-    #   name = "gruvbox-plus-icons";
-    # };
 
     theme = {
       package = pkgs.adw-gtk3;

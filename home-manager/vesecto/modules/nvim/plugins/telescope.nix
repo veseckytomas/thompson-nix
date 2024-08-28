@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   programs.nixvim = {
     plugins.telescope = {
       enable = true;
@@ -62,7 +58,7 @@
     ];
     extraConfigLua = ''
       vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files,   { desc = "[F]ind [F]iles" })
-      vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers,      { desc = "[F]earch [B]uffers" })
+      vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers,      { desc = "[F]earch [B]buffers" })
       vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep,    { desc = "[F]ind by [G]rep" })
       vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags,    { desc = "[F]ind [H]elp" })
       vim.keymap.set("n", "<leader>fk", require("telescope.builtin").keymaps,      { desc = "[F]ind [K]eymaps" })

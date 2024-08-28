@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   # Set keymaps
   programs.nixvim.keymaps = [
     # Set move between windows
@@ -68,19 +64,19 @@
       mode = ["n"];
       key = "<leader>bc";
       action = "<cmd>bd<CR>";
-      options.desc = "[B]uffer [C]lose";
+      options.desc = "[B]buffer [C]lose";
     }
     {
       mode = ["n"];
       key = "<leader>bn";
       action = "<cmd>bn<CR>";
-      options.desc = "[B]uffer [N]ext";
+      options.desc = "[B]buffer [N]ext";
     }
     {
       mode = ["n"];
       key = "<leader>bp";
       action = "<cmd>bp<CR>";
-      options.desc = "[B]uffer [P]revious";
+      options.desc = "[B]buffer [P]revious";
     }
 
     # Clear search on escape

@@ -8,16 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   imports = [
     # Directories
     ./clangd/clangd.nix
     ./git/git.nix
     ./i3lock/i3lock.nix
+    ./nvim/nvim.nix
     ./qtile/qtile.nix
     # ./ranger/ranger.nix
     ./rofi/rofi.nix
@@ -39,7 +36,6 @@
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
-    ./nvim/nvim.nix
     ./pandoc.nix
     ./pylint.nix
     ./yazi.nix

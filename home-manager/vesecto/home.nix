@@ -8,21 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: {
-  home.username = "vesecto";
-  home.homeDirectory = "/home/vesecto";
-  home.stateVersion = "24.05";
-
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
+{...}: {
+  home = {
+    username = "vesecto";
+    homeDirectory = "/home/vesecto";
+    stateVersion = "24.05";
+    sessionVariables = {
+      EDITOR = "nvim";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
+    };
   };
-
-  # home.activation
 
   news.display = "silent";
   programs.home-manager.enable = true;

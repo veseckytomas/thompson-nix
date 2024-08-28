@@ -8,15 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   config_dir = ".config";
 in {
-  home.file."${config_dir}/starship.toml".source = ./starship.toml;
-  home.packages = with pkgs; [
-    starship
-  ];
+  home = {
+    file."${config_dir}/starship.toml".source = ./starship.toml;
+    packages = with pkgs; [
+      starship
+    ];
+  };
 }

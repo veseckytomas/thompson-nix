@@ -8,15 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   config_dir = ".config/ranger";
 in {
-  home.file."${config_dir}/rifle.conf".source = ./rifle.conf;
-  home.packages = with pkgs; [
-    ranger
-  ];
+  home = {
+    file."${config_dir}/rifle.conf".source = ./rifle.conf;
+    packages = with pkgs; [
+      ranger
+    ];
+  };
 }

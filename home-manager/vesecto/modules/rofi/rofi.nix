@@ -8,24 +8,24 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   config_dir = ".config/rofi";
 in {
-  home.file."${config_dir}/bin/launcher".source = ./bin/launcher;
-  home.file."${config_dir}/bin/powermenu".source = ./bin/powermenu;
-  home.file."${config_dir}/bin/screenshot".source = ./bin/screenshot;
-  home.file."${config_dir}/config/askpass.rasi".source = ./config/askpass.rasi;
-  home.file."${config_dir}/config/colors.rasi".source = ./config/colors.rasi;
-  home.file."${config_dir}/config/confirm.rasi".source = ./config/confirm.rasi;
-  home.file."${config_dir}/config/font.rasi".source = ./config/font.rasi;
-  home.file."${config_dir}/config/launcher.rasi".source = ./config/launcher.rasi;
-  home.file."${config_dir}/config/powermenu.rasi".source = ./config/powermenu.rasi;
-  home.file."${config_dir}/config/screenshot.rasi".source = ./config/screenshot.rasi;
-  home.packages = with pkgs; [
-    rofi
-  ];
+  home = {
+    file = {
+      "${config_dir}/bin/launcher".source = ./bin/launcher;
+      "${config_dir}/bin/powermenu".source = ./bin/powermenu;
+      "${config_dir}/bin/screenshot".source = ./bin/screenshot;
+      "${config_dir}/config/askpass.rasi".source = ./config/askpass.rasi;
+      "${config_dir}/config/colors.rasi".source = ./config/colors.rasi;
+      "${config_dir}/config/confirm.rasi".source = ./config/confirm.rasi;
+      "${config_dir}/config/font.rasi".source = ./config/font.rasi;
+      "${config_dir}/config/launcher.rasi".source = ./config/launcher.rasi;
+      "${config_dir}/config/powermenu.rasi".source = ./config/powermenu.rasi;
+      "${config_dir}/config/screenshot.rasi".source = ./config/screenshot.rasi;
+    };
+    packages = with pkgs; [
+      rofi
+    ];
+  };
 }
