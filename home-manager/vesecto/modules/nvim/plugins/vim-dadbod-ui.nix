@@ -17,9 +17,6 @@
     extraPlugins = [
       pkgs.vimPlugins.vim-dadbod-ui
     ];
-    extraConfigLua = ''
-      vim.g.db_ui_use_nerd_fonts = 1
-    '';
     keymaps = [
       {
         mode = ["n"];

@@ -33,7 +33,10 @@
       providers.xclip.enable = true;
     };
 
-    globals.mapleader = " ";
+    globals = {
+      mapleader = " ";
+      db_ui_use_nerd_fonts = 1;
+    };
 
     opts = {
       # Set line numbers
