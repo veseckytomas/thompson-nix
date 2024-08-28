@@ -88,6 +88,9 @@
       softtabstop = 2;
       expandtab = true;
       autoindent = true;
+
+      # Set termgui colors
+      termguicolors = true;
     };
   };
 

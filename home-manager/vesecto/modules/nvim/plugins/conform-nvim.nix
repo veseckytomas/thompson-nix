@@ -17,11 +17,11 @@
     plugins.conform-nvim = {
       enable = true;
       settings = {
-        formatOnSave = {
+        format_on_save = {
           lspFallback = true;
           timeoutMs = 500;
         };
-        formattersByFt = {
+        formatters_by_ft = {
           # All filetypes
           "*" = ["codespell"];
           # CSS

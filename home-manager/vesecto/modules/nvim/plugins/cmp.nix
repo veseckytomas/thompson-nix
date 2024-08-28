@@ -46,17 +46,13 @@
       };
       cmdline = {
         "/" = {
-          mapping = {
-            __raw = "cmp.mapping.preset.cmdline()";
-          };
+          mapping.__raw = "cmp.mapping.preset.cmdline()";
           sources = [
             {name = "buffer";}
           ];
         };
         ":" = {
-          mapping = {
-            __raw = "cmp.mapping.preset.cmdline()";
-          };
+          mapping.__raw = "cmp.mapping.preset.cmdline()";
           sources = [
             {name = "path";}
             {
