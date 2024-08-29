@@ -169,5 +169,8 @@
     udisks2.enable = true;
   };
 
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    config.common.default = "*";
+  };
 }
