@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim = {
     plugins.dap = {
       enable = true;
@@ -137,4 +137,7 @@
       require('dap').listeners.before.event_exited['dapui_config'] = require('dapui').close
     '';
   };
+  home.packages = with pkgs; [
+    python312Packages.debugpy
+  ];
 }

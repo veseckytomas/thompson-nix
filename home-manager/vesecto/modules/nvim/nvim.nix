@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim = {
     enable = true;
 
@@ -86,6 +86,10 @@
       autoindent = true;
     };
   };
+  home.packages = with pkgs; [
+    ripgrep
+    xclip
+  ];
 
   imports = [
     ./keymaps.nix

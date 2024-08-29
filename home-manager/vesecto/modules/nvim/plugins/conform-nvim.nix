@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim = {
     plugins.conform-nvim = {
       enable = true;
@@ -60,4 +60,19 @@
       }) end, { desc = "Format" })
     '';
   };
+  home.packages = with pkgs; [
+    codespell
+    prettierd
+    nodePackages.prettier
+    rubyPackages.htmlbeautifier
+    jq
+    alejandra
+    isort
+    black
+    rustfmt
+    beautysh
+    pgformatter
+    taplo
+    yamlfix
+  ];
 }

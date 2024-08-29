@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim = {
     plugins.lint = {
       enable = true;
@@ -43,4 +43,17 @@
       vim.keymap.set("n", "<leader>lr", function() require("lint").try_lint() end, { desc = "[L]inter [R]un" })
     '';
   };
+  home.packages = with pkgs; [
+    htmlhint
+    nodePackages.eslint
+    nodePackages.jsonlint
+    markdownlint-cli
+    statix
+    pylint
+    ruff
+    clippy
+    shellcheck
+    sqlfluff
+    vale
+  ];
 }
