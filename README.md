@@ -7,8 +7,14 @@ This repository contains these configurations:
 - ISO configuration for NixOS installation
 - ISO configuration for disk rescue
 
-for 3 machines used (2x laptop and 1x desktop) and 2 ISOs (1 for disk rescue and 1 for install).
-Home-manager is also part of this repository.
+## Configurations present
+
+- Desktop
+- Laptop
+- Test laptop
+- Install ISO
+- Disk rescue ISO
+- Home-manager config
 
 ## Initial setup
 
@@ -24,8 +30,10 @@ sudo nixos-rebuild switch --flake .#$HOSTNAME
 home-manager switch --flake .#$USERNAME
 ```
 
-3. any change line 14 in scripts/home.sh to $USERNAME
-4. any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+3. Add ssh, gpg keys, certificates.
+4. Set thunderbird email accounts and add certificates.
+5. any change line 14 in scripts/home.sh to $USERNAME
+6. any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
 ## TMUX initial setup
 
@@ -35,8 +43,8 @@ home-manager switch --flake .#$USERNAME
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-2. install plugins with <leader>I
-3. plugins can be update with <leader>U
+2. install plugins with `<leader>I`
+3. plugins can be update with `<leader>U`
 
 ## Neovim initial setup
 
