@@ -28,5 +28,6 @@
     i3lock
     picom
     networkmanagerapplet
+    flameshot
   ];
 }
