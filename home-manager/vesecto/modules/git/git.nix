@@ -30,6 +30,7 @@
       br = "branch";
       ll = "log --oneline --graph --all --decorate";
       f = "fetch -ap";
+      ra = "remote add origin";
     };
     extraConfig = {
       core = {
