@@ -32,7 +32,4 @@
     # ./modules/windowManagers/xfce.nix
     # ./modules/windowManagers/xmonad.nix
   ];
-  # environment.systemPackages = [
-  #   inputs.zen-browser.packages."x86_64-linux".specific
-  # ];
 }
