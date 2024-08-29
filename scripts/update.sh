@@ -11,4 +11,5 @@
 # GitLab: vesecky.tomas
 
 nix flake update
+flatpak update
 ./scripts/rebuild.sh
