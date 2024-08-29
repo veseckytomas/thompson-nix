@@ -86,5 +86,13 @@
       action = "<cmd>nohlsearch<CR>";
       options.desc = "Clear search";
     }
+
+    # Open evince
+    {
+      mode = ["n"];
+      key = "<leader>ev";
+      action = "<cmd>!evince<CR>";
+      options.desc = "Open Evince";
+    }
   ];
 }
