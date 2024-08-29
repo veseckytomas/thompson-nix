@@ -16,17 +16,10 @@ dir="$(xdg-user-dir PICTURES)/Screenshots"
 
 # Buttons
 layout=$(cat $HOME/.config/rofi/config/screenshot.rasi | grep BUTTON | cut -d'=' -f2 | tr -d '[:blank:],*/')
-screen=""
-area="󰒉"
-infive="󰬾"
-inten="󰿩"
-# countdown
-countdown() {
-	for sec in $(seq $1 -1 1); do
-		dunstify -t 1000 --replace=699 -i $icon2 "Taking shot in : $sec"
-		sleep 1
-	done
-}
+screen=" Capture Desktop"
+area="󰒉 Capture Area"
+inthree="󰬼 Take in 3s"
+inten="󰿩 Take in 10s"
 
 # take shots
 shotnow() {
@@ -50,7 +43,7 @@ if [[ ! -d "$dir" ]]; then
 fi
 
 # Variable passed to rofi
-options="$screen\n$area\n$window\n$infive\n$inten"
+options="$screen\n$area\n$inthree\n$inten"
 
 chosen="$(echo -e "$options" | $rofi_command -p 'Take A Shot' -dmenu -selected-row 0)"
 case $chosen in
