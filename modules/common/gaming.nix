@@ -33,7 +33,20 @@
     lutris
     heroic
     bottles
+    libgpgerror
+    libxml2
+    freetype
+    gnutls
+    openldap
+    SDL2
+    sqlite
+    xml2
   ];
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernel.sysctl."vm.max_map_count" = 2147483642;
+  environment.variables = {
+    GPERF32_PATH = "${pkgs.pkgsi686Linux.gperftools}";
+  };
 
   # Optimizations
   programs.gamemode.enable = true;
