@@ -117,6 +117,7 @@
     udisks
     plex-media-player
     postgresql
+    kodi
   ];
 
   # Install nerdfonts
@@ -157,6 +158,9 @@
   virtualisation.docker.enable = true;
 
   services = {
+    # Enable flatpak
+    flatpak.enable = true;
+
     # Disable xterm
     xserver.excludePackages = with pkgs; [xterm];
 
@@ -164,4 +168,6 @@
     gvfs.enable = true;
     udisks2.enable = true;
   };
+
+  xdg.portal.enable = true;
 }
