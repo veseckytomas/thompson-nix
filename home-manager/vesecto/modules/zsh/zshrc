@@ -115,6 +115,9 @@ function migrate_repo {
   ./migrate.sh
   popd > /dev/null
 }
+function export_md {
+  pandoc -f markdown -t pdf -o $1 $2
+}
 
 # Shell integration
 eval "$(fzf --zsh)"
