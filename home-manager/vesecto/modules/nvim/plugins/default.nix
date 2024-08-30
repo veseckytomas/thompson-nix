@@ -34,6 +34,7 @@
     ./gitmessenger.nix
     ./gitsigns.nix
     ./indent-blankline.nix
+    ./kulala-nvim.nix
     ./lint.nix
     ./lsp.nix
     ./lspkind.nix
