@@ -18,7 +18,9 @@
         mode = ["n"];
         key = "<leader>sr";
         action.__raw = ''
-          require('spectre').toggle()
+          function()
+            require('spectre').toggle()
+          end
         '';
         options.desc = "[S]earch & [R]eplace";
       }
