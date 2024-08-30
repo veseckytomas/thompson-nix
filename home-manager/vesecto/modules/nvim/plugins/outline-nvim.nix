@@ -13,8 +13,16 @@
     extraPlugins = [
       pkgs.vimPlugins.outline-nvim
     ];
-    extraConfigLua = ''
-      require("outline").setup({})
-    '';
+    keymaps = [
+      {
+        mode = ["n"];
+        key = "<leader>o";
+        action = "<cmd>lua require('outline').toggle()<cr>";
+        options.desc = "[O]utline";
+      }
+    ];
+    # extraConfigLua = ''
+    #   require("outline").setup({})
+    # '';
   };
 }
