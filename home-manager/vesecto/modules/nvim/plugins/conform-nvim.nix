@@ -52,13 +52,22 @@
         };
       };
     };
-    extraConfigLua = ''
-      vim.keymap.set("n", "<C-I>", function() require("conform").format({
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 500,
-      }) end, { desc = "Format" })
-    '';
+    keymaps = [
+      {
+        mode = ["n"];
+        key = "<C-I>";
+        action.__raw = ''
+          function()
+            require("conform").format({
+                 lsp_fallback = true,
+                 async = false,
+                 timeout_ms = 500,
+          })
+          end
+        '';
+        options.desc = "Format";
+      }
+    ];
   };
   home.packages = with pkgs; [
     codespell

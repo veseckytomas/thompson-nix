@@ -39,9 +39,18 @@
         typescriptreact = ["eslint"];
       };
     };
-    extraConfigLua = ''
-      vim.keymap.set("n", "<leader>lr", function() require("lint").try_lint() end, { desc = "[L]inter [R]un" })
-    '';
+    keymaps = [
+      {
+        mode = ["n"];
+        key = "<leader>lr";
+        action.__raw = ''
+          function()
+            require("lint").try_lint()
+          end
+        '';
+        options.desc = "[L]inter [R]un";
+      }
+    ];
   };
   home.packages = with pkgs; [
     htmlhint

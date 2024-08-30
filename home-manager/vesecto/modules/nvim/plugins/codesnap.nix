@@ -17,7 +17,7 @@
         watermark = "";
         has_line_number = false;
         mac_window_bar = false;
-        save_path = "~/Pictures/Screenshots/Codesnap";
+        save_path = "$HOME/Pictures/Screenshots/Codesnap";
       };
     };
     keymaps = [

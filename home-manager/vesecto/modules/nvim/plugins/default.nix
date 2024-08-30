@@ -30,6 +30,7 @@
     ./diffview.nix
     ./fidget.nix
     ./friendly-snippets.nix
+    ./gitmessenger.nix
     ./gitsigns.nix
     # ./indent-blankline.nix
     ./lint.nix

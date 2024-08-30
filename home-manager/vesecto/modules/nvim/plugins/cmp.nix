@@ -67,7 +67,7 @@
     extraConfigLua = ''
       require("cmp").setup.filetype({"sql"}, {
         sources = {
-          -- {name = "vim-dadbod-completion"},
+          {name = "vim-dadbod-completion"},
           {name = "nvim_lsp"},
           {name = "copilot"},
           {name = "codeium"},

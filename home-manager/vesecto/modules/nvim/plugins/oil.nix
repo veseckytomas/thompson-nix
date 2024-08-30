@@ -51,9 +51,14 @@
         action = "<cmd>Oil<CR>";
         options.desc = "[O]pen [D]irectory";
       }
+      {
+        mode = ["n"];
+        key = "<leader>of";
+        action.__raw = ''
+          require("oil").toggle_float
+        '';
+        options.desc = "[O]pen directory [F]loating";
+      }
     ];
-    extraConfigLua = ''
-      vim.keymap.set("n", "<leader>of", require("oil").toggle_float, { desc = "[O]pen directory [F]loating" })
-    '';
   };
 }

@@ -24,15 +24,36 @@
       foldlevelstart = 99;
       foldenable = true;
     };
-    extraConfigLua = ''
-      vim.keymap.set("n", "<leader>zo", require("ufo").openAllFolds, { desc = "[O]pen all folds" })
-      vim.keymap.set("n", "<leader>zc", require("ufo").closeAllFolds, { desc = "[C]lose all folds" })
-      vim.keymap.set("n", "zp", function()
-        local winid = ufo.peekFoldedLinesUnderCursor()
-        if not winid then
-          vim.lsp.buf.hover()
-        end
-      end, { desc = "[P]eek folded under cursor" })
-    '';
+    keymaps = [
+      {
+        mode = ["n"];
+        key = "<leader>zo";
+        action.__raw = ''
+          require("ufo").openAllFolds
+        '';
+        options.desc = "[O]pen all folds";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>zc";
+        action.__raw = ''
+          require("ufo").closeAllFolds
+        '';
+        options.desc = "[C]lose all folds";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>zp";
+        action.__raw = ''
+          function()
+            local winid = ufo.peekFoldedLinesUnderCursor()
+            if not winid then
+              vim.lsp.buf.hover()
+            end
+          end
+        '';
+        options.desc = "[P]eek folded under cursor";
+      }
+    ];
   };
 }

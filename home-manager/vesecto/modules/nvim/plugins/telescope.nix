@@ -55,15 +55,62 @@
         action = "<cmd>Telescope notify<CR>";
         options.desc = "[F]ind Notifications";
       }
+      {
+        mode = ["n"];
+        key = "<leader>ff";
+        action.__raw = ''
+          require("telescope.builtin").find_files
+        '';
+        options.desc = "[F]ind [F]iles";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>fb";
+        action.__raw = ''
+          require("telescope.builtin").buffers
+        '';
+        options.desc = "[F]earch [B]buffers";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>fg";
+        action.__raw = ''
+          require("telescope.builtin").live_grep
+        '';
+        options.desc = "[F]ind by [G]rep";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>fh";
+        action.__raw = ''
+          require("telescope.builtin").help_tags
+        '';
+        options.desc = "[F]ind [H]elp";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>fk";
+        action.__raw = ''
+          require("telescope.builtin").keymaps
+        '';
+        options.desc = "[F]ind [K]eymaps";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>fs";
+        action.__raw = ''
+          require("telescope.builtin").builtin
+        '';
+        options.desc = "[F]ind [S]elect Telescope";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>fw";
+        action.__raw = ''
+          require("telescope.builtin").grep_string
+        '';
+        options.desc = "[F]ind current [W]ord";
+      }
     ];
-    extraConfigLua = ''
-      vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files,   { desc = "[F]ind [F]iles" })
-      vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers,      { desc = "[F]earch [B]buffers" })
-      vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep,    { desc = "[F]ind by [G]rep" })
-      vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags,    { desc = "[F]ind [H]elp" })
-      vim.keymap.set("n", "<leader>fk", require("telescope.builtin").keymaps,      { desc = "[F]ind [K]eymaps" })
-      vim.keymap.set("n", "<leader>fs", require("telescope.builtin").builtin,      { desc = "[F]ind [S]elect Telescope" })
-      vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string,  { desc = "[F]ind current [W]ord" })
-    '';
   };
 }
