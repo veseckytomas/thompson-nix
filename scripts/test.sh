@@ -10,15 +10,14 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-echo "Please touch the device. (Pull)"
+RED="\033[1;91m"
+NC="\033[0;0m"
+
+echo -e "${RED}Please touch the device. (Pull)${NC}"
 git pull
 git add --all
 sudo nixos-rebuild test --flake .#
 if test $? != 0; then
     echo "Build failed"
-fi
-home-manager switch --flake .#vesecto
-if test $? != 0; then
-    echo "Home-manager build failed"
 fi
 git restore --staged :/ >/dev/null

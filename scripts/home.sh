@@ -10,6 +10,9 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
+RED="\033[1;91m"
+NC="\033[0;0m"
+
 git add home-manager
 home-manager switch --flake .#vesecto
 if test $? != 0; then
@@ -18,7 +21,7 @@ if test $? != 0; then
     exit 1
 fi
 gen=$(home-manager generations | head -1 | cut -d' ' -f5)
-echo "Please touch the device. (Sign commit)"
+echo -e "${RED}Please touch the device. (Sign commit)${NC}"
 git commit -m "Home-manager $(hostname): Gen $gen"
-echo "Please touch the device. (Push)"
+echo -e "${RED}Please touch the device. (Push)${NC}"
 git push

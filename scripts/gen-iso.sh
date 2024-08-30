@@ -10,7 +10,10 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-echo "Please touch the device. (Pull)"
+RED="\033[1;91m"
+NC="\033[0;0m"
+
+echo -e "${RED}Please touch the device. (Pull)${NC}"
 git pull
 git add --all
 mkdir -p build

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#   ________
+#   _______
 #  /_  __/ /_  ____  ____ ___  ____  _________  ____
 #   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
 #  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
@@ -10,7 +10,10 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-echo "Please touch the device. (Pull)"
+RED="\033[1;91m"
+NC="\033[0;0m"
+
+echo -e "${RED}Please touch the device. (Pull)${NC}"
 git pull
 git add --all
 git restore --staged home-manager
@@ -21,6 +24,6 @@ if test $? != 0; then
     exit 1
 fi
 gen=$(nixos-rebuild list-generations | grep current | cut -d' ' -f1)
-echo "Please touch the device. (Sign commit)"
+echo -e "${RED}Please touch the device. (Sign commit)${NC}"
 git commit -m "$(hostname): Gen $gen"
 exit 0
