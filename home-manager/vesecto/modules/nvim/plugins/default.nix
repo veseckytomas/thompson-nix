@@ -52,6 +52,7 @@
     ./nvim-colorizer.nix
     ./nvim-ufo.nix
     ./oil.nix
+    ./outline-nvim.nix
     ./rustaceanvim.nix
     ./sleuth.nix
     ./spectre.nix
