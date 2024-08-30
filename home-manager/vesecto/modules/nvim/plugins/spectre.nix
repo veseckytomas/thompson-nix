@@ -24,6 +24,16 @@
         '';
         options.desc = "[S]earch & [R]eplace";
       }
+      {
+        mode = ["n"];
+        key = "<leader>sf";
+        action.__raw = ''
+          function()
+            require("spectre").open_file_search({select_word=true})
+          end
+        '';
+        options.desc = "[S]earch [F]ile";
+      }
     ];
   };
 }
