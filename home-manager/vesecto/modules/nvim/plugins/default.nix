@@ -11,6 +11,7 @@
 {...}: {
   imports = [
     ./alpha.nix
+    ./bullets-vim.nix
     ./ccc.nix
     ./cmp.nix
     ./cmp-buffer.nix
