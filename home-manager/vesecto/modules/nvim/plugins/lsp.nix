@@ -54,11 +54,11 @@
       ruff-lsp.enable = true;
 
       # Rust
-      rust-analyzer = {
-        enable = true;
-        installCargo = true;
-        installRustc = true;
-      };
+      # rust-analyzer = {
+      #   enable = true;
+      #   installCargo = true;
+      #   installRustc = true;
+      # };
 
       # SQL
       sqls.enable = true;

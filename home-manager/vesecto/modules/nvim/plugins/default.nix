@@ -32,12 +32,13 @@
     ./friendly-snippets.nix
     ./gitmessenger.nix
     ./gitsigns.nix
-    # ./indent-blankline.nix
+    ./indent-blankline.nix
     ./lint.nix
     ./lsp.nix
     ./lspkind.nix
     ./lualine.nix
     ./luasnip.nix
+    ./markdown-preview.nix
     ./mini.nix
     ./multicursors.nix
     ./neo-tree.nix
@@ -50,6 +51,7 @@
     ./nvim-colorizer.nix
     ./nvim-ufo.nix
     ./oil.nix
+    ./rustaceanvim.nix
     ./sleuth.nix
     ./surround.nix
     ./telescope.nix
