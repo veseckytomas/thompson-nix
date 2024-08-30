@@ -35,20 +35,6 @@ home-manager switch --flake .#$USERNAME
 5. any change line 14 in scripts/home.sh to $USERNAME
 6. any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
-## Flatpak initial setup
-
-1. Add flathub as repository
-
-```bash
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-```
-
-2. install flatpaks
-
-```bash
-flatpak install flathub com.stremio.Stremio
-```
-
 ## TMUX initial setup
 
 1. clone TMP git repository

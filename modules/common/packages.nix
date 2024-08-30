@@ -118,6 +118,7 @@
     plex-media-player
     postgresql
     kodi
+    stremio
   ];
 
   # Install nerdfonts
@@ -158,19 +159,11 @@
   virtualisation.docker.enable = true;
 
   services = {
-    # Enable flatpak
-    flatpak.enable = true;
-
     # Disable xterm
     xserver.excludePackages = with pkgs; [xterm];
 
     # Enable auto drive mounts
     gvfs.enable = true;
     udisks2.enable = true;
-  };
-
-  xdg.portal = {
-    enable = true;
-    config.common.default = "*";
   };
 }
