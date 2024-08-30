@@ -9,7 +9,17 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
-  programs.nixvim.extraPlugins = [
-    pkgs.vimPlugins.render-markdown
-  ];
+  programs.nixvim = {
+    extraPlugins = [
+      pkgs.vimPlugins.render-markdown
+    ];
+    keymaps = [
+      {
+        mode = ["n"];
+        key = "<leader>mr";
+        action = "<cmd>RenderMarkdown toggle<CR>";
+        options.desc = "[M]arkdown [R]ender";
+      }
+    ];
+  };
 }
