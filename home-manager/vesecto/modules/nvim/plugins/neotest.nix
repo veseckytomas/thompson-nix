@@ -27,9 +27,9 @@
     keymaps = [
       {
         mode = ["n"];
-        key = "<leader>gt";
-        action = "<cmd>Neogit<CR>";
-        options.desc = "[G]it s[t]atus";
+        key = "<leader>tr";
+        action = "<cmd><CR>";
+        options.desc = "[T]est [R]un";
       }
     ];
   };

@@ -45,7 +45,7 @@
     ./neo-tree.nix
     ./neogen.nix
     ./neogit.nix
-    # ./neotest.nix
+    ./neotest.nix
     ./nix.nix
     ./noice.nix
     # ./nvim-autopairs.nix
