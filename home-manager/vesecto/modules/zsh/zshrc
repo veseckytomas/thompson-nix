@@ -116,7 +116,7 @@ function migrate_repo {
   popd > /dev/null
 }
 function export_md {
-  pandoc -f markdown -t pdf -o $1 $2
+  pandoc -f markdown -t pdf -o $2 $1
 }
 
 # Shell integration
