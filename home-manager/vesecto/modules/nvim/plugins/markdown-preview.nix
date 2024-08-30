@@ -17,7 +17,7 @@
       {
         mode = ["n"];
         key = "<leader>mp";
-        action = "<cmd>MarkdownPreview<CR>";
+        action = "<cmd>MarkdownPreviewToggle<CR>";
         options.desc = "[M]arkdown [P]review";
       }
     ];

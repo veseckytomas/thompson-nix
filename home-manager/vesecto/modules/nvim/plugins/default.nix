@@ -53,6 +53,7 @@
     ./oil.nix
     ./rustaceanvim.nix
     ./sleuth.nix
+    ./spectre.nix
     ./surround.nix
     ./telescope.nix
     ./tmux-navigator.nix
