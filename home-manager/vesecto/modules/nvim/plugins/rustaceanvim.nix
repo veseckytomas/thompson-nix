@@ -11,5 +11,8 @@
 {...}: {
   programs.nixvim.plugins.rustaceanvim = {
     enable = true;
+    settings = {
+      RustaceanToolOpts.enable_clippy = true;
+    };
   };
 }
