@@ -34,7 +34,6 @@
     ./gitmessenger.nix
     ./gitsigns.nix
     ./indent-blankline.nix
-    ./kulala-nvim.nix
     ./lint.nix
     ./lsp.nix
     ./lspkind.nix
@@ -54,6 +53,7 @@
     ./nvim-ufo.nix
     ./oil.nix
     ./outline-nvim.nix
+    ./render-markdown.nix
     ./rustaceanvim.nix
     ./sleuth.nix
     ./spectre.nix
