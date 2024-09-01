@@ -10,11 +10,15 @@
 # GitLab: vesecky.tomas
 {...}: {
   programs.fzf = {
+    enable = true;
     catppuccin = {
       enable = true;
       flavor = "mocha";
     };
-    enable = true;
     enableZshIntegration = true;
+    defaultOptions = [
+      "--multi"
+      "--preview \"bat --color=always --style=header,grid --line-range :500 {}\""
+    ];
   };
 }
