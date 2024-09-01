@@ -107,7 +107,6 @@
     telegram-desktop
     vlc
     wireshark
-    kdePackages.kcalc
     lazygit
     lazydocker
     seahorse
@@ -119,6 +118,7 @@
     postgresql
     kodi
     stremio
+    qalculate-qt
   ];
 
   # Install nerdfonts
