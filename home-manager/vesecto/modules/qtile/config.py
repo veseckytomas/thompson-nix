@@ -59,6 +59,7 @@ browser = "librewolf"
 editor = terminal + " -e nvim"
 music_player = "spotify"
 bluetooth = "blueman-manager"
+calculator = "qalculate-gtk"
 keyboard_layout = "us"
 
 # Set widget image
@@ -111,6 +112,7 @@ keys = [
     Key([mod], "e", lazy.spawn(editor), desc="Launch editor"),
     Key([mod], "f", lazy.spawn(file_manager), desc="Launch file manager"),
     Key([mod], "m", lazy.spawn(music_player), desc="Launch music player"),
+    Key([mod], "c", lazy.spawn(calculator), desc="Launch calculator"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     # Key(
