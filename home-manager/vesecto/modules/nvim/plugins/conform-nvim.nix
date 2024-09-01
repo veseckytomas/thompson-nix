@@ -30,6 +30,8 @@
           javascriptreact = ["prettierd" "prettier"];
           # JSON
           json = ["jq"];
+          # LaTeX
+          latex = ["latexindent"];
           # Markdown
           markdown = ["prettierd" "prettier"];
           # Nix
