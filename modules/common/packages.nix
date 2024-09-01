@@ -41,6 +41,7 @@
     texlive.combined.scheme-full
     dig
     yazi
+    entr
 
     # Lesamaj
     hugo
