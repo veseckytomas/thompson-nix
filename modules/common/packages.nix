@@ -118,7 +118,7 @@
     postgresql
     kodi
     stremio
-    qalculate-qt
+    qalculate-gtk
   ];
 
   # Install nerdfonts
