@@ -13,6 +13,8 @@
     plugins.lint = {
       enable = true;
       lintersByFt = {
+        # CSS
+        css = ["stylelint"];
         # HTML
         html = ["htmlhint"];
         # JavaScript
