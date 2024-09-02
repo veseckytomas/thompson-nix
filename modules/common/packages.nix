@@ -102,7 +102,6 @@
     protonvpn-gui
     protonvpn-cli
     spotify
-    whatsapp-for-linux
     gimp
     thunderbird
     telegram-desktop
@@ -120,6 +119,7 @@
     kodi
     stremio
     qalculate-gtk
+    signal-desktop
   ];
 
   # Install nerdfonts
