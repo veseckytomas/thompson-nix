@@ -56,7 +56,7 @@
   };
   home.packages = with pkgs; [
     htmlhint
-    nodePackages.eslint
+    eslint
     nodePackages.jsonlint
     markdownlint-cli
     statix
