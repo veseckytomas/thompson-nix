@@ -14,7 +14,8 @@
       enable = true;
       providerSelector = ''
         function()
-          return { "lsp", "indent" }
+          -- return { "lsp", "indent" }
+          return { "indent" }
         end
       '';
     };
