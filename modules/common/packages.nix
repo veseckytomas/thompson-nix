@@ -43,9 +43,6 @@
     yazi
     entr
 
-    # Lesamaj
-    hugo
-
     # Terminal emulator
     kitty
 
