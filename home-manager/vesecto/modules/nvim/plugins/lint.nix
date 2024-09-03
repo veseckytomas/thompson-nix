@@ -23,7 +23,7 @@
         # JSON
         json = ["jsonlint"];
         # LaTeX
-        latex = ["chktex"];
+        tex = ["chktex"];
         # Markdown
         markdown = ["markdownlint"];
         # Nix

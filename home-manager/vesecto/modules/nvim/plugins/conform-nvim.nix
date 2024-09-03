@@ -31,7 +31,7 @@
           # JSON
           json = ["jq"];
           # LaTeX
-          latex = ["latexindent"];
+          tex = ["latexindent"];
           # Markdown
           markdown = ["prettierd" "prettier"];
           # Nix
