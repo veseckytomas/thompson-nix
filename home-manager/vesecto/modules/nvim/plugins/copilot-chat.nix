@@ -16,9 +16,9 @@
     keymaps = [
       {
         mode = ["n"];
-        key = "<leader>cc";
+        key = "<leader>coc";
         action = "<cmd>CopilotChat<CR>";
-        options.desc = "[C]opilot [C]hat";
+        options.desc = "[C][O]pilot [C]hat";
       }
     ];
   };

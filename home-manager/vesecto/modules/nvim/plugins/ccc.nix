@@ -16,15 +16,15 @@
     keymaps = [
       {
         mode = ["n"];
-        key = "<leader>cp";
-        action = "<cmd>cccPick<CR>";
-        options.desc = "[C]CC [P]ick";
+        key = "<leader>ccp";
+        action = "<cmd>CccPick<CR>";
+        options.desc = "[C][C]C [P]ick";
       }
       {
         mode = ["n"];
-        key = "<leader>cc";
-        action = "<cmd>cccConvert<CR>";
-        options.desc = "[C]CC [C]onvert";
+        key = "<leader>ccc";
+        action = "<cmd>CccConvert<CR>";
+        options.desc = "[C][C]C [C]onvert";
       }
     ];
   };
