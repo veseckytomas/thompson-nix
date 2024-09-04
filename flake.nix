@@ -41,37 +41,37 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-PC-NixOS/configuration.nix
-          ./main.nix
+          ./modules
         ];
       };
 
       TomasVesa-NTB2-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
+        notebook.enable = true;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
-          ./main.nix
-          ./modules/common/notebook.nix
+          ./modules
         ];
       };
 
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
+        notebook.enable = true;
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
-          ./main.nix
-          ./modules/common/notebook.nix
+          ./modules
         ];
       };
 
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
+        notebook.enable = true;
         modules = [
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
-          ./main.nix
-          ./modules/common/notebook.nix
+          ./modules
         ];
       };
 
