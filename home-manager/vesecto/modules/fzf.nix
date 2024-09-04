@@ -16,9 +16,5 @@
       flavor = "mocha";
     };
     enableZshIntegration = true;
-    defaultOptions = [
-      "--multi"
-      "--preview \"bat --color=always --style=header,grid --line-range :500 {}\""
-    ];
   };
 }
