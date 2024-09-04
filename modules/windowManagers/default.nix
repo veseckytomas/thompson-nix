@@ -12,7 +12,6 @@
   imports = [
     # ./awesome.nix
     # ./cinnamon.nix
-    # ./cosmic.nix
     # ./enlightenment.nix
     # ./gnome.nix
     # ./i3.nix
