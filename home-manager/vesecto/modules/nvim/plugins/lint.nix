@@ -28,6 +28,8 @@
         markdown = ["markdownlint"];
         # Nix
         nix = ["statix"];
+        # PHP
+        php = ["phpcs"];
         # Python
         python = ["pylint" "ruff"];
         # Rust
@@ -62,6 +64,7 @@
     nodePackages.jsonlint
     markdownlint-cli
     statix
+    php84Packages.php-codesniffer
     pylint
     ruff
     clippy

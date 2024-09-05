@@ -36,6 +36,8 @@
           markdown = ["prettierd" "prettier"];
           # Nix
           nix = ["alejandra"];
+          # PHP
+          php = ["php_cs_fixer"];
           # Python
           python = ["isort" "black"];
           # Rust
@@ -78,6 +80,7 @@
     rubyPackages.htmlbeautifier
     jq
     alejandra
+    php84Packages.php-cs-fixer
     isort
     black
     rustfmt

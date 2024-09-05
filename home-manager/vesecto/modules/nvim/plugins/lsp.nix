@@ -46,6 +46,9 @@
       # Lua
       lua-ls.enable = true;
 
+      # PHP
+      phpactor.enable = true;
+
       # Python
       pylsp.enable = true;
       pylyzer.enable = true;
