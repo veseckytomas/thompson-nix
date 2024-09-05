@@ -10,5 +10,5 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-nix-collect-garbage --delete-older-than 3d
-sudo nix-collect-garbage --delete-older-than 3d
+sudo nix-collect-garbage -d --quiet
+nix-collect-garbage -d --quiet
