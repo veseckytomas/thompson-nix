@@ -84,7 +84,7 @@ alias ls='eza --icons -F -H --group-directories-first --git'
 alias la='ls -a -1'
 alias cal='cal -m'
 alias y='yazi'
-alias 'nix develop'='nix develop -c zsh'
+alias nix develop='nix develop -c zsh'
 function gbr {
 	git brd $1
 	git push -d origin $1
