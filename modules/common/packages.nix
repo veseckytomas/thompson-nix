@@ -117,6 +117,7 @@
     stremio
     qalculate-gtk
     signal-desktop
+    alsa-utils
   ];
 
   # Install nerdfonts

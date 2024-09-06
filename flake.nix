@@ -48,30 +48,30 @@
       TomasVesa-NTB2-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
-        notebook.enable = true;
         modules = [
           ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
           ./modules
+          ./modules/common/notebook.nix
         ];
       };
 
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
-        notebook.enable = true;
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./modules
+          ./modules/common/notebook.nix
         ];
       };
 
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
-        notebook.enable = true;
         modules = [
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
           ./modules
+          ./modules/common/notebook.nix
         ];
       };
 

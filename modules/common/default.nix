@@ -13,9 +13,9 @@
     ./common.nix
     # ./gaming.nix
     ./locale.nix
-    ./notebook.nix
+    # ./notebook.nix
     ./packages.nix
     ./users.nix
   ];
-  notebook.enable = lib.mkDefault false;
+  # notebook.enable = lib.mkDefault false;
 }
