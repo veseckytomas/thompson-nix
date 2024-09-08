@@ -31,6 +31,16 @@ home-manager switch --flake .#$USERNAME
 ```
 
 3. Add Yubikeys
+
+```bash
+nix shell nixpkgs#pam_u2f
+mkdir -p ~/.config/Yubico
+# Insert Yubikey
+pamu2fcfg > ~/.config/Yubico/u2f_keys
+# Insert second Yubikey
+pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
+```
+
 4. Add ssh, gpg keys, certificates.
 5. Set thunderbird email accounts and add certificates.
 6. any change line 14 in scripts/home.sh to $USERNAME
