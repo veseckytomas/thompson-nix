@@ -135,7 +135,6 @@
 
     # Enable web browsers for developments
     chromium.enable = true;
-    firefox.enable = true;
 
     # Enable zsh
     zsh.enable = true;
