@@ -45,23 +45,34 @@
         ];
       };
 
-      TomasVesa-NTB2-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
-        modules = [
-          ./hosts/TomasVesa-NTB2-NixOS/configuration.nix
-          ./modules
-          ./modules/common/notebook.nix
-        ];
-      };
-
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
+          ./modules/common/notebook.nix
           ./modules
           ./modules/common/notebook.nix
+        ];
+      };
+
+      TomasVesa-TunnelingNTB1-NixOS = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        inherit system;
+        modules = [
+          ./hosts/TomasVesa-TunnelingNTB1-NixOS/configuration.nix
+          ./modules/common/notebook.nix
+          ./modules/tunneling.nix
+        ];
+      };
+
+      TomasVesa-TunnelingNTB2-NixOS = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        inherit system;
+        modules = [
+          ./hosts/TomasVesa-TunnelingNTB2-NixOS/configuration.nix
+          ./modules/common/notebook.nix
+          ./modules/tunneling.nix
         ];
       };
 
@@ -70,6 +81,7 @@
         inherit system;
         modules = [
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
+          ./modules/common/notebook.nix
           ./modules
           ./modules/common/notebook.nix
         ];

@@ -14,9 +14,10 @@
   config,
   ...
 }: {
-  options.notebook.enable = lib.mkEnableOption "Enables notebook module";
+  # options.notebook.enable = lib.mkEnableOption "Enables notebook module";
 
-  config = lib.mkIf config.notebook.enable {
+  # config = lib.mkIf config.notebook.enable {
+  config = {
     services.libinput.enable = true;
     hardware = {
       acpilight.enable = true;

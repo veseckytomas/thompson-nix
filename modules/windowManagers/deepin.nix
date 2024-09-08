@@ -9,9 +9,5 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
-  networking.hostName = "TomasVesa-NTB2-NixOS"; # Define your hostname.
+  services.xserver.desktopManager.deepin.enable = true;
 }

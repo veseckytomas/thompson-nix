@@ -12,6 +12,7 @@
   imports = [
     # ./awesome.nix
     # ./cinnamon.nix
+    # ./deepin.nix
     # ./enlightenment.nix
     # ./gnome.nix
     # ./i3.nix
