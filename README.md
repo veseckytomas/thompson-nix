@@ -30,10 +30,11 @@ sudo nixos-rebuild switch --flake .#$HOSTNAME
 home-manager switch --flake .#$USERNAME
 ```
 
-3. Add ssh, gpg keys, certificates.
-4. Set thunderbird email accounts and add certificates.
-5. any change line 14 in scripts/home.sh to $USERNAME
-6. any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+3. Add Yubikeys
+4. Add ssh, gpg keys, certificates.
+5. Set thunderbird email accounts and add certificates.
+6. any change line 14 in scripts/home.sh to $USERNAME
+7. any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
 ## TMUX initial setup
 
