@@ -42,6 +42,7 @@
     dig
     yazi
     entr
+    nh
 
     # Terminal emulator
     kitty

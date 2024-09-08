@@ -13,7 +13,7 @@
   users.users.vesecto = {
     isNormalUser = true;
     description = "Tomas Vesecky";
-    extraGroups = ["networkmanager" "wheel" "docker" "user-with-access-to-virtualbox" "video"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video"];
     shell = pkgs.zsh;
   };
 }
