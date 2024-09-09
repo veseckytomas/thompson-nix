@@ -29,7 +29,7 @@
         # Nix
         nix = ["statix"];
         # PHP
-        # php = ["phpcs"];
+        php = ["phpcs"];
         # Python
         python = ["pylint" "ruff"];
         # Rust
