@@ -16,6 +16,12 @@ This repository contains these configurations:
 - Disk rescue ISO
 - Home-manager config
 
+## Custom packages
+
+These packages require manual update by changing rev and hash
+
+- ./modules/loginManagers/sddm-theme/sddm-theme.nix
+
 ## Initial setup
 
 1. run rebuild on system with flakes enabled
