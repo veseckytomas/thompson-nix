@@ -78,6 +78,18 @@
       action = "<cmd>bp<CR>";
       options.desc = "[B]buffer [P]revious";
     }
+    {
+      mode = ["n"];
+      key = "<C-m>";
+      action = "<cmd>bn<CR>";
+      options.desc = "[B]buffer [N]ext";
+    }
+    {
+      mode = ["n"];
+      key = "<C-n>";
+      action = "<cmd>bp<CR>";
+      options.desc = "[B]buffer [P]revious";
+    }
 
     # Clear search on escape
     {
