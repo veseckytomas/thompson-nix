@@ -80,13 +80,13 @@
     }
     {
       mode = ["n"];
-      key = "<C-m>";
+      key = "<C-p>";
       action = "<cmd>bn<CR>";
       options.desc = "[B]buffer [N]ext";
     }
     {
       mode = ["n"];
-      key = "<C-n>";
+      key = "<C-o>";
       action = "<cmd>bp<CR>";
       options.desc = "[B]buffer [P]revious";
     }

@@ -102,7 +102,7 @@
       }
       {
         mode = ["n"];
-        key = "<leader>b";
+        key = "<leader>db";
         action.__raw = ''
           function()
             require('dap').toggle_breakpoint()
