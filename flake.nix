@@ -62,7 +62,8 @@
         modules = [
           ./hosts/TomasVesa-TunnelingNTB1-NixOS/configuration.nix
           ./modules/common/notebook.nix
-          ./modules/tunneling.nix
+          # ./modules/tunneling.nix
+          ./modules
         ];
       };
 
