@@ -103,7 +103,7 @@ in {
       name = "adw-gtk3";
     };
 
-    # gtk3.extraCss = gtk-css;
-    # gtk4.extraCss = gtk-css;
+    gtk3.extraCss = gtk-css;
+    gtk4.extraCss = gtk-css;
   };
 }

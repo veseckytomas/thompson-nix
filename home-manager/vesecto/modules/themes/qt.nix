@@ -13,9 +13,5 @@
     enable = true;
     platformTheme.name = "gtk";
     style.name = "adwaita-dark";
-    # style = {
-    #   package = pkgs.dracula-qt5-theme;
-    #   name = "dracula";
-    # };
   };
 }
