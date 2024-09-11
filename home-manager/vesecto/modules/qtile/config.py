@@ -421,11 +421,11 @@ def init_widgets_list():
         ),
         widget.Spacer(length=8),
         widget.Clock(
-            foreground=colors[2],
+            foreground=colors[8],
             format="󰥔 %a, %b %d - %H:%M",
             decorations=[
                 BorderDecoration(
-                    colour=colors[2],
+                    colour=colors[8],
                     border_width=[0, 0, 2, 0],
                 )
             ],
