@@ -12,36 +12,40 @@
   programs.nixvim = {
     plugins.lualine = {
       enable = true;
-      globalstatus = true;
-      iconsEnabled = true;
-      theme = "dracula";
-      componentSeparators = {
-        left = "|";
-        right = "|";
-      };
-      sectionSeparators = {
-        left = "";
-        right = "";
-      };
-      sections = {
-        lualine_a = [
-          "buffers"
-        ];
-        lualine_b = [
-          "branch"
-        ];
-        lualine_c = [
-          "filetype"
-        ];
-        lualine_x = [
-          "selectioncount"
-        ];
-        lualine_y = [
-          "location"
-        ];
-        lualine_z = [
-          "mode"
-        ];
+      settings = {
+        options = {
+          theme = "dracula";
+          iconsEnabled = true;
+          globalstatus = true;
+          sectionSeparators = {
+            left = "";
+            right = "";
+          };
+          componentSeparators = {
+            left = "|";
+            right = "|";
+          };
+        };
+        sections = {
+          lualine_a = [
+            "buffers"
+          ];
+          lualine_b = [
+            "branch"
+          ];
+          lualine_c = [
+            "filetype"
+          ];
+          lualine_x = [
+            "selectioncount"
+          ];
+          lualine_y = [
+            "location"
+          ];
+          lualine_z = [
+            "mode"
+          ];
+        };
       };
     };
     opts = {
