@@ -261,7 +261,8 @@ for i in groups:
         ]
     )
 
-colors = colors.Dracula
+# colors = colors.Dracula
+colors = colors.Catppuccin
 
 layout_theme = {
     "border_width": 2,
@@ -381,11 +382,11 @@ def init_widgets_list():
         ),
         widget.Spacer(length=8),
         widget.KeyboardLayout(
-            foreground=colors[4],
+            foreground=colors[7],
             fmt="⌨ Kbd: {}",
             decorations=[
                 BorderDecoration(
-                    colour=colors[4],
+                    colour=colors[7],
                     border_width=[0, 0, 2, 0],
                 )
             ],
@@ -420,11 +421,11 @@ def init_widgets_list():
         ),
         widget.Spacer(length=8),
         widget.Clock(
-            foreground=colors[8],
+            foreground=colors[2],
             format="󰥔 %a, %b %d - %H:%M",
             decorations=[
                 BorderDecoration(
-                    colour=colors[8],
+                    colour=colors[2],
                     border_width=[0, 0, 2, 0],
                 )
             ],
