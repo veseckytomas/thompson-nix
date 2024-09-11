@@ -34,9 +34,9 @@ Dracula = [
 ]
 
 Catppuccin = [
-    ["#1e1e2e", "#1e1e2e"],  # base
+    ["#1e1e2e", "#1e1e2e"],  # Base
     ["#cdd6f4", "#cdd6f4"],  # Text
-    ["#000000", "#000000"],  # color01
+    ["#000000", "#000000"],  # Black
     ["#f38ba8", "#f38ba8"],  # Red
     ["#a6e3a1", "#a6e3a1"],  # Green
     ["#f9e2af", "#f9e2af"],  # Yellow

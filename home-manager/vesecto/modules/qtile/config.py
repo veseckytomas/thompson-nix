@@ -261,8 +261,7 @@ for i in groups:
         ]
     )
 
-# colors = colors.Dracula
-colors = colors.Catppuccin
+colors = colors.Dracula
 
 layout_theme = {
     "border_width": 2,
