@@ -102,7 +102,7 @@
       }
       {
         mode = ["n"];
-        key = "<leader>db";
+        key = "<leader>dbt";
         action.__raw = ''
           function()
             require('dap').toggle_breakpoint()
@@ -112,7 +112,7 @@
       }
       {
         mode = ["n"];
-        key = "<leader>B";
+        key = "<leader>dbc";
         action.__raw = ''
           function()
             require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')

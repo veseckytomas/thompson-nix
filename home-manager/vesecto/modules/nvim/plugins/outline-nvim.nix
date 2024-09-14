@@ -16,9 +16,9 @@
     keymaps = [
       {
         mode = ["n"];
-        key = "<leader>o";
+        key = "<leader>co";
         action = "<cmd>Outline<cr>";
-        options.desc = "[O]utline";
+        options.desc = "[C]ode [O]utline";
       }
     ];
     extraConfigLua = ''

@@ -27,9 +27,9 @@
     keymaps = [
       {
         mode = ["n"];
-        key = "<leader>tr";
+        key = "<leader>ct";
         action = "<cmd><CR>";
-        options.desc = "[T]est [R]un";
+        options.desc = "[C]ode [T]est";
       }
     ];
   };
