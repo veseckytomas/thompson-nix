@@ -23,11 +23,13 @@
     control = "required";
   };
 
-  # Enable Gnome keyring
-  services.gnome.gnome-keyring.enable = true;
+  services = {
+    # Enable Gnome keyring
+    gnome.gnome-keyring.enable = true;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+    # Enable CUPS to print documents.
+    printing.enable = true;
+  };
 
   # Set your time zone
   time.timeZone = "Europe/Prague";
