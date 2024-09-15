@@ -14,7 +14,7 @@
       enable = true;
       settings = {
         api_key_cmd = "gpg --decrypt -q /home/vesecto/.openai_api_key.gpg";
-        openai_params.model = "gpt-4-turbo";
+        openai_params.model = "gpt-4o";
         predefined_chat_gpt_params = "https://raw.githubusercontent.com/veseckytomas/awesome-chatgpt-prompts/main/prompts.csv";
       };
     };
