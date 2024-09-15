@@ -44,16 +44,18 @@
       device = "/dev/disk/by-uuid/d2a85e35-383a-4de6-b930-381cfe199b92";
       fsType = "ext4";
     };
-    "/mnt/hdd_win" = {
-      device = "/dev/disk/by-uuid/863EE1E93EE1D1EB";
-      fsType = "ntfs-3g";
-      options = ["rw" "uid=theUidOfYourUser"];
-    };
-    "/mnt/ssd_win" = {
-      device = "/dev/disk/by-uuid/B490644890641362";
-      fsType = "ntfs-3g";
-      options = ["rw" "uid=theUidOfYourUser"];
-    };
+    # "/mnt/hdd_win" = {
+    #   # device = "/dev/disk/by-uuid/863EE1E93EE1D1EB";
+    #   device = "/dev/sdb1";
+    #   fsType = "ntfs-3g";
+    #   options = ["rw" "uid=theUidOfYourUser"];
+    # };
+    # "/mnt/ssd_win" = {
+    #   # device = "/dev/disk/by-uuid/B490644890641362";
+    #   device = "/dev/sdc2";
+    #   fsType = "ntfs-3g";
+    #   options = ["rw" "uid=theUidOfYourUser"];
+    # };
   };
 
   swapDevices = [
