@@ -24,6 +24,7 @@
       kernelModules = [];
       luks.devices."luks-0e27fe0a-b2e3-4df6-822b-af72783d54d2".device = "/dev/disk/by-uuid/0e27fe0a-b2e3-4df6-822b-af72783d54d2";
     };
+    supportedFilesystems = ["ntfs"];
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
   };
@@ -42,6 +43,16 @@
     "/mnt/hdd" = {
       device = "/dev/disk/by-uuid/d2a85e35-383a-4de6-b930-381cfe199b92";
       fsType = "ext4";
+    };
+    "/mnt/hdd_win" = {
+      device = "/dev/disk/by-uuid/863EE1E93EE1D1EB";
+      fsType = "ntfs-3g";
+      options = ["rw" "uid=theUidOfYourUser"];
+    };
+    "/mnt/ssd_win" = {
+      device = "/dev/disk/by-uuid/B490644890641362";
+      fsType = "ntfs-3g";
+      options = ["rw" "uid=theUidOfYourUser"];
     };
   };
 
