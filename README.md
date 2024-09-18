@@ -24,19 +24,13 @@ These packages require manual update by changing rev and hash
 
 ## Initial setup
 
-1. Run rebuild on system with flakes enabled
+1. Run setup script on system with flakes enabled
 
 ```bash
-sudo nixos-rebuild switch --flake .#$HOSTNAME
+./scripts/setup.sh
 ```
 
-2. Run home-manager rebuild
-
-```bash
-home-manager switch --flake .#$USERNAME
-```
-
-3. Add Yubikeys
+2. Add Yubikeys
 
 ```bash
 nix shell nixpkgs#pam_u2f
@@ -47,35 +41,19 @@ pamu2fcfg > ~/.config/Yubico/u2f_keys
 pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
 ```
 
-1. Add ssh, gpg keys, certificates.
-2. Set thunderbird email accounts and add certificates.
-3. Any change line 14 in scripts/home.sh to $USERNAME
-4. Configure VPN
+3. Add ssh, gpg keys, certificates.
+4. Set thunderbird email accounts and add certificates.
+5. Any change line 14 in scripts/home.sh to $USERNAME
+6. Configure VPN
    - Faculty
    - University
    - Home
-5. Clone repositories
-
-```bash
-mkdir -p "$HOME/Git"
-mkdir -p "$HOME/DataGripProjects"
-git clone git@gitlab.com:vesecky.tomas/obsidian.git ~/Git/obsidian
-git clone git@gitlab.com:homelab1960731/thompson-dwh.git ~/DataGripProjects/Homelab
-git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git ~/DataGripProjects/DWH
-```
-
 7. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
-## TMUX initial setup
+## TMUX
 
-1. clone TMP git repository
-
-```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
-
-2. Install plugins with `<leader>I`
-3. Plugins can be update with `<leader>U`
+1. Install plugins with `<leader>I`
+2. Plugins can be update with `<leader>U`
 
 ## Neovim initial setup
 
@@ -87,6 +65,6 @@ Copilot auth
 WakaTimeApiKey
 ```
 
-## ZSH initial setup
+## ZSH
 
 - Plugins can be updated by running `zinit update`

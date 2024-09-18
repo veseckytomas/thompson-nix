@@ -20,7 +20,11 @@ home-manager switch --flake .#"$(whoami)"
 # Insert Yubikeys
 if ! ls "$HOME/.config/Yubico/u2f_keys" &> /dev/null; then
   mkdir -p "$HOME/.config/Yubico"
+  echo "Insert first Yubikey and press enter"
+  read -r
   pamu2fcfg > "$HOME/.config/Yubico/u2f_keys"
+  echo "Insert second Yubikey and press enter"
+  read -r
   pamu2fcfg -n >> "$HOME/.config/Yubico/u2f_keys"
 fi
 
