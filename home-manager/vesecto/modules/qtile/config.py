@@ -49,6 +49,7 @@ from qtile_extras.widget.decorations import BorderDecoration
 # Set variables
 mod = "mod4"
 home = os.path.expanduser("~")
+backlight = os.listdir("/sys/class/backlight")[0]
 terminal = "kitty"
 launcher = home + "/.config/rofi/bin/launcher"
 screenshot = home + "/.config/rofi/bin/screenshot"
@@ -398,6 +399,7 @@ def init_widgets_list():
             full_char="󰁹",
             empty_char="󱟩",
             not_charging_char="󰁿",
+            show_short_text=False,
             format="{char} Bat: {percent:2.0%}",
             decorations=[
                 BorderDecoration(
@@ -409,7 +411,7 @@ def init_widgets_list():
         widget.Spacer(length=8),
         widget.Backlight(
             foreground=colors[6],
-            backlight_name="intel_backlight",
+            backlight_name=backlight,
             format="󰃠 Brightness: {percent:2.0%}",
             decorations=[
                 BorderDecoration(
