@@ -24,13 +24,13 @@ These packages require manual update by changing rev and hash
 
 ## Initial setup
 
-1. run rebuild on system with flakes enabled
+1. Run rebuild on system with flakes enabled
 
 ```bash
 sudo nixos-rebuild switch --flake .#$HOSTNAME
 ```
 
-2. run home-manager rebuild
+2. Run home-manager rebuild
 
 ```bash
 home-manager switch --flake .#$USERNAME
@@ -47,12 +47,16 @@ pamu2fcfg > ~/.config/Yubico/u2f_keys
 pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
 ```
 
-4. Add ssh, gpg keys, certificates.
-5. Set thunderbird email accounts and add certificates.
-6. any change line 14 in scripts/home.sh to $USERNAME
-7. any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+1. Add ssh, gpg keys, certificates.
+2. Set thunderbird email accounts and add certificates.
+3. Any change line 14 in scripts/home.sh to $USERNAME
+4. Configure VPN
+   - Faculty
+   - University
+   - Home
+5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
-## TMUX initial setup
+k# TMUX initial setup
 
 1. clone TMP git repository
 
@@ -60,8 +64,8 @@ pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-2. install plugins with `<leader>I`
-3. plugins can be update with `<leader>U`
+2. Install plugins with `<leader>I`
+3. Plugins can be update with `<leader>U`
 
 ## Neovim initial setup
 
@@ -75,4 +79,4 @@ WakaTimeApiKey
 
 ## ZSH initial setup
 
-- plugins can be updated by running `zinit update`
+- Plugins can be updated by running `zinit update`
