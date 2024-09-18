@@ -54,9 +54,19 @@ pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
    - Faculty
    - University
    - Home
-5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+5. Clone repositories
 
-k# TMUX initial setup
+```bash
+mkdir -p "$HOME/Git"
+mkdir -p "$HOME/DataGripProjects"
+git clone git@gitlab.com:vesecky.tomas/obsidian.git ~/Git/obsidian
+git clone git@gitlab.com:homelab1960731/thompson-dwh.git ~/DataGripProjects/Homelab
+git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git ~/DataGripProjects/DWH
+```
+
+7. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+
+## TMUX initial setup
 
 1. clone TMP git repository
 
