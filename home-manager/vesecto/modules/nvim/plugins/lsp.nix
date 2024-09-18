@@ -39,7 +39,7 @@
       html.enable = true;
       jsonls.enable = true;
       nginx-language-server.enable = true;
-      tsserver.enable = true;
+      ts-ls.enable = true;
       cssls.enable = true;
       tailwindcss.enable = true;
 
