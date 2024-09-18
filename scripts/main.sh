@@ -45,8 +45,7 @@ case $input in
         echo "Exiting..."
         ;;
     *)
-        ./scripts/rebuild.sh
-        if [ $? -ne 0 ]; then
+        if ! ./scripts/rebuild.sh; then
             exit 1
         fi
         ./scripts/home.sh

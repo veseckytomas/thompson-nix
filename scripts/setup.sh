@@ -10,4 +10,30 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-protonup
+echo "Enter hostname:"
+read -r hostname
+
+# Rebuild system
+sudo nixos-rebuild switch --flake .#"$hostname"
+home-manager switch --flake .#"$(whoami)"
+
+# Insert Yubikeys
+if ! ls "$HOME/.config/Yubico/u2f_keys" &> /dev/null; then
+  mkdir -p "$HOME/.config/Yubico"
+  pamu2fcfg > "$HOME/.config/Yubico/u2f_keys"
+  pamu2fcfg -n >> "$HOME/.config/Yubico/u2f_keys"
+fi
+
+# Clone repositories
+git clone git@gitlab.com:vesecky.tomas/thompson-nix.git "$HOME/Git/thompson-nix"
+git clone git@gitlab.com:vesecky.tomas/obsidian.git "$HOME/Git/thompson-obsidian"
+git clone git@gitlab.com:homelab1960731/thompson-dwh.git "$HOME/DataGripProjects/Homelab"
+git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git "$HOME/DataGripProjects/DWH"
+
+# Clone TPM repository
+git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+
+# Install proton compatibility layer
+if which protonup &> /dev/null; then
+  protonup
+fi
