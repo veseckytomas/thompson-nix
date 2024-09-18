@@ -29,12 +29,11 @@
     extraModulePackages = [];
   };
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/f491badc-a573-4746-a242-3c38599dc978";
-    fsType = "ext4";
-  };
-
   fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/f491badc-a573-4746-a242-3c38599dc978";
+      fsType = "ext4";
+    };
     "/boot" = {
       device = "/dev/disk/by-uuid/29DE-7728";
       fsType = "vfat";

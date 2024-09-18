@@ -28,15 +28,16 @@
     extraModulePackages = [];
   };
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/4c5efbae-109c-4219-bd89-2e8231b4629c";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/63E4-3264";
-    fsType = "vfat";
-    options = ["fmask=0022" "dmask=0022"];
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/4c5efbae-109c-4219-bd89-2e8231b4629c";
+      fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/63E4-3264";
+      fsType = "vfat";
+      options = ["fmask=0022" "dmask=0022"];
+    };
   };
 
   swapDevices = [];

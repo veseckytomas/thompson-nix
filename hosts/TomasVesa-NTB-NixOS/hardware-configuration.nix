@@ -33,7 +33,6 @@
       device = "/dev/disk/by-uuid/3e09f70e-f414-4afd-b9d0-dc3489ae84b2";
       fsType = "ext4";
     };
-
     "/boot" = {
       device = "/dev/disk/by-uuid/0151-7FEE";
       fsType = "vfat";
