@@ -96,7 +96,6 @@
     qbittorrent
     ntfs3g
     obsidian
-    teams-for-linux
     protonvpn-gui
     protonvpn-cli
     spotify
