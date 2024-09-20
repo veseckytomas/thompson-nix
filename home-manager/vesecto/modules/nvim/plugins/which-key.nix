@@ -66,6 +66,10 @@
           desc = "[H]orizontal";
         }
         {
+          __unkeyed-1 = "<leader>k";
+          desc = "[K]ulala";
+        }
+        {
           __unkeyed-1 = "<leader>l";
           desc = "[L]int";
         }

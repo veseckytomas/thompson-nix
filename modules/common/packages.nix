@@ -43,6 +43,7 @@
     yazi
     entr
     nh
+    trash-cli
 
     # Terminal emulator
     kitty

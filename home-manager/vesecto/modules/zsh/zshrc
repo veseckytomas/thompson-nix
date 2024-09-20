@@ -86,6 +86,7 @@ alias cal='cal -m'
 alias y='yazi'
 alias ps='ps -e | tail -n+2 | fzf'
 alias chrome='export export NIXPKGS_ALLOW_UNFREE=1 && nix run nixpkgs#google-chrome --impure'
+alias rm='trash'
 function gbr {
 	git brd $1
 	git push -d origin $1
