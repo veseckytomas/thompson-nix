@@ -11,7 +11,7 @@
 {...}: {
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Mocha";
+    themeFile = "Catppuccin-Mocha";
     font = {
       name = "Hack Nerd Font Mono";
       package = null;

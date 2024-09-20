@@ -55,11 +55,10 @@
     ./nvim-ufo.nix
     ./oil.nix
     ./outline-nvim.nix
-    ./render-markdown.nix
+    ./render-markdown-nvim.nix
     ./rustaceanvim.nix
     ./sleuth.nix
     ./spectre.nix
-    ./surround.nix
     ./telescope.nix
     ./tmux-navigator.nix
     ./todo-comments.nix
@@ -70,6 +69,7 @@
     ./vim-dadbod-completion.nix
     ./vim-dadbod-ui.nix
     ./vim-dadbod.nix
+    ./vim-surround.nix
     ./wakatime.nix
     ./which-key.nix
   ];

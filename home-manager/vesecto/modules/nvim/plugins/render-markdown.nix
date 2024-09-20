@@ -11,7 +11,7 @@
 {pkgs, ...}: {
   programs.nixvim = {
     extraPlugins = [
-      pkgs.vimPlugins.render-markdown
+      pkgs.vimPlugins.render-markdown-nvim
     ];
     keymaps = [
       {

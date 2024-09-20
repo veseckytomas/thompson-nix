@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.nixvim.plugins.surround = {
+  programs.nixvim.plugins.vim-surround = {
     enable = true;
   };
 }
