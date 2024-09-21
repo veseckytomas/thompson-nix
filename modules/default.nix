@@ -14,6 +14,7 @@
     ./bootLoaders
     ./common
     ./loginManagers
+    ./networking
     ./virtualisation
     ./windowManagers
   ];

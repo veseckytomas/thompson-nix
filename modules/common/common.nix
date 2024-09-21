@@ -12,9 +12,6 @@
   # Enable nix flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-
   # Enable Yubikey support
   security.pam.u2f = {
     enable = true;

@@ -1,0 +1,44 @@
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+{...}: let
+  vpn-config = [
+    "cvut-vpn"
+    "fit-vpn"
+  ];
+in {
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # VPN config
+  # environment.etc = builtins.listToAttrs (map (x:
+  #   "NetworkManager/system-connections/${x}.nmconnection" {
+  #     source = ./x.nmconnection;
+  #     mode = "0600";
+  #   })
+  # vpn-config);
+  # environment.etc = builtins.listToAttrs (map (x:
+  #   builtins.nameValuePair
+  #   "NetworkManager/system-connections/${x}.nmconnection" {
+  #     inherit (x) source;
+  #     mode = "0600";
+  #   })
+  # vpn-config);
+  environment.etc = {
+    "NetworkManager/system-connections/cvut-vpn.nmconnection" = {
+      source = ./cvut-vpn.nmconnection;
+      mode = "0600";
+    };
+    "NetworkManager/system-connections/fit-vpn.nmconnection" = {
+      source = ./fit-vpn.nmconnection;
+      mode = "0600";
+    };
+  };
+}

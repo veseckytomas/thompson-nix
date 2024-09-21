@@ -11,7 +11,8 @@ This repository contains these configurations:
 
 - Desktop
 - Laptop
-- Test laptop
+- 16" Laptop
+- Laptops for Tunneling game used during PTMM24
 - Install ISO
 - Disk rescue ISO
 - Home-manager config
@@ -31,25 +32,10 @@ These packages require manual update by changing rev and hash
 ./scripts/setup.sh
 ```
 
-2. Add Yubikeys
-
-```bash
-nix shell nixpkgs#pam_u2f
-mkdir -p ~/.config/Yubico
-# Insert Yubikey
-pamu2fcfg > ~/.config/Yubico/u2f_keys
-# Insert second Yubikey
-pamu2fcfg -n >> ~/.config/Yubico/u2f_keys
-```
-
-3. Add ssh, gpg keys, certificates.
-4. Set thunderbird email accounts and add certificates.
-5. Any change line 14 in scripts/home.sh to $USERNAME
-6. Configure VPN
-   - Faculty
-   - University
-   - Home
-7. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+2. Add ssh, gpg keys, certificates.
+3. Set thunderbird email accounts and add certificates.
+4. Any change line 14 in scripts/home.sh to $USERNAME
+5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
 ## TMUX
 
