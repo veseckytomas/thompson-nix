@@ -119,6 +119,7 @@
     qalculate-gtk
     signal-desktop
     alsa-utils
+    wineWowPackages.stable
   ];
 
   # Install nerdfonts
