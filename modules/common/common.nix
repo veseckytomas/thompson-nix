@@ -13,7 +13,6 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Enable networking
-  # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
   # Enable Yubikey support
