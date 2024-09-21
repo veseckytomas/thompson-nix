@@ -49,7 +49,6 @@ from qtile_extras.widget.decorations import BorderDecoration
 # Set variables
 mod = "mod4"
 home = os.path.expanduser("~")
-backlight = os.listdir("/sys/class/backlight")[0]
 terminal = "kitty"
 launcher = home + "/.config/rofi/bin/launcher"
 screenshot = home + "/.config/rofi/bin/screenshot"
@@ -62,6 +61,13 @@ music_player = "spotify"
 bluetooth = "blueman-manager"
 calculator = "qalculate-gtk"
 keyboard_layout = "us"
+
+# Get the backlight name
+backlightdir = os.listdir("/sys/class/backlight")
+if backlightdir == []:
+    backlight = "intel_backlight"
+else:
+    backlight = backlightdir[0]
 
 # Set widget image
 distro = platform.freedesktop_os_release()["NAME"].split(" ")[0]

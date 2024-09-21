@@ -24,6 +24,10 @@
           desc = "[C]ode";
         }
         {
+          __unkeyed-1 = "<leader>ct";
+          desc = "[C]ode [T]est";
+        }
+        {
           __unkeyed-1 = "<leader>c";
           desc = "ChatGPT/Copilot/CCC";
         }

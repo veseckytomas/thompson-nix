@@ -27,9 +27,15 @@
     keymaps = [
       {
         mode = ["n"];
-        key = "<leader>ct";
-        action = "<cmd><CR>";
-        options.desc = "[C]ode [T]est";
+        key = "<leader>cts";
+        action = "<cmd>lua require('neotest').run.run()<CR>";
+        options.desc = "[C]ode [T]est [S]ingle";
+      }
+      {
+        mode = ["n"];
+        key = "<leader>ctf";
+        action = "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<CR>";
+        options.desc = "[C]ode [T]est [F]ile";
       }
     ];
   };
