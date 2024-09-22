@@ -92,7 +92,6 @@
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
           ./modules/common/notebook.nix
           ./modules
-          ./modules/common/notebook.nix
         ];
       };
 
