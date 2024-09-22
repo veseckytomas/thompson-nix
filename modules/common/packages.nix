@@ -165,5 +165,8 @@
     # Enable auto drive mounts
     gvfs.enable = true;
     udisks2.enable = true;
+
+    # Enable ollama
+    ollama.enable = true;
   };
 }
