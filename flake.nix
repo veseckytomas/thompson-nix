@@ -14,6 +14,7 @@
   inputs = {
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-24.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,6 +34,9 @@
     pkgs = import inputs.nixpkgs {
       inherit system;
       config = {allowUnfree = true;};
+    };
+    pkgs-stable = import inputs.nixpkgs-stable {
+      inherit system;
     };
   in {
     nixosConfigurations = {
@@ -92,6 +96,24 @@
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
           ./modules/common/notebook.nix
           ./modules
+        ];
+      };
+
+      BananaPiM2 = inputs.nixpkgs-stable.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        inherit system;
+        modules = [
+          ./hosts/BananaPiM2/configuration.nix
+          ./modules/server.nix
+        ];
+      };
+
+      Reyhan = inputs.nixpkgs-stable.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        inherit system;
+        modules = [
+          ./hosts/Reyhan/configuration.nix
+          ./modules/server.nix
         ];
       };
 

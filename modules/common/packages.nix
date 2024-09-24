@@ -119,6 +119,7 @@
     qalculate-gtk
     signal-desktop
     alsa-utils
+    teams-for-linux
   ];
 
   # Install nerdfonts

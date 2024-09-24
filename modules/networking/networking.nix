@@ -8,29 +8,12 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: let
-  vpn-config = [
-    "cvut-vpn"
-    "fit-vpn"
-  ];
-in {
+{...}: {
   # Enable networking
   networking.networkmanager.enable = true;
+  programs.nm-applet.enable = true;
 
   # VPN config
-  # environment.etc = builtins.listToAttrs (map (x:
-  #   "NetworkManager/system-connections/${x}.nmconnection" {
-  #     source = ./x.nmconnection;
-  #     mode = "0600";
-  #   })
-  # vpn-config);
-  # environment.etc = builtins.listToAttrs (map (x:
-  #   builtins.nameValuePair
-  #   "NetworkManager/system-connections/${x}.nmconnection" {
-  #     inherit (x) source;
-  #     mode = "0600";
-  #   })
-  # vpn-config);
   environment.etc = {
     "NetworkManager/system-connections/cvut-vpn.nmconnection" = {
       source = ./cvut-vpn.nmconnection;
