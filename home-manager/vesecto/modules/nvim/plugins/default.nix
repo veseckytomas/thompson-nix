@@ -72,6 +72,7 @@
     ./vim-dadbod.nix
     ./vim-surround.nix
     ./wakatime.nix
+    ./web-devicons.nix
     ./which-key.nix
   ];
 }

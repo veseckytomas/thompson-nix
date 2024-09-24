@@ -11,7 +11,15 @@
 {pkgs, ...}: {
   programs.nixvim = {
     extraPlugins = [
-      pkgs.vimPlugins.render-markdown-nvim
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "render-markdown.nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "MeanderingProgrammer";
+          repo = "render-markdown.nvim";
+          rev = "0986638b381a4b01eb108bb946f3a67a9eb3d0ec";
+          sha256 = "sha256-a2lwEiqDBOwqvFpV4yiH+EuvG1bwCTQJMe1tU5cQdg0=";
+        };
+      })
     ];
     keymaps = [
       {
