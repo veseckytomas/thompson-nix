@@ -19,6 +19,8 @@
     control = "required";
   };
 
+  security.polkit.enable = true;
+
   services = {
     # Enable Gnome keyring
     gnome.gnome-keyring.enable = true;
