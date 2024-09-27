@@ -11,6 +11,6 @@
 {...}: {
   imports = [
     ./virt-manager.nix
-    # ./virtualbox.nix
+    ./virtualbox.nix
   ];
 }
