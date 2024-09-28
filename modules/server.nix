@@ -8,11 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs-stable,
-  inputs,
-  ...
-}: {
+{pkgs-stable, ...}: {
   # Bootloader
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
@@ -25,9 +21,7 @@
 
   # Packages
   environment.systemPackages = with pkgs-stable; [
-    postgresql
     git
-    docker-compose
     wget
     tmux
     htop
@@ -93,7 +87,6 @@
     automatic = true;
     dates = ["02:00"];
   };
-
 
   # System version
   system.stateVersion = "24.05";
