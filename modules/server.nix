@@ -14,8 +14,8 @@
   ...
 }: {
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
 
   # Networking
   networking.networkmanager.enable = true;
@@ -66,6 +66,9 @@
   };
 
   services = {
+    # Enable QEMU Guest Agent
+    qemuGuest.enable = true;
+
     # Set cron
     cron = {
       enable = true;
@@ -79,6 +82,18 @@
 
   # Firewall open ports
   networking.firewall.allowedTCPPorts = [22];
+
+  # Garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "01:00";
+    options = "--delete-older-than 10d";
+  };
+  nix.optimise = {
+    automatic = true;
+    dates = ["02:00"];
+  };
+
 
   # System version
   system.stateVersion = "24.05";

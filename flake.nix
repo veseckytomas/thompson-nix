@@ -108,6 +108,15 @@
         ];
       };
 
+      NixOSServerTemplate = inputs.nixpkgs-stable.lib.nixosSystem {
+        specialArgs = {inherit inputs; inherit pkgs-stable; };
+        inherit system;
+        modules = [
+          ./hosts/NixOSServerTemplate/configuration.nix
+          ./modules/server.nix
+        ];
+      };
+
       Reyhan = inputs.nixpkgs-stable.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         inherit system;
