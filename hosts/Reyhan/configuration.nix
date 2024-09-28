@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs-stable, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -17,6 +17,9 @@
   environment.systemPackages = with pkgs-stable; [
     docker-compose
   ];
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs-stable.docker;
+  };
   networking.firewall.allowedTCPPorts = [5432];
 }
