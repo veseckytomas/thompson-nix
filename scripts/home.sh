@@ -13,6 +13,7 @@
 RED="\033[1;91m"
 NC="\033[0;0m"
 
+git restore --staged :/ >/dev/null
 git add home-manager
 home-manager switch --flake .#vesecto
 if test $? != 0; then
