@@ -12,3 +12,4 @@
 
 sudo nix-collect-garbage -d --quiet
 nix-collect-garbage -d --quiet
+nix-store --optimize
