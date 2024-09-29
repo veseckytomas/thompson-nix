@@ -11,5 +11,5 @@
 # GitLab: vesecky.tomas
 
 git pull
-sudo nixos-rebuild switch --flake /home/vesecto/thompson-nix#
+sudo nixos-rebuild switch --flake /home/vesecto/Git/thompson-nix#
 exit 0
