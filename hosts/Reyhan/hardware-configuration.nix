@@ -26,9 +26,18 @@
     extraModulePackages = [];
   };
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/813b15c4-61f2-403e-8b37-271a7ec5bec0";
-    fsType = "ext4";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/813b15c4-61f2-403e-8b37-271a7ec5bec0";
+      fsType = "ext4";
+    };
+    "/mnt/share" = {
+      device = "192.168.0.125/share";
+      fsType = "cifs";
+      options = [
+        "credentials=/.smbcredentials"
+      ];
+    };
   };
 
   swapDevices = [
