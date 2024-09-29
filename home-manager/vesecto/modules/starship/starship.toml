@@ -10,16 +10,13 @@
 # GitLab: vesecky.tomas
 
 format = """\
-[  ](bg:logo_bg fg:logo_fg)\
+$os\
 [](fg:logo_bg bg:dir_bg)\
 $directory\
 [](fg:dir_bg)\
 $git_branch\
 $git_status\
-$git_state\
-$fill\
-$cmd_duration\
-$time
+$git_state
 $character\
 """
 
@@ -27,6 +24,13 @@ palette = "foo"
 add_newline = true
 command_timeout = 300
 scan_timeout = 15
+
+[os]
+disabled = false
+format = "[ $symbol ](bg:logo_bg fg:logo_fg)"
+[os.symbols]
+NixOS = ""
+Arch = "󰣇"
 
 [directory]
 format = "[   $path ]($style)"
@@ -61,21 +65,6 @@ am = "am"
 am_or_rebase = "am/rebase"
 format = "\b[](fg:git_bg bg:git_bg_error)([ $state( $progress_current/$progress_total )](bg:git_bg_error fg:git_fg))[](fg:git_bg_error) "
 
-[fill]
-symbol = " "
-disabled = true
-
-[cmd_duration]
-format = "[  $duration ]($style)[](fg:time_bg)"
-style = "fg:cmd_fg bg:time_bg"
-disabled = true
-
-[time]
-time_format = "%R"
-style = "bg:#1d2230"
-format = "[[ 󱑍 $time ](bg:time_bg fg:time_fg)]($style)"
-disabled = true
-
 [palettes.foo]
 logo_fg = "#090c0c"
 logo_bg = "#b5b1b2"
@@ -84,7 +73,3 @@ dir_bg = "#0536fc"
 git_bg = "#15c101"
 git_bg_error = "#ff0000"
 git_fg = "#1c1c1c"
-cmd_fg = "bright-white"
-time_bg = "#1c3a5e"
-time_fg = "#8dfbd2"
-

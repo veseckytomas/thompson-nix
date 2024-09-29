@@ -17,6 +17,12 @@
     };
     packages = with pkgs-stable; [
       zsh
+      zsh
+      bat
+      eza
+      fd
+      zoxide
+      yazi
     ];
   };
 }

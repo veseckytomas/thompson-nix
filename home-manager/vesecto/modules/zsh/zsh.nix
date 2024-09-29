@@ -17,6 +17,11 @@
     };
     packages = with pkgs; [
       zsh
+      bat
+      eza
+      fd
+      zoxide
+      yazi
     ];
   };
 }
