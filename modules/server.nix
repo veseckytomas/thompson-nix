@@ -56,6 +56,7 @@
     isNormalUser = true;
     description = "Tomas Vesecky";
     extraGroups = ["networkmanager" "wheel"];
+    shell = pkgs-stable.zsh;
   };
 
   services = {
