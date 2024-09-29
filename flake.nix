@@ -23,6 +23,14 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-manager-stable = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    nixvim-stable = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     zen-browser = {
       url = "github:MarceColl/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -166,6 +174,16 @@
           ./home-manager/vesecto/home.nix
           inputs.catppuccin.homeManagerModules.catppuccin
           inputs.nixvim.homeManagerModules.nixvim
+        ];
+      };
+    };
+    homeConfigurations = {
+      vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
+        inherit pkgs-stable;
+        modules = [
+          ./home-manager/vesecto-server/home.nix
+          inputs.catppuccin.homeManagerModules.catppuccin
+          inputs.nixvim-stable.homeManagerModules.nixvim
         ];
       };
     };

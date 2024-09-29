@@ -28,6 +28,7 @@
     gzip
     curl
     gnutar
+    home-manager
   ];
   programs = {
     neovim = {
