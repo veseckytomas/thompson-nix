@@ -179,7 +179,7 @@
     };
     homeConfigurations = {
       vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
-        inherit pkgs-stable;
+        pkgs = pkgs-stable;
         modules = [
           ./home-manager/vesecto-server/home.nix
           inputs.catppuccin.homeManagerModules.catppuccin

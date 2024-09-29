@@ -13,6 +13,9 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
 
+  # Enable nix flakes
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   # Networking
   networking.networkmanager.enable = true;
 
