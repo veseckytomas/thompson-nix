@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim = {
     enable = true;
 

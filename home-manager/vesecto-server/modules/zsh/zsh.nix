@@ -8,14 +8,14 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs-stable, ...}: {
+{pkgs, ...}: {
   programs.bash.enable = true;
   home = {
     file = {
       ".zshrc".source = ./zshrc;
       ".config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh".source = ./catppuccin_mocha-zsh-syntax-highlighting.zsh;
     };
-    packages = with pkgs-stable; [
+    packages = with pkgs; [
       zsh
       zsh
       bat
