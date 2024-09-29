@@ -32,10 +32,10 @@
       fsType = "ext4";
     };
     "/mnt/share" = {
-      device = "192.168.0.125/share";
+      device = "//192.168.0.125/share";
       fsType = "cifs";
       options = [
-        "credentials=/home/vesecto/.smbcredentials"
+        "credentials=/.smbcredentials"
       ];
     };
   };
