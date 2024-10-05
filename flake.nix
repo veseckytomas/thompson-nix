@@ -24,7 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager-stable = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     nixvim-stable = {
@@ -176,8 +176,7 @@
           inputs.nixvim.homeManagerModules.nixvim
         ];
       };
-    };
-    homeConfigurations = {
+
       vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
         pkgs = pkgs-stable;
         modules = [
