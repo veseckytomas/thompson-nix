@@ -34,6 +34,7 @@
     ./bat.nix
     ./editorconfig.nix
     ./fzf.nix
+    ./hyprland.nix
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
