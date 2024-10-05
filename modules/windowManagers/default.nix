@@ -15,6 +15,7 @@
     # ./deepin.nix
     # ./enlightenment.nix
     # ./gnome.nix
+    ./hyprland.nix
     # ./i3.nix
     # ./plasma.nix
     ./qtile.nix

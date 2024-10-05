@@ -13,8 +13,21 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
 
-  # Enable nix flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix = {
+    # Enable nix flakes
+    nix.settings.experimental-features = ["nix-command" "flakes"];
+
+    # Garbage collection
+    nix.gc = {
+      automatic = true;
+      dates = "01:00";
+      options = "--delete-older-than 10d";
+    };
+    nix.optimise = {
+      automatic = true;
+      dates = ["02:00"];
+    };
+  };
 
   # Networking
   networking.networkmanager.enable = true;
@@ -61,6 +74,10 @@
     description = "Tomas Vesecky";
     extraGroups = ["networkmanager" "wheel"];
     shell = pkgs-stable.zsh;
+    openssh.authorizedKeys.keys = [
+      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIF72lKNXtnCRS7Pb9+oB8Urusf9QEJmw1XEOhLQjxbenAAAABHNzaDo= Primary Key"
+      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO+xfsaB1PekrdJ6Zmt8ByvScyFy51hF2ZKRU9Glh8phAAAABHNzaDo= Secondary Key"
+    ];
   };
 
   services = {
@@ -75,22 +92,17 @@
       ];
     };
     # Enable the OpenSSH daemon.
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
+    };
   };
 
   # Firewall open ports
   networking.firewall.allowedTCPPorts = [22];
-
-  # Garbage collection
-  nix.gc = {
-    automatic = true;
-    dates = "01:00";
-    options = "--delete-older-than 10d";
-  };
-  nix.optimise = {
-    automatic = true;
-    dates = ["02:00"];
-  };
 
   # System version
   system.stateVersion = "24.05";
