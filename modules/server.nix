@@ -15,15 +15,15 @@
 
   nix = {
     # Enable nix flakes
-    nix.settings.experimental-features = ["nix-command" "flakes"];
+    settings.experimental-features = ["nix-command" "flakes"];
 
     # Garbage collection
-    nix.gc = {
+    gc = {
       automatic = true;
       dates = "01:00";
       options = "--delete-older-than 10d";
     };
-    nix.optimise = {
+    optimise = {
       automatic = true;
       dates = ["02:00"];
     };
