@@ -12,5 +12,5 @@
 
 git pull
 sudo nixos-rebuild switch --flake /home/vesecto/Git/thompson-nix#
-home-manager switch --flake .#vesecto-server
+home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server
 exit 0
