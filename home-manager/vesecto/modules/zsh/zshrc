@@ -69,6 +69,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # Variables
 export EDITOR=nvim
+export DIRENV_WARN_TIMEOUT=0
 
 # Enable SSH Agent
 { eval $(gnome-keyring-daemon -s) } &>/dev/null
