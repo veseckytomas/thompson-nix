@@ -44,6 +44,7 @@
     yazi
     entr
     trash-cli
+    direnv
 
     # Terminal emulator
     kitty
