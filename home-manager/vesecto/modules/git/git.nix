@@ -31,7 +31,7 @@
       ll = "log --oneline --graph --all --decorate";
       f = "fetch -ap";
       ra = "remote add origin";
-      ca = "commit -i :/";
+      ca = "!git add --all && git commit";
     };
     extraConfig = {
       core = {
