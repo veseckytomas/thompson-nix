@@ -52,7 +52,6 @@
     ansible
     asciidoc
     jetbrains.datagrip
-    jetbrains.phpstorm
     doxygen
     postman
     clang
