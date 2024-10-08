@@ -10,36 +10,32 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
-    # Directories
-    ./clangd/clangd.nix
-    ./git/git.nix
-    ./i3lock/i3lock.nix
-    ./nvim/nvim.nix
-    ./qtile/qtile.nix
-    # ./ranger/ranger.nix
-    ./rofi/rofi.nix
-    ./starship/starship.nix
-    ./statix/statix.nix
-    ./stylua/stylua.nix
-    ./themes/catppuccin.nix
-    ./themes/gtk.nix
-    ./themes/qt.nix
-    ./tmux/tmux.nix
-    ./zsh/zsh.nix
-
-    # Single files
     # ./alacritty.nix
     ./atuin.nix
     # ./autorandr.nix
     ./bat.nix
+    ./clangd
     ./editorconfig.nix
     ./fzf.nix
-    ./hyprland.nix
+    ./git
+    ./hyprland
+    ./i3lock
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
+    ./nvim
     ./pandoc.nix
     ./pylint.nix
+    ./qtile
+    # ./ranger
+    ./rofi
+    ./starship
+    ./statix
+    ./stylua
+    ./themes
+    ./tmux
     ./yazi.nix
+    # ./zoxide.nix
+    ./zsh
   ];
 }
