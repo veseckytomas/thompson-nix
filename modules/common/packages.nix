@@ -11,6 +11,7 @@
 {
   pkgs,
   inputs,
+  username,
   ...
 }: {
   # Allow unfree packages
@@ -42,7 +43,6 @@
     dig
     yazi
     entr
-    nh
     trash-cli
 
     # Terminal emulator
@@ -147,6 +147,12 @@
       plugins = with pkgs.xfce; [
         thunar-volman
       ];
+    };
+
+    # Enable nh
+    nh = {
+      enable = true;
+      flake = "/home/${username}/Git/thompson-nix";
     };
 
     # Enable gnupg

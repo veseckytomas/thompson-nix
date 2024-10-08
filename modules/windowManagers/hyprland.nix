@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 # {pkgs, ...}: {
-{...}: {
+{pkgs, ...}: {
   services = {
     libinput.touchpad.naturalScrolling = true;
     acpid.enable = true;
@@ -18,6 +18,13 @@
     enable = true;
     xwayland.enable = true;
   };
-  # environment.systemPackages = with pkgs; [
-  # ];
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+  };
 }

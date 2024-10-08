@@ -8,20 +8,26 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   # Enable networking
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
 
-  # VPN config
-  environment.etc = {
-    "NetworkManager/system-connections/cvut-vpn.nmconnection" = {
-      source = ./cvut-vpn.nmconnection;
-      mode = "0600";
-    };
-    "NetworkManager/system-connections/fit-vpn.nmconnection" = {
-      source = ./fit-vpn.nmconnection;
-      mode = "0600";
+  environment = {
+    # Packages
+    systemPackages = with pkgs; [
+      networkmanagerapplet
+    ];
+    # VPN config
+    etc = {
+      "NetworkManager/system-connections/cvut-vpn.nmconnection" = {
+        source = ./cvut-vpn.nmconnection;
+        mode = "0600";
+      };
+      "NetworkManager/system-connections/fit-vpn.nmconnection" = {
+        source = ./fit-vpn.nmconnection;
+        mode = "0600";
+      };
     };
   };
 }

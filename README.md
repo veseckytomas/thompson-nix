@@ -13,9 +13,11 @@ This repository contains these configurations:
 - Laptop
 - 16" Laptop
 - Laptops for Tunneling game used during PTMM24
+- Servers
 - Install ISO
 - Disk rescue ISO
 - Home-manager config
+- Server Home-manager config
 
 ## Custom packages
 
@@ -32,9 +34,10 @@ These packages require manual update by changing rev and hash
 ./scripts/setup.sh
 ```
 
-2. Add ssh, gpg keys, certificates.
-3. Set thunderbird email accounts and add certificates.
-4. Any change line 14 in scripts/home.sh to $USERNAME
+1. Add ssh, gpg keys, certificates.
+2. Set thunderbird email accounts and add certificates.
+3. Change [line 14](scripts/home.sh) in scripts/home.sh to $USERNAME
+4. Change [line 42](flake.nix) in flake.nix to $USERNAME
 5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
 ## TMUX

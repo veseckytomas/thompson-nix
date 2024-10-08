@@ -35,10 +35,16 @@
       url = "github:MarceColl/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      submodules = true;
+    };
   };
 
   outputs = {self, ...} @ inputs: let
     system = "x86_64-linux";
+    username = "vesecto";
     pkgs = import inputs.nixpkgs {
       inherit system;
       config = {allowUnfree = true;};
@@ -49,8 +55,7 @@
   in {
     nixosConfigurations = {
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/TomasVesa-PC-NixOS/configuration.nix
           ./modules
@@ -58,8 +63,7 @@
       };
 
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -68,8 +72,7 @@
       };
 
       TomasVesa-NTB16-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/TomasVesa-NTB16-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -78,8 +81,7 @@
       };
 
       TomasVesa-TunnelingNTB1-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/TomasVesa-TunnelingNTB1-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -88,8 +90,7 @@
       };
 
       TomasVesa-TunnelingNTB2-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/TomasVesa-TunnelingNTB2-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -98,8 +99,7 @@
       };
 
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -108,8 +108,7 @@
       };
 
       BananaPiM2 = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        inherit system;
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/BananaPiM2/configuration.nix
           ./modules/server.nix
@@ -117,11 +116,7 @@
       };
 
       NixOSServerTemplate = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          inherit pkgs-stable;
-        };
-        inherit system;
+        specialArgs = {inherit inputs username system pkgs-stable;};
         modules = [
           ./hosts/NixOSServerTemplate/configuration.nix
           ./modules/server.nix
@@ -129,11 +124,7 @@
       };
 
       Reyhan = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          inherit pkgs-stable;
-        };
-        inherit system;
+        specialArgs = {inherit inputs username system pkgs-stable;};
         modules = [
           ./hosts/Reyhan/configuration.nix
           ./modules/server.nix
@@ -141,10 +132,7 @@
       };
 
       Merete = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          inherit pkgs-stable;
-        };
+        specialArgs = {inherit inputs username system pkgs-stable;};
         inherit system;
         modules = [
           ./hosts/Merete/configuration.nix
@@ -153,14 +141,14 @@
       };
 
       rescueIso = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs username system pkgs-stable;};
         modules = [
           ./hosts/rescueIso/configuration.nix
         ];
       };
 
       installIso = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs username system pkgs-stable;};
         modules = [
           ./hosts/installIso/configuration.nix
         ];
