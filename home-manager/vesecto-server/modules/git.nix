@@ -20,7 +20,7 @@
     aliases = {
       st = "status";
       ci = "commit";
-      co = "checkout";
+      co = "switch";
       swn = "switch -c";
       brd = "branch -D";
       br = "branch";
