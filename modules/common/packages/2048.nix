@@ -15,11 +15,14 @@ pkgs.stdenv.mkDerivation {
     owner = "mevdschee";
     repo = "2048.c";
     rev = "c4f03846a47df967b967ca5f7d11fb4ef82196f4";
-    sha256 = "";
+    sha256 = "sha256-MI/sDD3/Vq15a1KYhIIECnfVMO+GkM5pdQHzee+a8h0=";
   };
-  installPhase = ''
-    mkdir -p $out
+  buildInputs = with pkgs; [gcc];
+  buildPhase = ''
     gcc -o 2048 2048.c
-    cp -R ./2048 $out/
+  '';
+  installPhase = ''
+    mkdir -p $out/bin
+    cp -R ./2048 $out/bin
   '';
 }
