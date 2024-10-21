@@ -11,6 +11,7 @@
 
 format = """\
 $os\
+$nix_shell\
 [](fg:logo_bg bg:dir_bg)\
 $directory\
 [](fg:dir_bg)\
@@ -31,6 +32,9 @@ format = "[ $symbol ](bg:logo_bg fg:logo_fg)"
 [os.symbols]
 NixOS = ""
 Arch = "󰣇"
+
+[nix_shell]
+format = "[nix-shell ](bg:logo_bg fg:logo_fg)"
 
 [directory]
 format = "[   $path ]($style)"
