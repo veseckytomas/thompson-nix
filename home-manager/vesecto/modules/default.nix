@@ -20,6 +20,7 @@
     ./git
     ./hyprland
     ./i3lock
+    ./nomacs
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
