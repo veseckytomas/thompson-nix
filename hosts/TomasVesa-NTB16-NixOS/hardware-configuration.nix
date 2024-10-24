@@ -20,30 +20,40 @@
 
   boot = {
     initrd = {
-      availableKernelModules = ["nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+      availableKernelModules = ["ufshcd_pci" "xhci_pci" "usbhid" "usb_storage" "sd_mod"];
       kernelModules = [];
-      luks.devices."luks-1aee5a77-9651-4eaa-8dad-9a689110b4e7".device = "/dev/disk/by-uuid/1aee5a77-9651-4eaa-8dad-9a689110b4e7";
+      luks.devices."luks-79c0766b-82d6-4a5a-9a55-5ae45af95779".device = "/dev/disk/by-uuid/79c0766b-82d6-4a5a-9a55-5ae45af95779";
     };
-    kernelModules = ["kvm-amd"];
+    kernelModules = ["kvm-intel"];
     extraModulePackages = [];
+    kernelPatches = [
+      {
+        patch = builtins.fetchurl {
+          url = "https://bugzilla.kernel.org/attachment.cgi?id=304988";
+          sha256 = "sha256:1jilgcs7h6rwrc9dzskq0d8lw8hhwncrajlbjcs2mcg8krl05jpc";
+        };
+      }
+    ];
   };
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/a3f956be-93b7-41ec-8ef7-8c4a7f508971";
+      device = "/dev/disk/by-uuid/0202a1b4-da18-4e47-9c93-e27d027217c1";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/B2D9-70C9";
+      device = "/dev/disk/by-uuid/9682-DDB5";
       fsType = "vfat";
-      options = ["fmask=0022" "dmask=0022"];
+      options = ["fmask=0077" "dmask=0077"];
     };
   };
 
   swapDevices = [
-    {device = "/dev/disk/by-uuid/48a65e01-3f43-4b24-94e9-0e7905a86bef";}
+    {device = "/dev/disk/by-uuid/b4741a51-9d2f-4653-9c1f-fea1399daa67";}
   ];
+
   networking.useDHCP = lib.mkDefault true;
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

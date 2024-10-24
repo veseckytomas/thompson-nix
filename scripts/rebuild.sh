@@ -17,7 +17,7 @@ echo -e "${RED}Please touch the device. (Pull)${NC}"
 git pull
 git add --all
 git restore --staged home-manager
-sudo nixos-rebuild switch --flake .#
+sudo nixos-rebuild switch -j 8 --cores 8  --flake .#
 if test $? != 0; then
     echo "Build failed"
     git restore --staged :/ >/dev/null

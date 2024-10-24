@@ -11,6 +11,6 @@
 # GitLab: vesecky.tomas
 
 git pull
-sudo nixos-rebuild switch --flake /home/vesecto/Git/thompson-nix#
+sudo nixos-rebuild switch -j 8 --cores 8 --flake /home/vesecto/Git/thompson-nix#
 home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server
 exit 0

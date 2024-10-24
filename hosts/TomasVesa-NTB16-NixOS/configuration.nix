@@ -12,6 +12,5 @@
   imports = [
     ./hardware-configuration.nix
   ];
-  boot.initrd.luks.devices."luks-758ef95b-b271-4d89-8af0-2b3575ce45cf".device = "/dev/disk/by-uuid/758ef95b-b271-4d89-8af0-2b3575ce45cf";
   networking.hostName = "TomasVesa-NTB16-NixOS";
 }
