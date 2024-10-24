@@ -37,6 +37,9 @@ git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git "$HOME/DataGripProject
 # Clone TPM repository
 git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 
+# Install eduroam
+nix-shell -p 'python311.withPackages(ps: with ps; [ dbus-python ])' --run "python3 ./data/eduroam-linux-eduroam_-_settings.py"
+
 # Install proton compatibility layer
 if which protonup &> /dev/null; then
   protonup
