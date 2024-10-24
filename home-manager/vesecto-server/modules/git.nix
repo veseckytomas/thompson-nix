@@ -27,6 +27,7 @@
       ll = "log --oneline --graph --all --decorate";
       f = "fetch -ap";
       ra = "remote add origin";
+      cp = "cherry-pick";
     };
     extraConfig = {
       core = {

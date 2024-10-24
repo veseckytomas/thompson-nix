@@ -91,6 +91,7 @@
     hunspellDicts.en-us
 
     # Other
+    nomacs
     bitwarden
     discord
     evince
