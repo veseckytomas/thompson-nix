@@ -12,7 +12,7 @@
   programs.nixvim = {
     plugins.nvim-ufo = {
       enable = true;
-      providerSelector = ''
+      settings.provider_selector = ''
         function()
           -- return { "lsp", "indent" }
           return { "indent" }

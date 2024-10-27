@@ -31,30 +31,27 @@
       bashls.enable = true;
 
       # Docker
-      docker-compose-language-service.enable = true;
+      docker_compose_language_service.enable = true;
       dockerls.enable = true;
 
       # Webdev
       eslint.enable = true;
       html.enable = true;
       jsonls.enable = true;
-      nginx-language-server.enable = true;
-      ts-ls.enable = true;
+      nginx_language_server.enable = true;
+      ts_ls.enable = true;
       cssls.enable = true;
       tailwindcss.enable = true;
 
       # Lua
-      lua-ls.enable = true;
-
-      # PHP
-      phpactor.enable = true;
+      lua_ls.enable = true;
 
       # Python
       pylsp.enable = true;
       pylyzer.enable = true;
       pyright.enable = true;
       ruff.enable = true;
-      ruff-lsp.enable = true;
+      ruff_lsp.enable = true;
 
       # Rust
       # rust-analyzer = {
@@ -70,7 +67,7 @@
       texlab.enable = true;
 
       # Nix
-      nil-ls.enable = true;
+      nil_ls.enable = true;
 
       # Markdown
       marksman.enable = true;
