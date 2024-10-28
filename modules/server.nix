@@ -8,10 +8,14 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs-stable, ...}: {
+{
+  pkgs-stable,
+  lib,
+  ...
+}: {
   # Bootloader
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.enable = lib.mkDefault true;
+  boot.loader.grub.device = lib.mkDefault "/dev/sda";
 
   nix = {
     # Enable nix flakes
