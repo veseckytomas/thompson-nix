@@ -99,6 +99,8 @@
         PermitRootLogin = "no";
       };
     };
+
+    gnome.gnome-keyring.enable = true;
   };
 
   # Firewall open ports
