@@ -88,7 +88,7 @@
     cron = {
       enable = true;
       systemCronJobs = [
-        "0 0 * * *  root  ~/home/vesecto/thompson-nix/scripts/rebuild-server.sh"
+        "0 0 * * *  root  /home/vesecto/thompson-nix/scripts/rebuild-server.sh"
       ];
     };
     # Enable the OpenSSH daemon.

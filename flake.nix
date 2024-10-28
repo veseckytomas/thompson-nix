@@ -80,24 +80,6 @@
         ];
       };
 
-      TomasVesa-TunnelingNTB1-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
-        modules = [
-          ./hosts/TomasVesa-TunnelingNTB1-NixOS/configuration.nix
-          ./modules/common/notebook.nix
-          ./modules/tunneling.nix
-        ];
-      };
-
-      TomasVesa-TunnelingNTB2-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
-        modules = [
-          ./hosts/TomasVesa-TunnelingNTB2-NixOS/configuration.nix
-          ./modules/common/notebook.nix
-          ./modules/tunneling.nix
-        ];
-      };
-
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
@@ -107,10 +89,10 @@
         ];
       };
 
-      BananaPiM2 = inputs.nixpkgs-stable.lib.nixosSystem {
+      Karthik = inputs.nixpkgs-stable.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
-          ./hosts/BananaPiM2/configuration.nix
+          ./hosts/Karthik/configuration.nix
           ./modules/server.nix
         ];
       };
