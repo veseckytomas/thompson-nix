@@ -13,7 +13,7 @@
     ./gitmessenger.nix
     ./gitsigns.nix
     ./indent-blankline.nix
-    ./lualine.nix
+    # ./lualine.nix
     ./mini.nix
     ./neogit.nix
     ./noice.nix
