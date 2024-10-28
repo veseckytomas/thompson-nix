@@ -14,6 +14,6 @@
   ];
   boot.loader.grub.enable = lib.mkForce false;
   boot.loader.generic-extlinux-compatible.enable = lib.mkForce true;
-  qemuGuest.enable = lib.mkForce false;
+  services.qemuGuest.enable = lib.mkForce false;
   networking.hostName = "Karthik";
 }
