@@ -86,7 +86,7 @@
 
   services = {
     # Enable QEMU Guest Agent
-    qemuGuest.enable = true;
+    qemuGuest.enable = lib.mkDefault true;
 
     # Set cron
     cron = {
@@ -103,7 +103,7 @@
         PermitRootLogin = "no";
       };
     };
-
+    # Enable keyring
     gnome.gnome-keyring.enable = true;
   };
 
