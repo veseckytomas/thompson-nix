@@ -42,6 +42,7 @@
   # Packages
   environment.systemPackages = with pkgs-stable; [
     git
+    trash-cli
     wget
     tmux
     htop
