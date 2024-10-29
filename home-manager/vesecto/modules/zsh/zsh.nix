@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
-  programs.bash.enable = true;
+  programs.zsh.enable = true;
   home = {
     file = {
       ".zshrc".source = ./zshrc;
