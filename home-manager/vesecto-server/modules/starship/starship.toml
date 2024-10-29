@@ -23,7 +23,7 @@ scan_timeout = 15
 
 [username]
 show_always = true
-format = '[$user]($style)'
+format = '[$user]($style_user)'
 style = "bold yellow"
 
 [hostname]

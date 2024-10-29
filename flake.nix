@@ -94,7 +94,7 @@
         specialArgs = {
           inherit inputs username;
           pkgs-stable = import inputs.nixpkgs-stable {
-            inherit system;
+            system = "aarch64-linux";
           };
         };
         modules = [
