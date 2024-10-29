@@ -90,7 +90,8 @@
       };
 
       Karthik = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username pkgs-stable;};
+        system = "aarch64-linux";
         modules = [
           ./hosts/Karthik/configuration.nix
           ./modules/server.nix
