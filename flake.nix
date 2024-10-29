@@ -161,6 +161,17 @@
           inputs.nixvim-stable.homeManagerModules.nixvim
         ];
       };
+
+      vesecto-server-arm = inputs.home-manager-stable.lib.homeManagerConfiguration {
+        pkgs = import inputs.nixpkgs-stable {
+          system = "aarch64-linux";
+        };
+        modules = [
+          ./home-manager/vesecto-server/home.nix
+          inputs.catppuccin.homeManagerModules.catppuccin
+          inputs.nixvim-stable.homeManagerModules.nixvim
+        ];
+      };
     };
   };
 }
