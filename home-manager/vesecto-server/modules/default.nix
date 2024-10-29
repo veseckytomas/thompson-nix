@@ -11,7 +11,7 @@
 {...}: {
   imports = [
     # Directories
-    # ./nvim/nvim.nix
+    ./nvim/nvim.nix
     ./starship/starship.nix
     ./tmux/tmux.nix
     ./zsh/zsh.nix
