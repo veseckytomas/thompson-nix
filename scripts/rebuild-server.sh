@@ -12,5 +12,10 @@
 
 git pull
 sudo nixos-rebuild switch -j 8 --cores 8 --flake /home/vesecto/Git/thompson-nix#
-home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server
+if [ "$(uname -m)" = "aarch64" ]
+then
+  home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server-arch
+else
+  home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server
+fi
 exit 0
