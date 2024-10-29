@@ -14,6 +14,5 @@
     ./oil.nix
     ./telescope.nix
     ./tmux-navigator.nix
-    ./treesitter.nix
   ];
 }
