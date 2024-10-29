@@ -10,16 +10,7 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
-    ./gitmessenger.nix
-    ./gitsigns.nix
-    ./indent-blankline.nix
-    ./lualine.nix
-    ./mini.nix
-    ./neogit.nix
-    ./noice.nix
     ./oil.nix
     ./telescope.nix
-    ./tmux-navigator.nix
-    ./web-devicons.nix
   ];
 }
