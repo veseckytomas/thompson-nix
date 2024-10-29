@@ -10,7 +10,10 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
+    ./noice.nix
     ./oil.nix
     ./telescope.nix
+    ./tmux-navigator.nix
+    ./treesitter.nix
   ];
 }
