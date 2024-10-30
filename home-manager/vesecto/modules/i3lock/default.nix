@@ -8,8 +8,18 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./i3lock.nix
-  ];
+{pkgs, ...}: let
+  config_dir = ".config/i3lock";
+in {
+  home = {
+    file = {
+      "${config_dir}/arch_lock_screen.png".source = ./arch_lock_screen.png;
+      "${config_dir}/linux_lock_screen.png".source = ./linux_lock_screen.png;
+      "${config_dir}/nixos_lock_screen.png".source = ./nixos_lock_screen.png;
+      "${config_dir}/lock.sh".source = ./lock.sh;
+    };
+    packages = with pkgs; [
+      i3lock
+    ];
+  };
 }

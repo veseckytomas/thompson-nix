@@ -13,6 +13,7 @@
     # ./alacritty.nix
     ./atuin.nix
     # ./autorandr.nix
+    ./backgrounds
     ./bat.nix
     ./clangd
     ./editorconfig.nix

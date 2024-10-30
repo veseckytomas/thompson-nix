@@ -8,8 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./stylua.nix
-  ];
+{pkgs, ...}: let
+  config_dir = ".config";
+in {
+  home = {
+    file."${config_dir}/stylua.toml".source = ./stylua.toml;
+    packages = with pkgs; [
+      stylua
+    ];
+  };
 }

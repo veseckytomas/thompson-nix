@@ -72,11 +72,11 @@ else:
 # Set widget image
 distro = platform.freedesktop_os_release()["NAME"].split(" ")[0]
 if distro == "Arch":
-    widget_image = "~/.config/qtile/images/arch.png"
+    widget_image = "~/.config/background/arch.png"
 elif distro == "NixOS":
-    widget_image = "~/.config/qtile/images/nixos.png"
+    widget_image = "~/.config/background/nixos.png"
 else:
-    widget_image = "~/.config/qtile/images/linux.png"
+    widget_image = "~/.config/background/linux.png"
 
 # Set machine chassis
 chassis = subprocess.run(["hostnamectl", "chassis"], capture_output=True, text=True)

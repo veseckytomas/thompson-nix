@@ -30,8 +30,27 @@ scan_timeout = 15
 disabled = false
 format = "[ $symbol ](bg:logo_bg fg:logo_fg)"
 [os.symbols]
-NixOS = ""
+Alpine = ""
+Amazon = ""
+Android = ""
 Arch = "󰣇"
+Artix = "󰣇"
+CentOS = ""
+Debian = "󰣚"
+Fedora = "󰣛"
+Gentoo = "󰣨"
+Linux = "󰌽"
+Macos = ""
+Manjaro = ""
+Mint = "󰣭"
+NixOS = ""
+Raspbian = "󰐿"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+SUSE = ""
+Ubuntu = "󰕈"
+Windows = "󰍲"
+
 
 [nix_shell]
 format = "[nix-shell ](bg:logo_bg fg:logo_fg)"

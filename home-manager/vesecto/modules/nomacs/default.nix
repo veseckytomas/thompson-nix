@@ -8,8 +8,12 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./nomacs.nix
-  ];
+{pkgs, ...}: let
+  config_dir = ".config/nomacs";
+in {
+  home = {
+    file = {
+      "${config_dir}/Image \Lounge.conf".source = ./nomacs.conf;
+    };
+  };
 }

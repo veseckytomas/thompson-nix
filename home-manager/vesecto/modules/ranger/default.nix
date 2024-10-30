@@ -8,8 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./ranger.nix
-  ];
+{pkgs, ...}: let
+  config_dir = ".config/ranger";
+in {
+  home = {
+    file."${config_dir}/rifle.conf".source = ./rifle.conf;
+    packages = with pkgs; [
+      ranger
+    ];
+  };
 }

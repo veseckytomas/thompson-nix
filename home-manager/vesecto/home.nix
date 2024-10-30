@@ -17,6 +17,18 @@
       EDITOR = "nvim";
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
+    # xdg = {
+    #   enable = true;
+    #   mimeApps = {
+    #     enable = true;
+    #     associations.added = {
+    #       "application/pdf" = ["org.gnome.Evince.desktop"];
+    #     };
+    #     defaultApplications = {
+    #       "application/pdf" = ["org.gnome.Evince.desktop"];
+    #     };
+    #   };
+    # };
   };
 
   news.display = "silent";

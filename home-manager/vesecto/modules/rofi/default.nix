@@ -8,8 +8,24 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./rofi.nix
-  ];
+{pkgs, ...}: let
+  config_dir = ".config/rofi";
+in {
+  home = {
+    file = {
+      "${config_dir}/bin/launcher".source = ./bin/launcher;
+      "${config_dir}/bin/powermenu".source = ./bin/powermenu;
+      "${config_dir}/bin/screenshot".source = ./bin/screenshot;
+      "${config_dir}/config/askpass.rasi".source = ./config/askpass.rasi;
+      "${config_dir}/config/colors.rasi".source = ./config/colors.rasi;
+      "${config_dir}/config/confirm.rasi".source = ./config/confirm.rasi;
+      "${config_dir}/config/font.rasi".source = ./config/font.rasi;
+      "${config_dir}/config/launcher.rasi".source = ./config/launcher.rasi;
+      "${config_dir}/config/powermenu.rasi".source = ./config/powermenu.rasi;
+      "${config_dir}/config/screenshot.rasi".source = ./config/screenshot.rasi;
+    };
+    packages = with pkgs; [
+      rofi
+    ];
+  };
 }

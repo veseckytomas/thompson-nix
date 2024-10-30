@@ -8,8 +8,20 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./zsh.nix
-  ];
+{pkgs, ...}: {
+  programs.zsh.enable = true;
+  home = {
+    file = {
+      ".zshrc".source = ./zshrc;
+      ".config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh".source = ./catppuccin_mocha-zsh-syntax-highlighting.zsh;
+    };
+    packages = with pkgs; [
+      zsh
+      bat
+      eza
+      fd
+      zoxide
+      yazi
+    ];
+  };
 }

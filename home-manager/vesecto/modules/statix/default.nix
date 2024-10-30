@@ -8,8 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./statix.nix
-  ];
+{pkgs, ...}: {
+  home = {
+    file."statix.toml".source = ./statix.toml;
+    packages = with pkgs; [
+      statix
+    ];
+  };
 }

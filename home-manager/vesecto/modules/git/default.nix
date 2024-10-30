@@ -9,7 +9,45 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  imports = [
-    ./git.nix
-  ];
+  programs.git = {
+    enable = true;
+    userEmail = "vesecky@proton.me";
+    userName = "Tomáš Vesecký";
+    delta.catppuccin = {
+      enable = true;
+      flavor = "mocha";
+    };
+    signing = {
+      signByDefault = true;
+      key = "86020E9B84233A43E5249EC4E397E45D1BC4E984";
+    };
+    aliases = {
+      st = "status";
+      ci = "commit";
+      co = "switch";
+      swn = "switch -c";
+      brd = "branch -D";
+      br = "branch";
+      ll = "log --oneline --graph --all --decorate";
+      f = "fetch -ap";
+      ra = "remote add origin";
+      ca = "!git add --all && git commit -m";
+      cp = "cherry-pick";
+    };
+    extraConfig = {
+      core = {
+        editor = "nvim";
+      };
+      push = {
+        autoSetupRemote = true;
+      };
+      rerere = {
+        enable = true;
+      };
+      init = {
+        defaultBranch = "master";
+      };
+    };
+  };
+  home.file."Git/migrate.sh".source = ./migrate.sh;
 }

@@ -8,8 +8,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./tmux.nix
-  ];
+{pkgs, ...}: let
+  config_dir = ".config/tmux";
+in {
+  home = {
+    file."${config_dir}/tmux.conf".source = ./tmux.conf;
+    packages = with pkgs; [
+      tmux
+    ];
+  };
 }
