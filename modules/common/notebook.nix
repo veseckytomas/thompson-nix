@@ -8,24 +8,17 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}: {
-  # options.notebook.enable = lib.mkEnableOption "Enables notebook module";
-
-  # config = lib.mkIf config.notebook.enable {
-  config = {
-    services.libinput.enable = true;
-    hardware = {
-      acpilight.enable = true;
-      bluetooth.enable = true;
-      bluetooth.powerOnBoot = true;
-    };
-    environment.systemPackages = with pkgs; [
-      blueman
-    ];
+{pkgs, ...}: {
+  services = {
+    libinput.enable = true;
+    tlp.enable = true;
   };
+  hardware = {
+    acpilight.enable = true;
+    bluetooth.enable = true;
+    bluetooth.powerOnBoot = true;
+  };
+  environment.systemPackages = with pkgs; [
+    blueman
+  ];
 }
