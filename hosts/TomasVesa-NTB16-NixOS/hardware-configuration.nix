@@ -23,6 +23,15 @@
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
+  boot.kernelPatches = [
+    {
+      patch = builtins.fetchurl {
+        url = "https://bugzilla.kernel.org/attachment.cgi?id=304988";
+        sha256 = "sha256:1jilgcs7h6rwrc9dzskq0d8lw8hhwncrajlbjcs2mcg8krl05jpc";
+      };
+    }
+  ];
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/0202a1b4-da18-4e47-9c93-e27d027217c1";
     fsType = "ext4";
