@@ -11,5 +11,6 @@
 {...}: {
   imports = [
     ./hyprland.nix
+    ../backgrounds
   ];
 }

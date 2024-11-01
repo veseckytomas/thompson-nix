@@ -11,6 +11,11 @@
 {...}: let
   config_dir = ".config/qtile";
 in {
+  imports = [
+    ../backgrounds
+    ../i3lock
+    ../rofi
+  ];
   home.file = {
     "${config_dir}/config.py".source = ./config.py;
     "${config_dir}/colors.py".source = ./colors.py;
