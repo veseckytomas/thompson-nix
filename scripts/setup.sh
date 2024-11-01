@@ -29,8 +29,8 @@ if ! ls "$HOME/.config/Yubico/u2f_keys" &> /dev/null; then
 fi
 
 # Clone repositories
-git clone git@gitlab.com:vesecky.tomas/thompson-nix.git "$HOME/Git/thompson-nix"
-git clone git@gitlab.com:vesecky.tomas/obsidian.git "$HOME/Git/thompson-obsidian"
+git clone git@gitlab.com:vesecky.tomas/thompson-nix.git "$HOME/Git/Personal/thompson-nix"
+git clone git@gitlab.com:vesecky.tomas/obsidian.git "$HOME/Git/Personal/thompson-obsidian"
 git clone git@gitlab.com:homelab1960731/thompson-dwh.git "$HOME/DataGripProjects/Homelab"
 git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git "$HOME/DataGripProjects/DWH"
 
