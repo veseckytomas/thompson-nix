@@ -10,6 +10,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-sudo nix-collect-garbage -d --quiet
-nix-collect-garbage -d --quiet
+sudo nix-collect-garbage -d
+nix-collect-garbage -d
 nix-store --optimize
