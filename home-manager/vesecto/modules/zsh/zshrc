@@ -110,7 +110,7 @@ function save_obsidian {
 	popd > /dev/null
 }
 function nixos-run {
-	pushd ~/Git/thompson-nix > /dev/null
+	pushd ~/Git/Personal/thompson-nix > /dev/null
 	./scripts/main.sh
 	popd > /dev/null
 }
