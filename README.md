@@ -24,7 +24,9 @@ This repository contains these configurations:
 These packages require manual update by changing rev and hash
 
 - ./modules/loginManagers/sddm-theme/sddm-theme.nix
+- ./modules/common/packages/2048.nix
 - ./home-manager/vesecto/modules/nvim/plugins/kulala.nix
+- ./home-manager/vesecto/modules/nvim/plugins/render-markdown-nvim.nix
 
 ## Initial setup
 

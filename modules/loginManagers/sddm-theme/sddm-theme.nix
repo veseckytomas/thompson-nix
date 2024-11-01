@@ -9,15 +9,12 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: let
-  imgLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/4496ae9e0f068094fa168df801b6f869bd0bece2/modules/loginManagers/sddm-theme/sddm_bg.png";
-  configLink = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/4496ae9e0f068094fa168df801b6f869bd0bece2/modules/loginManagers/sddm-theme/sddm-config.conf";
-
   img = pkgs.fetchurl {
-    url = imgLink;
+    url = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/4496ae9e0f068094fa168df801b6f869bd0bece2/modules/loginManagers/sddm-theme/sddm_bg.png";
     sha256 = "1wjaaqfmipv8qypq23b8n4zm9fbkhq0fnl1nr3kz3sa1qnzf9nj5";
   };
   config = pkgs.fetchurl {
-    url = configLink;
+    url = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/4496ae9e0f068094fa168df801b6f869bd0bece2/modules/loginManagers/sddm-theme/sddm-config.conf";
     sha256 = "1s0mw3rbif5kyhiz13c6z92mkxwc8jjahyxdfw8vzzfhhz0d4294";
   };
 in

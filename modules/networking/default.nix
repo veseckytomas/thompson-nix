@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{lib, ...}: {
+{...}: {
   imports = [
     ./networking.nix
   ];
