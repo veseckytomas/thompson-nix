@@ -17,18 +17,40 @@
       EDITOR = "nvim";
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
-    # xdg = {
-    #   enable = true;
-    #   mimeApps = {
-    #     enable = true;
-    #     associations.added = {
-    #       "application/pdf" = ["org.gnome.Evince.desktop"];
-    #     };
-    #     defaultApplications = {
-    #       "application/pdf" = ["org.gnome.Evince.desktop"];
-    #     };
-    #   };
-    # };
+  };
+  xdg = {
+    enable = true;
+    mimeApps = {
+      enable = true;
+      associations.added = {
+        "application/pdf" = ["org.gnome.Evince.desktop"];
+        "text/html" = ["librewolf.desktop"];
+        "application/xhtml+xml" = ["librewolf.desktop"];
+        "x-scheme-handler/http" = ["librewolf.desktop;"];
+        "x-scheme-handler/https" = ["librewolf.desktop"];
+        "x-scheme-handler/mailto" = ["userapp-Thunderbird-SLK2Q2.desktop"];
+        "image/png" = ["org.nomacs.ImageLounge.desktop"];
+        "image/jpeg" = ["org.nomacs.ImageLounge.desktop"];
+        "x-scheme-handler/webcal" = ["userapp-Thunderbird-7FS1Q2.desktop"];
+        "text/calendar" = ["userapp-Thunderbird-7FS1Q2.desktop"];
+        "text/plain" = ["nvim.desktop"];
+        "video/mp4" = ["vlc.desktop"];
+      };
+      defaultApplications = {
+        "application/pdf" = ["org.gnome.Evince.desktop"];
+        "text/html" = ["librewolf.desktop"];
+        "application/xhtml+xml" = ["librewolf.desktop"];
+        "x-scheme-handler/http" = ["librewolf.desktop;"];
+        "x-scheme-handler/https" = ["librewolf.desktop"];
+        "x-scheme-handler/mailto" = ["userapp-Thunderbird-SLK2Q2.desktop"];
+        "image/png" = ["org.nomacs.ImageLounge.desktop"];
+        "image/jpeg" = ["org.nomacs.ImageLounge.desktop"];
+        "x-scheme-handler/webcal" = ["userapp-Thunderbird-7FS1Q2.desktop"];
+        "text/calendar" = ["userapp-Thunderbird-7FS1Q2.desktop"];
+        "text/plain" = ["nvim.desktop"];
+        "video/mp4" = ["vlc.desktop"];
+      };
+    };
   };
 
   news.display = "silent";
