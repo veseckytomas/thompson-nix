@@ -11,10 +11,10 @@
 {pkgs, ...}: {
   qt = {
     enable = true;
-    platformTheme.name = "gtk";
+    platformTheme = "gtk";
     style = {
-      package = pkgs.dracula-theme;
-      name = "Dracula";
+      package = pkgs.adwaita-qt;
+      name = "adwaita-dark";
     };
   };
 }
