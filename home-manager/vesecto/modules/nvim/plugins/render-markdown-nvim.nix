@@ -8,17 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.nixvim = {
     extraPlugins = [
       (pkgs.vimUtils.buildVimPlugin {
         name = "render-markdown.nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "MeanderingProgrammer";
-          repo = "render-markdown.nvim";
-          rev = "0986638b381a4b01eb108bb946f3a67a9eb3d0ec";
-          sha256 = "sha256-a2lwEiqDBOwqvFpV4yiH+EuvG1bwCTQJMe1tU5cQdg0=";
-        };
+        src = inputs.render-markdown-nvim;
       })
     ];
     keymaps = [

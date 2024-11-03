@@ -8,17 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.nixvim = {
     extraPlugins = [
       (pkgs.vimUtils.buildVimPlugin {
         name = "kulala.nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "mistweaverco";
-          repo = "kulala.nvim";
-          rev = "f373b48b62fe0da8a6bff1ed64452d27313d568b";
-          sha256 = "sha256-hLfnn94MkIR7ZUCjNLtZkuBHOWPHyDvBR6XkalphvX8=";
-        };
+        src = inputs.kulala-nvim;
       })
     ];
     extraConfigLua = ''
