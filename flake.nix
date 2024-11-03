@@ -40,6 +40,12 @@
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
     };
+    "2048" = {
+      type = "github";
+      owner = "mevdschee";
+      repo = "2048.c";
+      flake = false;
+    };
   };
 
   outputs = {self, ...} @ inputs: let

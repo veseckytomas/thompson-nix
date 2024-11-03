@@ -21,7 +21,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # Shell
-    (callPackage ./packages/2048.nix {})
+    (callPackage ./packages/2048.nix {inherit inputs;})
     atuin
     bat
     curl

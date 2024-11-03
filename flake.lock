@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "2048": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1716318244,
+        "narHash": "sha256-MI/sDD3/Vq15a1KYhIIECnfVMO+GkM5pdQHzee+a8h0=",
+        "owner": "mevdschee",
+        "repo": "2048.c",
+        "rev": "c4f03846a47df967b967ca5f7d11fb4ef82196f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mevdschee",
+        "repo": "2048.c",
+        "type": "github"
+      }
+    },
     "aquamarine": {
       "inputs": {
         "hyprutils": [
@@ -816,6 +832,7 @@
     },
     "root": {
       "inputs": {
+        "2048": "2048",
         "catppuccin": "catppuccin",
         "home-manager": "home-manager",
         "home-manager-stable": "home-manager-stable",

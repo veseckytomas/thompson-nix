@@ -8,15 +8,14 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 pkgs.stdenv.mkDerivation {
   name = "2048";
-  src = pkgs.fetchFromGitHub {
-    owner = "mevdschee";
-    repo = "2048.c";
-    rev = "c4f03846a47df967b967ca5f7d11fb4ef82196f4";
-    sha256 = "sha256-MI/sDD3/Vq15a1KYhIIECnfVMO+GkM5pdQHzee+a8h0=";
-  };
+  src = inputs."2048";
   buildInputs = with pkgs; [gcc];
   buildPhase = ''
     gcc -o 2048 2048.c
