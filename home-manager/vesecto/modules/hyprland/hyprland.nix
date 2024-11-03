@@ -8,15 +8,35 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{...}: {
   wayland.windowManager.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+    settings = {
+      catppuccin = {
+        enable = true;
+        accent = "mauve";
+        flavor = "mocha";
+      };
+      # autostart
+      exec-once = [
+        "nm-applet &"
+        "hyprlock"
+        "exec-once=waybar &"
+        "swaync &"
+        "hyprpaper &"
+        "hypridle"
+      ];
+
+      input = {
+        kb_layout = "us,cs";
+        numlock_by_default = true;
+        touchpad = {
+          natural_scroll = true;
+        };
+      };
+
+      general = {
+        "$mainMod" = "SUPER";
+      };
+    };
   };
-  home.packages = with pkgs; [
-    wayland
-  ];
-  imports = [
-    ./config.nix
-  ];
 }

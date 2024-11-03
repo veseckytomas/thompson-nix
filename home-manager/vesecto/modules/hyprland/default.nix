@@ -8,7 +8,14 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
+  wayland.windowManager.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+  home.packages = with pkgs; [
+    wayland
+  ];
   imports = [
     ./hyprland.nix
     ../backgrounds
