@@ -8,10 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{lib, ...}: {
   boot.loader = {
     systemd-boot = {
-      enable = true;
+      enable = lib.mkDefault true;
       configurationLimit = 5;
     };
     efi.canTouchEfiVariables = true;

@@ -14,7 +14,7 @@ echo "Enter hostname:"
 read -r hostname
 
 # Rebuild system
-sudo nixos-rebuild boot -j 8 --cores 8 --flake .#"$hostname"
+sudo nixos-rebuild switch -j 8 --cores 8 --flake .#"$hostname"
 nix-shell -p home-manager --run "home-manager switch --flake .#$(whoami)"
 
 # Insert Yubikeys

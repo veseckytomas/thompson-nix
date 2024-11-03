@@ -8,15 +8,19 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   # Enable nix flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Enable Yubikey support
   security.pam.u2f = {
-    enable = true;
+    enable = lib.mkDefault true;
     settings.cue = true;
-    control = "required";
+    control = lib.mkDefault "required";
   };
 
   # security.polkit.enable = true;
