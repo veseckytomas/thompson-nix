@@ -46,6 +46,24 @@
       repo = "2048.c";
       flake = false;
     };
+    sddm-theme = {
+      type = "github";
+      owner = "MarianArlt";
+      repo = "sddm-sugar-dark";
+      flake = false;
+    };
+    kulala-nvim = {
+      type = "github";
+      owner = "mistweaverco";
+      repo = "kulala.nvim";
+      flake = false;
+    };
+    render-markdown-nvim = {
+      type = "github";
+      owner = "MeanderingProgrammer";
+      repo = "render-markdown.nvim";
+      flake = false;
+    };
   };
 
   outputs = {self, ...} @ inputs: let
@@ -151,6 +169,7 @@
 
     homeConfigurations = {
       vesecto = inputs.home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {inherit inputs;};
         inherit pkgs;
         modules = [
           ./home-manager/vesecto/home.nix

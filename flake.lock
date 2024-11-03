@@ -623,6 +623,22 @@
         "type": "github"
       }
     },
+    "kulala-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730494781,
+        "narHash": "sha256-R2rJ8tGEmklmLGCGksM2RoJh0slMeX/V4Pdy+pHle7M=",
+        "owner": "mistweaverco",
+        "repo": "kulala.nvim",
+        "rev": "a3643b228f23fde4a1026adb6a3efc3b22722e12",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mistweaverco",
+        "repo": "kulala.nvim",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -830,6 +846,22 @@
         "type": "github"
       }
     },
+    "render-markdown-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730063078,
+        "narHash": "sha256-QBrI0P9FlFdBOguchNCARHe1pnUhI+/MkIxUsEKLBJg=",
+        "owner": "MeanderingProgrammer",
+        "repo": "render-markdown.nvim",
+        "rev": "fc05fb7c56795f191b6800799a2ec6ea325ba715",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MeanderingProgrammer",
+        "repo": "render-markdown.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "2048": "2048",
@@ -837,11 +869,30 @@
         "home-manager": "home-manager",
         "home-manager-stable": "home-manager-stable",
         "hyprland": "hyprland",
+        "kulala-nvim": "kulala-nvim",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "nixvim": "nixvim",
         "nixvim-stable": "nixvim-stable",
+        "render-markdown-nvim": "render-markdown-nvim",
+        "sddm-theme": "sddm-theme",
         "zen-browser": "zen-browser"
+      }
+    },
+    "sddm-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1661321743,
+        "narHash": "sha256-flOspjpYezPvGZ6b4R/Mr18N7N3JdytCSwwu6mf4owQ=",
+        "owner": "MarianArlt",
+        "repo": "sddm-sugar-dark",
+        "rev": "ceb2c455663429be03ba62d9f898c571650ef7fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MarianArlt",
+        "repo": "sddm-sugar-dark",
+        "type": "github"
       }
     },
     "systems": {

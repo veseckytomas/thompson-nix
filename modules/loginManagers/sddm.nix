@@ -8,13 +8,17 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   services = {
     xserver.enable = true;
     displayManager.sddm = {
       enable = true;
       autoNumlock = true;
-      theme = "${import ./sddm-theme/sddm-theme.nix {inherit pkgs;}}";
+      theme = "${import ./sddm-theme/sddm-theme.nix {inherit pkgs inputs;}}";
     };
   };
   environment.systemPackages = with pkgs; [

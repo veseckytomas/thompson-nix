@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: let
+{
+  pkgs,
+  inputs,
+  ...
+}: let
   img = pkgs.fetchurl {
     url = "https://gitlab.com/vesecky.tomas/thompson-nix/-/raw/4496ae9e0f068094fa168df801b6f869bd0bece2/modules/loginManagers/sddm-theme/sddm_bg.png";
     sha256 = "1wjaaqfmipv8qypq23b8n4zm9fbkhq0fnl1nr3kz3sa1qnzf9nj5";
@@ -20,12 +24,18 @@
 in
   pkgs.stdenv.mkDerivation {
     name = "sddm-theme";
-    src = pkgs.fetchFromGitHub {
-      owner = "MarianArlt";
-      repo = "sddm-sugar-dark";
-      rev = "ceb2c455663429be03ba62d9f898c571650ef7fe";
-      sha256 = "0153z1kylbhc9d12nxy9vpn0spxgrhgy36wy37pk6ysq7akaqlvy";
-    };
+    src = [
+      inputs.sddm-theme
+      # inputs.nixpkgs.lib.fileset.toSource
+      # {
+      #   root = ./.;
+      #   fileset = inputs.nixpkgs.lib.fileset.unions [
+      #     ./sddm_bg.png
+      #     ./sddm-config.conf
+      #   ];
+      # }
+    ];
+    # src = inputs.sddm-theme;
     installPhase = ''
       mkdir -p $out
       cp -R ./* $out/
