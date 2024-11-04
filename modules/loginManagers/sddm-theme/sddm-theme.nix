@@ -24,18 +24,7 @@
 in
   pkgs.stdenv.mkDerivation {
     name = "sddm-theme";
-    src = [
-      inputs.sddm-theme
-      # inputs.nixpkgs.lib.fileset.toSource
-      # {
-      #   root = ./.;
-      #   fileset = inputs.nixpkgs.lib.fileset.unions [
-      #     ./sddm_bg.png
-      #     ./sddm-config.conf
-      #   ];
-      # }
-    ];
-    # src = inputs.sddm-theme;
+    src = inputs.sddm-theme;
     installPhase = ''
       mkdir -p $out
       cp -R ./* $out/
