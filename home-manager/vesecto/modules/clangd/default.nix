@@ -11,8 +11,10 @@
 {pkgs, ...}: let
   config_dir = ".config/clangd";
 in {
-  home.file."${config_dir}/config.yaml".source = ./config.yaml;
-  home.packages = with pkgs; [
-    clang-tools
-  ];
+  home = {
+    file."${config_dir}/config.yaml".source = ./config.yaml;
+    packages = with pkgs; [
+      clang-tools
+    ];
+  };
 }

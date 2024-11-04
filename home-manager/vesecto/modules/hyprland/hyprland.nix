@@ -8,7 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{...}: let
+  config_dir = ".config/hypr";
+in {
+  home.file."${config_dir}/catppuccin.conf".source = ./catppuccin.conf;
   wayland.windowManager.hyprland = {
     settings = {
       catppuccin = {
