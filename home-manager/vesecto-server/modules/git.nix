@@ -28,6 +28,7 @@
       f = "fetch -ap";
       ra = "remote add origin";
       cp = "cherry-pick";
+      c = "clean -Xdf";
     };
     extraConfig = {
       core = {

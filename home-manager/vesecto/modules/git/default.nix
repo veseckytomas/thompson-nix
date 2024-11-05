@@ -33,6 +33,7 @@
       ra = "remote add origin";
       ca = "!git add --all && git commit -m";
       cp = "cherry-pick";
+      c = "clean -Xdf";
     };
     extraConfig = {
       core = {
