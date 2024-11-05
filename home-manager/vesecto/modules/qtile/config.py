@@ -121,7 +121,7 @@ keys = [
     Key([mod], "m", lazy.spawn(music_player), desc="Launch music player"),
     Key([mod], "c", lazy.spawn(calculator), desc="Launch calculator"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod], "Tab", change_keyboard_layout(), desc="Toggle between layouts"),
     # Key(
     #     [mod, "shift"],
     #     "r",
@@ -133,7 +133,7 @@ keys = [
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.spawn(powermenu), desc="Shutdown Qtile"),
     Key([mod, "shift"], "s", lazy.spawn(screenshot), desc="Take a screenshot"),
-    Key([mod, "shift"], "Tab", change_keyboard_layout(), desc="Toggle between layouts"),
+    Key([mod, "shift"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
