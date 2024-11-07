@@ -97,7 +97,7 @@ function take {
 	cd $1
 }
 function save_obsidian {
-	pushd ~/Git/obsidian > /dev/null
+	pushd ~/Git/Personal/obsidian > /dev/null
 	if git diff --quiet; then
 		echo "No changes to save"
 		popd > /dev/null
