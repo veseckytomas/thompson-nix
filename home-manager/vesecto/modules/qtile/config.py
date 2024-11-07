@@ -121,19 +121,18 @@ keys = [
     Key([mod], "m", lazy.spawn(music_player), desc="Launch music player"),
     Key([mod], "c", lazy.spawn(calculator), desc="Launch calculator"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "Tab", change_keyboard_layout(), desc="Toggle between layouts"),
-    # Key(
-    #     [mod, "shift"],
-    #     "r",
-    #     lazy.spawncmd(),
-    #     desc="Spawn a command using a prompt widget",
-    # ),
+    Key([mod], "Tab", change_keyboard_layout(), desc="Toggle between keyboard layouts"),
     Key([mod, "shift"], "Return", lazy.spawn(launcher), desc="Run Launcher"),
     Key([mod, "shift"], "b", lazy.spawn(bluetooth), desc="Launch bluetooth manager"),
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.spawn(powermenu), desc="Shutdown Qtile"),
     Key([mod, "shift"], "s", lazy.spawn(screenshot), desc="Take a screenshot"),
     Key([mod, "shift"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    # Change master/slave ration
+    Key([mod, "shift"], "h", lazy.layout.shrink_main(), desc="Decrease master/slave ratio"),
+    Key([mod, "shift"], "l", lazy.layout.grow_main(), desc="Increase master/slave ratio"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down()(), desc="Move window down"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move wondow up"),
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
@@ -147,6 +146,12 @@ keys = [
         maximize_by_switching_layout(),
         lazy.window.toggle_fullscreen(),
         desc="toggle fullscreen",
+    ),
+    Key(
+        [mod, "control", "shift"],
+        "f",
+        lazy.window.toggle_floating(),
+        desc="Toggle floating mode",
     ),
     Key(
         [mod, "shift"],
@@ -278,16 +283,6 @@ layout_theme = {
 }
 layouts = [
     layout.MonadTall(**layout_theme),
-    layout.Tile(
-        shift_windows=True,
-        border_width=0,
-        margin=0,
-        ratio=0.335,
-    ),
-    layout.Max(
-        border_width=0,
-        margin=0,
-    ),
 ]
 
 widget_defaults = {
