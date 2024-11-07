@@ -67,7 +67,7 @@
       texlab.enable = true;
 
       # Nix
-      nil_ls.enable = true;
+      nixd.enable = true;
 
       # Markdown
       marksman.enable = true;
