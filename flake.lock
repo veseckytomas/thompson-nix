@@ -626,11 +626,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1730650890,
-        "narHash": "sha256-WY4BvUBlLp7gKV0FIa5ap/KBN1ee+Whs8UKkKUQRNEs=",
+        "lastModified": 1731005945,
+        "narHash": "sha256-W94XtEQ8SbUUuDL6Wu7X7DLn+279Z7QPWPqtjnZ8YRg=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "3fc84b71f250408bfc4d863f663c5e273f42180a",
+        "rev": "383defc97f5516621875213768bd2287c84ced2e",
         "type": "github"
       },
       "original": {
@@ -758,11 +758,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1730982370,
-        "narHash": "sha256-93ClVkrDHgV7i+gvB/Jotkx6m8McJR0IL7s5zV5D42g=",
+        "lastModified": 1731009822,
+        "narHash": "sha256-VwGfFYHjizs7yQwh8JRlDUVkHLPc34jdqkQ2vyv6ddY=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "b0ebcaa17789089b28c44f7610b1ed5f0ee4ae4d",
+        "rev": "aabbd60633947baba11db44df84f402edc241440",
         "type": "github"
       },
       "original": {
@@ -849,11 +849,11 @@
     "render-markdown-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1730860610,
-        "narHash": "sha256-9xGEsKJ/KMuHXOt/Dg72OQqsro6Y0tbzwt+kWw3sqxM=",
+        "lastModified": 1731044019,
+        "narHash": "sha256-pLUu4UmDoJPtZYetGMyrJ7WS0TjiOzU5+dAeElrcSxY=",
         "owner": "MeanderingProgrammer",
         "repo": "render-markdown.nvim",
-        "rev": "901838c63d644e27ed4b591fa5c5d587cad9e102",
+        "rev": "bee16b21bf47b64ceda8c9bb281d4b576d329c0f",
         "type": "github"
       },
       "original": {
