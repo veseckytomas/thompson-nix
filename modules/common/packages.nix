@@ -97,6 +97,7 @@
     evince
     git
     git-crypt
+    pre-commit
     qbittorrent
     ntfs3g
     obsidian
