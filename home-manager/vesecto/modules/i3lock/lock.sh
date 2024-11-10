@@ -10,6 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
+setxkbmap -layout us
 distro=$(hostnamectl | grep 'System' | cut -d' ' -f3)
 if [ "$distro" = "Arch" ]; then
     i3lock -kti "$HOME"/.config/i3lock/arch_lock_screen.png
