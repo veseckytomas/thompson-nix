@@ -15,7 +15,7 @@ NC="\033[0;0m"
 
 git restore --staged :/ >/dev/null
 git add home-manager
-home-manager switch --flake .#vesecto
+home-manager switch --flake .#$(whoami)
 if test $? != 0; then
     echo "Build failed"
     git restore --staged :/ >/dev/null
