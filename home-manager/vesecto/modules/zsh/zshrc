@@ -122,6 +122,10 @@ function migrate_repo {
 function export_md {
   pandoc -f markdown -t pdf -o $2 $1
 }
+function docker_clean {
+  docker rm $(docker ps -aq)
+  docker rmi $(docker images -aq)
+}
 
 # Shell integration
 eval "$(fzf --zsh)"
