@@ -15,10 +15,13 @@
 }: {
   services = {
     xserver.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      autoNumlock = true;
-      theme = "${import ./sddm-theme/sddm-theme.nix {inherit pkgs inputs;}}";
+    displayManager = {
+      defaultSession = "qtile";
+      sddm = {
+        enable = true;
+        autoNumlock = true;
+        theme = "${import ./sddm-theme/sddm-theme.nix {inherit pkgs inputs;}}";
+      };
     };
   };
   environment.systemPackages = with pkgs; [
