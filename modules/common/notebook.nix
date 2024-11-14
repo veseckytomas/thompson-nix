@@ -11,7 +11,20 @@
 {pkgs, ...}: {
   services = {
     libinput.enable = true;
-    tlp.enable = true;
+    tlp.enable = false;
+    auto-cpufreq = {
+      enable = true;
+      settings = {
+        battery = {
+          governor = "powersave";
+          turbo = "never";
+        };
+        charger = {
+          governor = "performance";
+          turbo = "auto";
+        };
+      };
+    };
   };
   hardware = {
     acpilight.enable = true;
