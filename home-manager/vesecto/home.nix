@@ -18,6 +18,11 @@
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
   };
+  xsession = {
+    enable = true;
+    numlock.enable = true;
+    initExtra = "xset s off -dpms";
+  };
   xdg = {
     enable = true;
     mimeApps = {
