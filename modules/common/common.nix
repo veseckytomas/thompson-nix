@@ -9,8 +9,10 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
+  inputs,
   pkgs,
   lib,
+  system_version,
   ...
 }: {
   # Enable nix flakes
@@ -51,5 +53,5 @@
   # Set your time zone
   time.timeZone = "Europe/Prague";
 
-  system.stateVersion = "24.11";
+  system.stateVersion = system_version;
 }

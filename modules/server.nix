@@ -11,6 +11,7 @@
 {
   pkgs-stable,
   lib,
+  system_version,
   ...
 }: {
   # Bootloader
@@ -112,5 +113,5 @@
   networking.firewall.allowedTCPPorts = [22];
 
   # System version
-  system.stateVersion = "24.05";
+  system.stateVersion = system_version;
 }

@@ -69,6 +69,7 @@
   outputs = {self, ...} @ inputs: let
     system = "x86_64-linux";
     username = "vesecto";
+    system_version = "24.05";
     pkgs = import inputs.nixpkgs {
       inherit system;
       config = {allowUnfree = true;};
@@ -79,7 +80,7 @@
   in {
     nixosConfigurations = {
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
+        specialArgs = {inherit inputs username system system_version;};
         modules = [
           ./hosts/TomasVesa-PC-NixOS/configuration.nix
           ./modules
@@ -87,7 +88,7 @@
       };
 
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
+        specialArgs = {inherit inputs username system system_version;};
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -96,7 +97,7 @@
       };
 
       TomasVesa-NTB16-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
+        specialArgs = {inherit inputs username system system_version;};
         modules = [
           ./hosts/TomasVesa-NTB16-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -105,7 +106,7 @@
       };
 
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
+        specialArgs = {inherit inputs username system system_version;};
         modules = [
           ./hosts/TomasVesa-Portable-NixOS/configuration.nix
           ./modules/common/notebook.nix
@@ -116,7 +117,7 @@
       Karthik = inputs.nixpkgs-stable.lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = {
-          inherit inputs username;
+          inherit inputs username system_version;
           pkgs-stable = import inputs.nixpkgs-stable {
             system = "aarch64-linux";
           };
@@ -128,7 +129,7 @@
       };
 
       NixOSServerTemplate = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username system pkgs-stable system_version;};
         modules = [
           ./hosts/NixOSServerTemplate/configuration.nix
           ./modules/server.nix
@@ -136,7 +137,7 @@
       };
 
       Reyhan = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username system pkgs-stable system_version;};
         modules = [
           ./hosts/Reyhan/configuration.nix
           ./modules/server.nix
@@ -144,7 +145,7 @@
       };
 
       Merete = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username system pkgs-stable system_version;};
         inherit system;
         modules = [
           ./hosts/Merete/configuration.nix
@@ -153,14 +154,14 @@
       };
 
       rescueIso = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username system pkgs-stable system_version;};
         modules = [
           ./hosts/rescueIso/configuration.nix
         ];
       };
 
       installIso = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username system pkgs-stable system_version;};
         modules = [
           ./hosts/installIso/configuration.nix
         ];
@@ -169,7 +170,7 @@
 
     homeConfigurations = {
       vesecto = inputs.home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit inputs;};
+        extraSpecialArgs = {inherit inputs system_version;};
         inherit pkgs;
         modules = [
           ./home-manager/vesecto/home.nix
@@ -179,6 +180,7 @@
       };
 
       vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
+        extraSpecialArgs = {inherit system_version;};
         pkgs = pkgs-stable;
         modules = [
           ./home-manager/vesecto-server/home.nix
@@ -188,6 +190,7 @@
       };
 
       vesecto-server-arm = inputs.home-manager-stable.lib.homeManagerConfiguration {
+        extraSpecialArgs = {inherit system_version;};
         pkgs = import inputs.nixpkgs-stable {
           system = "aarch64-linux";
         };
