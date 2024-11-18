@@ -8,11 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{system_version, ...}: {
   home = {
     username = "vesecto";
     homeDirectory = "/home/vesecto";
-    stateVersion = "24.05";
+    stateVersion = system_version;
     sessionVariables = {
       EDITOR = "nvim";
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
