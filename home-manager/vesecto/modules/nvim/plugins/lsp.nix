@@ -51,7 +51,6 @@
       pylyzer.enable = true;
       pyright.enable = true;
       ruff.enable = true;
-      ruff_lsp.enable = true;
 
       # Rust
       # rust-analyzer = {
