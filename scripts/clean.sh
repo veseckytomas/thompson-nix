@@ -11,5 +11,6 @@
 # GitLab: vesecky.tomas
 
 sudo nix-collect-garbage -d
+sudo /run/current-system/bin/switch-to-configuration boot
 nix-collect-garbage -d
 nix-store --optimize
