@@ -18,7 +18,7 @@ xset s off -dpms
 "$HOME"/.screenlayout.sh &
 sleep 1
 
-distro=$(hostnamectl | grep 'System' | cut -d' ' -f3)
+distro=$(cat /etc/os-release | grep ^ID | head -n1 | cut -d'=' -f2)
 if [ "$distro" = "Arch" ]; then
     feh --bg-fill "$HOME/.config/backgrounds/arch_background.jpg" &
 elif [ "$distro" = "NixOS" ]; then
