@@ -13,7 +13,6 @@
     enable = true;
     userDefaultOptions = {
       tailwind = true;
-      # sass.enable = true;
       css = true;
     };
   };

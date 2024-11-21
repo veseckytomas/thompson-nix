@@ -15,6 +15,7 @@ picom --daemon &
 nm-applet &
 xbacklight -set 50
 xset s off -dpms
+amixer set Master off
 "$HOME"/.screenlayout.sh &
 sleep 1
 
