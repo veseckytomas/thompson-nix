@@ -20,7 +20,6 @@ rofi_command="rofi -theme $HOME/.config/rofi/config/powermenu.rasi"
 	suspend="󰙦"
 	logout="󰍃"
 	ddir="$HOME/.config/rofi/config"
-fi
 
 # Variable passed to rofi
 options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
