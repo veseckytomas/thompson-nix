@@ -11,7 +11,6 @@
 # GitLab: vesecky.tomas
 
 ### AUTOSTART PROGRAMS ###
-picom --backend xrender --daemon
 nm-applet &
 xbacklight -set 50
 xset s off -dpms

@@ -27,6 +27,7 @@
     ./librewolf.nix
     ./nvim
     ./pandoc.nix
+    ./picom.nix
     ./pylint.nix
     ./qtile
     # ./ranger
