@@ -51,7 +51,7 @@
     ./neogit.nix
     ./neotest.nix
     ./nix.nix
-    ./noice.nix
+    # ./noice.nix
     # ./nvim-autopairs.nix
     ./nvim-colorizer.nix
     ./nvim-ufo.nix
