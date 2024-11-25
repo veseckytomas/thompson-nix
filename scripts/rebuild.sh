@@ -13,8 +13,6 @@
 RED="\033[1;91m"
 NC="\033[0;0m"
 
-echo -e "${RED}Please touch the device. (Pull)${NC}"
-git pull
 git add --all
 git restore --staged home-manager
 sudo nixos-rebuild switch -j 8 --cores 8  --flake .#

@@ -22,6 +22,12 @@ echo "8. Exit"
 
 read -r input
 
+RED="\033[1;91m"
+NC="\033[0;0m"
+
+echo -e "${RED}Please touch the device. (Pull)${NC}"
+git pull
+
 case $input in
     "2")
         ./scripts/home.sh
