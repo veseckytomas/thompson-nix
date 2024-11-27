@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{system, ...}: {
+{...}: {
   programs.nixvim = {
     plugins.noice = {
       enable = true;
