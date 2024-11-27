@@ -8,18 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{system, ...}: let
-  pkgs-old = import (builtins.fetchGit {
-    name = "nixpkgs-old";
-    url = "https://github.com/NixOS/nixpkgs/";
-    ref = "refs/heads/nixos-unstable";
-    rev = "4aa36568d413aca0ea84a1684d2d46f55dbabad7";
-  }) {inherit system;};
-in {
+{system, ...}: {
   programs.nixvim = {
     plugins.noice = {
       enable = true;
-      package = pkgs-old.vimPlugins.noice-nvim;
       settings = {
         extraOptions = {
           lsp = {
