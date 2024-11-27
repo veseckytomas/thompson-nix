@@ -170,7 +170,7 @@
 
     homeConfigurations = {
       vesecto = inputs.home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit inputs system_version;};
+        extraSpecialArgs = {inherit inputs system system_version;};
         inherit pkgs;
         modules = [
           ./home-manager/vesecto/home.nix
