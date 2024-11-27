@@ -10,6 +10,9 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
+RED="\033[1;91m"
+NC="\033[0;0m"
+
 echo "Choose which action to perform:"
 echo "1. Rebuild (Default)"
 echo "2. Home-manager"
@@ -22,11 +25,10 @@ echo "8. Exit"
 
 read -r input
 
-RED="\033[1;91m"
-NC="\033[0;0m"
-
-echo -e "${RED}Please touch the device. (Pull)${NC}"
-git pull
+if [ "$input" != "5" ] && [ "$input" != "8" ]; then
+    echo -e "${RED}Please touch the device. (Pull)${NC}"
+    git pull
+fi
 
 case $input in
     "2")
