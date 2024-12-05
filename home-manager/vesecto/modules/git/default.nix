@@ -34,8 +34,8 @@
       ca = "!git add --all && git commit";
       cp = "cherry-pick";
       c = "clean -Xdf";
-      r = "restore --staged --all";
-      re = "restore --all";
+      r = "restore --staged :/";
+      re = "restore :/";
     };
     extraConfig = {
       core = {
