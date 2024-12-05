@@ -31,9 +31,11 @@
       ll = "log --oneline --graph --all --decorate";
       f = "fetch -ap";
       ra = "remote add origin";
-      ca = "!git add --all && git commit -m";
+      ca = "!git add --all && git commit";
       cp = "cherry-pick";
       c = "clean -Xdf";
+      r = "restore --staged";
+      re = "restore";
     };
     extraConfig = {
       core = {
