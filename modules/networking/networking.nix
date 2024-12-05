@@ -24,6 +24,10 @@
         source = ./cvut-vpn.nmconnection;
         mode = "0600";
       };
+      "NetworkManager/system-connections/vic-vpn.nmconnection" = {
+        source = ./vic-vpn.nmconnection;
+        mode = "0600";
+      };
       "NetworkManager/system-connections/fit-vpn.nmconnection" = {
         source = ./fit-vpn.nmconnection;
         mode = "0600";
