@@ -8,9 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
-  services.xserver = {
-    desktopManager.gnome.enable = true;
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  services = {
+    auto-cpufreq.enable = lib.mkForce false;
+    xserver = {
+      desktopManager.gnome.enable = true;
+    };
   };
   environment.gnome.excludePackages = with pkgs; [
     gnome-photos

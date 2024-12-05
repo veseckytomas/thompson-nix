@@ -8,12 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   services = {
     libinput.enable = true;
     tlp.enable = false;
     auto-cpufreq = {
-      enable = true;
+      enable = lib.mkDefault true;
       settings = {
         battery = {
           governor = "powersave";
