@@ -18,7 +18,6 @@
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
     pointerCursor = {
-      name = "catppuccin-mocha-mauve-cursors";
       x11.enable = true;
       gtk.enable = true;
       size = 32;
