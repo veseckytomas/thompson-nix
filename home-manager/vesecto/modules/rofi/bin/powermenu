@@ -37,6 +37,7 @@ $lock)
 	xset dpms force off
 	;;
 $suspend)
+		"$HOME/.config/i3lock/lock.sh"
 		amixer set Master mute
 		systemctl suspend
 	;;
