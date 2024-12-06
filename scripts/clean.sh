@@ -14,3 +14,4 @@ sudo nix-collect-garbage -d
 sudo /run/current-system/bin/switch-to-configuration boot
 nix-collect-garbage -d
 nix-store --optimize
+"$HOME/.tmux/plugins/tpm/bin/clean_plugins"
