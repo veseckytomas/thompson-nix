@@ -34,8 +34,9 @@ git clone git@gitlab.com:vesecky.tomas/obsidian.git "$HOME/Git/Personal/thompson
 git clone git@gitlab.com:homelab1960731/thompson-dwh.git "$HOME/DataGripProjects/Homelab"
 git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git "$HOME/DataGripProjects/DWH"
 
-# Clone TPM repository
+# Install Tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+"$HOME/.tmux/plugins/tpm/bin/install_plugins"
 
 # Install eduroam
 curl "https://cat.eduroam.org/user/API.php?action=downloadInstaller&lang=en&profile=2904&device=linux&generatedfor=user&openroaming=0" > eduroam.py
