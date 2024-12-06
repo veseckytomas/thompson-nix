@@ -2,7 +2,7 @@
 
 This repository contains these configurations:
 
-- NixOS configuration for 3 machines I use
+- NixOS configuration for machines I use
 - Home Manager configuration for my user
 - ISO configuration for NixOS installation
 - ISO configuration for disk rescue
@@ -11,8 +11,6 @@ This repository contains these configurations:
 
 - Desktop
 - Laptop
-- 16" Laptop
-- Laptops for Tunneling game used during PTMM24
 - Servers
 - Install ISO
 - Disk rescue ISO
@@ -33,11 +31,6 @@ This repository contains these configurations:
 4. Change [line 42](flake.nix) in flake.nix to $USERNAME
 5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
-## TMUX
-
-1. Install plugins with `<leader>I`
-2. Plugins can be update with `<leader>U`
-
 ## Neovim initial setup
 
 - Authenticate to plugins by running these commands in neovim
@@ -47,7 +40,3 @@ Codeium Auth
 Copilot auth
 WakaTimeApiKey
 ```
-
-## ZSH
-
-- Plugins can be updated by running `zinit update`

@@ -96,15 +96,6 @@
         ];
       };
 
-      TomasVesa-NTB16-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system system_version;};
-        modules = [
-          ./hosts/TomasVesa-NTB16-NixOS/configuration.nix
-          ./modules/common/notebook.nix
-          ./modules
-        ];
-      };
-
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system system_version;};
         modules = [
