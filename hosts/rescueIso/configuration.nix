@@ -11,7 +11,6 @@
 {
   pkgs,
   modulesPath,
-  system_version,
   ...
 }: {
   imports = [
@@ -29,5 +28,7 @@
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  system.stateVersion = system_version;
+
+  # System version
+  system.stateVersion = "24.05";
 }

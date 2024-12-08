@@ -10,8 +10,10 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
-      ./hardware-configuration.nix
+    ./hardware-configuration.nix
   ];
   networking.hostName = "NixOSServerTemplate";
-}
 
+  # System version
+  system.stateVersion = "24.05";
+}

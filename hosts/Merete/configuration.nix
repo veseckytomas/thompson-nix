@@ -17,5 +17,7 @@
   environment.systemPackages = with pkgs-stable; [
     postgresql
   ];
-  # networking.firewall.allowedTCPPorts = [];
+
+  # System version
+  system.stateVersion = "24.05";
 }

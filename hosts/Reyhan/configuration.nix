@@ -22,4 +22,7 @@
     package = pkgs-stable.docker;
   };
   networking.firewall.allowedTCPPorts = [5432];
+
+  # System version
+  system.stateVersion = "24.05";
 }

@@ -12,7 +12,6 @@
   inputs,
   pkgs,
   lib,
-  system_version,
   ...
 }: {
   # Enable nix flakes
@@ -52,6 +51,4 @@
 
   # Set your time zone
   time.timeZone = "Europe/Prague";
-
-  system.stateVersion = system_version;
 }

@@ -16,4 +16,7 @@
   boot.loader.generic-extlinux-compatible.enable = lib.mkForce true;
   services.qemuGuest.enable = lib.mkForce false;
   networking.hostName = "Karthik";
+
+  # System version
+  system.stateVersion = "24.05";
 }
