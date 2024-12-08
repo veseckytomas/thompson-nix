@@ -24,20 +24,35 @@ source "$ZINIT_HOME/zinit.zsh"
 
 # Add zsh plugins
 source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh"
+zinit ice wait lucid
 zinit light zsh-users/zsh-syntax-highlighting
+zinit ice wait lucid
 zinit light zsh-users/zsh-completions
+zinit ice wait lucid
 zinit light zsh-users/zsh-autosuggestions
+zinit ice wait lucid
 zinit light hlissner/zsh-autopair
+zinit ice wait lucid
 zinit light Aloxaf/fzf-tab
+zinit ice wait lucid
 zinit light atuinsh/atuin
 
 # Snippets
+zinit ice wait lucid
 zinit snippet OMZP::command-not-found
+zinit ice wait lucid
 zinit snippet OMZP::sudo
 
 # Load completions
-autoload -Uz compinit && compinit
-zinit cdreplay -q
+# autoload -Uz compinit && compinit
+# zinit ice wait lucid
+# zinit cdreplay -q
+zi for \
+    atload"zicompinit; zicdreplay" \
+    blockf \
+    lucid \
+    wait \
+  zsh-users/zsh-completions
 
 # Set prompt
 eval "$(starship init zsh)"
