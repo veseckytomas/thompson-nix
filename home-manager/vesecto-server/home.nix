@@ -8,11 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{system_version, ...}: {
+{...}: {
   home = {
     username = "vesecto";
     homeDirectory = "/home/vesecto";
-    stateVersion = system_version;
+    stateVersion = "24.05";
     sessionVariables = {
       EDITOR = "nvim";
     };
