@@ -16,4 +16,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 ./scripts/home.sh
+"$HOME/.tmux/plugins/tpm/bin/install_plugins"
 "$HOME/.tmux/plugins/tpm/bin/update_plugins" all
