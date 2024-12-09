@@ -512,11 +512,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1733601692,
-        "narHash": "sha256-NclQtpS5Ri7eMuWjI0ZFs7WrVWANSEwICPjhOY191O4=",
+        "lastModified": 1733683959,
+        "narHash": "sha256-hUgv2XxOZu0XFVtwmovS3kplxAt+Jv+CXSxNnSiAtFo=",
         "ref": "refs/heads/main",
-        "rev": "c106f454c136ecca47f84c659c58e19670050412",
-        "revCount": 5524,
+        "rev": "0a27af8cd190315c1f13363ebd11e83d30455d48",
+        "revCount": 5525,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -851,11 +851,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1733651241,
-        "narHash": "sha256-OMOVauV5+zBZXJJd9rkQ8f5CFf90EYnhJqFApzI0uuA=",
+        "lastModified": 1733682617,
+        "narHash": "sha256-8wGQwnWAfPXN1aiGswfofJK0oGZeI2YBSNe4vdW/rGA=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "30f3a3242efb223d8c67c6cbd06c19b2a4a289ab",
+        "rev": "4b5364a66bffd22536e358214b37068b34287a7a",
         "type": "github"
       },
       "original": {
@@ -966,11 +966,11 @@
     "render-markdown-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1733604435,
-        "narHash": "sha256-vAa1PaOsEvk92GlZeOLTE2RdB+gwNjkh0u+wRnvDq6o=",
+        "lastModified": 1733715806,
+        "narHash": "sha256-TVzb8Ri5Z4HNSw5fxyWmDjqF6H2x92M2YuqobS7KqDg=",
         "owner": "MeanderingProgrammer",
         "repo": "render-markdown.nvim",
-        "rev": "3a08669e9641ba382bc428f1776bff524a2431a1",
+        "rev": "3d2dc15542e56671dd14dfbfff63434ec21d8fcd",
         "type": "github"
       },
       "original": {
