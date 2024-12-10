@@ -59,6 +59,7 @@ browser = "librewolf"
 editor = terminal + " -e nvim"
 music_player = "spotify"
 bluetooth = "blueman-manager"
+sound = "pavucontrol"
 calculator = "qalculate-gtk"
 keyboard_layout = "us"
 
@@ -127,12 +128,20 @@ keys = [
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.spawn(powermenu), desc="Shutdown Qtile"),
     Key([mod, "shift"], "s", lazy.spawn(screenshot), desc="Take a screenshot"),
+    Key([mod, "shift"], "v", lazy.spawn(sound), desc="Launch sound manager"),
     Key([mod, "shift"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     # Change master/slave ration
-    Key([mod, "shift"], "h", lazy.layout.shrink_main(), desc="Decrease master/slave ratio"),
-    Key([mod, "shift"], "l", lazy.layout.grow_main(), desc="Increase master/slave ratio"),
+    Key(
+        [mod, "shift"],
+        "h",
+        lazy.layout.shrink_main(),
+        desc="Decrease master/slave ratio",
+    ),
+    Key(
+        [mod, "shift"], "l", lazy.layout.grow_main(), desc="Increase master/slave ratio"
+    ),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down()(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move wondow up"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),

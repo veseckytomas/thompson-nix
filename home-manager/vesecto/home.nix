@@ -33,13 +33,14 @@
         "application/xhtml+xml" = ["librewolf.desktop"];
         "x-scheme-handler/http" = ["librewolf.desktop;"];
         "x-scheme-handler/https" = ["librewolf.desktop"];
-        "x-scheme-handler/mailto" = ["userapp-Thunderbird-SLK2Q2.desktop"];
         "image/png" = ["org.nomacs.ImageLounge.desktop"];
         "image/jpeg" = ["org.nomacs.ImageLounge.desktop"];
-        "x-scheme-handler/webcal" = ["userapp-Thunderbird-7FS1Q2.desktop"];
         "text/calendar" = ["userapp-Thunderbird-7FS1Q2.desktop"];
         "text/plain" = ["nvim.desktop"];
         "video/mp4" = ["vlc.desktop"];
+        "message/rfc822" = ["userapp-Thunderbird-20QUY2.desktop"];
+        "x-scheme-handler/mid" = ["userapp-Thunderbird-20QUY2.desktop"];
+        "x-scheme-handler/msteams" = ["teams-for-linux.desktop"];
       };
       defaultApplications = {
         "application/pdf" = ["org.gnome.Evince.desktop"];
@@ -47,13 +48,14 @@
         "application/xhtml+xml" = ["librewolf.desktop"];
         "x-scheme-handler/http" = ["librewolf.desktop;"];
         "x-scheme-handler/https" = ["librewolf.desktop"];
-        "x-scheme-handler/mailto" = ["userapp-Thunderbird-SLK2Q2.desktop"];
         "image/png" = ["org.nomacs.ImageLounge.desktop"];
         "image/jpeg" = ["org.nomacs.ImageLounge.desktop"];
-        "x-scheme-handler/webcal" = ["userapp-Thunderbird-7FS1Q2.desktop"];
         "text/calendar" = ["userapp-Thunderbird-7FS1Q2.desktop"];
         "text/plain" = ["nvim.desktop"];
         "video/mp4" = ["vlc.desktop"];
+        "message/rfc822" = ["userapp-Thunderbird-20QUY2.desktop"];
+        "x-scheme-handler/mid" = ["userapp-Thunderbird-20QUY2.desktop"];
+        "x-scheme-handler/msteams" = ["teams-for-linux.desktop"];
       };
     };
   };
