@@ -28,7 +28,6 @@ zinit ice wait lucid
 zinit light zsh-users/zsh-syntax-highlighting
 zinit ice wait lucid
 zinit light zsh-users/zsh-completions
-zinit ice wait lucid
 zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid
 zinit light hlissner/zsh-autopair
@@ -43,10 +42,6 @@ zinit snippet OMZP::command-not-found
 zinit ice wait lucid
 zinit snippet OMZP::sudo
 
-# Load completions
-# autoload -Uz compinit && compinit
-# zinit ice wait lucid
-# zinit cdreplay -q
 zi for \
     atload"zicompinit; zicdreplay" \
     blockf \
