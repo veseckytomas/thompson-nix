@@ -15,6 +15,7 @@ nm-applet &
 xbacklight -set 50
 xset s off -dpms
 amixer set Master off
+systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
 "$HOME"/.screenlayout.sh &
 sleep 1
 
