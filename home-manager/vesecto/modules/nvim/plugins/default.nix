@@ -23,6 +23,7 @@
     ./chatgpt/chatgpt.nix
     ./codeium-nvim.nix
     ./codesnap.nix
+    ./colorizer.nix
     ./comment.nix
     ./conform-nvim.nix
     ./copilot-chat.nix
@@ -54,7 +55,6 @@
     ./noice.nix
     ./notify.nix
     # ./nvim-autopairs.nix
-    ./nvim-colorizer.nix
     ./nvim-ufo.nix
     ./oil.nix
     ./outline-nvim.nix

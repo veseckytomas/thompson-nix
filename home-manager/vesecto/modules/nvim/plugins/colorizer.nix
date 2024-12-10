@@ -9,9 +9,9 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.nixvim.plugins.nvim-colorizer = {
+  programs.nixvim.plugins.colorizer = {
     enable = true;
-    userDefaultOptions = {
+    settings.user_default_options = {
       tailwind = true;
       css = true;
     };
