@@ -123,6 +123,7 @@
     qalculate-gtk
     signal-desktop
     alsa-utils
+    pavucontrol
     teams-for-linux
   ];
 
