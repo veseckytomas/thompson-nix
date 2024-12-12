@@ -102,7 +102,7 @@ function nvimf() {
   if [ $? != 0]; then
     exit
   fi
-  nvim res
+  nvim $res
 }
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
