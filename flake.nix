@@ -91,6 +91,7 @@
         modules = [
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./modules/common/notebook.nix
+          # ./modules/common/gaming.nix
           ./modules
         ];
       };

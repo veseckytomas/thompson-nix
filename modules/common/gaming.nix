@@ -22,7 +22,11 @@
   };
 
   # Load GPU Drivers
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [
+    "nvidia"
+    "modesetting"
+    "fbdev"
+  ];
   hardware.nvidia.modesetting.enable = true;
 
   # Enable steam
