@@ -92,8 +92,9 @@
   ];
 
   imports = [
-    ./keymaps.nix
     ./extraConfig.nix
+    ./keymaps.nix
+    ./performance.nix
     ./plugins
   ];
 }

@@ -44,6 +44,7 @@
     ./lspkind.nix
     ./lualine.nix
     ./luasnip.nix
+    ./lz-n.nix
     ./markdown-preview.nix
     ./mini.nix
     ./multicursors.nix
