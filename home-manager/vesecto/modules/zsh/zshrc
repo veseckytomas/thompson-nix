@@ -24,22 +24,23 @@ source "$ZINIT_HOME/zinit.zsh"
 
 # Add zsh plugins
 source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh"
-zinit ice wait lucid
+zinit ice wait lucid 1
 zinit light zsh-users/zsh-syntax-highlighting
-zinit ice wait lucid
+zinit ice wait lucid 1
 zinit light zsh-users/zsh-completions
+zinit ice wait lucid
 zinit light zsh-users/zsh-autosuggestions
-zinit ice wait lucid
+zinit ice wait lucid 1
 zinit light hlissner/zsh-autopair
-zinit ice wait lucid
+zinit ice wait lucid 1
 zinit light Aloxaf/fzf-tab
-zinit ice wait lucid
+zinit ice wait lucid 1
 zinit light atuinsh/atuin
 
 # Snippets
-zinit ice wait lucid
+zinit ice wait lucid 1
 zinit snippet OMZP::command-not-found
-zinit ice wait lucid
+zinit ice wait lucid 1
 zinit snippet OMZP::sudo
 
 zi for \
