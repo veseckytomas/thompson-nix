@@ -12,6 +12,10 @@
   programs.nixvim = {
     plugins.copilot-chat = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings.cmd = "CopilotChat";
+      };
     };
     keymaps = [
       {

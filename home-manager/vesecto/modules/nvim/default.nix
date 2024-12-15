@@ -21,7 +21,10 @@
     viAlias = true;
 
     # Set colorscheme
-    colorschemes.catppuccin.enable = true;
+    colorschemes.catppuccin = {
+      enable = true;
+      lazyLoad.enable = true;
+    };
 
     # Set clipboard
     clipboard = {

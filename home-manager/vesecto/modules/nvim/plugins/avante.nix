@@ -11,5 +11,19 @@
 {...}: {
   programs.nixvim.plugins.avante = {
     enable = true;
+    lazyLoad = {
+      enable = false;
+      settings.cmd = [
+        "AvanteAsk"
+        "AvanteBuild"
+        "AvanteChat"
+        "AvanteEdit"
+        "AvanteFocus"
+        "AvanteRefresh"
+        "AvanteSwitchProvider"
+        "AvanteShowRepoMap"
+        "AvanteToggle"
+      ];
+    };
   };
 }

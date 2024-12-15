@@ -22,11 +22,6 @@ in {
           separator_selected.fg = crust;
         };
         options = {
-          # hover = {
-          #   enabled = true;
-          #   delay = 200;
-          #   reveal = ["close"];
-          # };
           always_show_bufferline = true;
           diagnostics = "nvim_lsp";
           mode = "buffers";

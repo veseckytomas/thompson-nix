@@ -10,6 +10,6 @@
 # GitLab: vesecky.tomas
 {...}: {
   programs.nixvim.plugins.lz-n = {
-    enable = false;
+    enable = true;
   };
 }
