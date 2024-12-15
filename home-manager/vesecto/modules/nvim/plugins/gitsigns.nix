@@ -31,6 +31,20 @@
           untracked.text = "┆";
         };
       };
+      lazyLoad = {
+        enable = true;
+        settings = {
+          keys = [
+            "<leader>gp"
+            "<leader>gg"
+            "<leader>gr"
+            "<leader>gs"
+          ];
+          cmd = [
+            "GitSigns"
+          ];
+        };
+      };
     };
     keymaps = [
       {

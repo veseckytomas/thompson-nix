@@ -19,6 +19,13 @@
         mac_window_bar = false;
         save_path = "$HOME/Pictures/Screenshots/Codesnap";
       };
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "CodeSnapSave";
+          keys = ["<leader>cs"];
+        };
+      };
     };
     keymaps = [
       {

@@ -32,7 +32,7 @@
     # ./copilot-vim.nix
     ./crates-nvim.nix
     ./dap.nix
-    ./diffview.nix
+    # ./diffview.nix
     ./fidget.nix
     ./friendly-snippets.nix
     ./gitmessenger.nix

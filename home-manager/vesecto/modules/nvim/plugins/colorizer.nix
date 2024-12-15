@@ -15,5 +15,12 @@
       tailwind = true;
       css = true;
     };
+    lazyLoad = {
+      enable = true;
+      settings.ft = [
+        "css"
+        "scss"
+      ];
+    };
   };
 }

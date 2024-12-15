@@ -13,17 +13,19 @@
     enable = true;
     lazyLoad = {
       enable = false;
-      settings.cmd = [
-        "AvanteAsk"
-        "AvanteBuild"
-        "AvanteChat"
-        "AvanteEdit"
-        "AvanteFocus"
-        "AvanteRefresh"
-        "AvanteSwitchProvider"
-        "AvanteShowRepoMap"
-        "AvanteToggle"
-      ];
+      settings = {
+        cmd = [
+          "AvanteAsk"
+          "AvanteBuild"
+          "AvanteChat"
+          "AvanteEdit"
+          "AvanteFocus"
+          "AvanteRefresh"
+          "AvanteSwitchProvider"
+          "AvanteShowRepoMap"
+          "AvanteToggle"
+        ];
+      };
     };
   };
 }

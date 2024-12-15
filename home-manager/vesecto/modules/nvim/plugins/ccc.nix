@@ -12,6 +12,19 @@
   programs.nixvim = {
     plugins.ccc = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = [
+            "CccPick"
+            "CccConvert"
+          ];
+          keys = [
+            "<leader>ccp"
+            "<leader>ccc"
+          ];
+        };
+      };
     };
     keymaps = [
       {

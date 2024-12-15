@@ -14,7 +14,10 @@
       enable = true;
       lazyLoad = {
         enable = true;
-        settings.cmd = "CopilotChat";
+        settings = {
+          cmd = "CopilotChat";
+          keys = ["<leader>coc"];
+        };
       };
     };
     keymaps = [
