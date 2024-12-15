@@ -18,3 +18,4 @@ fi
 ./scripts/home.sh
 "$HOME/.tmux/plugins/tpm/bin/install_plugins"
 "$HOME/.tmux/plugins/tpm/bin/update_plugins" all
+zsh -c 'source ~/.zshrc && zinit update'
