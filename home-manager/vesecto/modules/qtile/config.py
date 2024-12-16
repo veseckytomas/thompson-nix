@@ -336,20 +336,20 @@ def init_widgets_list():
             padding=2,
             fontsize=14,
         ),
-        widget.CurrentLayoutIcon(
-            # custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-            foreground=colors[1],
-            padding=4,
-            scale=0.6,
-        ),
-        widget.CurrentLayout(foreground=colors[1], padding=5),
-        widget.TextBox(
-            text="|",
-            font="Hack Nerd Font Mono",
-            foreground=colors[1],
-            padding=2,
-            fontsize=14,
-        ),
+        # widget.CurrentLayoutIcon(
+        #     # custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
+        #     foreground=colors[1],
+        #     padding=4,
+        #     scale=0.6,
+        # ),
+        # widget.CurrentLayout(foreground=colors[1], padding=5),
+        # widget.TextBox(
+        #     text="|",
+        #     font="Hack Nerd Font Mono",
+        #     foreground=colors[1],
+        #     padding=2,
+        #     fontsize=14,
+        # ),
         widget.WindowName(foreground=colors[6], max_chars=40),
         widget.CPU(
             format=" Cpu: {load_percent}%",
@@ -451,16 +451,16 @@ def init_widgets_list():
 def init_widgets_screen1():
     ws1 = init_widgets_list()
     if "desktop" in str(chassis.stdout):
-        del ws1[16:20]
+        del ws1[13:17]
     return ws1
 
 
 # All other monitors' bars will display everything but widgets 24 (systray) and 25 (spacer).
 def init_widgets_screen2():
     ws2 = init_widgets_list()
-    del ws2[22:24]
+    del ws2[19:21]
     if "desktop" in str(chassis.stdout):
-        del ws2[16:20]
+        del ws2[13:17]
     return ws2
 
 
