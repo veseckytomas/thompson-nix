@@ -12,7 +12,7 @@
   programs.nixvim = {
     plugins.gitmessenger = {
       enable = true;
-      dateFormat = "%Y-%m-%d %H:%M:%S";
+      settings.date_format = "%Y-%m-%d %H:%M:%S";
     };
     keymaps = [
       {
