@@ -13,6 +13,7 @@
 in {
   home = {
     file."${config_dir}/tmux.conf".source = ./tmux.conf;
+    file.".start_tmux.sh".source = ./start_tmux.sh;
     packages = with pkgs; [
       tmux
     ];
