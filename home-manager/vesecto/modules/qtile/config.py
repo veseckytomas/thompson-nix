@@ -336,21 +336,10 @@ def init_widgets_list():
             padding=2,
             fontsize=14,
         ),
-        # widget.CurrentLayoutIcon(
-        #     # custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-        #     foreground=colors[1],
-        #     padding=4,
-        #     scale=0.6,
-        # ),
-        # widget.CurrentLayout(foreground=colors[1], padding=5),
-        # widget.TextBox(
-        #     text="|",
-        #     font="Hack Nerd Font Mono",
-        #     foreground=colors[1],
-        #     padding=2,
-        #     fontsize=14,
-        # ),
-        widget.WindowName(foreground=colors[6], max_chars=40),
+        widget.WindowName(
+            foreground=colors[6],
+            format="{state}",
+        ),
         widget.CPU(
             format=" Cpu: {load_percent}%",
             foreground=colors[4],
