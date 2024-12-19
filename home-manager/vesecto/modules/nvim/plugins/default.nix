@@ -30,7 +30,7 @@
     ./copilot-cmp.nix
     ./copilot-lua.nix
     # ./copilot-vim.nix
-    ./crates-nvim.nix
+    ./crates.nix
     ./dap.nix
     # ./diffview.nix
     ./fidget.nix

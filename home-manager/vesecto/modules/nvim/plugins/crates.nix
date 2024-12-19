@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.nixvim.plugins.crates-nvim = {
+  programs.nixvim.plugins.crates = {
     enable = true;
   };
 }
