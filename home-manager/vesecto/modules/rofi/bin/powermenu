@@ -34,7 +34,6 @@ $reboot)
 	;;
 $lock)
 	"$HOME/.config/i3lock/lock.sh"
-	xset dpms force off
 	;;
 $suspend)
 		"$HOME/.config/i3lock/lock.sh"

@@ -11,6 +11,8 @@
 # GitLab: vesecky.tomas
 
 setxkbmap -layout us
+xset dpms force off
+amixer set Master mute
 distro=$(grep ^ID /etc/os-release | head -n1 | cut -d'=' -f2)
 if [ "$distro" = "arch" ]; then
     i3lock -kti "$HOME"/.config/i3lock/arch_lock_screen.png
