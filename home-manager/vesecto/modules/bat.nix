@@ -11,9 +11,9 @@
 {...}: {
   programs.bat = {
     enable = true;
-    catppuccin = {
-      enable = true;
-      flavor = "mocha";
-    };
+  };
+  catppuccin.bat = {
+    enable = true;
+    flavor = "mocha";
   };
 }

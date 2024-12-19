@@ -12,7 +12,7 @@
   catppuccin = {
     flavor = "mocha";
     accent = "mauve";
-    pointerCursor = {
+    cursors = {
       enable = true;
       flavor = "mocha";
       accent = "mauve";

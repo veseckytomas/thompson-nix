@@ -11,15 +11,18 @@
 {...}: {
   imports = [
     # Directories
-    ./nvim/nvim.nix
-    ./starship/starship.nix
-    ./tmux/tmux.nix
-    ./zsh/zsh.nix
+    ./nvim
+    ./starship
+    ./tmux
+    ./zsh
 
     # Single files
     ./atuin.nix
+    ./bat.nix
+    ./catppuccin.nix
     ./editorconfig.nix
     ./fzf.nix
     ./git.nix
+    ./yazi.nix
   ];
 }

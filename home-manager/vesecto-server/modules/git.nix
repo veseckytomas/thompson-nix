@@ -13,10 +13,6 @@
     enable = true;
     userEmail = "vesecky@proton.me";
     userName = "Tomáš Vesecký";
-    delta.catppuccin = {
-      enable = true;
-      flavor = "mocha";
-    };
     aliases = {
       st = "status";
       ci = "commit";
@@ -44,5 +40,9 @@
         defaultBranch = "master";
       };
     };
+  };
+  catppuccin.delta = {
+    enable = true;
+    flavor = "mocha";
   };
 }

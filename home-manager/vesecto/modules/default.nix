@@ -13,14 +13,14 @@
     # ./alacritty.nix
     ./atuin.nix
     # ./autorandr.nix
-    # ./backgrounds
+    ./backgrounds
     ./bat.nix
     ./clangd
     ./editorconfig.nix
     ./fzf.nix
     ./git
     ./hyprland
-    # ./i3lock
+    ./i3lock
     ./nomacs
     ./kitty.nix
     ./lazygit.nix
@@ -31,7 +31,7 @@
     ./pylint.nix
     ./qtile
     # ./ranger
-    # ./rofi
+    ./rofi
     ./starship
     ./statix
     ./stylua
