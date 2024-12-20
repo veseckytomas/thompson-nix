@@ -41,7 +41,6 @@
       nginx_language_server.enable = true;
       ts_ls.enable = true;
       cssls.enable = true;
-      tailwindcss.enable = true;
 
       # Lua
       lua_ls.enable = true;
