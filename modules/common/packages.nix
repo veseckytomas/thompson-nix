@@ -57,15 +57,14 @@
     doxygen
     postman
     clang
-    clang-tools
     cmake
-    cppcheck
     gnumake
     cargo
     shellcheck
     nodejs
     python3
     pandoc
+    jupyter
 
     # Docker
     docker-compose
