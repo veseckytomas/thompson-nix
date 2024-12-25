@@ -23,6 +23,9 @@
       size = 32;
     };
   };
+  xsession.initExtra = ''
+    xinput map-to-output "Wacom Intuos BT M Pen Pen (0x47803692)" HDMI-1
+  '';
   xdg = {
     enable = true;
     mimeApps = {

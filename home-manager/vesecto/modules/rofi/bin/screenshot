@@ -12,16 +12,21 @@
 
 rofi_command="rofi -theme $HOME/.config/rofi/config/screenshot.rasi"
 
-  dir="$HOME/Pictures/Screenshots"
+dir="$HOME/Pictures/Screenshots"
 
 # Buttons
 layout=$(cat $HOME/.config/rofi/config/screenshot.rasi | grep BUTTON | cut -d'=' -f2 | tr -d '[:blank:],*/')
+clipboardarea=" Clipboard Area"
 screen=" Capture Desktop"
 area="󰒉 Capture Area"
 inthree="󰬼 Take in 3s"
 inten="󰿩 Take in 10s"
 
 # take shots
+clipboardarea() {
+  flameshot gui -c
+}
+
 shotnow() {
 	flameshot screen --path "$dir"
 }
@@ -35,7 +40,7 @@ shot10() {
 }
 
 shotarea() {
-	flameshot gui --path "$dir"
+	flameshot gui --path "$dir" --cliboard
 }
 
 if [[ ! -d "$dir" ]]; then
@@ -47,6 +52,9 @@ options="$screen\n$area\n$inthree\n$inten"
 
 chosen="$(echo -e "$options" | $rofi_command -p 'Take A Shot' -dmenu -selected-row 0)"
 case $chosen in
+$clipboardarea)
+	cliboardarea
+	;;
 $screen)
 	shotnow
 	;;
