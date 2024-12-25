@@ -48,7 +48,7 @@ if [[ ! -d "$dir" ]]; then
 fi
 
 # Variable passed to rofi
-options="$screen\n$area\n$inthree\n$inten"
+options="$clipboardarea\n$screen\n$area\n$inthree\n$inten"
 
 chosen="$(echo -e "$options" | $rofi_command -p 'Take A Shot' -dmenu -selected-row 0)"
 case $chosen in
