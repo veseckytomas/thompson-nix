@@ -32,8 +32,10 @@
   };
   hardware = {
     acpilight.enable = true;
-    bluetooth.enable = true;
-    bluetooth.powerOnBoot = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
   };
   environment.systemPackages = with pkgs; [
     blueman

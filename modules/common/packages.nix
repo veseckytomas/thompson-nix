@@ -124,6 +124,7 @@
     alsa-utils
     pavucontrol
     teams-for-linux
+    xournalpp
   ];
 
   # Install nerdfonts
