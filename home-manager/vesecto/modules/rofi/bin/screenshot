@@ -53,7 +53,7 @@ options="$clipboardarea\n$screen\n$area\n$inthree\n$inten"
 chosen="$(echo -e "$options" | $rofi_command -p 'Take A Shot' -dmenu -selected-row 0)"
 case $chosen in
 $clipboardarea)
-	cliboardarea
+	clipboardarea
 	;;
 $screen)
 	shotnow
