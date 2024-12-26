@@ -20,10 +20,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # opentabletdriver
-    # xf86_input_wacom
-    # libwacom
-    # wacomtablet
     # Shell
     (callPackage ./packages/2048.nix {inherit inputs;})
     atuin
@@ -175,12 +171,8 @@
   virtualisation.docker.enable = true;
 
   services = {
-    xserver = {
-      # Disable xterm
-      excludePackages = with pkgs; [xterm];
-      # digimend.enable = true;
-      # wacom.enable = true;
-    };
+    # Disable xterm
+    xserver.excludePackages = with pkgs; [xterm];
 
     # Enable auto drive mounts
     gvfs.enable = true;
