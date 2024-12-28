@@ -9,7 +9,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
-  inputs,
   pkgs,
   lib,
   ...

@@ -8,15 +8,15 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{lib, ...}: {
+{...}: {
   imports = [
     ./common.nix
     # ./gaming.nix
+    ./kanata.nix
     ./locale.nix
     # ./notebook.nix
     ./packages.nix
     ./security.nix
     ./users.nix
   ];
-  # notebook.enable = lib.mkDefault false;
 }

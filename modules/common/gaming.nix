@@ -8,12 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   # Load OpenGL
   hardware.graphics = {
     enable = true;
