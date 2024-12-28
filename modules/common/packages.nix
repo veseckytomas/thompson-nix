@@ -12,6 +12,7 @@
   pkgs,
   inputs,
   username,
+  system,
   ...
 }: {
   # Allow unfree packages
@@ -49,6 +50,7 @@
 
     # Terminal emulator
     kitty
+    inputs.ghostty.packages.${system}.default
 
     # Programming
     ansible
@@ -78,7 +80,7 @@
     # Web browsers
     librewolf
     chromium
-    inputs.zen-browser.packages."x86_64-linux".specific
+    inputs.zen-browser.packages.${system}.specific
 
     # Text editors
     vscodium

@@ -15,21 +15,12 @@
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-24.11-small";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-    };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-    };
-    home-manager-stable = {
-      url = "github:nix-community/home-manager/release-24.11";
-    };
-    nixvim-stable = {
-      url = "github:nix-community/nixvim/nixos-24.11";
-    };
-    zen-browser = {
-      url = "github:MarceColl/zen-browser-flake";
-    };
+    home-manager.url = "github:nix-community/home-manager";
+    nixvim.url = "github:nix-community/nixvim";
+    home-manager-stable.url = "github:nix-community/home-manager/release-24.11";
+    nixvim-stable.url = "github:nix-community/nixvim/nixos-24.11";
+    zen-browser.url = "github:MarceColl/zen-browser-flake";
+    ghostty.url = "github:ghostty-org/ghostty";
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
@@ -61,7 +52,8 @@
     };
   };
 
-  outputs = {self, ...} @ inputs: let
+  # outputs = {self, ...} @ inputs: let
+  outputs = inputs: let
     system = "x86_64-linux";
     username = "vesecto";
     pkgs = import inputs.nixpkgs {
