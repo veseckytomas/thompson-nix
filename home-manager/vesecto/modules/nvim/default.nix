@@ -38,6 +38,9 @@
     };
 
     opts = {
+      # Disable swap files
+      swapfile = true;
+
       # Set line numbers
       number = true;
       relativenumber = true;
