@@ -121,7 +121,20 @@ function take {
 	cd $1
 }
 function save_obsidian {
-	pushd ~/Git/Personal/obsidian > /dev/null
+	pushd ~/Git/Personal/thompson-obsidian > /dev/null
+	if git diff --quiet; then
+		echo "No changes to save"
+		popd > /dev/null
+		return 0
+	fi
+	git add --all
+	current=$(date -Iseconds)
+	git commit -m "Update: $current"
+	git push
+	popd > /dev/null
+}
+function save_xournal {
+	pushd ~/Git/Personal/thompson-notes > /dev/null
 	if git diff --quiet; then
 		echo "No changes to save"
 		popd > /dev/null
