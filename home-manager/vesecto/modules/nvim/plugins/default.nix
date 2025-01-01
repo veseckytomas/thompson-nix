@@ -62,6 +62,7 @@
     ./render-markdown-nvim.nix
     ./rustaceanvim.nix
     ./sleuth.nix
+    # ./snacks.nix
     ./spectre.nix
     ./telescope.nix
     ./tmux-navigator.nix
