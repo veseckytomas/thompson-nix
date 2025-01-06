@@ -53,7 +53,7 @@
     ./neogit.nix
     ./neotest.nix
     ./nix.nix
-    ./noice.nix
+    # ./noice.nix
     ./notify.nix
     # ./nvim-autopairs.nix
     ./nvim-ufo.nix
@@ -62,7 +62,7 @@
     ./render-markdown-nvim.nix
     ./rustaceanvim.nix
     ./sleuth.nix
-    # ./snacks.nix
+    ./snacks.nix
     ./spectre.nix
     ./telescope.nix
     ./tmux-navigator.nix
