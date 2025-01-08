@@ -11,11 +11,13 @@
 {...}: {
   programs.nixvim.plugins.copilot-lua = {
     enable = true;
-    filetypes = {
-      text = false;
-      markdown = false;
+    settings = {
+      filetypes = {
+        text = false;
+        markdown = false;
+      };
+      panel.enabled = false;
+      suggestion.enabled = false;
     };
-    panel.enabled = false;
-    suggestion.enabled = false;
   };
 }

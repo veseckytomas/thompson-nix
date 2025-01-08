@@ -22,10 +22,11 @@
     ./hyprland
     ./i3lock
     ./nomacs
+    # ./nvf
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
-    ./nvim
+    ./nixvim
     ./pandoc.nix
     ./picom.nix
     ./pylint.nix

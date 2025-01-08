@@ -18,6 +18,8 @@
         quickfile.enable = true;
         bigfile.enable = true;
         dashboard.enable = true;
+        statuscolumn.enable = true;
+        input.enable = true;
       };
     };
     keymaps = [

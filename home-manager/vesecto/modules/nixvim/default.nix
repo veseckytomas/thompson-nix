@@ -100,7 +100,7 @@
   imports = [
     ./extraConfig.nix
     ./keymaps.nix
-    ./performance.nix
+    # ./performance.nix
     ./plugins
   ];
 }
