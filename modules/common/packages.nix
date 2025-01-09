@@ -80,6 +80,7 @@
     # Web browsers
     librewolf
     chromium
+    firefox
     inputs.zen-browser.packages.${system}.specific
 
     # Text editors
