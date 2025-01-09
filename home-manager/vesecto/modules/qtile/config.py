@@ -557,6 +557,8 @@ auto_minimize = True
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
 
+subprocess.call([home + "/.screenlayout.sh"])
+
 
 @hook.subscribe.startup_once
 def start_once():
