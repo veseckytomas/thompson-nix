@@ -122,13 +122,6 @@ function take {
 function save_obsidian {
 	pushd ~/Git/Personal/thompson-obsidian > /dev/null
 	git add --all
-	if git diff --cached --quiet; then
-		echo "No changes to save"
-    git restore --staged :/ >/dev/null
-		popd > /dev/null
-		return 0
-	fi
-	git add --all
 	current=$(date -Iseconds)
 	git commit -m "Update: $current"
 	git push
@@ -137,12 +130,6 @@ function save_obsidian {
 function save_xournal {
 	pushd ~/Git/Personal/thompson-notes > /dev/null
 	git add --all
-	if git diff --cached --quiet; then
-		echo "No changes to save"
-    git restore --staged :/ >/dev/null
-		popd > /dev/null
-		return 0
-	fi
 	current=$(date -Iseconds)
 	git commit -m "Update: $current"
 	git push
