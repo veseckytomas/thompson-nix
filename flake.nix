@@ -17,6 +17,7 @@
     nixpkgs-stable.url = "nixpkgs/nixos-24.11-small";
     home-manager.url = "github:nix-community/home-manager";
     nixvim.url = "github:nix-community/nixvim";
+    nvf.url = "github:notashelf/nvf";
     home-manager-stable.url = "github:nix-community/home-manager/release-24.11";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-24.11";
     zen-browser.url = "github:MarceColl/zen-browser-flake";
@@ -154,6 +155,7 @@
           ./home-manager/vesecto/home.nix
           inputs.catppuccin.homeManagerModules.catppuccin
           inputs.nixvim.homeManagerModules.nixvim
+          inputs.nvf.homeManagerModules.default
         ];
       };
 
