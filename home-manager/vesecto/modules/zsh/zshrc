@@ -121,6 +121,7 @@ function take {
 }
 function save_obsidian {
 	pushd ~/Git/Personal/thompson-obsidian > /dev/null
+  git pull
 	git add --all
 	current=$(date -Iseconds)
 	git commit -m "Update: $current"
@@ -129,6 +130,7 @@ function save_obsidian {
 }
 function save_xournal {
 	pushd ~/Git/Personal/thompson-notes > /dev/null
+  git pull
 	git add --all
 	current=$(date -Iseconds)
 	git commit -m "Update: $current"
