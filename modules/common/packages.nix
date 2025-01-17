@@ -124,6 +124,7 @@
     stremio
     qalculate-gtk
     signal-desktop
+    whatsapp-for-linux
     alsa-utils
     pavucontrol
     teams-for-linux
