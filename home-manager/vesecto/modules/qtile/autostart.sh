@@ -15,6 +15,7 @@ nm-applet &
 xbacklight -set 50
 xset s off -dpms
 amixer set Master off
+xbindkeys
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
 sleep 1
 

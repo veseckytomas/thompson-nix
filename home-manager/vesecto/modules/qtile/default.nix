@@ -15,6 +15,7 @@ in {
     ../backgrounds
     ../i3lock
     ../rofi
+    ../xbindkeys
   ];
   home.file = {
     "${config_dir}/config.py".source = ./config.py;

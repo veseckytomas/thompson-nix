@@ -1,0 +1,5 @@
+"flameshot gui -c"
+   m:0x0 + b:19
+
+"xte 'keydown Control_L' 'key v' 'keyup Control_L'"
+   m:0x0 + b:20
