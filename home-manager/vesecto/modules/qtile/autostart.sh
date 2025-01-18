@@ -13,7 +13,11 @@
 ### AUTOSTART PROGRAMS ###
 nm-applet &
 xbacklight -set 50
-xset s off -dpms
+
+xset s off
+xset -dpms
+xset s noblank
+
 amixer set Master off
 xbindkeys
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
