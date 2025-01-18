@@ -15,6 +15,4 @@ sudo /run/current-system/bin/switch-to-configuration boot
 nix-collect-garbage -d
 nix-store --optimize
 "$HOME/.tmux/plugins/tpm/bin/clean_plugins"
-if which protonup &> /dev/null; then
-  docker system prune --volumes -af
-fi
+docker system prune -af --volumes
