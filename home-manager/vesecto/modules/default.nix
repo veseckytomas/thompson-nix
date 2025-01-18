@@ -14,6 +14,7 @@
     ./atuin.nix
     # ./autorandr.nix
     ./bat.nix
+    ./direnv.nix
     ./clangd
     ./editorconfig.nix
     ./fzf.nix
