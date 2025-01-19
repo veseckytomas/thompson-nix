@@ -559,11 +559,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1737188535,
-        "narHash": "sha256-O2ttwW1/dUc/Y+Rf48Njtr4tZpRJhy8FhafikekIjMY=",
+        "lastModified": 1737221749,
+        "narHash": "sha256-igllW0yG+UbetvhT11jnt9RppSHXYgMykYhZJeqfHs0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "1e36429705f9af2d00a517ba46a4f21ef8a8194f",
+        "rev": "97d7946b5e107dd03cc82f21165251d4e0159655",
         "type": "github"
       },
       "original": {
@@ -689,11 +689,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1737193184,
-        "narHash": "sha256-jHaFOi6ATpmJvQ3ELPO+aTEhzjI+6o4uau81z1hZsmE=",
+        "lastModified": 1737197318,
+        "narHash": "sha256-qNyNJ6G1PhXkBTzmJgzbf+nD7HDxr3/DuvNXuTI0T3M=",
         "ref": "refs/heads/main",
-        "rev": "a36fa5c229c175f47602f1b92d97e6a4dd3417a8",
-        "revCount": 5684,
+        "rev": "f56153a9c1b0a00fac0932a95e0cfa5a4f6c681f",
+        "revCount": 5685,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -924,11 +924,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1737162016,
-        "narHash": "sha256-u2H5rlUo2iMgM8mC8LTHHay6v3/eNfA4fEO7vD5xcCg=",
+        "lastModified": 1737196538,
+        "narHash": "sha256-E8gOwJLRDDqKAXTNVzkFZXyEOBzuJaghTHzq1WgxX8o=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "dcd7f94e849ee0a9564bf823dba4778c913d429b",
+        "rev": "691d68eb69afa8476fb1f42e8abb8ac9a55636e0",
         "type": "github"
       },
       "original": {
@@ -1082,11 +1082,11 @@
     },
     "nixpkgs-stable_3": {
       "locked": {
-        "lastModified": 1737077867,
-        "narHash": "sha256-+VpCgelbCgJvxos+4sAVaKfwYRKrkflsWcYVOhG0mXg=",
+        "lastModified": 1737255904,
+        "narHash": "sha256-r3fxHvh+M/mBgCZXOACzRFPsJdix2QSsKazb7VCXXo0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0ab8bdef1a34b67d2ecc8f86763cbb3cb5297699",
+        "rev": "eacdab35066b0bb1c9413c96898e326b76398a81",
         "type": "github"
       },
       "original": {
@@ -1251,11 +1251,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1737180904,
-        "narHash": "sha256-WraP9ppk7Q6+OzEZV3okhNzG1h8e+DFyi3xrGFT8aqA=",
+        "lastModified": 1737200978,
+        "narHash": "sha256-QTUx/F8HVjrRIHQxHKrr72aPMj+cDk18WTbvBCCBBdI=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "a1b44cfdf48019d69713328ac28e12c1789ef21c",
+        "rev": "cbf960e5659054b2ccf27b67218782e69016bef5",
         "type": "github"
       },
       "original": {
@@ -1414,6 +1414,7 @@
         "plugin-fidget-nvim": "plugin-fidget-nvim",
         "plugin-flutter-tools": "plugin-flutter-tools",
         "plugin-friendly-snippets": "plugin-friendly-snippets",
+        "plugin-fzf-lua": "plugin-fzf-lua",
         "plugin-gesture-nvim": "plugin-gesture-nvim",
         "plugin-gitsigns-nvim": "plugin-gitsigns-nvim",
         "plugin-glow-nvim": "plugin-glow-nvim",
@@ -1510,11 +1511,11 @@
         "systems": "systems_7"
       },
       "locked": {
-        "lastModified": 1737147168,
-        "narHash": "sha256-BZj3y0fPRaBoxwYR5inStdoCKZxcu7+9plvcxzoAxWY=",
+        "lastModified": 1737277081,
+        "narHash": "sha256-/R4yWHcJnU9mJKbcka3+3QOyOrEqYrKF1ijgfdCnz+8=",
         "owner": "notashelf",
         "repo": "nvf",
-        "rev": "ba27d85deec526a499d95713581dba1ada40c6df",
+        "rev": "91cb48287302fde89c493d12a336b2410cde23a9",
         "type": "github"
       },
       "original": {
@@ -2000,6 +2001,22 @@
       "original": {
         "owner": "rafamadriz",
         "repo": "friendly-snippets",
+        "type": "github"
+      }
+    },
+    "plugin-fzf-lua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1737131132,
+        "narHash": "sha256-0IdADUsIr+SZ0ort92jPPfGIH1EdcwELYz+TCmDCPPI=",
+        "owner": "ibhagwan",
+        "repo": "fzf-lua",
+        "rev": "fbe21aeb147b3dc8b188b5753a8e288ecedcee5e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ibhagwan",
+        "repo": "fzf-lua",
         "type": "github"
       }
     },
