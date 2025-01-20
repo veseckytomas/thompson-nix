@@ -150,6 +150,7 @@
     homeConfigurations = {
       vesecto = inputs.home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {inherit inputs system username;};
+        useGlobalPkgs = true;
         inherit pkgs;
         modules = [
           ./home-manager/vesecto
@@ -161,6 +162,7 @@
 
       vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
         extraSpecialArgs = {inherit username;};
+        useGlobalPkgs = true;
         pkgs = pkgs-stable;
         modules = [
           ./home-manager/vesecto-server
@@ -171,6 +173,7 @@
 
       vesecto-server-arm = inputs.home-manager-stable.lib.homeManagerConfiguration {
         extraSpecialArgs = {inherit username;};
+        useGlobalPkgs = true;
         pkgs = import inputs.nixpkgs-stable {
           system = "aarch64-linux";
         };
