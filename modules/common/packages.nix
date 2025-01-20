@@ -18,8 +18,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # List of packages
   environment.systemPackages = with pkgs; [
     # Shell
     (callPackage ./packages/2048.nix {inherit inputs;})

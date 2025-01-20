@@ -59,7 +59,7 @@
     username = "vesecto";
     pkgs = import inputs.nixpkgs {
       inherit system;
-      config = {allowUnfree = true;};
+      # config = {allowUnfree = true;};
     };
     pkgs-stable = import inputs.nixpkgs-stable {
       inherit system;
@@ -152,7 +152,7 @@
         extraSpecialArgs = {inherit inputs system;};
         inherit pkgs;
         modules = [
-          ./home-manager/vesecto/home.nix
+          ./home-manager/vesecto
           inputs.catppuccin.homeManagerModules.catppuccin
           inputs.nixvim.homeManagerModules.nixvim
           inputs.nvf.homeManagerModules.default
@@ -162,7 +162,7 @@
       vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
         pkgs = pkgs-stable;
         modules = [
-          ./home-manager/vesecto-server/home.nix
+          ./home-manager/vesecto-server
           inputs.catppuccin.homeManagerModules.catppuccin
           inputs.nixvim-stable.homeManagerModules.nixvim
         ];
@@ -173,7 +173,7 @@
           system = "aarch64-linux";
         };
         modules = [
-          ./home-manager/vesecto-server/home.nix
+          ./home-manager/vesecto-server
           inputs.catppuccin.homeManagerModules.catppuccin
           inputs.nixvim-stable.homeManagerModules.nixvim
         ];
