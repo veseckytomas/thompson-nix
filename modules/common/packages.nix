@@ -159,7 +159,7 @@
     # Enable nh
     nh = {
       enable = true;
-      flake = "/home/${username}/Git/thompson-nix";
+      flake = "/home/${username}/Git/Personal/thompson-nix";
     };
 
     # Enable gnupg
