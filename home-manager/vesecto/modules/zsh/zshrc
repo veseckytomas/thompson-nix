@@ -95,7 +95,6 @@ alias cp='cp -r'
 alias ls='eza --icons -F -H --group-directories-first --git'
 alias la='ls -a -1'
 alias cal='cal -m'
-# alias ps='ps -e | tail -n+2 | fzf'
 alias rm='trash'
 function nvimf() {
   FILE=$(fzf)
@@ -147,17 +146,10 @@ function migrate_repo {
   ./migrate.sh
   popd > /dev/null
 }
-function export_md {
-  pandoc -f markdown -t pdf -o $2 $1
-}
-function docker_clean {
-  docker rm $(docker ps -aq)
-  docker rmi $(docker images -aq)
-}
-ga() {
+function ga {
   git add $(git status --porcelain | command fzf --multi | awk '{print $2}' | tr '\n' ' ');
 }
-fpkill() {
+function fpkill {
   local selection
   selection=$(ps -e -o pid,comm | command fzf)
   local pid=$(echo "$selection" | awk '{print $1}')

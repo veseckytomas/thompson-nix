@@ -8,10 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{username, ...}: {
   home = {
-    username = "vesecto";
-    homeDirectory = "/home/vesecto";
+    username = "${username}";
+    homeDirectory = "/home/${username}";
     stateVersion = "24.05";
     sessionVariables = {
       EDITOR = "nvim";
@@ -23,9 +23,6 @@
       size = 32;
     };
   };
-  xsession.initExtra = ''
-    xinput map-to-output "Wacom Intuos BT M Pen Pen (0x47803692)" HDMI-1
-  '';
   xdg = {
     enable = true;
     mimeApps = {
@@ -61,8 +58,4 @@
 
   news.display = "silent";
   programs.home-manager.enable = true;
-
-  imports = [
-    ./modules
-  ];
 }

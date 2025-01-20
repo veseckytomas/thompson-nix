@@ -8,10 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{username, ...}: {
   home = {
-    username = "vesecto";
-    homeDirectory = "/home/vesecto";
+    username = "${username}";
+    homeDirectory = "/home/${username}";
     stateVersion = "24.05";
     sessionVariables = {
       EDITOR = "nvim";
@@ -20,8 +20,4 @@
 
   news.display = "silent";
   programs.home-manager.enable = true;
-
-  imports = [
-    ./modules
-  ];
 }

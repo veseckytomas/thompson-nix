@@ -24,20 +24,30 @@ source "$ZINIT_HOME/zinit.zsh"
 
 # Add zsh plugins
 source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh"
+zinit ice wait lucid 1
 zinit light zsh-users/zsh-syntax-highlighting
+zinit ice wait lucid 1
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
+zinit ice wait lucid 1
 zinit light hlissner/zsh-autopair
+zinit ice wait lucid 1
 zinit light Aloxaf/fzf-tab
+zinit ice wait lucid 1
 zinit light atuinsh/atuin
 
 # Snippets
+zinit ice wait lucid 1
 zinit snippet OMZP::command-not-found
+zinit ice wait lucid 1
 zinit snippet OMZP::sudo
 
-# Load completions
-autoload -Uz compinit && compinit
-zinit cdreplay -q
+zi for \
+    atload"zicompinit; zicdreplay" \
+    blockf \
+    lucid \
+    wait \
+  zsh-users/zsh-completions
 
 # Set prompt
 eval "$(starship init zsh)"
@@ -69,24 +79,34 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # Variables
 export EDITOR=nvim
+export DIRENV_WARN_TIMEOUT=0
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Enable SSH Agent
 { eval $(gnome-keyring-daemon -s) } &>/dev/null
 
 # Aliases
-alias pentaho='export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh'
-alias root@ebie='ssh -A -L 5431:dv1:5432 -L 2221:dv1:22 -L 2222:dv2:22 -L 2223:dv3:22 -L 2224:dv4:22  -L 8088:dv2:8080 -L 8008:dv2:8008 root@ebie.is.cvut.cz'
-alias fzf='fzf --multi --preview "bat --color=always --style=header,grid --line-range :500 {}"'
-alias nvimf='nvim $(fzf)'
-alias latex='xelatex -interaction=batchmode'
+alias fzf='fzf -i --multi --preview "bat --color=always --style=header,grid --line-range :500 {}"'
 alias cp='cp -r'
 alias ls='eza --icons -F -H --group-directories-first --git'
 alias la='ls -a -1'
 alias cal='cal -m'
-alias y='yazi'
-alias ps='ps -e | tail -n+2 | fzf'
-alias chrome='export export NIXPKGS_ALLOW_UNFREE=1 && nix run nixpkgs#google-chrome --impure'
 alias rm='trash'
+function nvimf() {
+  FILE=$(fzf)
+  if [[ $FILE  != "" ]]; then
+    nvim "$FILE"
+  fi
+}
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
 function gbr {
 	git brd $1
 	git push -d origin $1
@@ -95,31 +115,17 @@ function take {
 	mkdir $1
 	cd $1
 }
-function save_obsidian {
-	pushd ~/Git/obsidian > /dev/null
-	if git diff --quiet; then
-		echo "No changes to save"
-		popd > /dev/null
-		return 0
-	fi
-	git add --all
-	current=$(date -Iseconds)
-	git commit -m "Update: $current"
-	git push
-	popd > /dev/null
+function ga {
+  git add $(git status --porcelain | command fzf --multi | awk '{print $2}' | tr '\n' ' ');
 }
-function nixos-run {
-	pushd ~/Git/thompson-nix > /dev/null
-	./scripts/main.sh
-	popd > /dev/null
-}
-function migrate_repo {
-  pushd ~/Git > /dev/null
-  ./migrate.sh
-  popd > /dev/null
-}
-function export_md {
-  pandoc -f markdown -t pdf -o $2 $1
+function fpkill {
+  local selection
+  selection=$(ps -e -o pid,comm | command fzf)
+  local pid=$(echo "$selection" | awk '{print $1}')
+  local pname=$(echo "$selection" | awk '{print $2}')
+  if [ "$pid" != "" ]; then
+    kill -9 "$pid" > /dev/null 2>&1 && echo "Process $pname (PID $pid) has been successfully killed."
+  fi
 }
 
 # Shell integration
@@ -130,6 +136,9 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
+eval "$(direnv hook zsh)"
+
+# Header
 echo '  ________'
 echo ' /_  __/ /_  ____  ____ ___  ____  _________  ____'
 echo '  / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \'

@@ -8,8 +8,9 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim.plugins.codeium-nvim = {
     enable = true;
+    package = pkgs.vimPlugins.codeium-nvim;
   };
 }
