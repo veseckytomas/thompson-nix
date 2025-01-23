@@ -21,7 +21,6 @@
     ./git
     ./hyprland
     ./nomacs
-    # ./nvf
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
