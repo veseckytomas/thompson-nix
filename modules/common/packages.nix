@@ -128,6 +128,7 @@
     pavucontrol
     teams-for-linux
     xournalpp
+    pa_applet
   ];
 
   # Install nerdfonts
