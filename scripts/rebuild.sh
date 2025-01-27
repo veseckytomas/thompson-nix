@@ -15,7 +15,7 @@ NC="\033[0;0m"
 
 git add --all
 git restore --staged home-manager
-sudo nixos-rebuild switch -j 8 --cores 8  --flake .#
+sudo nixos-rebuild switch --flake .#
 if test $? != 0; then
     echo "Build failed"
     git restore --staged :/ >/dev/null
