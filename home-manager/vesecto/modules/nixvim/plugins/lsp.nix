@@ -30,6 +30,9 @@
       # Bash
       bashls.enable = true;
 
+      # Gitlab
+      gitlab_ci_ls.enable = true;
+
       # Docker
       docker_compose_language_service.enable = true;
       dockerls.enable = true;
