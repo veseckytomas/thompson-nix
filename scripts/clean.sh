@@ -16,3 +16,4 @@ nix-collect-garbage -d
 nix-store --optimize
 "$HOME/.tmux/plugins/tpm/bin/clean_plugins"
 docker system prune -af --volumes
+trash-empty -f --all-users
