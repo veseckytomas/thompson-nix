@@ -10,28 +10,32 @@
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
   programs.nixvim = {
-    plugins.dap = {
-      enable = true;
-      signs = {
-        dapBreakpoint = {
-          text = "●";
-          texthl = "DapBreakpoint";
+    plugins = {
+      dap = {
+        enable = true;
+        signs = {
+          dapBreakpoint = {
+            text = "●";
+            texthl = "DapBreakpoint";
+          };
+          dapBreakpointCondition = {
+            text = "●";
+            texthl = "DapBreakpointCondition";
+          };
+          dapLogPoint = {
+            text = "◆";
+            texthl = "DapLogPoint";
+          };
         };
-        dapBreakpointCondition = {
-          text = "●";
-          texthl = "DapBreakpointCondition";
+        adapters = {
         };
-        dapLogPoint = {
-          text = "◆";
-          texthl = "DapLogPoint";
+        configurations = {
         };
       };
-      extensions = {
-        dap-ui = {
-          enable = true;
-          floating.mappings = {
-            close = ["<Esc>" "q"];
-          };
+      dap-virtual-text.enable = true;
+      dap-ui = {
+        enable = true;
+        settings = {
           icons = {
             expanded = "▾";
             collapsed = "▸";
@@ -51,13 +55,8 @@
             };
           };
         };
-        dap-virtual-text.enable = true;
-        dap-python.enable = true;
       };
-      adapters = {
-      };
-      configurations = {
-      };
+      dap-python.enable = true;
     };
     keymaps = [
       {
