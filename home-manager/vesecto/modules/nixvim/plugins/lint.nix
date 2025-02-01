@@ -29,7 +29,7 @@
         # Nix
         nix = ["statix"];
         # Python
-        python = ["pylint" "ruff"];
+        python = ["pylint"];
         # Rust
         rust = ["clipy"];
         # Shell
