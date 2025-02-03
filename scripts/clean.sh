@@ -10,6 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
+nix run nixpkgs#python3Packages.pip cache purge
 sudo nix-collect-garbage -d
 sudo /run/current-system/bin/switch-to-configuration boot
 nix-collect-garbage -d
