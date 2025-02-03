@@ -12,7 +12,7 @@
   programs.nixvim = {
     plugins.notify = {
       enable = true;
-      timeout = 3000;
+      settings.timeout = 3000;
     };
   };
 }
