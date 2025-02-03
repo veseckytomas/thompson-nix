@@ -129,7 +129,7 @@
     teams-for-linux
     xournalpp
     pa_applet
-    onedrive
+    rclone
   ];
 
   # Install nerdfonts
