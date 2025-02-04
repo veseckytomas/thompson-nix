@@ -50,9 +50,6 @@
 
       # Python
       pylsp.enable = true;
-      pylyzer.enable = true;
-      pyright.enable = true;
-      ruff.enable = true;
 
       # Rust
       # rust-analyzer = {
