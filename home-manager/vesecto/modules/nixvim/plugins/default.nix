@@ -11,10 +11,10 @@
 {...}: {
   imports = [
     ./alpha.nix
-    ./avante.nix
+    # ./avante.nix
     # ./bufferline.nix
     ./bullets-vim.nix
-    ./ccc.nix
+    # ./ccc.nix
     ./cmp.nix
     ./cmp-buffer.nix
     # ./cmp-cmdline.nix
@@ -22,7 +22,7 @@
     ./cmp-path.nix
     ./chatgpt/chatgpt.nix
     ./codeium-nvim.nix
-    ./codesnap.nix
+    # ./codesnap.nix
     ./colorizer.nix
     ./comment.nix
     ./conform-nvim.nix
@@ -30,15 +30,15 @@
     ./copilot-cmp.nix
     ./copilot-lua.nix
     # ./copilot-vim.nix
-    ./crates.nix
-    ./dap.nix
+    # ./crates.nix
+    # ./dap.nix
     # ./diffview.nix
     ./fidget.nix
     ./friendly-snippets.nix
-    ./gitmessenger.nix
+    # ./gitmessenger.nix
     ./gitsigns.nix
     ./indent-blankline.nix
-    ./kulala.nix
+    # ./kulala.nix
     ./lint.nix
     ./lsp.nix
     ./lspkind.nix
@@ -49,31 +49,31 @@
     ./mini.nix
     ./multicursors.nix
     ./neo-tree.nix
-    ./neogen.nix
-    ./neogit.nix
-    ./neotest.nix
+    # ./neogen.nix
+    # ./neogit.nix
+    # ./neotest.nix
     ./nix.nix
     # ./noice.nix
     ./notify.nix
     # ./nvim-autopairs.nix
     ./nvim-ufo.nix
     ./oil.nix
-    ./outline-nvim.nix
+    # ./outline-nvim.nix
     ./render-markdown-nvim.nix
-    ./rustaceanvim.nix
+    # ./rustaceanvim.nix
     ./sleuth.nix
-    ./snacks.nix
+    # ./snacks.nix
     ./spectre.nix
     ./telescope.nix
     ./tmux-navigator.nix
     ./todo-comments.nix
-    ./treesitter-refactor.nix
+    # ./treesitter-refactor.nix
     ./treesitter.nix
     ./ts-autotag.nix
     ./undotree.nix
-    ./vim-dadbod-completion.nix
-    ./vim-dadbod-ui.nix
-    ./vim-dadbod.nix
+    # ./vim-dadbod-completion.nix
+    # ./vim-dadbod-ui.nix
+    # ./vim-dadbod.nix
     ./vim-surround.nix
     ./wakatime.nix
     ./web-devicons.nix
