@@ -10,7 +10,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-nix flake update
 ./scripts/rebuild.sh
 if [ $? -ne 0 ]; then
     exit 1

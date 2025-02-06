@@ -49,7 +49,6 @@
 
     # Terminal emulator
     kitty
-    inputs.ghostty.packages.${system}.default
 
     # Programming
     ansible

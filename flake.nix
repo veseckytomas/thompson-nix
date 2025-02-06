@@ -20,7 +20,6 @@
     home-manager-stable.url = "github:nix-community/home-manager/release-24.11";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-24.11";
     zen-browser.url = "github:MarceColl/zen-browser-flake";
-    ghostty.url = "github:ghostty-org/ghostty";
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
