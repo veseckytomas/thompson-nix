@@ -15,6 +15,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 ./scripts/home.sh
+if [ $? -ne 0 ]; then
+    exit 1
+fi
 "$HOME/.tmux/plugins/tpm/bin/install_plugins"
 "$HOME/.tmux/plugins/tpm/bin/update_plugins" all
 zsh -c 'source ~/.zshrc && zinit update'
