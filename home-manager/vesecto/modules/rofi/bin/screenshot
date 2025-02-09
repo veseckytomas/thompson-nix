@@ -40,7 +40,7 @@ shot10() {
 }
 
 shotarea() {
-	flameshot gui --path "$dir" --cliboard
+	flameshot gui --path "$dir" --clipboard
 }
 
 if [[ ! -d "$dir" ]]; then
