@@ -129,6 +129,7 @@
     xournalpp
     pa_applet
     rclone
+    virtiofsd
   ];
 
   # Install nerdfonts
