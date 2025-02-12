@@ -535,15 +535,10 @@ floating_layout = layout.Floating(
         Match(wm_class="pinentry-gtk-2"),  # GPG key password entry
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(wm_class="toolbar"),  # toolbars
-        # Match(wm_class="Yad"),  # yad boxes
         Match(title="branchdialog"),  # gitk
         Match(title="Confirmation"),  # tastyworks exit box
         Match(title="Qalculate!"),  # qalculate-gtk
         Match(title="pinentry"),  # GPG key password entry
-        # Match(title="tastycharts"),  # tastytrade pop-out charts
-        # Match(title="tastytrade"),  # tastytrade pop-out side gutter
-        # Match(title="tastytrade - Portfolio Report"),  # tastytrade pop-out allocation
-        # Match(wm_class="tasty.javafx.launcher.LauncherFxApp"),  # tastytrade settings
     ],
 )
 auto_fullscreen = True
