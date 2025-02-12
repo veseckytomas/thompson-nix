@@ -17,7 +17,10 @@ in {
     systemd.enable = true;
     settings = {
       # Keybinds
-      # bind = [] ++ (builtins.concatLists (builtins.genList (i: let
+      bind = [
+        "mod, B, exec, librewolf"
+      ];
+      # ++ (builtins.concatLists (builtins.genList (i: let
       #   ws = i + 1;
       # in [
       #   "mod, code:1${toString i}, workspace, ${toString ws}"
