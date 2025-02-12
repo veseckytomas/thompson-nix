@@ -8,16 +8,59 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{pkgs, ...}: let
+  # config_dir = ".config/hypr";
+in {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
+    systemd.enable = true;
+    settings = {
+      # Keybinds
+      # bind = [] ++ (builtins.concatLists (builtins.genList (i: let
+      #   ws = i + 1;
+      # in [
+      #   "mod, code:1${toString i}, workspace, ${toString ws}"
+      #   "mod SHIFT, code:1${toString i}, workspace, ${toString ws}"
+      # ])));
+
+      # Theme
+      catppuccin = {
+        enable = true;
+        accent = "mauve";
+        flavor = "mocha";
+      };
+
+      # autostart
+      exec-once = [
+        "nm-applet &"
+        "hyprlock"
+        "exec-once=waybar &"
+        "swaync &"
+        "hyprpaper &"
+        "hypridle"
+      ];
+
+      input = {
+        kb_layout = "us,cs";
+        numlock_by_default = true;
+        touchpad = {
+          natural_scroll = true;
+        };
+      };
+
+      general = {
+        "$mainMod" = "SUPER";
+      };
+    };
   };
-  home.packages = with pkgs; [
-    wayland
-  ];
+  home = {
+    # file."${config_dir}/catppuccin.conf".source = ./catppuccin.conf;
+    packages = with pkgs; [
+      wayland
+    ];
+  };
   imports = [
-    ./hyprland.nix
     ../backgrounds
   ];
 }
