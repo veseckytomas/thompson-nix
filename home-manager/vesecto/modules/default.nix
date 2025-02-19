@@ -35,6 +35,7 @@
     ./stylua
     ./themes
     ./tmux
+    ./xournalpp
     ./yazi.nix
     # ./zoxide.nix
     ./zsh
