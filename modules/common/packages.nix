@@ -60,8 +60,6 @@
     jetbrains.datagrip
     doxygen
     postman
-    clang
-    cmake
     gnumake
     cargo
     shellcheck
