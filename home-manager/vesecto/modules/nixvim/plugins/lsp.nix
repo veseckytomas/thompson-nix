@@ -72,6 +72,9 @@
 
       # YAML
       yamlls.enable = true;
+
+      #cpp
+      clangd.enable = true;
     };
   };
 }

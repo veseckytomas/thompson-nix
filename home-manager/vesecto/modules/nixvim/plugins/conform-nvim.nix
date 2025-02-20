@@ -51,6 +51,8 @@
           typescriptreact = ["prettierd" "prettier"];
           # YAML
           yaml = ["yamlfix"];
+          #cpp
+          cpp = ["clang-format"];
         };
       };
     };
@@ -85,5 +87,6 @@
     pgformatter
     taplo
     yamlfix
+    clang-tools
   ];
 }

@@ -41,6 +41,8 @@
         # TypeScript
         typescript = ["eslint"];
         typescriptreact = ["eslint"];
+        # CPP
+        cpp = ["cpplint"];
       };
     };
     keymaps = [
@@ -68,5 +70,6 @@
     shellcheck
     sqlfluff
     vale
+    cpplint
   ];
 }
