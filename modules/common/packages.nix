@@ -15,6 +15,10 @@
   system,
   ...
 }: {
+  imports = [
+    # ./packages/varia.nix
+  ];
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
