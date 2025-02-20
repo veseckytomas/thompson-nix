@@ -55,18 +55,8 @@
     kitty
 
     # Programming
-    ansible
-    asciidoc
     jetbrains.datagrip
-    doxygen
     postman
-    gnumake
-    cargo
-    shellcheck
-    nodejs
-    python3
-    pandoc
-    jupyter
 
     # Docker
     docker-compose
