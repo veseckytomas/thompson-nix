@@ -20,13 +20,6 @@
         nvimRuntime = true;
         plugins = true;
       };
-      combinePlugins = {
-        enable = false;
-        standalonePlugins = [
-          "conform.nvim"
-          "oil.nvim"
-        ];
-      };
     };
   };
 }

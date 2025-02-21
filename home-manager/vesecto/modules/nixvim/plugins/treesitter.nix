@@ -8,14 +8,76 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim.plugins.treesitter = {
     enable = true;
     folding = true;
     nixGrammars = true;
     nixvimInjections = true;
+    grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+      bash
+      ini
+      javascript
+      json
+      cpp
+      c
+      json5
+      jsonc
+      latex
+      lua
+      make
+      markdown
+      markdown-inline
+      python
+      regex
+      rust
+      scss
+      sql
+      tmux
+      toml
+      tsx
+      tsv
+      typescript
+      vim
+      vimdoc
+      xml
+      yaml
+      nginx
+      nix
+    ];
     settings = {
-      ensure_installed = "all";
+      ensure_installed = [
+        "html"
+        "ini"
+        "javascript"
+        "json"
+        "cpp"
+        "c"
+        "css"
+        "json5"
+        "jsonc"
+        "latex"
+        "lua"
+        "make"
+        "markdown"
+        "markdown_inline"
+        "python"
+        "regex"
+        "rust"
+        "scss"
+        "sql"
+        "tmux"
+        "toml"
+        "tsx"
+        "tsv"
+        "typescript"
+        "vim"
+        "vimdoc"
+        "xml"
+        "yaml"
+        "nginx"
+        "nix"
+      ];
       highlight.enable = true;
       indent.enable = true;
       incremental_selection.enable = true;
