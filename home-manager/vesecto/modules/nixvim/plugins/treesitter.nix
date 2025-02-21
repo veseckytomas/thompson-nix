@@ -15,6 +15,7 @@
     nixGrammars = true;
     nixvimInjections = true;
     grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+      html
       bash
       ini
       javascript
@@ -46,38 +47,6 @@
       nix
     ];
     settings = {
-      ensure_installed = [
-        "html"
-        "ini"
-        "javascript"
-        "json"
-        "cpp"
-        "c"
-        "css"
-        "json5"
-        "jsonc"
-        "latex"
-        "lua"
-        "make"
-        "markdown"
-        "markdown_inline"
-        "python"
-        "regex"
-        "rust"
-        "scss"
-        "sql"
-        "tmux"
-        "toml"
-        "tsx"
-        "tsv"
-        "typescript"
-        "vim"
-        "vimdoc"
-        "xml"
-        "yaml"
-        "nginx"
-        "nix"
-      ];
       highlight.enable = true;
       indent.enable = true;
       incremental_selection.enable = true;
