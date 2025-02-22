@@ -15,7 +15,6 @@
     stateVersion = "24.05";
     sessionVariables = {
       EDITOR = "nvim";
-      TERMINAL = "kitty";
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
     pointerCursor = {
