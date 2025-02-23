@@ -12,7 +12,6 @@
   config_dir = ".config/xournalpp";
 in {
   home = {
-    file."${config_dir}/settings.xml".source = ./settings.xml;
     file."${config_dir}/toolbar.ini".source = ./toolbar.ini;
     packages = with pkgs; [
       xournalpp
