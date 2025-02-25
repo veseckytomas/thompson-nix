@@ -553,7 +553,7 @@ auto_minimize = True
 wl_input_rules = None
 
 subprocess.call([home + "/.setup.sh"])
-
+subprocess.call([home + "/.config/backgrounds/background.sh"])
 
 @hook.subscribe.startup_once
 def start_once():

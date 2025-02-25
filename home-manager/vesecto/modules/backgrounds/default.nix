@@ -18,5 +18,6 @@ in {
     "${config_dir}/linux_background.jpg".source = ./linux_background.jpg;
     "${config_dir}/nixos.png".source = ./nixos.png;
     "${config_dir}/nixos_background.png".source = ./nixos_background.png;
+    "${config_dir}/background.sh".source = ./background.sh;
   };
 }
