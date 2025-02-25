@@ -17,6 +17,23 @@
         openai_params.model = "gpt-4o";
         predefined_chat_gpt_params = "https://raw.githubusercontent.com/veseckytomas/awesome-chatgpt-prompts/main/prompts.csv";
       };
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = [
+            "ChatGPT"
+            "ChatGPTActAs"
+            "ChatGPTCompleteCode"
+            "ChatGPTEditWithInstructions"
+          ];
+          keys = [
+            "<leader>cho"
+            "<leader>cha"
+            "<leader>chc"
+            "<leader>che"
+          ];
+        };
+      };
     };
     keymaps = [
       {

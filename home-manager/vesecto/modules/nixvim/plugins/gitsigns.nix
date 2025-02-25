@@ -41,7 +41,10 @@
             "<leader>gs"
           ];
           cmd = [
-            "GitSigns"
+            "Gitsigns preview_hunk"
+            "Gitsigns"
+            "Gitsigns restore_hunk"
+            "Gitsigns stage_hunk"
           ];
         };
       };
