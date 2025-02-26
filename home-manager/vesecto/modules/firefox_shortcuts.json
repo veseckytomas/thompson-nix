@@ -1,0 +1,35 @@
+[
+  {
+    "key": "ctrl+h",
+    "label": "Prev tab",
+    "action": "prevtab",
+    "sites": "",
+    "sitesArray": [
+      ""
+    ],
+    "blacklist": false,
+    "activeInInputs": true
+  },
+  {
+    "key": "ctrl+l",
+    "label": "Next tab",
+    "action": "nexttab",
+    "sites": "",
+    "sitesArray": [
+      ""
+    ],
+    "activeInInputs": true,
+    "blacklist": false
+  },
+  {
+    "key": "ctrl+m",
+    "label": "Toggle tab mute",
+    "action": "togglemute",
+    "sites": "",
+    "sitesArray": [
+      ""
+    ],
+    "blacklist": false,
+    "activeInInputs": true
+  }
+]
