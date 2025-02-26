@@ -31,5 +31,23 @@
     ],
     "blacklist": false,
     "activeInInputs": true
+  },
+  {
+    "key": "ctrl+b",
+    "label": "Backward",
+    "action": "back",
+    "sites": "",
+    "sitesArray": [
+      ""
+    ]
+  },
+  {
+    "key": "ctrl+f",
+    "label": "Forward",
+    "action": "forward",
+    "sites": "",
+    "sitesArray": [
+      ""
+    ]
   }
 ]
