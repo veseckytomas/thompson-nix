@@ -1,6 +1,6 @@
 [
   {
-    "key": "ctrl+h",
+    "key": "ctrl+j",
     "label": "Prev tab",
     "action": "prevtab",
     "sites": "",
@@ -11,7 +11,7 @@
     "activeInInputs": true
   },
   {
-    "key": "ctrl+l",
+    "key": "ctrl+k",
     "label": "Next tab",
     "action": "nexttab",
     "sites": "",

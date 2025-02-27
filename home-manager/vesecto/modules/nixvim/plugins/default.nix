@@ -20,7 +20,7 @@
     # ./cmp-cmdline.nix
     ./cmp-nvim-lsp.nix
     ./cmp-path.nix
-    ./chatgpt/chatgpt.nix
+    ./chatgpt
     ./codeium-nvim.nix
     # ./codesnap.nix
     ./colorizer.nix
