@@ -555,6 +555,7 @@ wl_input_rules = None
 # Run startup scripts on every reload
 subprocess.call([home + "/.setup.sh"])
 subprocess.call([home + "/.config/backgrounds/background.sh"])
+subprocess.call([home + "/.config/qtile/setup.sh"])
 
 
 @hook.subscribe.startup_once

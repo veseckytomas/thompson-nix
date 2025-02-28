@@ -21,5 +21,6 @@ in {
     "${config_dir}/config.py".source = ./config.py;
     "${config_dir}/colors.py".source = ./colors.py;
     "${config_dir}/autostart.sh".source = ./autostart.sh;
+    "${config_dir}/setup.sh".source = ./setup.sh;
   };
 }
