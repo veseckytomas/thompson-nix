@@ -71,9 +71,9 @@
     ./treesitter.nix
     ./ts-autotag.nix
     ./undotree.nix
-    # ./vim-dadbod-completion.nix
-    # ./vim-dadbod-ui.nix
-    # ./vim-dadbod.nix
+    ./vim-dadbod-completion.nix
+    ./vim-dadbod-ui.nix
+    ./vim-dadbod.nix
     ./vim-surround.nix
     ./wakatime.nix
     ./web-devicons.nix
