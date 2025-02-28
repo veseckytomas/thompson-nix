@@ -33,7 +33,7 @@
     "activeInInputs": true
   },
   {
-    "key": "ctrl+b",
+    "key": "ctrl+shift+b",
     "label": "Backward",
     "action": "back",
     "sites": "",
@@ -42,7 +42,7 @@
     ]
   },
   {
-    "key": "ctrl+f",
+    "key": "ctrl+shift+f",
     "label": "Forward",
     "action": "forward",
     "sites": "",
