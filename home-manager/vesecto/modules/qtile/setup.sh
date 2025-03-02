@@ -9,4 +9,4 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-xinput set-button-map 'Wacom Intuos BT M Pad' 1 18 19 4 5 6 7 20
+xinput set-button-map 'Wacom Intuos BT M Pad' 17 18 19 4 5 6 7 20
