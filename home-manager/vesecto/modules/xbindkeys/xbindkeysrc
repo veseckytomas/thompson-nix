@@ -11,11 +11,11 @@
 "flameshot gui -c"
    m:0x0 + b:17
 
+"xte 'key Delete'"
+   m:0x0 + b:18
+
 "xte 'keydown Control_L' 'key c' 'keyup Control_L'"
-  m:0x0 + b:18
+  m:0x0 + b:19
 
 "xte 'keydown Control_L' 'key v' 'keyup Control_L'"
-   m:0x0 + b:19
-
-"xte 'key Delete'"
    m:0x0 + b:20
