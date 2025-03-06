@@ -22,6 +22,17 @@
       fd
       zoxide
       yazi
+      trash-cli
+      dig
+      entr
+      direnv
+      traceroute
+      unzip
+      zip
+      starship
+      gotop
+      htop
+      atuin
     ];
   };
 }
