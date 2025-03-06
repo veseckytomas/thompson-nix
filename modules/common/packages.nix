@@ -26,30 +26,12 @@
   environment.systemPackages = with pkgs; [
     # Shell
     (callPackage ./packages/2048.nix {inherit inputs;})
-    atuin
-    bat
     curl
-    eza
-    fd
-    fzf
     gzip
-    htop
-    gotop
-    starship
     gnutar
-    tmux
-    traceroute
-    unzip
-    zip
-    zoxide
     gcc
     wget
     texlive.combined.scheme-full
-    dig
-    yazi
-    entr
-    trash-cli
-    direnv
 
     # Terminal emulator
     kitty
