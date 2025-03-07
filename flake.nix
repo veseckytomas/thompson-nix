@@ -49,6 +49,42 @@
       repo = "render-markdown.nvim";
       flake = false;
     };
+    zsh-syntax-highlighting = {
+      type = "github";
+      owner = "zsh-users";
+      repo = "zsh-syntax-highlighting";
+      flake = false;
+    };
+    zsh-completions = {
+      type = "github";
+      owner = "zsh-users";
+      repo = "zsh-completions";
+      flake = false;
+    };
+    zsh-autosuggestions = {
+      type = "github";
+      owner = "zsh-users";
+      repo = "zsh-autosuggestions";
+      flake = false;
+    };
+    zsh-autopair = {
+      type = "github";
+      owner = "hlissner";
+      repo = "zsh-autopair";
+      flake = false;
+    };
+    zsh-fzf-tab = {
+      type = "github";
+      owner = "Aloxaf";
+      repo = "fzf-tab";
+      flake = false;
+    };
+    zsh-atuin = {
+      type = "github";
+      owner = "atuinsh";
+      repo = "atuin";
+      flake = false;
+    };
   };
 
   # outputs = {self, ...} @ inputs: let
