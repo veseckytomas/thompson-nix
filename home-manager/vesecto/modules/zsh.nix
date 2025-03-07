@@ -12,7 +12,9 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  HIST_SIZE = 10000;
+in {
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
@@ -56,8 +58,8 @@
       append = true;
       ignoreSpace = true;
       path = "~/.zsh_history";
-      save = 10000;
-      size = 10000;
+      save = HIST_SIZE;
+      size = HIST_SIZE;
       ignoreDups = true;
       ignoreAllDups = true;
       findNoDups = true;

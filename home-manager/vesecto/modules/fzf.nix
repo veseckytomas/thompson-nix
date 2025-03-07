@@ -14,6 +14,7 @@ in {
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
     defaultCommand = "${fzf_command}";
     fileWidgetCommand = "${fzf_command}";
     defaultOptions = [
