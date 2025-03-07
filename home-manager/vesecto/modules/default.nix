@@ -37,7 +37,7 @@
     ./tmux
     ./xournalpp
     ./yazi.nix
-    # ./zoxide.nix
-    ./zsh
+    ./zoxide.nix
+    ./zsh.nix
   ];
 }

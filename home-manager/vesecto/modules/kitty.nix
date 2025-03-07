@@ -11,6 +11,10 @@
 {...}: {
   programs.kitty = {
     enable = true;
+    shellIntegration = {
+      mode = "no-cursor";
+      enableZshIntegration = true;
+    };
     themeFile = "Catppuccin-Mocha";
     font = {
       name = "Hack Nerd Font Mono";
@@ -20,6 +24,8 @@
     settings = {
       enable_audio_bell = false;
       background_opacity = 0.80;
+      cursor_shape = "block";
+      shell_integration = "no-cursor";
     };
     extraConfig = ''term xterm-256color'';
   };

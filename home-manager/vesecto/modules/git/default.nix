@@ -46,6 +46,9 @@
       init = {
         defaultBranch = "master";
       };
+      advice = {
+        addEmptyPathspec = "false";
+      };
     };
   };
   catppuccin.delta = {
