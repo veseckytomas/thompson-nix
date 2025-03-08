@@ -101,7 +101,6 @@
     pavucontrol
     teams-for-linux
     xournalpp
-    pa_applet
     rclone
   ];
 
