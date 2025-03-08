@@ -13,8 +13,6 @@
     # Directories
     ./nvim
     ./starship
-    ./tmux
-    ./zsh
 
     # Single files
     ./atuin.nix
@@ -24,5 +22,6 @@
     ./fzf.nix
     ./git.nix
     ./yazi.nix
+    ./zsh.nix
   ];
 }

@@ -168,7 +168,6 @@ in {
   };
   home = {
     packages = with pkgs; [
-      zsh
       eza
       fd
       trash-cli
