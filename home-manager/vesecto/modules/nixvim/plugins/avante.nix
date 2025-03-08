@@ -12,8 +12,9 @@
   programs.nixvim.plugins.avante = {
     enable = true;
     lazyLoad = {
-      enable = false;
+      enable = true;
       settings = {
+        keys = ["<leader>aa"];
         cmd = [
           "AvanteAsk"
           "AvanteBuild"
@@ -28,4 +29,7 @@
       };
     };
   };
+  imports = [
+    ./api_keys
+  ];
 }

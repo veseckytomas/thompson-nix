@@ -8,10 +8,9 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
-  home = {
-    packages = with pkgs; [
-      tmux
-    ];
+{...}: {
+  home.file = {
+    ".openai_api_key.gpg".source = ./openai_api_key.gpg;
+    ".anthropic_api_key.gpg".source = ./anthropic_api_key.gpg;
   };
 }

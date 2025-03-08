@@ -367,7 +367,9 @@ def init_widgets_list():
         widget.DF(
             update_interval=60,
             foreground=colors[5],
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e df")},
+            mouse_callbacks={
+                "Button1": lambda: qtile.cmd_spawn(terminal + " -e df -h")
+            },
             partition="/root",
             format="{uf}{m} free",
             fmt="󱊞 Disk: {}",
@@ -386,6 +388,17 @@ def init_widgets_list():
             decorations=[
                 BorderDecoration(
                     colour=colors[7],
+                    border_width=[0, 0, 2, 0],
+                )
+            ],
+        ),
+        widget.Spacer(length=8),
+        widget.Volume(
+            foreground=colors[5],
+            fmt="󰕾 Vol: {}",
+            decorations=[
+                BorderDecoration(
+                    colour=colors[5],
                     border_width=[0, 0, 2, 0],
                 )
             ],
@@ -440,16 +453,16 @@ def init_widgets_list():
 def init_widgets_screen1():
     ws1 = init_widgets_list()
     if "desktop" in str(chassis.stdout):
-        del ws1[13:17]
+        del ws1[15:19]
     return ws1
 
 
 # All other monitors' bars will display everything but widgets 24 (systray) and 25 (spacer).
 def init_widgets_screen2():
     ws2 = init_widgets_list()
-    del ws2[19:21]
+    del ws2[21:23]
     if "desktop" in str(chassis.stdout):
-        del ws2[13:17]
+        del ws2[15:19]
     return ws2
 
 

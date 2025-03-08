@@ -12,7 +12,6 @@
 
 ### AUTOSTART PROGRAMS ###
 nm-applet &
-pa-applet &
 amixer set Master off
 xbindkeys
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service

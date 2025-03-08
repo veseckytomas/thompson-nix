@@ -62,5 +62,7 @@
       }
     ];
   };
-  home.file.".openai_api_key.gpg".source = ./openai_api_key.gpg;
+  imports = [
+    ./api_keys
+  ];
 }

@@ -57,7 +57,7 @@ in {
     history = {
       append = true;
       ignoreSpace = true;
-      path = "~/.zsh_history";
+      path = "$HOME/.zsh_history";
       save = HIST_SIZE;
       size = HIST_SIZE;
       ignoreDups = true;
@@ -81,6 +81,8 @@ in {
       # Variables
       export EDITOR=nvim
       export DIRENV_WARN_TIMEOUT=0
+      export OPENAI_API_KEY=$(gpg --decrypt -q /home/vesecto/.openai_api_key.gpg)
+      export ANTHROPIC_API_KEY=$(gpg --decrypt -q /home/vesecto/.anthropic_api_key.gpg)
 
       # Enable SSH Agent
       { eval $(gnome-keyring-daemon -s) } &>/dev/null
