@@ -271,11 +271,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1741531001,
-        "narHash": "sha256-IzhBDZkoaD/vEBs4utA9hmvtxecCofxkP809yGC/LyY=",
+        "lastModified": 1741613526,
+        "narHash": "sha256-HUEfRLqCy47BQ7kOG4SRVhqE7J6lkFzAagnd13I17qk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "cf47e7ea2182c5638fdd1b42de329cc7d185cf8b",
+        "rev": "3593ee59a44974b8518829a5239b2f77222e3c81",
         "type": "github"
       },
       "original": {
@@ -645,11 +645,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1740845439,
-        "narHash": "sha256-2wFVG7EEAvZHEYVWWDEruU4scqmerp44RACZQ9u0Su4=",
+        "lastModified": 1741548267,
+        "narHash": "sha256-XY2aY5oahcUBWJk9uB8t3cXROIVdk0Ac+teQJ+DfgFs=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "bf74da37518f84097a83593214ad835b908eae8c",
+        "rev": "50fec118c88a136074be89ff7626cfcabdc30921",
         "type": "github"
       },
       "original": {
@@ -698,11 +698,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1741445498,
-        "narHash": "sha256-F5Em0iv/CxkN5mZ9hRn3vPknpoWdcdCyR0e4WklHwiE=",
+        "lastModified": 1741564025,
+        "narHash": "sha256-cZmVA9XvIxbSW8XtnfVp77r2eYFWRvI2NEriGzyZgHU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "52e3095f6d812b91b22fb7ad0bfc1ab416453634",
+        "rev": "0297a51c99c5fe3856864eefb15a0831223aacff",
         "type": "github"
       },
       "original": {
@@ -941,11 +941,11 @@
     "render-markdown-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1741389456,
-        "narHash": "sha256-6RjmTwhoChXn4l1NNulTUKSUT2IK6ZjevQ85/yVECcQ=",
+        "lastModified": 1741562781,
+        "narHash": "sha256-+bMncpxWsg/0vnPChCgGQzzPtT07qy8pGdKamZ5bfDQ=",
         "owner": "MeanderingProgrammer",
         "repo": "render-markdown.nvim",
-        "rev": "81374ffd26f9a9d5f44274a9e7e60547b5fd106f",
+        "rev": "a03ed82dfdeb1a4980093609ffe94c171ace8059",
         "type": "github"
       },
       "original": {
@@ -1121,11 +1121,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1741003368,
-        "narHash": "sha256-5Fb4DN+rk1dhfKkDSeb6qZmc5+MytuUVXBZfipoVDqI=",
+        "lastModified": 1741559804,
+        "narHash": "sha256-KQtHYMpDR0zVCpMoNquY8jLBbi3eU3uYjwwdaCy7IeM=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "4b758aaac9bad9689304388a2f7e031b00a0f058",
+        "rev": "81123b377f7d4fb187f1e374f1abf153a9e0ac58",
         "type": "github"
       },
       "original": {
