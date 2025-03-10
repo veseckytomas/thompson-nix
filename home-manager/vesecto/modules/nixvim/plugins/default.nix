@@ -60,7 +60,7 @@
     ./oil.nix
     # ./outline-nvim.nix
     ./render-markdown-nvim.nix
-    # ./rustaceanvim.nix
+    ./rustaceanvim.nix
     ./sleuth.nix
     # ./snacks.nix
     ./spectre.nix
