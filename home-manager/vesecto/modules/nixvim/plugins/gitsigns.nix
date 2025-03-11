@@ -31,23 +31,6 @@
           untracked.text = "┆";
         };
       };
-      lazyLoad = {
-        enable = true;
-        settings = {
-          keys = [
-            "<leader>gp"
-            "<leader>gg"
-            "<leader>gr"
-            "<leader>gs"
-          ];
-          cmd = [
-            "Gitsigns preview_hunk"
-            "Gitsigns"
-            "Gitsigns restore_hunk"
-            "Gitsigns stage_hunk"
-          ];
-        };
-      };
     };
     keymaps = [
       {
