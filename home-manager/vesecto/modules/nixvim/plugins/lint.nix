@@ -31,7 +31,7 @@
         # Python
         python = ["pylint"];
         # Rust
-        rust = ["clipy"];
+        rust = ["clippy"];
         # Shell
         bash = ["shellcheck"];
         # SQL
