@@ -20,11 +20,18 @@
         max_tokens = 32768;
       };
       vendors = {
-        groq = {
+        llama = {
           __inherited_from = "openai";
           api_key_name = "GROQ_API_KEY";
           endpoint = "https://api.groq.com/openai/v1/";
           model = "llama-3.3-70b-versatile";
+          max_tokens = 32768;
+        };
+        mistral = {
+          __inherited_from = "openai";
+          api_key_name = "GROQ_API_KEY";
+          endpoint = "https://api.groq.com/openai/v1/";
+          model = "mistral-8x-7b-32768";
           max_tokens = 32768;
         };
       };
@@ -55,6 +62,6 @@
     };
   };
   imports = [
-    ./api_keys
+    ../../api_keys
   ];
 }

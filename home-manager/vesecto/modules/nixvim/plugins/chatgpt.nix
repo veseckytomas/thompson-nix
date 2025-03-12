@@ -13,7 +13,7 @@
     plugins.chatgpt = {
       enable = true;
       settings = {
-        api_key_cmd = "gpg --decrypt -q /home/vesecto/.openai_api_key.gpg";
+        api_key_cmd = "gpg --decrypt -q /home/vesecto/.config/api_keys/.openai_api_key.gpg";
         openai_params.model = "gpt-4.5-preview";
         predefined_chat_gpt_params = "https://raw.githubusercontent.com/veseckytomas/awesome-chatgpt-prompts/main/prompts.csv";
       };
@@ -63,6 +63,6 @@
     ];
   };
   imports = [
-    ./api_keys
+    ../../api_keys
   ];
 }
