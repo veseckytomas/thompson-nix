@@ -12,7 +12,10 @@
   programs.nixvim.plugins.rustaceanvim = {
     enable = true;
     settings = {
-      tools.enable_nextest = true;
+      tools = {
+        enable_clippy = true;
+        enable_nextest = true;
+      };
     };
   };
 }
