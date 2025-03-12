@@ -11,6 +11,31 @@
 {...}: {
   programs.nixvim.plugins.avante = {
     enable = true;
+    settings = {
+      claude = {
+        model = "claude-3-7-sonnet-20250219";
+      };
+      openai = {
+        model = "gpt-4.5-preview";
+        max_tokens = 32768;
+      };
+      vendors = {
+        groq = {
+          __inherited_from = "openai";
+          api_key_name = "GROQ_API_KEY";
+          endpoint = "https://api.groq.com/openai/v1/";
+          model = "llama-3.3-70b-versatile";
+          max_tokens = 32768;
+        };
+      };
+      auto_suggestions_frequency = "copilot";
+      provider = "claude";
+      cursor_applying_provider = "copilot";
+      behaviour = {
+        auto_suggestions = false;
+        enable_cursor_planning_mode = true;
+      };
+    };
     lazyLoad = {
       enable = true;
       settings = {
