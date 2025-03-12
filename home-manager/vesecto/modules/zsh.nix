@@ -168,6 +168,7 @@ in {
     packages = with pkgs; [
       eza
       fd
+      tldr
       trash-cli
       dig
       entr
