@@ -14,29 +14,54 @@
     settings = {
       claude = {
         model = "claude-3-7-sonnet-20250219";
+        api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
       };
       openai = {
         model = "gpt-4.5-preview";
-        max_tokens = 32768;
+        api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/openai_api_key.gpg";
+      };
+      ollama = {
+        endpoint = "http://127.0.0.1:11434";
+        model = "qwq:32b";
       };
       vendors = {
         llama = {
           __inherited_from = "openai";
-          api_key_name = "GROQ_API_KEY";
+          api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/groq_api_key.gpg";
           endpoint = "https://api.groq.com/openai/v1/";
           model = "llama-3.3-70b-versatile";
-          max_tokens = 32768;
         };
         mistral = {
           __inherited_from = "openai";
-          api_key_name = "GROQ_API_KEY";
+          api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/groq_api_key.gpg";
           endpoint = "https://api.groq.com/openai/v1/";
           model = "mistral-8x-7b-32768";
-          max_tokens = 32768;
+        };
+        openai-45 = {
+          __inherited_from = "openai";
+          model = "gpt-4.5-preview";
+        };
+        openai-4o = {
+          __inherited_from = "openai";
+          model = "gpt-4o";
+        };
+        openai-o1 = {
+          __inherited_from = "openai";
+          model = "o1";
+        };
+        openai-o3-mini = {
+          __inherited_from = "openai";
+          model = "o3-mini";
+        };
+        perplexity = {
+          __inherited_from = "openai";
+          api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/perplexity_api_key.gpg";
+          endpoint = "https://api.perplexity.ai";
+          model = "sonar-deep-research";
         };
       };
       auto_suggestions_frequency = "copilot";
-      provider = "claude";
+      provider = "copilot";
       cursor_applying_provider = "copilot";
       behaviour = {
         auto_suggestions = false;
@@ -61,7 +86,4 @@
       };
     };
   };
-  imports = [
-    ../../api_keys
-  ];
 }

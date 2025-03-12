@@ -81,9 +81,6 @@ in {
       # Variables
       export EDITOR=nvim
       export DIRENV_WARN_TIMEOUT=0
-      export OPENAI_API_KEY=$(gpg --decrypt -q /home/vesecto/.config/api_keys/.openai_api_key.gpg)
-      export ANTHROPIC_API_KEY=$(gpg --decrypt -q /home/vesecto/.config/api_keys/.anthropic_api_key.gpg)
-      export GROQ_API_KEY=$(gpg --decrypt -q /home/vesecto/.config/api_keys/.groq_api_key.gpg)
 
       # Enable SSH Agent
       { eval $(gnome-keyring-daemon -s) } &>/dev/null
@@ -181,7 +178,4 @@ in {
       htop
     ];
   };
-  imports = [
-    ./api_keys
-  ];
 }

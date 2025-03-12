@@ -63,6 +63,6 @@
     ];
   };
   imports = [
-    ../../api_keys
+    ./api_keys
   ];
 }

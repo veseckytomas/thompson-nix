@@ -12,8 +12,9 @@
   config_dir = ".config/api_keys";
 in {
   home.file = {
-    "${config_dir}/.openai_api_key.gpg".source = ./openai_api_key.gpg;
-    "${config_dir}/.anthropic_api_key.gpg".source = ./anthropic_api_key.gpg;
-    "${config_dir}/.groq_api_key.gpg".source = ./groq_api_key.gpg;
+    "${config_dir}/openai_api_key.gpg".source = ./openai_api_key.gpg;
+    "${config_dir}/anthropic_api_key.gpg".source = ./anthropic_api_key.gpg;
+    "${config_dir}/groq_api_key.gpg".source = ./groq_api_key.gpg;
+    "${config_dir}/perplexity_api_key.gpg".source = ./perplexity_api_key.gpg;
   };
 }
