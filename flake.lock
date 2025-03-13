@@ -54,11 +54,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1741732420,
-        "narHash": "sha256-szO/TCc+UrjEtxi4K3GyoAv5/DKDkUeRtpTZTJY+zI4=",
+        "lastModified": 1741860468,
+        "narHash": "sha256-ArG3mnjHmcal5ny72VZvCqHchz9RsWiUBCRSGS0FXlA=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "a3f70463fb5e3df32d2d52a2705606db03843de2",
+        "rev": "50abeb976eb85fe6695a2888ec4c274675563c15",
         "type": "github"
       },
       "original": {
@@ -271,11 +271,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1741701235,
-        "narHash": "sha256-gBlb8R9gnjUAT5XabJeel3C2iEUiBHx3+91651y3Sqo=",
+        "lastModified": 1741791118,
+        "narHash": "sha256-4Y427uj0eql4yRU5rely3EcOlB9q457UDbG9omPtXiA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c630dfa8abcc65984cc1e47fb25d4552c81dd37e",
+        "rev": "18780912345970e5b546b1b085385789b6935a83",
         "type": "github"
       },
       "original": {
@@ -399,11 +399,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1741714321,
-        "narHash": "sha256-543DqJCSC602uySU7l8XT03gqbohTJB0NrIeuYNyJc4=",
+        "lastModified": 1741788549,
+        "narHash": "sha256-9HAUSb4uxWnYBY259wpVEk18KeCQtmP3R9Qi8HdifSM=",
         "ref": "refs/heads/main",
-        "rev": "4b25fbe5fda3bf7f0e561f400fb8f300b002eab3",
-        "revCount": 5878,
+        "rev": "e86d3a14e46d19d8a47f8ceb6410546715d45f10",
+        "revCount": 5879,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -645,11 +645,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1741696368,
-        "narHash": "sha256-XZ/iQpDCR9Kf1hR4Hw4eOLs8YHi8r3Llc2xJGLfTxq4=",
+        "lastModified": 1741776591,
+        "narHash": "sha256-khNrDAk6jBzbJGCJfd3sNA64AZqVry5O8/6TsH4W6+Q=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "cf9c0d65ee019034d5264dabec4bb2bce10eb619",
+        "rev": "12f2ce784c31fbba748bf230e048e1764626f3fa",
         "type": "github"
       },
       "original": {
@@ -698,11 +698,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1741708606,
-        "narHash": "sha256-OUuA43YoZVy2kMqCgZDa9l1qNxeSkHRsjoZHTXSa8tI=",
+        "lastModified": 1741838297,
+        "narHash": "sha256-0etyrY6jOzFwVILODzMc43MTtUanxzFSaqe3kVLvew4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2ab32cf9e0c5b55f0004ee9ab4697b17ddd0da94",
+        "rev": "80b53fdb4f883238807ced86db41be809d60f3b5",
         "type": "github"
       },
       "original": {
@@ -713,11 +713,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1741379970,
-        "narHash": "sha256-Wh7esNh7G24qYleLvgOSY/7HlDUzWaL/n4qzlBePpiw=",
+        "lastModified": 1741513245,
+        "narHash": "sha256-7rTAMNTY1xoBwz0h7ZMtEcd8LELk9R5TzBPoHuhNSCk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "36fd87baa9083f34f7f5027900b62ee6d09b1f2f",
+        "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
         "type": "github"
       },
       "original": {
@@ -1121,11 +1121,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1741775028,
-        "narHash": "sha256-bRIesT7TgPNfVhB8VdQXqDxoHB2fwABHa4k4BvmJAgQ=",
+        "lastModified": 1741789646,
+        "narHash": "sha256-RRexESjkEPFUXL57kEjjY0xV07Nl2L2mNR6zshd4K2k=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "a56d0cfd5ecdc5e47dffa88a22083fe0f04abc25",
+        "rev": "264da9e4e964512f1e2e814c76010fd11d31b87a",
         "type": "github"
       },
       "original": {
@@ -1169,11 +1169,11 @@
     "zsh-completions": {
       "flake": false,
       "locked": {
-        "lastModified": 1741073200,
-        "narHash": "sha256-6B6fsIFzLiPvn4VlL8Llh4OQUyhuTL8LeOjtYqTUOqw=",
+        "lastModified": 1741777219,
+        "narHash": "sha256-9s9EkorKNH1DrA9rKUl/4aGIZY+7+EyryZ/69365te0=",
         "owner": "zsh-users",
         "repo": "zsh-completions",
-        "rev": "6ea205dc14b76a0989c4d991df958cc44eaeee60",
+        "rev": "e61c9c14d6978191762e9586a0c882114e49221d",
         "type": "github"
       },
       "original": {
