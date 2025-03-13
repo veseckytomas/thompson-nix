@@ -34,18 +34,17 @@ Dracula = [
 ]
 
 Catppuccin = [
-    ["#1e1e2e", "#1e1e2e"],  # Base
-    ["#cdd6f4", "#cdd6f4"],  # Text
+    ["#1e1e2e", "#1e1e2e"],  # bg
+    ["#cdd6f4", "#cdd6f4"],  # fg
     ["#000000", "#000000"],  # Black
     ["#f38ba8", "#f38ba8"],  # Red
     ["#a6e3a1", "#a6e3a1"],  # Green
     ["#f9e2af", "#f9e2af"],  # Yellow
     ["#cba6f7", "#cba6f7"],  # Mauve
-    ["#fab387", "#fab387"],  # Peach
-    ["#f2cdcd", "#f2cdcd"],  # Flamingo
+    ["#f5c2e7", "#f5c2e7"],  # Pink
+    ["#74c7ec", "#74c7ec"],  # Sapphire
     ["#94e2d5", "#94e2d5"],  # Teal
-    ["#89b4fa", "#89b4fa"],  # Blue
-    ["#b4befe", "#b4befe"],  # Lavender
+    ["#fab387", "#fab387"],  # Peach
 ]
 
 GruvboxDark = [

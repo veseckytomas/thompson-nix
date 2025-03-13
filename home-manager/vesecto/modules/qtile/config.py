@@ -282,7 +282,8 @@ for i in groups:
         ]
     )
 
-colors = colors.Dracula
+# colors = colors.Dracula
+colors = colors.Catppuccin
 
 layout_theme = {
     "border_width": 2,
@@ -352,13 +353,13 @@ def init_widgets_list():
         ),
         widget.Spacer(length=8),
         widget.Memory(
-            foreground=colors[8],
+            foreground=colors[9],
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
             format="{MemUsed: .0f}{mm}",
             fmt=" Mem:{} used",
             decorations=[
                 BorderDecoration(
-                    colour=colors[8],
+                    colour=colors[9],
                     border_width=[0, 0, 2, 0],
                 )
             ],
@@ -394,11 +395,11 @@ def init_widgets_list():
         ),
         widget.Spacer(length=8),
         widget.Volume(
-            foreground=colors[5],
+            foreground=colors[10],
             fmt="󰕾 Vol: {}",
             decorations=[
                 BorderDecoration(
-                    colour=colors[5],
+                    colour=colors[10],
                     border_width=[0, 0, 2, 0],
                 )
             ],
