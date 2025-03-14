@@ -20,13 +20,13 @@
     # ./cmp-cmdline.nix
     ./cmp-nvim-lsp.nix
     ./cmp-path.nix
-    ./chatgpt.nix
+    # ./chatgpt.nix
     ./codeium-nvim.nix
     # ./codesnap.nix
     ./colorizer.nix
     ./comment.nix
     ./conform-nvim.nix
-    ./copilot-chat.nix
+    # ./copilot-chat.nix
     ./copilot-cmp.nix
     ./copilot-lua.nix
     # ./copilot-vim.nix
