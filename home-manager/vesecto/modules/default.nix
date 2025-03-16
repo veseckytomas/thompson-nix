@@ -34,7 +34,7 @@
     ./statix
     ./stylua
     ./themes
-    ./tmux
+    ./tmux.nix
     ./xournalpp
     ./yazi.nix
     ./zoxide.nix
