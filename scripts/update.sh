@@ -10,6 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
+nix flake update
 ./scripts/rebuild.sh
 if [ $? -ne 0 ]; then
     exit 1
@@ -18,5 +19,3 @@ fi
 if [ $? -ne 0 ]; then
     exit 1
 fi
-"$HOME/.tmux/plugins/tpm/bin/install_plugins"
-"$HOME/.tmux/plugins/tpm/bin/update_plugins" all

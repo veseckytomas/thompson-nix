@@ -85,6 +85,24 @@
       repo = "atuin";
       flake = false;
     };
+    tmux-sensible = {
+      type = "github";
+      owner = "tmux-plugins";
+      repo = "tmux-sensible";
+      flake = false;
+    };
+    tmux-navigator = {
+      type = "github";
+      owner = "christoomey";
+      repo = "vim-tmux-navigator";
+      flake = false;
+    };
+    tmux-yank = {
+      type = "github";
+      owner = "tmux-plugins";
+      repo = "tmux-yank";
+      flake = false;
+    };
   };
 
   # outputs = {self, ...} @ inputs: let

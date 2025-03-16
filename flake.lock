@@ -399,11 +399,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1742094217,
-        "narHash": "sha256-eKwzdNdjyxEBZVVhyIds2/AMfniub7DIxRBpgzSC+ic=",
+        "lastModified": 1742146537,
+        "narHash": "sha256-yXxx9jLKE7qtvn4amDgP+fK5y96Emh+U3JGfxhEzGKw=",
         "ref": "refs/heads/main",
-        "rev": "b1ab0f7539f81e646aab40855608514cf8fa5075",
-        "revCount": 5890,
+        "rev": "2ddd16ef28bfd3687d21f0052fe958af1914aa5f",
+        "revCount": 5893,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -968,6 +968,9 @@
         "nixvim-stable": "nixvim-stable",
         "render-markdown-nvim": "render-markdown-nvim",
         "sddm-theme": "sddm-theme",
+        "tmux-navigator": "tmux-navigator",
+        "tmux-sensible": "tmux-sensible",
+        "tmux-yank": "tmux-yank",
         "zen-browser": "zen-browser",
         "zsh-atuin": "zsh-atuin",
         "zsh-autopair": "zsh-autopair",
@@ -1035,6 +1038,54 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tmux-navigator": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1740507558,
+        "narHash": "sha256-8KAKHK5pOB9yguhpt0WdtIPezHwl0yMUK205JkpbPOg=",
+        "owner": "christoomey",
+        "repo": "vim-tmux-navigator",
+        "rev": "791dacfcfc8ccb7f6eb1c853050883b03e5a22fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "christoomey",
+        "repo": "vim-tmux-navigator",
+        "type": "github"
+      }
+    },
+    "tmux-sensible": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1660507698,
+        "narHash": "sha256-sw9g1Yzmv2fdZFLJSGhx1tatQ+TtjDYNZI5uny0+5Hg=",
+        "owner": "tmux-plugins",
+        "repo": "tmux-sensible",
+        "rev": "25cb91f42d020f675bb0a2ce3fbd3a5d96119efa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tmux-plugins",
+        "repo": "tmux-sensible",
+        "type": "github"
+      }
+    },
+    "tmux-yank": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1689770565,
+        "narHash": "sha256-/5HPaoOx2U2d8lZZJo5dKmemu6hKgHJYq23hxkddXpA=",
+        "owner": "tmux-plugins",
+        "repo": "tmux-yank",
+        "rev": "acfd36e4fcba99f8310a7dfb432111c242fe7392",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tmux-plugins",
+        "repo": "tmux-yank",
         "type": "github"
       }
     },
