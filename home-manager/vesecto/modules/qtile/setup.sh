@@ -9,4 +9,6 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
+"$HOME/.setup.sh"
+"$HOME/.config/backgrounds/background.sh"
 xinput set-button-map 'Wacom Intuos BT M Pad' 17 18 19 4 5 6 7 20
