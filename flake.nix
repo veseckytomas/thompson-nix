@@ -20,6 +20,7 @@
     home-manager-stable.url = "github:nix-community/home-manager/release-24.11";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-24.11";
     zen-browser.url = "github:MarceColl/zen-browser-flake";
+    asus-numberpad-driver.url = "github:asus-linux-drivers/asus-numberpad-driver";
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
@@ -129,6 +130,7 @@
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
+          inputs.asus-numberpad-driver.nixosModules.default
           ./hosts/TomasVesa-NTB-NixOS/configuration.nix
           ./modules/common/notebook.nix
           ./modules/common/gaming.nix

@@ -29,6 +29,7 @@
     curl
     gzip
     gnutar
+    pigz
     gcc
     wget
     texlive.combined.scheme-full

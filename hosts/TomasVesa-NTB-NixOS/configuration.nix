@@ -12,9 +12,19 @@
   imports = [
     ./hardware-configuration.nix
   ];
-  boot.initrd.luks.devices."luks-93144126-933d-426a-9237-5f8eba7c9158".device = "/dev/disk/by-uuid/93144126-933d-426a-9237-5f8eba7c9158";
+  boot.initrd.luks.devices."luks-75e7b65c-68bb-4801-b9ec-49403d21ede5".device = "/dev/disk/by-uuid/75e7b65c-68bb-4801-b9ec-49403d21ede5";
   networking.hostName = "TomasVesa-NTB-NixOS";
 
+  # Numberpad config
+  services.asus-numberpad-driver = {
+    enable = true;
+    layout = "up5401ea";
+    wayland = true;
+    runtimeDir = "/run/user/1000/";
+    waylandDisplay = "wayland-0";
+    # config = {
+    # };
+  };
   # System version
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

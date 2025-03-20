@@ -20,32 +20,31 @@
 
   boot = {
     initrd = {
-      availableKernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+      availableKernelModules = ["xhci_pci" "thunderbolt" "vmd" "nvme" "usb_storage" "usbhid" "sd_mod"];
       kernelModules = [];
-      luks.devices."luks-495718a8-9467-4d81-9552-e5c77e1cb310".device = "/dev/disk/by-uuid/495718a8-9467-4d81-9552-e5c77e1cb310";
+      luks.devices."luks-9a48e6c8-6464-4bec-be68-9b92d83ddf17".device = "/dev/disk/by-uuid/9a48e6c8-6464-4bec-be68-9b92d83ddf17";
     };
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
+    kernelParams = ["i915.force_probe=7d55"];
   };
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/3e09f70e-f414-4afd-b9d0-dc3489ae84b2";
+      device = "/dev/disk/by-uuid/b821fa08-0d79-4aa9-8b57-9f5629cdae51";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/0151-7FEE";
+      device = "/dev/disk/by-uuid/A2B7-BAB7";
       fsType = "vfat";
-      options = ["fmask=0022" "dmask=0022"];
+      options = ["fmask=0077" "dmask=0077"];
     };
   };
 
   swapDevices = [
-    {device = "/dev/disk/by-uuid/c0e54a29-ec5f-4e3a-b629-fa7e71d46e5c";}
+    {device = "/dev/disk/by-uuid/af8d9b14-97f5-4398-8798-380b343761b4";}
   ];
-
   networking.useDHCP = lib.mkDefault true;
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

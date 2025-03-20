@@ -14,6 +14,7 @@
   ...
 }: {
   services = {
+    power-profiles-daemon.enable = false;
     libinput.enable = true;
     tlp.enable = false;
     auto-cpufreq = {
