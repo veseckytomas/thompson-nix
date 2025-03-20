@@ -13,11 +13,11 @@
 in {
   home = {
     file = {
-      "${config_dir}/upload.sh".source = ./bin/launcher;
-      "${config_dir}/download.sh".source = ./bin/powermenu;
+      "${config_dir}/upload.sh".source = ./upload.sh;
+      "${config_dir}/download.sh".source = ./download.sh;
     };
     packages = with pkgs; [
-      rofi
+      rclone
     ];
   };
 }
