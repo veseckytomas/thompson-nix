@@ -27,20 +27,23 @@ options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
 chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
 case $chosen in
 $shutdown)
+  "$HOME"/.config/rclone/upload.sh
 	systemctl poweroff
 	;;
 $reboot)
+  "$HOME"/.config/rclone/upload.sh
 	systemctl reboot
 	;;
 $lock)
 	"$HOME/.config/i3lock/lock.sh"
 	;;
 $suspend)
-		"$HOME/.config/i3lock/lock.sh"
-		amixer set Master mute
-		systemctl suspend
+	"$HOME/.config/i3lock/lock.sh"
+	amixer set Master mute
+	systemctl suspend
 	;;
 $logout)
-		qtile cmd-obj -f shutdown
+  "$HOME"/.config/rclone/upload.sh
+	qtile cmd-obj -f shutdown
 	;;
 esac

@@ -15,3 +15,4 @@ nm-applet &
 amixer set Master off
 xbindkeys
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
+"$HOME"/.config/rclone/download.sh
