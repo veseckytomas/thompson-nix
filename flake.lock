@@ -49,9 +49,27 @@
         "type": "github"
       }
     },
-    "catppuccin": {
+    "asus-numberpad-driver": {
       "inputs": {
         "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1741963976,
+        "narHash": "sha256-SdvDY5evQ4jnWpA1ZwFPYGNPhPaT/G5zNaSLcGVFPyY=",
+        "owner": "asus-linux-drivers",
+        "repo": "asus-numberpad-driver",
+        "rev": "410c32e4205969a65be5fd949c49c753d8c2f023",
+        "type": "github"
+      },
+      "original": {
+        "owner": "asus-linux-drivers",
+        "repo": "asus-numberpad-driver",
+        "type": "github"
+      }
+    },
+    "catppuccin": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1742254251,
@@ -268,7 +286,7 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1742489436,
@@ -286,7 +304,7 @@
     },
     "home-manager-stable": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1742234739,
@@ -393,7 +411,7 @@
         "hyprlang": "hyprlang",
         "hyprutils": "hyprutils",
         "hyprwayland-scanner": "hyprwayland-scanner",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_5",
         "pre-commit-hooks": "pre-commit-hooks",
         "systems": "systems",
         "xdph": "xdph"
@@ -682,16 +700,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1741851582,
-        "narHash": "sha256-cPfs8qMccim2RBgtKGF+x9IBCduRvd/N5F4nYpU0TVE=",
+        "lastModified": 1727872001,
+        "narHash": "sha256-nZNSePIWw526864XBqsrWU1dbo4Ei8iJXpNHCubui28=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "6607cf789e541e7873d40d3a8f7815ea92204f32",
+        "rev": "e46dc3b8343f627532ba881965b053d3bbec4235",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -713,6 +731,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1741851582,
+        "narHash": "sha256-cPfs8qMccim2RBgtKGF+x9IBCduRvd/N5F4nYpU0TVE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "6607cf789e541e7873d40d3a8f7815ea92204f32",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1742288794,
         "narHash": "sha256-Txwa5uO+qpQXrNG4eumPSD+hHzzYi/CdaM80M9XRLCo=",
         "owner": "NixOS",
@@ -727,7 +761,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1731755305,
         "narHash": "sha256-v5P3dk5JdiT+4x69ZaB18B8+Rcu3TIOrcdG4uEX7WZ8=",
@@ -743,7 +777,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1742069588,
         "narHash": "sha256-C7jVfohcGzdZRF6DO+ybyG/sqpo1h6bZi9T56sxLy+k=",
@@ -759,7 +793,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
+    "nixpkgs_6": {
       "locked": {
         "lastModified": 1742288794,
         "narHash": "sha256-Txwa5uO+qpQXrNG4eumPSD+hHzzYi/CdaM80M9XRLCo=",
@@ -774,7 +808,7 @@
         "type": "indirect"
       }
     },
-    "nixpkgs_6": {
+    "nixpkgs_7": {
       "locked": {
         "lastModified": 1742272065,
         "narHash": "sha256-ud8vcSzJsZ/CK+r8/v0lyf4yUntVmDq6Z0A41ODfWbE=",
@@ -790,7 +824,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_7": {
+    "nixpkgs_8": {
       "locked": {
         "lastModified": 1741862977,
         "narHash": "sha256-prZ0M8vE/ghRGGZcflvxCu40ObKaB+ikn74/xQoNrGQ=",
@@ -806,7 +840,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_8": {
+    "nixpkgs_9": {
       "locked": {
         "lastModified": 1727348695,
         "narHash": "sha256-J+PeFKSDV+pHL7ukkfpVzCOO7mBSrrpJ3svwBFABbhI=",
@@ -825,7 +859,7 @@
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts",
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs_7",
         "nuschtosSearch": "nuschtosSearch"
       },
       "locked": {
@@ -850,7 +884,7 @@
         "git-hooks": "git-hooks",
         "home-manager": "home-manager_2",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs_7",
+        "nixpkgs": "nixpkgs_8",
         "nuschtosSearch": "nuschtosSearch_2",
         "treefmt-nix": "treefmt-nix"
       },
@@ -957,12 +991,13 @@
     "root": {
       "inputs": {
         "2048": "2048",
+        "asus-numberpad-driver": "asus-numberpad-driver",
         "catppuccin": "catppuccin",
         "home-manager": "home-manager",
         "home-manager-stable": "home-manager-stable",
         "hyprland": "hyprland",
         "kulala-nvim": "kulala-nvim",
-        "nixpkgs": "nixpkgs_5",
+        "nixpkgs": "nixpkgs_6",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "nixvim-stable": "nixvim-stable",
@@ -1153,7 +1188,7 @@
     },
     "zen-browser": {
       "inputs": {
-        "nixpkgs": "nixpkgs_8"
+        "nixpkgs": "nixpkgs_9"
       },
       "locked": {
         "lastModified": 1727721329,

@@ -17,7 +17,7 @@
 
   # Numberpad config
   services.asus-numberpad-driver = {
-    enable = true;
+    enable = false;
     layout = "up5401ea";
     wayland = true;
     runtimeDir = "/run/user/1000/";
