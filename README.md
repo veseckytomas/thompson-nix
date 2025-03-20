@@ -27,9 +27,7 @@ This repository contains these configurations:
 
 1. Add ssh, gpg keys, certificates.
 2. Set thunderbird email accounts and add certificates.
-3. Change [line 14](scripts/home.sh) in scripts/home.sh to $USERNAME
-4. Change [line 42](flake.nix) in flake.nix to $USERNAME
-5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+3. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
 ## Neovim initial setup
 
