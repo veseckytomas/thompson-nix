@@ -103,6 +103,7 @@
     teams-for-linux
     xournalpp
     rclone
+    varia
   ];
 
   # Install nerdfonts

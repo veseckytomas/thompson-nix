@@ -10,10 +10,7 @@
 # GitLab: vesecky.tomas
 {lib, ...}: {
   boot.loader = {
-    systemd-boot = {
-      enable = lib.mkDefault true;
-      # configurationLimit = 5;
-    };
+    systemd-boot.enable = lib.mkDefault true;
     efi.canTouchEfiVariables = true;
   };
 }
