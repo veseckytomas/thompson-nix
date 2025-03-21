@@ -27,11 +27,9 @@ options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
 chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
 case $chosen in
 $shutdown)
-  "$HOME"/.config/rclone/upload.sh
 	systemctl poweroff
 	;;
 $reboot)
-  "$HOME"/.config/rclone/upload.sh
 	systemctl reboot
 	;;
 $lock)
@@ -43,7 +41,6 @@ $suspend)
 	systemctl suspend
 	;;
 $logout)
-  "$HOME"/.config/rclone/upload.sh
 	qtile cmd-obj -f shutdown
 	;;
 esac

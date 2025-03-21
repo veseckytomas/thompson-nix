@@ -11,9 +11,6 @@
 {pkgs, ...}: let
   config_dir = ".config/rofi";
 in {
-  imports = [
-    ../rclone
-  ];
   home = {
     file = {
       "${config_dir}/bin/launcher".source = ./bin/launcher;
