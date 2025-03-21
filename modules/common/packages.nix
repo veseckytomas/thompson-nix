@@ -102,7 +102,6 @@
     pavucontrol
     teams-for-linux
     xournalpp
-    rclone
     varia
   ];
 
