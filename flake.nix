@@ -104,12 +104,6 @@
       repo = "tmux-yank";
       flake = false;
     };
-    varia = {
-      type = "github";
-      owner = "giantpinkrobots";
-      repo = "varia";
-      flake = false;
-    };
   };
 
   outputs = inputs: let

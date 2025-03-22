@@ -98,7 +98,7 @@
     pavucontrol
     teams-for-linux
     xournalpp
-    (callPackage ./packages/varia.nix {inherit inputs;})
+    motrix
   ];
 
   # Install nerdfonts
