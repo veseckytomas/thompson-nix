@@ -21,7 +21,7 @@
     layout = "up5401ea";
     wayland = true;
     runtimeDir = "/run/user/1000/";
-    waylandDisplay = "wayland-0";
+    # waylandDisplay = "wayland-0";
     # config = {
     # };
   };
