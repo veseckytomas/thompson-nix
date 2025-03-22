@@ -14,10 +14,10 @@
   ...
 }:
 pkgs.python3Packages.buildPythonApplication rec {
-  name = "varia";
-  pyproject = false;
-
+  pname = "varia";
   src = inputs.varia;
+  version = "unstable";
+  pyproject = false;
 
   postPatch = ''
     substituteInPlace src/varia-py.in \
