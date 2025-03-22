@@ -104,9 +104,14 @@
       repo = "tmux-yank";
       flake = false;
     };
+    varia = {
+      type = "github";
+      owner = "giantpinkrobots";
+      repo = "varia";
+      flake = false;
+    };
   };
 
-  # outputs = {self, ...} @ inputs: let
   outputs = inputs: let
     system = "x86_64-linux";
     username = "vesecto";

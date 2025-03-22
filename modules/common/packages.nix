@@ -15,10 +15,6 @@
   system,
   ...
 }: {
-  imports = [
-    # ./packages/varia.nix
-  ];
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -102,7 +98,7 @@
     pavucontrol
     teams-for-linux
     xournalpp
-    varia
+    (callPackage ./packages/varia.nix {inherit inputs;})
   ];
 
   # Install nerdfonts

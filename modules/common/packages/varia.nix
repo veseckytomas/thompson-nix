@@ -8,16 +8,48 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
-  environment.systemPackages = [
-    # pkgs.varia
-    # pkgs.python312
-    # (pkgs.python312.withPackages (python-pkgs: [
-    #   python-pkgs.platformdirs
-    #   python-pkgs.numpy
-    # ]))
-    # (pkgs.python312.withPackages (python-pkgs: [
-    #   python-pkgs.pandas
-    # ]))
+{
+  inputs,
+  pkgs,
+  ...
+}:
+pkgs.python3Packages.buildPythonApplication rec {
+  name = "varia";
+  pyproject = false;
+
+  src = inputs.varia;
+
+  postPatch = ''
+    substituteInPlace src/varia-py.in \
+      --replace-fail 'aria2cexec = sys.argv[1]' 'aria2cexec = "${inputs.nixpkgs.lib.getExe pkgs.aria2}"'
+  '';
+
+  nativeBuildInputs = with pkgs; [
+    meson
+    ninja
+    pkg-config
+    gobject-introspection
+    wrapGAppsHook4
+    desktop-file-utils
   ];
+
+  buildInputs = [
+    pkgs.libadwaita
+  ];
+
+  propagatedBuildInputs = with pkgs.python3Packages; [
+    pygobject3
+    aria2p
+  ];
+
+  postInstall = ''
+    rm $out/bin/varia
+    mv $out/bin/varia-py.py $out/bin/varia
+  '';
+
+  dontWrapGApps = true;
+
+  preFixup = ''
+    makeWrapperArgs+=("''${gappsWrapperArgs[@]}")
+  '';
 }

@@ -1006,6 +1006,7 @@
         "tmux-navigator": "tmux-navigator",
         "tmux-sensible": "tmux-sensible",
         "tmux-yank": "tmux-yank",
+        "varia": "varia",
         "zen-browser": "zen-browser",
         "zsh-atuin": "zsh-atuin",
         "zsh-autopair": "zsh-autopair",
@@ -1142,6 +1143,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "varia": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1742220192,
+        "narHash": "sha256-XzTBqBOQL1DVFe95o9QE2VAVmkkfzf59lMFzyEsUDIc=",
+        "owner": "giantpinkrobots",
+        "repo": "varia",
+        "rev": "de75dc93e07663d4b23b65ecb55f65f21232f9d4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "giantpinkrobots",
+        "repo": "varia",
         "type": "github"
       }
     },
