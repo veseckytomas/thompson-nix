@@ -15,5 +15,4 @@ nm-applet &
 amixer set Master off
 xbindkeys
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
-rclone mount encryption:Pictures ~/Pictures --vfs-cache-mode full --daemon
-rclone mount encryption:Documents ~/Documents --vfs-cache-mode full --daemon
+rclone mount eOnedrive: ~/Onedrive --vfs-cache-mode full --daemon

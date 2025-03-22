@@ -12,7 +12,7 @@
 
 rofi_command="rofi -theme $HOME/.config/rofi/config/screenshot.rasi"
 
-dir="$HOME/Pictures/Screenshots"
+dir="$HOME/Onedrive/Pictures/Screenshots"
 
 # Buttons
 layout=$(cat $HOME/.config/rofi/config/screenshot.rasi | grep BUTTON | cut -d'=' -f2 | tr -d '[:blank:],*/')
