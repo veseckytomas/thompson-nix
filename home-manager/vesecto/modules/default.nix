@@ -11,7 +11,7 @@
 {...}: {
   imports = [
     # ./alacritty.nix
-    # ./asus-numberpad.nix
+    ./asus-numberpad.nix
     ./atuin.nix
     # ./autorandr.nix
     ./bat.nix
