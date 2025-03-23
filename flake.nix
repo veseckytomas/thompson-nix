@@ -20,7 +20,10 @@
     home-manager-stable.url = "github:nix-community/home-manager/release-24.11";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-24.11";
     zen-browser.url = "github:MarceColl/zen-browser-flake";
-    asus-numberpad-driver.url = "github:asus-linux-drivers/asus-numberpad-driver";
+    asus-numberpad-driver = {
+      url = "github:asus-linux-drivers/asus-numberpad-driver";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
