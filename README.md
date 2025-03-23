@@ -44,5 +44,4 @@ WakaTimeApiKey
 ### TomasVesa-NTB-NixOS
 
 - High resolution scaling
-- Asus Numberpad 2.0
 - Touchscreen

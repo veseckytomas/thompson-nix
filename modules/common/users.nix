@@ -8,12 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  username,
+  ...
+}: {
   # Define a user accounts
-  users.users.vesecto = {
+  users.users.${username} = {
     isNormalUser = true;
     description = "Tomas Vesecky";
-    extraGroups = ["networkmanager" "wheel" "docker" "video"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "input"];
     shell = pkgs.zsh;
   };
 }

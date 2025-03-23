@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{username, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -17,14 +17,12 @@
 
   # Numberpad config
   services.asus-numberpad-driver = {
-    enable = false;
+    enable = true;
     layout = "up5401ea";
-    wayland = true;
-    runtimeDir = "/run/user/1000/";
-    # waylandDisplay = "wayland-0";
-    # config = {
-    # };
+    wayland = false;
   };
+  users.users.${username}.extraGroups = ["input"];
+
   # System version
   system.stateVersion = "24.11";
 }
