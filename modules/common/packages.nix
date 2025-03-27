@@ -36,6 +36,7 @@
     # Programming
     jetbrains.datagrip
     postman
+    code-cursor
 
     # Docker
     docker-compose
