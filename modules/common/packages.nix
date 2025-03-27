@@ -88,7 +88,6 @@
     udiskie
     udisks
     plex-media-player
-    postgresql
     kodi
     stremio
     qalculate-gtk
