@@ -202,6 +202,12 @@ keys = [
         lazy.spawn("amixer sset -q Master,0 toggle"),
         desc="Mute volume",
     ),
+    Key(
+        [],
+        "XF86Calculator",
+        lazy.spawn(calculator),
+        desc="Launch calculator",
+    ),
 ]
 
 
