@@ -209,7 +209,7 @@
         inherit pkgs;
         modules = [
           ./home-manager/vesecto
-          inputs.catppuccin.homeManagerModules.catppuccin
+          inputs.catppuccin.homeModules.catppuccin
           inputs.nixvim.homeManagerModules.nixvim
         ];
       };
@@ -219,7 +219,7 @@
         pkgs = pkgs-stable;
         modules = [
           ./home-manager/vesecto-server
-          inputs.catppuccin.homeManagerModules.catppuccin
+          inputs.catppuccin.homeModules.catppuccin
           inputs.nixvim-stable.homeManagerModules.nixvim
         ];
       };
@@ -231,7 +231,7 @@
         };
         modules = [
           ./home-manager/vesecto-server
-          inputs.catppuccin.homeManagerModules.catppuccin
+          inputs.catppuccin.homeModules.catppuccin
           inputs.nixvim-stable.homeManagerModules.nixvim
         ];
       };
