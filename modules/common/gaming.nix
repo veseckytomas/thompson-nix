@@ -8,7 +8,14 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
+  # Enable polymc overlay
+  nixpkgs.overlays = [inputs.polymc.overlay]; ## Within configuration.nix
+
   # Load OpenGL
   hardware.graphics = {
     enable = true;
@@ -32,6 +39,7 @@
 
   # Other packages
   environment.systemPackages = with pkgs; [
+    polymc
     mangohud
     protonup
     lutris
