@@ -15,11 +15,13 @@
 }: let
   tmux-navigator = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-navigator";
+    rtpFilePath = "vim-tmux-navigator.tmux";
     version = "unstable";
     src = inputs.tmux-navigator;
   };
   tmux-yank = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-yank";
+    rtpFilePath = "yank.tmux";
     version = "unstable";
     src = inputs.tmux-yank;
   };
@@ -35,7 +37,10 @@ in {
     shell = "${pkgs.zsh}/bin/zsh";
     terminal = "screen-256color";
     plugins = [
-      tmux-yank
+      {
+        plugin = tmux-yank;
+        extraConfig = "set -g @yank_selection_mouse clipboard";
+      }
       {
         plugin = tmux-navigator;
         extraConfig = ''
