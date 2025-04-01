@@ -41,8 +41,10 @@
         # TypeScript
         typescript = ["eslint"];
         typescriptreact = ["eslint"];
-        # CPP
+        # C++
         cpp = ["cpplint"];
+        # Java
+        java = ["checkstyle"];
       };
     };
     keymaps = [

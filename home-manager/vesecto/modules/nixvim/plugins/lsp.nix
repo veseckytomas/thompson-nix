@@ -66,8 +66,11 @@
       # YAML
       yamlls.enable = true;
 
-      #cpp
+      # C++
       clangd.enable = true;
+
+      # Java
+      jdtls.enable = true;
     };
   };
 }

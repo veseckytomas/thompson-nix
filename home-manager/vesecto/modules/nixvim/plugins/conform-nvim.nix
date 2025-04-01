@@ -51,8 +51,10 @@
           typescriptreact = ["prettierd" "prettier"];
           # YAML
           yaml = ["yamlfix"];
-          #cpp
+          # C++
           cpp = ["clang-format"];
+          # Java
+          java = ["astyle"];
         };
       };
     };
