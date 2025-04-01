@@ -51,13 +51,6 @@
       # Python
       pylsp.enable = true;
 
-      # Rust
-      # rust-analyzer = {
-      #   enable = true;
-      #   installCargo = true;
-      #   installRustc = true;
-      # };
-
       # SQL
       sqls.enable = true;
 

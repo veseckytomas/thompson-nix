@@ -17,5 +17,9 @@
         enable_nextest = true;
       };
     };
+    lazyLoad = {
+      enable = true;
+      settings.ft = ["rs"];
+    };
   };
 }
