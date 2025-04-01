@@ -307,11 +307,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1743482579,
-        "narHash": "sha256-u81nqA4UuRatKDkzUuIfVYdLMw8birEy+99oXpdyXhY=",
+        "lastModified": 1743513930,
+        "narHash": "sha256-ExRQkfXHwHbf6nKgnwDB0vSNInUS16cubvEVm3PrHeQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c21383b556609ce1ad901aa08b4c6fbd9e0c7af0",
+        "rev": "55cf1f16324e694c991e846ad5fc897f0f75ac64",
         "type": "github"
       },
       "original": {
@@ -435,11 +435,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1743463509,
-        "narHash": "sha256-eDF2Qz37K9TpzNVZjwyUys1mv3cKhTdYuignz67FXH8=",
+        "lastModified": 1743517238,
+        "narHash": "sha256-yVSogDOAiNfTpvNQlgT8GRJJeWk7OZ32TNSkTGlgnas=",
         "ref": "refs/heads/main",
-        "rev": "d1a59ec39eb4c0d6a7d3d38a26f8924e6bca5cef",
-        "revCount": 5955,
+        "rev": "1f0fd79b910b798e650d6f0c546273bc83422526",
+        "revCount": 5956,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -681,11 +681,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1743102647,
-        "narHash": "sha256-Net5ELcJs3Ykmd7EPoC6Uws/9NLoRQSubG1yDmSYt44=",
+        "lastModified": 1743513553,
+        "narHash": "sha256-SQ7Nco62OJcKn9MzdkFYxrJNDHsfPD1L9mRO2W7Z5JE=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "791b8850e8faf0588955cf531a0817195bcab737",
+        "rev": "d69fbb27b370bd5e431b9ac66760d7cdbfd28b6d",
         "type": "github"
       },
       "original": {
@@ -897,11 +897,11 @@
         "nuschtosSearch": "nuschtosSearch"
       },
       "locked": {
-        "lastModified": 1743362786,
-        "narHash": "sha256-XbXIRDbb8/vLBX1M096l7lM5wfzBTp1ZXfUl9bUhVGU=",
+        "lastModified": 1743515006,
+        "narHash": "sha256-QCI/Ih5IA9dYDGH0oYz80si2/yMepAEvlPAtX64lhFk=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "d81f37256d0a8691b837b74979d27bf89be8ecdd",
+        "rev": "efb24d78bd01ed83651616e470e9c73853e7472d",
         "type": "github"
       },
       "original": {
@@ -1279,11 +1279,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1742915890,
-        "narHash": "sha256-2NIxgFP2uGdZOQPHVlf7M1dfwd0+44ApBggC5wOZCco=",
+        "lastModified": 1743518845,
+        "narHash": "sha256-vgOosZNf8WROnq0ZLHDkEOcK6Cqh5PEGkKDKmoicOyQ=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "e8df3d168e7fb9d6f99d97eb40eb7110bc9a4d61",
+        "rev": "06edab617ac498511d8feed96516cbd835c8e40d",
         "type": "github"
       },
       "original": {
