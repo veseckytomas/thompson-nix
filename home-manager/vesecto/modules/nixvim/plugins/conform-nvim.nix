@@ -54,7 +54,7 @@
           # C++
           cpp = ["clang-format"];
           # Java
-          java = ["astyle"];
+          java = ["google-java-format"];
         };
       };
     };
