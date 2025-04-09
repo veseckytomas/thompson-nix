@@ -34,6 +34,7 @@
     kitty
 
     # Programming
+    jetbrains.rust-rover
     jetbrains.datagrip
     postman
     code-cursor
@@ -154,5 +155,6 @@
 
     # Enable ollama
     ollama.enable = true;
+    open-webui.enable = true;
   };
 }
