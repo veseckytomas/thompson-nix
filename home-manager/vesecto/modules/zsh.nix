@@ -177,6 +177,7 @@ in {
       zip
       gotop
       htop
+      tokei
     ];
   };
 }
