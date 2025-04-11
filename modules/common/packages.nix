@@ -154,7 +154,13 @@
     udisks2.enable = true;
 
     # Enable ollama
-    ollama.enable = true;
+    ollama = {
+      enable = true;
+      loadModels = [
+        "llama3.3"
+        "deepseek-r1"
+      ];
+    };
     open-webui.enable = true;
   };
 }
