@@ -93,7 +93,7 @@
     kodi
     stremio
     qalculate-gtk
-    signal-desktop
+    signal-desktop-source
     whatsapp-for-linux
     alsa-utils
     pavucontrol
