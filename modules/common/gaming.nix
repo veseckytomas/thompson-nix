@@ -14,12 +14,11 @@
   ...
 }: {
   # Enable polymc overlay
-  nixpkgs.overlays = [inputs.polymc.overlay]; ## Within configuration.nix
+  nixpkgs.overlays = [inputs.polymc.overlay];
 
   # Load OpenGL
   hardware.graphics = {
     enable = true;
-    # driSupport = true;
     enable32Bit = true;
   };
 
@@ -54,12 +53,11 @@
     sqlite
     xml2
   ];
-  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
   environment.variables = {
     GPERF32_PATH = "${pkgs.pkgsi686Linux.gperftools}";
   };
 
   # Optimizations
-  # programs.gamemode.enable = true;
+  programs.gamemode.enable = true;
 }
