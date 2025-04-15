@@ -24,7 +24,7 @@
 
   # Load GPU Drivers
   services.xserver.videoDrivers = [
-    "nvidia"
+    # "nvidia"
     "modesetting"
     "fbdev"
   ];

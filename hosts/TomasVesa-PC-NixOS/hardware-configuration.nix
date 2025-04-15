@@ -9,6 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
+  pkgs,
   config,
   lib,
   modulesPath,
@@ -24,6 +25,7 @@
       kernelModules = [];
       luks.devices."luks-0e27fe0a-b2e3-4df6-822b-af72783d54d2".device = "/dev/disk/by-uuid/0e27fe0a-b2e3-4df6-822b-af72783d54d2";
     };
+    kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
     supportedFilesystems = ["ntfs"];
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];

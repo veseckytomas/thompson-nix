@@ -17,7 +17,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Set kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
   # Enable Yubikey support
   security.pam.u2f = {
