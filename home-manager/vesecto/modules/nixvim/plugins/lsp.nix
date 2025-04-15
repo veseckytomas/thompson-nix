@@ -68,9 +68,6 @@
 
       # C++
       clangd.enable = true;
-
-      # Java
-      jdtls.enable = true;
     };
   };
 }

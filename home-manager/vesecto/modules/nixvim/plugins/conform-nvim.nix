@@ -53,8 +53,6 @@
           yaml = ["yamlfix"];
           # C++
           cpp = ["clang-format"];
-          # Java
-          java = ["google-java-format"];
         };
       };
     };

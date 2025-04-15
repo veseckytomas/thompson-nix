@@ -43,8 +43,6 @@
         typescriptreact = ["eslint"];
         # C++
         cpp = ["cpplint"];
-        # Java
-        java = ["checkstyle"];
       };
     };
     keymaps = [
