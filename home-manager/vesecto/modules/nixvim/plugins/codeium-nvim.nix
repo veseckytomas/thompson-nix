@@ -12,5 +12,8 @@
   programs.nixvim.plugins.codeium-nvim = {
     enable = true;
     package = pkgs.vimPlugins.codeium-nvim;
+    settings = {
+      enable_chat = true;
+    };
   };
 }
