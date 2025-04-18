@@ -18,7 +18,7 @@
           {name = "nvim_lsp";}
           {name = "luasnip";}
           {name = "copilot";}
-          {name = "codeium";}
+          {name = "windsurf";}
           {name = "buffer";}
           {name = "path";}
           {name = "crates";}
@@ -70,7 +70,7 @@
           {name = "vim-dadbod-completion"},
           {name = "nvim_lsp"},
           {name = "copilot"},
-          {name = "codeium"},
+          {name = "windsurf"},
           {name = "buffer"},
         },
       })

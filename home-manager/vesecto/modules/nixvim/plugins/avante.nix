@@ -17,7 +17,7 @@
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
       };
       openai = {
-        model = "gpt-4.5-preview";
+        model = "o4-mini";
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/openai_api_key.gpg";
       };
       ollama = {
@@ -36,22 +36,6 @@
           api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/groq_api_key.gpg";
           endpoint = "https://api.groq.com/openai/v1/";
           model = "mistral-8x-7b-32768";
-        };
-        openai-45 = {
-          __inherited_from = "openai";
-          model = "gpt-4.5-preview";
-        };
-        openai-4o = {
-          __inherited_from = "openai";
-          model = "gpt-4o";
-        };
-        openai-o1 = {
-          __inherited_from = "openai";
-          model = "o1";
-        };
-        openai-o3-mini = {
-          __inherited_from = "openai";
-          model = "o3-mini";
         };
         perplexity = {
           __inherited_from = "openai";

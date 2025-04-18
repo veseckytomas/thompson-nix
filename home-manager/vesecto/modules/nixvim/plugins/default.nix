@@ -21,7 +21,7 @@
     ./cmp-nvim-lsp.nix
     ./cmp-path.nix
     # ./chatgpt.nix
-    ./codeium-nvim.nix
+    # ./codeium-nvim.nix
     # ./codesnap.nix
     ./colorizer.nix
     ./comment.nix
