@@ -158,7 +158,7 @@ in {
       "cal" = "cal -m";
       "rm" = "trash";
       "fzf" = "fzf --preview \"bat --color=always --style=header,grid --line-range :500 {}\"";
-      "latexmk" = "latexmk -pdf -lualatex";
+      "latexmk" = "latexmk -lualatex";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
