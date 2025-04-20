@@ -17,7 +17,7 @@
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
       };
       openai = {
-        model = "o4-mini";
+        model = "gpt-4.1";
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/openai_api_key.gpg";
       };
       ollama = {
