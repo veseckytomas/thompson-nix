@@ -72,11 +72,13 @@
         };
         copilot_claude = {
           __inherited_from = "copilot";
-          model = "claude-3-7-sonnet";
+          model = "claude-3.7-sonnet";
         };
-        copilot_openai_o4 = {
+        copilot_claude_thinking = {
           __inherited_from = "copilot";
-          model = "04-mini";
+          model = "claude-3.7-sonnet-thought";
+          temperature = 1;
+          max_tokens = 20000;
         };
       };
       auto_suggestions_frequency = "copilot";
