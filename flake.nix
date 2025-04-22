@@ -108,6 +108,12 @@
       repo = "tmux-yank";
       flake = false;
     };
+    avante-nvim = {
+      type = "github";
+      owner = "yetone";
+      repo = "avante.nvim";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
