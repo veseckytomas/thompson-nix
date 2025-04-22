@@ -22,6 +22,7 @@
       json
       cpp
       c
+      java
       json5
       jsonc
       latex
