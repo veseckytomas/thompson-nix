@@ -74,9 +74,9 @@
           __inherited_from = "copilot";
           model = "claude-3-7-sonnet";
         };
-        copilot_openai = {
+        copilot_openai_o4 = {
           __inherited_from = "copilot";
-          model = "gpt-4.1";
+          model = "04-mini";
         };
       };
       auto_suggestions_frequency = "copilot";

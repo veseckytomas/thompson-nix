@@ -53,6 +53,8 @@
           yaml = ["yamlfix"];
           # C++
           cpp = ["clang-format"];
+          # Java
+          java = ["google-java-format"];
         };
       };
     };
@@ -88,5 +90,6 @@
     taplo
     yamlfix
     clang-tools
+    google-java-format
   ];
 }
