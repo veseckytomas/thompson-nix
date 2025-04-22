@@ -13,8 +13,9 @@
     enable = true;
     settings = {
       claude = {
-        model = "claude-3-7-sonnet-20250219";
+        model = "claude-3-7-sonnet";
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
+        hide_in_model_selector = true;
       };
       openai = {
         model = "gpt-4.1";
@@ -22,8 +23,9 @@
       };
       ollama = {
         endpoint = "http://127.0.0.1:11434";
-        model = "qwq:32b";
+        model = "Deepseek-r1";
       };
+      cohere.hide_in_model_selector = true;
       vendors = {
         llama = {
           __inherited_from = "openai";
@@ -31,17 +33,25 @@
           endpoint = "https://api.groq.com/openai/v1/";
           model = "llama-3.3-70b-versatile";
         };
-        mistral = {
-          __inherited_from = "openai";
-          api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/groq_api_key.gpg";
-          endpoint = "https://api.groq.com/openai/v1/";
-          model = "mistral-8x-7b-32768";
-        };
-        perplexity = {
+        sonar-deep-research = {
           __inherited_from = "openai";
           api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/perplexity_api_key.gpg";
           endpoint = "https://api.perplexity.ai";
           model = "sonar-deep-research";
+        };
+        sonar-pro = {
+          __inherited_from = "openai";
+          api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/perplexity_api_key.gpg";
+          endpoint = "https://api.perplexity.ai";
+          model = "sonar-pro";
+        };
+        copilot_claude = {
+          __inherited_from = "copilot";
+          model = "claude-3-7-sonnet";
+        };
+        copilot_openai = {
+          __inherited_from = "copilot";
+          model = "gpt-4.1";
         };
       };
       auto_suggestions_frequency = "copilot";
@@ -51,11 +61,17 @@
         auto_suggestions = false;
         enable_cursor_planning_mode = true;
       };
+      config = ''
+        vim.opt.laststatus = 3
+      '';
     };
     lazyLoad = {
       enable = true;
       settings = {
-        keys = ["<leader>aa"];
+        keys = [
+          "<leader>aa"
+          "<leader>a?"
+        ];
         cmd = [
           "AvanteAsk"
           "AvanteBuild"
