@@ -8,14 +8,26 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   programs.nixvim.plugins.avante = {
     enable = true;
+    package = pkgs.vimPlugins.avante-nvim.overrideAttrs (old: {
+      src = inputs.avante-nvim;
+      nvimSkipModules = [
+        "avante.providers.azure"
+        "avante.providers.copilot"
+        "avante.providers.ollama"
+        "avante.providers.vertex_claude"
+      ];
+    });
     settings = {
       claude = {
         model = "claude-3-7-sonnet";
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
-        hide_in_model_selector = true;
       };
       openai = {
         model = "gpt-4.1";
@@ -25,7 +37,20 @@
         endpoint = "http://127.0.0.1:11434";
         model = "Deepseek-r1";
       };
+
+      # Hide providers
       cohere.hide_in_model_selector = true;
+      bedrock.hide_in_model_selector = true;
+      vertex_claude.hide_in_model_selector = true;
+      vertex.hide_in_model_selector = true;
+      gemini.hide_in_model_selector = true;
+      claude-opus.hide_in_model_selector = true;
+      claude-haiku.hide_in_model_selector = true;
+      "bedrock-claude-3.7-sonnet".hide_in_model_selector = true;
+      aihubmix-claude.hide_in_model_selector = true;
+      aihubmix.hide_in_model_selector = true;
+      openai-gpt-4o-mini.hide_in_model_selector = true;
+
       vendors = {
         llama = {
           __inherited_from = "openai";
