@@ -75,7 +75,6 @@
     ntfs3g
     obsidian
     protonvpn-gui
-    protonvpn-cli
     spotify
     gimp
     thunderbird
