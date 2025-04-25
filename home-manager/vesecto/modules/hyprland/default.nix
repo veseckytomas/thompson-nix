@@ -9,7 +9,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: let
-  # config_dir = ".config/hypr";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -58,7 +57,6 @@ in {
     };
   };
   home = {
-    # file."${config_dir}/catppuccin.conf".source = ./catppuccin.conf;
     packages = with pkgs; [
       wayland
     ];
