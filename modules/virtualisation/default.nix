@@ -11,6 +11,8 @@
 {...}: {
   imports = [
     ./virt-manager.nix
+    # ./podman.nix
+    ./docker.nix
     # ./virtualbox.nix
   ];
 }

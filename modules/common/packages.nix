@@ -39,9 +39,6 @@
     postman
     code-cursor
 
-    # Docker
-    docker-compose
-
     # DWH
     keepass
     jdk
@@ -82,7 +79,6 @@
     vlc
     wireshark
     lazygit
-    lazydocker
     seahorse
     home-manager
     usbutils
@@ -140,9 +136,6 @@
       pinentryPackage = inputs.nixpkgs.lib.mkForce pkgs.pinentry-qt;
     };
   };
-
-  # Enable docker
-  virtualisation.docker.enable = true;
 
   services = {
     # Disable xterm

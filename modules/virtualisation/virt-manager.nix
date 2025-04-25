@@ -10,7 +10,10 @@
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
   # Virt-manager
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    spiceUSBRedirection.enable = true;
+    libvirtd.enable = true;
+  };
   programs.virt-manager.enable = true;
   environment.systemPackages = with pkgs; [
     virtiofsd
