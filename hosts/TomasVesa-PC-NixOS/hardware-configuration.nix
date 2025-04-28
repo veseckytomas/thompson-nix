@@ -56,15 +56,15 @@
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     nvidia = {
       open = false;
-      modesetting.enable = true;
+      # modesetting.enable = true;
     };
   };
-  services.xserver = {
-    enable = true;
-    videoDrivers = [
-      "nvidia"
-      "modesetting"
-      "fbdev"
-    ];
-  };
+  # services.xserver = {
+  #   enable = true;
+  #   videoDrivers = [
+  #     "nvidia"
+  #     "modesetting"
+  #     "fbdev"
+  #   ];
+  # };
 }
