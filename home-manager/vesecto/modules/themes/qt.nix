@@ -8,13 +8,19 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   qt = {
     enable = true;
     platformTheme.name = "gtk";
     style = {
-      package = pkgs.adwaita-qt;
-      name = "adwaita-dark";
+      package = pkgs.dracula-qt5-theme.overrideAttrs (old: {
+        src = inputs.dracula-qt5;
+      });
+      name = "Dracula";
     };
   };
 }

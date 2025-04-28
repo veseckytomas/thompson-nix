@@ -67,7 +67,7 @@ in {
       saveNoDups = true;
       share = true;
     };
-    initExtra = ''
+    initContent = ''
       # Keybinds
       bindkey -e
       bindkey '^n' history-search-forward

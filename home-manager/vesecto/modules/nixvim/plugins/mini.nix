@@ -13,7 +13,7 @@
     enable = true;
     modules = {
       ai = {};
-      pairs = {};
+      # pairs = {};
       surround = {};
       icons = {};
     };
