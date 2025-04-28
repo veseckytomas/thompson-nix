@@ -124,6 +124,22 @@
         "type": "github"
       }
     },
+    "dracula-qt5": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1647823351,
+        "narHash": "sha256-tfUjAb+edbJ+5qar4IxWr4h3Si6MIwnbCrwI2ZdUFAM=",
+        "owner": "dracula",
+        "repo": "qt5",
+        "rev": "7b25ee305365f6e62efb2c7aca3b4635622b778c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dracula",
+        "repo": "qt5",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -1065,6 +1081,7 @@
         "asus-numberpad-driver": "asus-numberpad-driver",
         "avante-nvim": "avante-nvim",
         "catppuccin": "catppuccin",
+        "dracula-qt5": "dracula-qt5",
         "home-manager": "home-manager",
         "home-manager-stable": "home-manager-stable",
         "hyprland": "hyprland",

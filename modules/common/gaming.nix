@@ -22,14 +22,6 @@
     enable32Bit = true;
   };
 
-  # Load GPU Drivers
-  services.xserver.videoDrivers = [
-    # "nvidia"
-    "modesetting"
-    "fbdev"
-  ];
-  hardware.nvidia.modesetting.enable = true;
-
   # Enable steam
   programs.steam = {
     enable = true;

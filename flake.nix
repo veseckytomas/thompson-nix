@@ -114,6 +114,12 @@
       repo = "avante.nvim";
       flake = false;
     };
+    dracula-qt5 = {
+      type = "github";
+      owner = "dracula";
+      repo = "qt5";
+      flake = false;
+    };
   };
 
   outputs = inputs: let

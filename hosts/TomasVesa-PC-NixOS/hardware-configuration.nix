@@ -54,6 +54,17 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    nvidia.open = false;
+    nvidia = {
+      open = false;
+      modesetting.enable = true;
+    };
+  };
+  services.xserver = {
+    enable = true;
+    videoDrivers = [
+      "nvidia"
+      "modesetting"
+      "fbdev"
+    ];
   };
 }
