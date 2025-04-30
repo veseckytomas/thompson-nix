@@ -19,3 +19,6 @@ nix-collect-garbage -d
 nix-store --optimize
 docker system prune -af --volumes
 trash-empty -f --all-users
+
+
+# sudo nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 14d
