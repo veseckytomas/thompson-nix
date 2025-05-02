@@ -929,11 +929,11 @@
         "nuschtosSearch": "nuschtosSearch"
       },
       "locked": {
-        "lastModified": 1746143306,
-        "narHash": "sha256-VePw2/2X1x1Bq88SeUNmlpUCO/hIL9XPe8TcPMvfEWQ=",
+        "lastModified": 1746186742,
+        "narHash": "sha256-ZTObJ1MrJ0T9VBnPG4iCIRGXgKUMjdA03mfOK66l9ec=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "cd30817b21f325ac0076c68c08f05875df94f03c",
+        "rev": "98644a34abcda94b8bed8ecaeec8be6edc657a09",
         "type": "github"
       },
       "original": {
