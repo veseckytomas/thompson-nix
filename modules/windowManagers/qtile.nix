@@ -22,6 +22,12 @@
       };
     };
   };
+  programs = {
+    i3lock = {
+      enable = true;
+      u2fSupport = true;
+    };
+  };
   environment.systemPackages = with pkgs; [
     feh
     rofi
