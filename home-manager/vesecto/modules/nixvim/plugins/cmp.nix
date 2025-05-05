@@ -21,6 +21,7 @@
           {name = "windsurf";}
           {name = "buffer";}
           {name = "path";}
+          {name = "render-markdown";}
           {name = "crates";}
         ];
         mapping = {

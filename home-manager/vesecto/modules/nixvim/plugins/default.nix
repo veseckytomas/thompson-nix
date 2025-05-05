@@ -60,7 +60,7 @@
     ./nvim-ufo.nix
     ./oil.nix
     # ./outline-nvim.nix
-    ./render-markdown-nvim.nix
+    ./render-markdown.nix
     ./rustaceanvim.nix
     ./sleuth.nix
     # ./snacks.nix

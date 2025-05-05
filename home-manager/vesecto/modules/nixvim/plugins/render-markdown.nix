@@ -8,18 +8,23 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{...}: {
   programs.nixvim = {
-    extraPlugins = [
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "render-markdown.nvim";
-        src = inputs.render-markdown-nvim;
-      })
-    ];
+    plugins.render-markdown = {
+      enable = true;
+      settings = {
+        completions.lsp.enabled = true;
+        file_types = ["markdown" "Avante"];
+      };
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "RenderMarkdown";
+          keys = ["<leader>mr"];
+          ft = ["markdown" "Avante"];
+        };
+      };
+    };
     keymaps = [
       {
         mode = ["n"];
