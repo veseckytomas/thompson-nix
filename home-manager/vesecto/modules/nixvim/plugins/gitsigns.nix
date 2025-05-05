@@ -48,7 +48,7 @@
       {
         mode = ["n"];
         key = "<leader>gr";
-        action = "<cmd>Gitsigns restore_hunk<CR>";
+        action = "<cmd>Gitsigns reset_hunk<CR>";
         options.desc = "[G]it [R]estore hunk";
       }
       {

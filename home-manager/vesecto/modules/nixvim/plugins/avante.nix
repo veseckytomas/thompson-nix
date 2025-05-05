@@ -28,16 +28,19 @@
     });
     settings = {
       claude = {
-        model = "claude-3-7-sonnet";
+        model = "claude-3-7-sonnet-latest";
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
+        timeout = 60000;
       };
       openai = {
         model = "gpt-4.1";
         api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/openai_api_key.gpg";
+        timeout = 60000;
       };
       ollama = {
         endpoint = "http://127.0.0.1:11434";
         model = "Deepseek-r1";
+        timeout = 60000;
       };
 
       # Hide providers
