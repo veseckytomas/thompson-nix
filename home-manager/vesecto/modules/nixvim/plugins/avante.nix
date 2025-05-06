@@ -42,6 +42,9 @@
         model = "Deepseek-r1";
         timeout = 60000;
       };
+      copilot = {
+        timeout = 60000;
+      };
 
       # Hide providers
       cohere.hide_in_model_selector = true;
