@@ -12,7 +12,7 @@
 
 nix run nixpkgs#python3Packages.pip cache purge
 find "$HOME" -name '.direnv' -exec rm -r {} \; 2> /dev/null
-rm ~/.local/share/nvim/mason
+rm -r ~/.local/share/nvim/mason
 sudo nix-collect-garbage -d
 sudo /run/current-system/bin/switch-to-configuration boot
 nix-collect-garbage -d
