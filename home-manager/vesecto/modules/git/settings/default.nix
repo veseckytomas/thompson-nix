@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.git.extraConfig = {
     core = {
       editor = "nvim";
@@ -66,5 +66,8 @@
   imports = [
     ./colors.nix
     ./urls.nix
+  ];
+  home.packages = with pkgs; [
+    diff-so-fancy
   ];
 }
