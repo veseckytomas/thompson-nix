@@ -53,6 +53,7 @@ terminal = "kitty"
 launcher = home + "/.config/rofi/bin/launcher"
 screenshot = home + "/.config/rofi/bin/screenshot"
 powermenu = home + "/.config/rofi/bin/powermenu"
+window = home + "/.config/rofi/bin/window"
 file_manager = "thunar"
 run_terminal = terminal + " -e tmux"
 browser = "librewolf"
@@ -128,6 +129,7 @@ keys = [
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.spawn(powermenu), desc="Shutdown Qtile"),
     Key([mod, "shift"], "s", lazy.spawn(screenshot), desc="Take a screenshot"),
+    Key([mod, "shift"], "w", lazy.spawn(window), desc="Open window switcher"),
     Key([mod, "shift"], "v", lazy.spawn(sound), desc="Launch sound manager"),
     Key([mod, "shift"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     # Change master/slave ration
