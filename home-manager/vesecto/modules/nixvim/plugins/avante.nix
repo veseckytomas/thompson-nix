@@ -106,6 +106,7 @@
         keys = [
           "<leader>aa"
           "<leader>a?"
+          "<leader>ah"
         ];
         cmd = [
           "AvanteAsk"
