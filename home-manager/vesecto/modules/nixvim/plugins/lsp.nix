@@ -24,6 +24,7 @@
         "<leader>cd" = "definition";
         "<leader>ci" = "implementation";
         "<leader>ct" = "type_definition";
+        "<leader>ca" = "code_action";
       };
     };
     servers = {
