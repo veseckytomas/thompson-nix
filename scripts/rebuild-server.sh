@@ -10,12 +10,14 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
+pushd /home/vesecto/Git/thompson-nix > /dev/null || exit
 git pull
-nixos-rebuild switch --flake /home/vesecto/Git/thompson-nix#
+nixos-rebuild switch --flake .#
 if [ "$(uname -m)" = "aarch64" ]
 then
-  home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server-arm
+  home-manager switch --flake .#vesecto-server-arm
 else
-  home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server
+  home-manager switch --flake .#vesecto-server
 fi
+popd || exit
 exit 0
