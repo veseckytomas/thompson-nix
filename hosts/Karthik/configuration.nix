@@ -28,7 +28,6 @@
   services.xserver = {
     enable = true;
     displayManager.lightdm.enable = true;
-    xterm.enable = false;
     windowManager.i3.enable = true;
   };
   programs.chromium.enable = true;
