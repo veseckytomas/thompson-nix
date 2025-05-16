@@ -11,7 +11,7 @@
 # GitLab: vesecky.tomas
 
 git pull
-sudo nixos-rebuild switch --flake /home/vesecto/Git/thompson-nix#
+nixos-rebuild switch --flake /home/vesecto/Git/thompson-nix#
 if [ "$(uname -m)" = "aarch64" ]
 then
   home-manager switch --flake /home/vesecto/Git/thompson-nix#vesecto-server-arm
