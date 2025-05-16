@@ -34,10 +34,7 @@
     kitty
 
     # Programming
-    jetbrains.rust-rover
     jetbrains.datagrip
-    postman
-    code-cursor
 
     # DWH
     keepass
@@ -79,7 +76,6 @@
     vlc
     wireshark
     lazygit
-    seahorse
     home-manager
     usbutils
     udiskie
