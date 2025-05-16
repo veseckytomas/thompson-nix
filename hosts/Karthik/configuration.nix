@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{lib, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -21,5 +25,14 @@
   system.stateVersion = "24.05";
 
   # TMP settings required for TMM25
-  services.xserver.windowManager.i3.enable = true;
+  services.xserver = {
+    enable = true;
+    displayManager.lightdm.enable = true;
+    xterm.enable = false;
+    windowManager.i3.enable = true;
+  };
+  programs.chromium.enable = true;
+  environment.systemPackages = with pkgs; [
+    chromium
+  ];
 }
