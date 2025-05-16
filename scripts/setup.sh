@@ -18,26 +18,42 @@ sudo nixos-rebuild switch -j 8 --cores 8 --flake .#"$hostname"
 nix-shell -p home-manager --run "home-manager switch --flake .#$(whoami)"
 
 # Insert Yubikeys
-if ! ls "$HOME/.config/Yubico/u2f_keys" &> /dev/null; then
-  mkdir -p "$HOME/.config/Yubico"
-  echo "Insert first Yubikey and press enter"
-  read -r
-  nix-shell -p pam_u2f --run "pamu2fcfg > \"$HOME/.config/Yubico/u2f_keys\""
-  echo "Insert second Yubikey and press enter"
-  read -r
-  nix-shell -p pam_u2f --run "pamu2fcfg -n >> \"$HOME/.config/Yubico/u2f_keys\""
+read -r -p "Install Yubikeys? [y/N] " response
+response=${response,,}    # tolower
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  if ! ls "$HOME/.config/Yubico/u2f_keys" &> /dev/null; then
+    mkdir -p "$HOME/.config/Yubico"
+    echo "Insert first Yubikey and press enter"
+    read -r
+    nix-shell -p pam_u2f --run "pamu2fcfg > \"$HOME/.config/Yubico/u2f_keys\""
+    echo "Insert second Yubikey and press enter"
+    read -r
+    nix-shell -p pam_u2f --run "pamu2fcfg -n >> \"$HOME/.config/Yubico/u2f_keys\""
+  fi
 fi
 
 # Clone repositories
-git clone git@gitlab.com:vesecky.tomas/thompson-nix.git "$HOME/Git/Personal/thompson-nix"
-git clone git@gitlab.com:vesecky.tomas/thompson-obsidian.git "$HOME/Git/Personal/thompson-obsidian"
-git clone git@gitlab.com:homelab1960731/thompson-dwh.git "$HOME/DataGripProjects/Homelab"
-git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git "$HOME/DataGripProjects/DWH"
+read -r -p "Clone repositories? [y/N] " response
+response=${response,,}    # tolower
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  git clone git@gitlab.com:vesecky.tomas/thompson-nix.git "$HOME/Git/Personal/thompson-nix"
+  git clone git@gitlab.com:vesecky.tomas/thompson-obsidian.git "$HOME/Git/Personal/thompson-obsidian"
+  git clone git@gitlab.com:homelab1960731/thompson-dwh.git "$HOME/DataGripProjects/Homelab"
+  git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git "$HOME/DataGripProjects/DWH"
+fi
+
 
 # Install eduroam
-curl "https://cat.eduroam.org/user/API.php?action=downloadInstaller&lang=en&profile=2904&device=linux&generatedfor=user&openroaming=0" > eduroam.py
-nix-shell -p 'python311.withPackages(ps: with ps; [ dbus-python ])' --run "python3 ./eduroam.py"
-rm eduroam.py
+read -r -p "Install eduroam? [y/N] " response
+response=${response,,}    # tolower
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  curl "https://cat.eduroam.org/user/API.php?action=downloadInstaller&lang=en&profile=2904&device=linux&generatedfor=user&openroaming=0" > eduroam.py
+  nix-shell -p 'python311.withPackages(ps: with ps; [ dbus-python ])' --run "python3 ./eduroam.py"
+  rm eduroam.py
+fi
 
 # Install proton compatibility layer
 if which protonup &> /dev/null; then
