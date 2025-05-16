@@ -228,7 +228,7 @@
       };
 
       vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit username;};
+        extraSpecialArgs = {inherit inputs username;};
         pkgs = pkgs-stable;
         modules = [
           ./home-manager/vesecto-server
@@ -238,7 +238,7 @@
       };
 
       vesecto-server-arm = inputs.home-manager-stable.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit username;};
+        extraSpecialArgs = {inherit inputs username;};
         pkgs = import inputs.nixpkgs-stable {
           system = "aarch64-linux";
         };

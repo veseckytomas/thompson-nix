@@ -15,9 +15,9 @@ git pull
 nixos-rebuild switch --flake .#
 if [ "$(uname -m)" = "aarch64" ]
 then
-  home-manager switch --flake .#vesecto-server-arm
+  su vesecto -c "home-manager switch --flake .#vesecto-server-arm"
 else
-  home-manager switch --flake .#vesecto-server
+  su vesecto -c "home-manager switch --flake .#vesecto-server"
 fi
 popd || exit
 exit 0
