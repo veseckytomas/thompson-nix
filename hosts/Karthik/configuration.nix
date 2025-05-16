@@ -19,4 +19,7 @@
 
   # System version
   system.stateVersion = "24.05";
+
+  # TMP settings required for TMM25
+  services.xserver.enable = true;
 }
