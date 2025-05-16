@@ -12,9 +12,9 @@
   imports = [
     ./nix.nix
     ./noice.nix
-    ./notify.nix
     ./oil.nix
     ./telescope.nix
     ./tmux-navigator.nix
+    ./web-devicons.nix
   ];
 }

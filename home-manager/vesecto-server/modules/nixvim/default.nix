@@ -23,7 +23,6 @@
     # Set colorscheme
     colorschemes.catppuccin = {
       enable = true;
-      lazyLoad.enable = true;
     };
 
     # Set clipboard
