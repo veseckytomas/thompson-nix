@@ -22,6 +22,7 @@
     ./fzf.nix
     ./git.nix
     ./yazi.nix
+    ./tmux.nix
     ./zsh.nix
   ];
 }

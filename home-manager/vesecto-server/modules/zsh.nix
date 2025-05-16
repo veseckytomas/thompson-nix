@@ -81,8 +81,6 @@ in {
       # Variables
       export EDITOR=nvim
       export DIRENV_WARN_TIMEOUT=0
-      export OPENAI_API_KEY=$(gpg --decrypt -q /home/vesecto/.openai_api_key.gpg)
-      export ANTHROPIC_API_KEY=$(gpg --decrypt -q /home/vesecto/.anthropic_api_key.gpg)
 
       # Enable SSH Agent
       { eval $(gnome-keyring-daemon -s) } &>/dev/null
@@ -160,6 +158,8 @@ in {
       "cal" = "cal -m";
       "rm" = "trash";
       "fzf" = "fzf --preview \"bat --color=always --style=header,grid --line-range :500 {}\"";
+      "latexmk" = "latexmk -lualatex";
+      "lg" = "lazygit";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
@@ -170,6 +170,7 @@ in {
     packages = with pkgs; [
       eza
       fd
+      tldr
       trash-cli
       dig
       entr
@@ -178,6 +179,7 @@ in {
       zip
       gotop
       htop
+      tokei
     ];
   };
 }
