@@ -21,7 +21,10 @@
     viAlias = true;
 
     # Set colorscheme
-    colorschemes.catppuccin.enable = true;
+    colorschemes.catppuccin = {
+      enable = true;
+      lazyLoad.enable = true;
+    };
 
     # Set clipboard
     clipboard = {
@@ -35,6 +38,9 @@
     };
 
     opts = {
+      # Disable swap files
+      swapfile = true;
+
       # Set line numbers
       number = true;
       relativenumber = true;
@@ -92,8 +98,9 @@
   ];
 
   imports = [
-    ./keymaps.nix
     ./extraConfig.nix
+    ./keymaps.nix
+    ./performance.nix
     ./plugins
   ];
 }

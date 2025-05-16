@@ -11,7 +11,7 @@
 {...}: {
   imports = [
     # Directories
-    ./nvim
+    ./nixvim
     ./starship
 
     # Single files

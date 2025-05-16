@@ -103,7 +103,15 @@
     {
       mode = ["n"];
       key = "<leader>ev";
-      action = "<cmd>!evince<CR>";
+      action = "<cmd>!evince &<CR>";
+      options.desc = "Open Evince";
+    }
+
+    # Run tex
+    {
+      mode = ["n"];
+      key = "<leader>tr";
+      action = "<cmd>!lualatex main.tex<CR>";
       options.desc = "Open Evince";
     }
   ];
