@@ -148,6 +148,9 @@ in {
           kill -9 "$pid" > /dev/null 2>&1 && echo "Process $pname (PID $pid) has been successfully killed."
         fi
       }
+
+      # Clear aliases
+      unalias run-help which-command l edit-in-kitty
     '';
     shellAliases = {
       "pentaho" = "export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh";
@@ -155,6 +158,7 @@ in {
       "cp" = "cp -r";
       "ls" = "eza --icons -F -H --group-directories-first --git";
       "la" = "ls -a -1";
+      "ll" = "ls -lahg";
       "cal" = "cal -m";
       "rm" = "trash";
       "fzf" = "fzf --preview \"bat --color=always --style=header,grid --line-range :500 {}\"";
