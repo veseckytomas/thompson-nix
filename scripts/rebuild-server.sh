@@ -10,7 +10,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-pushd /home/vesecto/Git/thompson-nix > /dev/null || exit
+pushd /thompson-nix > /dev/null || exit
 git pull
 nixos-rebuild switch --flake .#
 if [ "$(uname -m)" = "aarch64" ]
