@@ -150,7 +150,7 @@ in {
       }
 
       # Clear aliases
-      unalias run-help which-command l edit-in-kitty
+      unalias run-help which-command l
     '';
     shellAliases = {
       "pentaho" = "export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh";
