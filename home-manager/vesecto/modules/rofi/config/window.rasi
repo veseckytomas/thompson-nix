@@ -12,8 +12,7 @@
 
 configuration {
     show-icons: true;
-    display-drun: "";
-    drun-display-format: "{icon} {name}";
+    display-window: "";
     disable-history: false;
     click-to-exit: true;
     location: 0;
@@ -129,6 +128,10 @@ element-text {
     margin: 2px 0px 2px 2px;
 }
 
+element-text selected {
+    text-color: @SEL;
+}
+
 element normal.urgent,
 element alternate.urgent {
     background-color: @UGT;
@@ -138,7 +141,7 @@ element alternate.urgent {
 
 element normal.active,
 element alternate.active {
-    background-color: @BGA;
+    background-color: inherit;
     text-color: @FG;
 }
 
