@@ -21,7 +21,6 @@
     ./cmp-nvim-lsp.nix
     ./cmp-path.nix
     # ./chatgpt.nix
-    # ./codeium-nvim.nix
     # ./codesnap.nix
     ./colorizer.nix
     ./comment.nix
@@ -79,5 +78,6 @@
     ./wakatime.nix
     ./web-devicons.nix
     ./which-key.nix
+    ./windsurf-nvim.nix
   ];
 }

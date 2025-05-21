@@ -9,11 +9,17 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
-  programs.nixvim.plugins.codeium-nvim = {
-    enable = true;
-    package = pkgs.vimPlugins.windsurf-nvim;
-    settings = {
-      enable_chat = true;
+  programs.nixvim = {
+    dependencies.codeium = {
+      enable = true;
+      package = pkgs.codeium;
+    };
+    plugins.windsurf-nvim = {
+      enable = true;
+      package = pkgs.vimPlugins.windsurf-nvim;
+      settings = {
+        enable_chat = true;
+      };
     };
   };
 }
