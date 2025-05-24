@@ -24,8 +24,8 @@
     # Garbage collection
     gc = {
       automatic = true;
-      dates = "01:00";
-      options = "--delete-older-than 10d";
+      dates = "weekly";
+      options = "--delete-older-than 14d";
     };
     optimise = {
       automatic = true;
