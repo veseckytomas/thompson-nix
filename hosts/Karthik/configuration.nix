@@ -8,13 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   imports = [
     ./hardware-configuration.nix
+    # ./tmm.nix
   ];
   boot.loader.grub.enable = lib.mkForce false;
   boot.loader.generic-extlinux-compatible.enable = lib.mkForce true;
@@ -23,16 +20,4 @@
 
   # System version
   system.stateVersion = "24.05";
-
-  # TMP settings required for TMM25
-  services.xserver = {
-    enable = true;
-    displayManager.lightdm.enable = true;
-    windowManager.i3.enable = true;
-  };
-  programs.chromium.enable = true;
-  environment.systemPackages = with pkgs; [
-    chromium
-    xdotool
-  ];
 }
