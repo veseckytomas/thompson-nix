@@ -100,15 +100,22 @@
     # Enable keyring
     gnome.gnome-keyring.enable = true;
   };
+
   # Set systemd timer
   systemd = {
     services.rebuild = {
       script = ''
-        bash /thompson-nix/scripts/rebuild-server.sh
+        cd /thompson-nix
+        ${pkgs-stable.git}/bin/git pull
+        ${pkgs-stable.nixos-rebuild}/bin/nixos-rebuild switch --flake /thompson-nix#
+        if [ "$(uname -m)" = "aarch64" ]
+        then
+          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server-arm"
+        else
+          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server"
+        fi
       '';
-      path = [pkgs-stable.bash];
-      # startAt = "daily";
-      startAt = "*-*-* *:*:00";
+      startAt = "daily";
       serviceConfig.Type = "oneshot";
     };
   };
