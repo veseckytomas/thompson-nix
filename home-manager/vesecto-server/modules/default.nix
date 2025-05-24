@@ -12,8 +12,6 @@
   imports = [
     # Directories
     ./nixvim
-    ./starship
-    ./zsh
 
     # Single files
     ./atuin.nix
@@ -24,5 +22,7 @@
     ./git.nix
     ./yazi.nix
     ./tmux.nix
+    ./starship.nix
+    ./zsh.nix
   ];
 }

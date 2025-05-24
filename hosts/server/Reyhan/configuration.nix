@@ -8,15 +8,20 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs-stable, ...}: {
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];
-  networking.hostName = "Merete";
+  networking.hostName = "Reyhan";
 
-  environment.systemPackages = with pkgs-stable; [
-    postgresql
+  environment.systemPackages = with pkgs; [
+    docker-compose
   ];
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker;
+  };
+  networking.firewall.allowedTCPPorts = [5432];
 
   # System version
   system.stateVersion = "24.05";

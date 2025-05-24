@@ -8,9 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{inputs, ...}: {
   imports = [
     ./home.nix
     ./modules
+    inputs.catppuccin.homeModules.catppuccin
+    inputs.nixvim-stable.homeManagerModules.nixvim
   ];
 }

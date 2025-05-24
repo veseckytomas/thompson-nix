@@ -137,7 +137,7 @@
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
-          ./hosts/TomasVesa-PC-NixOS/configuration.nix
+          ./hosts/desktop/TomasVesa-PC-NixOS/configuration.nix
           ./modules
         ];
       };
@@ -146,7 +146,7 @@
         specialArgs = {inherit inputs username system;};
         modules = [
           inputs.asus-numberpad-driver.nixosModules.default
-          ./hosts/TomasVesa-NTB-NixOS/configuration.nix
+          ./hosts/desktop/TomasVesa-NTB-NixOS/configuration.nix
           ./modules/common/notebook.nix
           ./modules/common/gaming.nix
           ./modules
@@ -156,7 +156,7 @@
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
-          ./hosts/TomasVesa-Portable-NixOS/configuration.nix
+          ./hosts/desktop/TomasVesa-Portable-NixOS/configuration.nix
           ./modules/common/notebook.nix
           ./modules
         ];
@@ -166,37 +166,52 @@
         system = "aarch64-linux";
         specialArgs = {
           inherit inputs username;
-          pkgs-stable = import inputs.nixpkgs-stable {
-            system = "aarch64-linux";
-          };
+        };
+        pkgs = import inputs.nixpkgs-stable {
+          system = "aarch64-linux";
         };
         modules = [
-          ./hosts/Karthik/configuration.nix
+          ./hosts/server/Karthik/configuration.nix
           ./modules/server.nix
         ];
       };
 
       NixOSServerTemplate = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {
+          inherit inputs username system;
+        };
+        pkgs = import inputs.nixpkgs-stable {
+          inherit system;
+        };
         modules = [
-          ./hosts/NixOSServerTemplate/configuration.nix
+          ./hosts/server/NixOSServerTemplate/configuration.nix
           ./modules/server.nix
         ];
       };
 
       Reyhan = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {
+          inherit inputs username system;
+        };
+        pkgs = import inputs.nixpkgs-stable {
+          inherit system;
+        };
         modules = [
-          ./hosts/Reyhan/configuration.nix
+          ./hosts/server/Reyhan/configuration.nix
           ./modules/server.nix
         ];
       };
 
       Merete = inputs.nixpkgs-stable.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {
+          inherit inputs username system;
+        };
+        pkgs = import inputs.nixpkgs-stable {
+          inherit system;
+        };
         inherit system;
         modules = [
-          ./hosts/Merete/configuration.nix
+          ./hosts/server/Merete/configuration.nix
           ./modules/server.nix
         ];
       };
@@ -204,14 +219,14 @@
       rescueIso = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system pkgs-stable;};
         modules = [
-          ./hosts/rescueIso/configuration.nix
+          ./hosts/iso/rescueIso/configuration.nix
         ];
       };
 
       installIso = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system pkgs-stable;};
         modules = [
-          ./hosts/installIso/configuration.nix
+          ./hosts/iso/installIso/configuration.nix
         ];
       };
     };
@@ -224,28 +239,6 @@
           ./home-manager/vesecto
           inputs.catppuccin.homeModules.catppuccin
           inputs.nixvim.homeManagerModules.nixvim
-        ];
-      };
-
-      vesecto-server = inputs.home-manager-stable.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit inputs username;};
-        pkgs = pkgs-stable;
-        modules = [
-          ./home-manager/vesecto-server
-          inputs.catppuccin.homeModules.catppuccin
-          inputs.nixvim-stable.homeManagerModules.nixvim
-        ];
-      };
-
-      vesecto-server-arm = inputs.home-manager-stable.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit inputs username;};
-        pkgs = import inputs.nixpkgs-stable {
-          system = "aarch64-linux";
-        };
-        modules = [
-          ./home-manager/vesecto-server
-          inputs.catppuccin.homeModules.catppuccin
-          inputs.nixvim-stable.homeManagerModules.nixvim
         ];
       };
     };

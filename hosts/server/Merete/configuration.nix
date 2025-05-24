@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-#   _______
+#   ________
 #  /_  __/ /_  ____  ____ ___  ____  _________  ____
 #   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
 #  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
@@ -9,15 +8,16 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
+{pkgs, ...}: {
+  imports = [
+    ./hardware-configuration.nix
+  ];
+  networking.hostName = "Merete";
 
-pushd /thompson-nix > /dev/null || exit
-git pull
-nixos-rebuild switch --flake .#
-if [ "$(uname -m)" = "aarch64" ]
-then
-  su vesecto -c "home-manager switch --flake .#vesecto-server-arm"
-else
-  su vesecto -c "home-manager switch --flake .#vesecto-server"
-fi
-popd || exit
-exit 0
+  environment.systemPackages = with pkgs; [
+    postgresql
+  ];
+
+  # System version
+  system.stateVersion = "24.05";
+}

@@ -9,10 +9,21 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
-  pkgs-stable,
+  inputs,
+  pkgs,
   lib,
+  username,
   ...
 }: {
+  imports = [
+    inputs.home-manager-stable.nixosModules.home-manager
+  ];
+  # Home-manager
+  home-manager = {
+    extraSpecialArgs = {inherit inputs username;};
+    users.${username} = import ../home-manager/${username}-server;
+  };
+
   # Bootloader
   boot.loader.grub.enable = lib.mkDefault true;
   boot.loader.grub.device = lib.mkDefault "/dev/sda";
@@ -29,8 +40,18 @@
     };
     optimise = {
       automatic = true;
-      dates = ["02:00"];
+      dates = ["weekly"];
     };
+  };
+
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--no-write-lock-file"
+      "-L"
+    ];
+    dates = "*:0/10:00";
   };
 
   # Networking
@@ -40,7 +61,7 @@
   time.timeZone = "Europe/Prague";
 
   # Packages
-  environment.systemPackages = with pkgs-stable; [
+  environment.systemPackages = with pkgs; [
     git
     trash-cli
     wget
@@ -78,7 +99,7 @@
     isNormalUser = true;
     description = "Tomas Vesecky";
     extraGroups = ["networkmanager" "wheel"];
-    shell = pkgs-stable.zsh;
+    shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIF72lKNXtnCRS7Pb9+oB8Urusf9QEJmw1XEOhLQjxbenAAAABHNzaDo= Primary Key"
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO+xfsaB1PekrdJ6Zmt8ByvScyFy51hF2ZKRU9Glh8phAAAABHNzaDo= Secondary Key"
@@ -106,15 +127,19 @@
     services.rebuild = {
       script = ''
         cd /thompson-nix
-        ${pkgs-stable.git}/bin/git pull
-        ${pkgs-stable.nixos-rebuild}/bin/nixos-rebuild switch --flake .# --no-write-lock-file --cores 1 -j 1
-        if [ "$(uname -m)" = "aarch64" ]
-        then
-          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server-arm --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
-        else
-          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
-        fi
+        git pull
       '';
+      # script = ''
+      #   cd /thompson-nix
+      #   ${pkgs-stable.git}/bin/git pull
+      #   ${pkgs-stable.nixos-rebuild}/bin/nixos-rebuild switch --flake .# --no-write-lock-file --cores 1 -j 1
+      #   if [ "$(uname -m)" = "aarch64" ]
+      #   then
+      #     ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server-arm --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
+      #   else
+      #     ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
+      #   fi
+      # '';
       startAt = "daily";
       serviceConfig.Type = "oneshot";
     };

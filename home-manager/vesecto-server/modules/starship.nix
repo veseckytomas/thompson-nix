@@ -1,0 +1,68 @@
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+{lib, ...}: {
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      format = lib.concatStrings [
+        "$username[@](fg:bold yellow)$hostname"
+        "$directory"
+        "$git_branch"
+        "$git_status"
+        "$git_state"
+        " $character"
+      ];
+      command_timeout = 300;
+      scan_timeout = 15;
+      username = {
+        format = "[$user]($style)";
+        style_user = "bold yellow";
+      };
+      hostname = {
+        ssh_only = false;
+        format = "[$hostname]($style)";
+        style = "bold yellow";
+      };
+      directory = {
+        format = " [ $path]($style)";
+        fish_style_pwd_dir_length = 1;
+      };
+      git_branch = {
+        format = " $symbol $branch";
+        symbol = "";
+      };
+      git_status = {
+        ahead = "[($count) ]";
+        behind = "[($count) ]";
+        diverged = "[\${ahead_count}\${behind_count}]";
+        untracked = "[($count)? ]";
+        stashed = "[($count)* ]";
+        modified = "[($count)! ]";
+        staged = "[+$count ]";
+        conflicted = "[=$count ]";
+        deleted = "[$count󰆴 ]";
+        renamed = "[$count ]";
+        format = "[$all_status$ahead_behind]($style)";
+      };
+      git_state = {
+        rebase = "rebasing";
+        merge = "merging";
+        revert = "reverting";
+        cherry_pick = "cherry-picking";
+        bisect = "bisecting";
+        am = "am";
+        am_or_rebase = "am/rebase";
+        format = "[$state( $progress_current/$progress_total)]";
+      };
+    };
+  };
+}

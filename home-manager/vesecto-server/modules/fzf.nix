@@ -8,13 +8,22 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{...}: let
+  fzf_command = "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git";
+in {
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
+    defaultCommand = "${fzf_command}";
+    fileWidgetCommand = "${fzf_command}";
+    defaultOptions = [
+      "-i"
+      "--multi"
+    ];
   };
-  catppuccin.yazi = {
-    enable = true;
+  catppuccin.fzf = {
+    enable = false;
     flavor = "mocha";
   };
 }
