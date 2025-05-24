@@ -129,9 +129,6 @@
       inherit system;
       config = {allowUnfree = true;};
     };
-    pkgs-stable = import inputs.nixpkgs-stable {
-      inherit system;
-    };
   in {
     nixosConfigurations = {
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
@@ -168,7 +165,7 @@
           inherit inputs username;
         };
         pkgs = import inputs.nixpkgs-stable {
-          system = "aarch64-linux";
+          inherit system;
         };
         modules = [
           ./hosts/server/Karthik/configuration.nix
@@ -217,14 +214,14 @@
       };
 
       rescueIso = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/iso/rescueIso/configuration.nix
         ];
       };
 
       installIso = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system pkgs-stable;};
+        specialArgs = {inherit inputs username system;};
         modules = [
           ./hosts/iso/installIso/configuration.nix
         ];
@@ -237,8 +234,6 @@
         inherit pkgs;
         modules = [
           ./home-manager/vesecto
-          inputs.catppuccin.homeModules.catppuccin
-          inputs.nixvim.homeManagerModules.nixvim
         ];
       };
     };
