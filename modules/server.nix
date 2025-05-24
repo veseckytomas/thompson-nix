@@ -89,13 +89,6 @@
     # Enable QEMU Guest Agent
     qemuGuest.enable = lib.mkDefault true;
 
-    # Set cron
-    cron = {
-      enable = true;
-      systemCronJobs = [
-        "0 0 * * *  root  /thompson-nix/scripts/rebuild-server.sh"
-      ];
-    };
     # Enable the OpenSSH daemon.
     openssh = {
       enable = true;
@@ -106,6 +99,18 @@
     };
     # Enable keyring
     gnome.gnome-keyring.enable = true;
+  };
+  # Set systemd timer
+  systemd = {
+    services.rebuild = {
+      script = ''
+        bash /thompson-nix/scripts/rebuild-server.sh
+      '';
+      path = [pkgs-stable.bash];
+      # startAt = "daily";
+      startAt = "*-*-* *:*:00";
+      serviceConfig.Type = "oneshot";
+    };
   };
 
   # Firewall open ports
