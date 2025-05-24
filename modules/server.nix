@@ -107,12 +107,12 @@
       script = ''
         cd /thompson-nix
         ${pkgs-stable.git}/bin/git pull
-        ${pkgs-stable.nixos-rebuild}/bin/nixos-rebuild switch --flake .# --no-write-lock-file
+        ${pkgs-stable.nixos-rebuild}/bin/nixos-rebuild switch --flake .# --no-write-lock-file --cores 1 -j 1
         if [ "$(uname -m)" = "aarch64" ]
         then
-          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server-arm --no-write-lock-file && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
+          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server-arm --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
         else
-          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server --no-write-lock-file && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
+          ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
         fi
       '';
       startAt = "daily";
