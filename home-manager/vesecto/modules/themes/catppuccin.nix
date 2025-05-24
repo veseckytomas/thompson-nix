@@ -8,7 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{inputs, ...}: {
+  imports = [
+    inputs.catppuccin.homeModules.catppuccin
+  ];
   catppuccin = {
     flavor = "mocha";
     accent = "mauve";

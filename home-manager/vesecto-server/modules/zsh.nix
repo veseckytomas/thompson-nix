@@ -41,18 +41,6 @@ in {
         name = "zsh-autosuggestions";
         src = inputs.zsh-autosuggestions;
       }
-      {
-        name = "zsh-autopair";
-        src = inputs.zsh-autopair;
-      }
-      {
-        name = "fzf-tab";
-        src = inputs.zsh-fzf-tab;
-      }
-      {
-        name = "zsh-atuin";
-        src = inputs.zsh-atuin;
-      }
     ];
     history = {
       append = true;
@@ -75,13 +63,6 @@ in {
 
       bindkey '^o' clear-screen
 
-      # Variables
-      export EDITOR=nvim
-      export DIRENV_WARN_TIMEOUT=0
-
-      # Enable SSH Agent
-      { eval $(gnome-keyring-daemon -s) } &>/dev/null
-
       # Functions
       function nvimf() {
         FILE=$(fzf)
@@ -89,52 +70,9 @@ in {
           nvim "$FILE"
         fi
       }
-      function y() {
-      	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-      	yazi "$@" --cwd-file="$tmp"
-      	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-      		builtin cd -- "$cwd"
-      	fi
-      	rm -f -- "$tmp"
-      }
-      function gbr {
-      	git brd $1
-      	git push -d origin $1
-      }
       function take {
       	mkdir $1
       	cd $1
-      }
-      function save_obsidian {
-      	pushd ~/Git/Personal/thompson-obsidian > /dev/null
-        git pull
-      	git add --all
-      	current=$(date -Iseconds)
-      	git commit -m "Update: $current"
-      	git push
-      	popd > /dev/null
-      }
-      function save_xournal {
-      	pushd ~/Git/Personal/thompson-notes > /dev/null
-        git pull
-      	git add --all
-      	current=$(date -Iseconds)
-      	git commit -m "Update: $current"
-      	git push
-      	popd > /dev/null
-      }
-      function nixos-run {
-      	pushd ~/Git/Personal/thompson-nix > /dev/null
-      	./scripts/main.sh
-      	popd > /dev/null
-      }
-      function migrate_repo {
-        pushd ~/Git > /dev/null
-        ./migrate.sh
-        popd > /dev/null
-      }
-      function ga {
-        git add $(git status --porcelain | command fzf | awk '{print $2}' | tr '\n' ' ');
       }
       function fpkill {
         local selection
@@ -150,17 +88,10 @@ in {
       unalias run-help which-command l
     '';
     shellAliases = {
-      "pentaho" = "export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh";
-      "root@ebie" = "ssh -A -L 5431:dv1:5432 -L 2221:dv1:22 -L 2222:dv2:22 -L 2223:dv3:22 -L 2224:dv4:22  -L 8088:dv2:8080 -L 8008:dv2:8008 -L 5430:dv5:5433 root@ebie.is.cvut.cz";
-      "cp" = "cp -r";
       "ls" = "eza --icons -F -H --group-directories-first --git";
       "la" = "ls -a -1";
       "ll" = "ls -lahg";
-      "cal" = "cal -m";
       "rm" = "trash";
-      "fzf" = "fzf --preview \"bat --color=always --style=header,grid --line-range :500 {}\"";
-      "latexmk" = "latexmk -lualatex";
-      "lg" = "lazygit";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
@@ -170,17 +101,7 @@ in {
   home = {
     packages = with pkgs; [
       eza
-      fd
-      tldr
       trash-cli
-      dig
-      entr
-      traceroute
-      unzip
-      zip
-      gotop
-      htop
-      tokei
     ];
   };
 }

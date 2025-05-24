@@ -79,7 +79,6 @@ in {
       eval "$(starship init zsh)"
 
       # Variables
-      export EDITOR=nvim
       export DIRENV_WARN_TIMEOUT=0
 
       # Enable SSH Agent

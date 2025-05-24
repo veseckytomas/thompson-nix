@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {
     enable = true;
 
@@ -98,6 +102,7 @@
   ];
 
   imports = [
+    inputs.nixvim.homeManagerModules.nixvim
     ./extraConfig.nix
     ./keymaps.nix
     ./performance.nix

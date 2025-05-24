@@ -10,17 +10,7 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
-    # Directories
     ./nixvim
-
-    # Single files
-    ./atuin.nix
-    ./bat.nix
-    ./catppuccin.nix
-    ./editorconfig.nix
-    ./fzf.nix
-    ./git.nix
-    ./yazi.nix
     ./tmux.nix
     ./starship.nix
     ./zsh.nix
