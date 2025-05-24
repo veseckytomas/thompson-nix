@@ -14,11 +14,11 @@
   inputs = {
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-24.11-small";
+    nixpkgs-stable.url = "nixpkgs/nixos-25.05-small";
     home-manager.url = "github:nix-community/home-manager";
     nixvim.url = "github:nix-community/nixvim";
-    home-manager-stable.url = "github:nix-community/home-manager/release-24.11";
-    nixvim-stable.url = "github:nix-community/nixvim/nixos-24.11";
+    home-manager-stable.url = "github:nix-community/home-manager/release-25.05";
+    nixvim-stable.url = "github:nix-community/nixvim/nixos-25.05";
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     polymc.url = "github:PolyMC/PolyMC";
     asus-numberpad-driver = {
