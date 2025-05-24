@@ -33,7 +33,6 @@ in {
     keyMode = "vi";
     mouse = true;
     disableConfirmationPrompt = true;
-    prefix = "C-space";
     shell = "${pkgs.zsh}/bin/zsh";
     terminal = "screen-256color";
     secureSocket = false;
