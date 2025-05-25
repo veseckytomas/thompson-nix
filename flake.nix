@@ -134,7 +134,7 @@
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
-          ./hosts/desktop/TomasVesa-PC-NixOS/configuration.nix
+          ./hosts/desktop/TomasVesa-PC-NixOS
           ./modules
         ];
       };
@@ -143,7 +143,7 @@
         specialArgs = {inherit inputs username system;};
         modules = [
           inputs.asus-numberpad-driver.nixosModules.default
-          ./hosts/desktop/TomasVesa-NTB-NixOS/configuration.nix
+          ./hosts/desktop/TomasVesa-NTB-NixOS
           ./modules/common/notebook.nix
           ./modules/common/gaming.nix
           ./modules
@@ -153,7 +153,7 @@
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
-          ./hosts/desktop/TomasVesa-Portable-NixOS/configuration.nix
+          ./hosts/desktop/TomasVesa-Portable-NixOS
           ./modules/common/notebook.nix
           ./modules
         ];
@@ -168,7 +168,7 @@
           inherit system;
         };
         modules = [
-          ./hosts/server/Karthik/configuration.nix
+          ./hosts/server/Karthik
           ./modules/server.nix
         ];
       };
@@ -181,7 +181,7 @@
           inherit system;
         };
         modules = [
-          ./hosts/server/NixOSServerTemplate/configuration.nix
+          ./hosts/server/NixOSServerTemplate
           ./modules/server.nix
         ];
       };
@@ -194,7 +194,7 @@
           inherit system;
         };
         modules = [
-          ./hosts/server/Reyhan/configuration.nix
+          ./hosts/server/Reyhan
           ./modules/server.nix
         ];
       };
@@ -208,7 +208,7 @@
         };
         inherit system;
         modules = [
-          ./hosts/server/Merete/configuration.nix
+          ./hosts/server/Merete
           ./modules/server.nix
         ];
       };
@@ -216,14 +216,14 @@
       rescueIso = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
-          ./hosts/iso/rescueIso/configuration.nix
+          ./hosts/iso/rescueIso
         ];
       };
 
       installIso = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs username system;};
         modules = [
-          ./hosts/iso/installIso/configuration.nix
+          ./hosts/iso/installIso
         ];
       };
     };

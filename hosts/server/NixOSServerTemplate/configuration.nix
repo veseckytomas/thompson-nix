@@ -9,9 +9,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  imports = [
-    ./hardware-configuration.nix
-  ];
   networking.hostName = "NixOSServerTemplate";
 
   # System version

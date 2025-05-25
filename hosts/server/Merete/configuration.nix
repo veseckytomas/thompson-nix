@@ -9,9 +9,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
-  imports = [
-    ./hardware-configuration.nix
-  ];
   networking.hostName = "Merete";
 
   environment.systemPackages = with pkgs; [

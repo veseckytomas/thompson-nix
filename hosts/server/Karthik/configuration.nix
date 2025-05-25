@@ -9,10 +9,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {lib, ...}: {
-  imports = [
-    ./hardware-configuration.nix
-    # ./tmm.nix
-  ];
   boot.loader.grub.enable = lib.mkForce false;
   boot.loader.generic-extlinux-compatible.enable = lib.mkForce true;
   services.qemuGuest.enable = lib.mkForce false;
