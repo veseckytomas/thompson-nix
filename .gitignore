@@ -11,6 +11,6 @@
 
 __pycache__
 build/
-result/
+result
 eduroam.py
 *.qcow2
