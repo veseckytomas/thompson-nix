@@ -10,5 +10,7 @@
 # GitLab: vesecky.tomas
 
 __pycache__
-build
+build/
+result/
 eduroam.py
+*.qcow2
