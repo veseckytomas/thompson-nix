@@ -91,6 +91,15 @@
     teams-for-linux
     xournalpp
     motrix
+
+    cliphist # Clipboard manager using rofi menu
+    duf # Utility For Viewing Disk Usage In Terminal
+    cmatrix # Matrix Movie Effect In Terminal
+    hyprpicker # Color Picker
+    inxi # CLI System Information Tool
+    lshw # Detailed Hardware Information
+    ncdu # Disk Usage Analyzer With Ncurses Interface
+    usbutils # Good Tools For USB Devices
   ];
 
   # Install nerdfonts

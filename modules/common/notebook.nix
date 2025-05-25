@@ -14,6 +14,7 @@
   ...
 }: {
   services = {
+    blueman.enable = true;
     power-profiles-daemon.enable = false;
     libinput.enable = true;
     tlp.enable = false;
@@ -39,6 +40,6 @@
     };
   };
   environment.systemPackages = with pkgs; [
-    blueman
+    brightnessctl
   ];
 }

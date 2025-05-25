@@ -23,12 +23,28 @@
     # Enable Gnome keyring
     gnome.gnome-keyring.enable = true;
 
-    # Enable CUPS to print documents.
-    printing.enable = true;
+    # Printing
+    printing = {
+      enable = true;
+      drivers = [
+        pkgs.hplipWithPlugin
+      ];
+    };
     avahi = {
       enable = true;
       nssmdns4 = true;
       openFirewall = true;
+    };
+    ipp-usb.enable = true;
+
+    libinput.enable = true;
+    fstrim.enable = true;
+    gvfs.enable = true;
+    tumbler.enable = true;
+
+    smartd = {
+      enable = true;
+      autodetect = true;
     };
   };
 
