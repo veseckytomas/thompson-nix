@@ -130,11 +130,6 @@ in {
       	./scripts/main.sh
       	popd > /dev/null
       }
-      function migrate_repo {
-        pushd ~/Git > /dev/null
-        ./migrate.sh
-        popd > /dev/null
-      }
       function ga {
         git add $(git status --porcelain | command fzf | awk '{print $2}' | tr '\n' ' ');
       }
