@@ -19,6 +19,7 @@
     brd = "branch -D";
     br = "branch";
     ll = "log --graph --all --decorate --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(auto)  %D%n%s%n'";
+    ls = "log --oneline --graph --all --decorate";
     f = "fetch -ap";
     ra = "remote add origin";
     ca = "!git add --all && git commit";
