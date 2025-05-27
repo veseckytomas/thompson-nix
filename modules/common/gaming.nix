@@ -23,9 +23,21 @@
   };
 
   # Enable steam
-  programs.steam = {
-    enable = true;
-    gamescopeSession.enable = true;
+  programs = {
+    steam = {
+      enable = true;
+      gamescopeSession.enable = true;
+      protontricks.enable = true;
+    };
+    gamemode.enable = true;
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+      args = [
+        "--rt"
+        "--expose-wayland"
+      ];
+    };
   };
 
   # Other packages
@@ -49,13 +61,4 @@
   environment.variables = {
     GPERF32_PATH = "${pkgs.pkgsi686Linux.gperftools}";
   };
-
-  # gamescope = {
-  #   enable = true;
-  #   capSysNice = true;
-  #   args = [
-  #     "--rt"
-  #     "--expose-wayland"
-  #   ];
-  # };
 }
