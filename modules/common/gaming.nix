@@ -12,7 +12,9 @@
   inputs,
   pkgs,
   ...
-}: {
+}: let
+  newBottles = pkgs.bottles.override {removeWarningPopup = true;};
+in {
   # Enable polymc overlay
   nixpkgs.overlays = [inputs.polymc.overlay];
 
@@ -47,7 +49,7 @@
     protonup
     lutris
     heroic
-    bottles
+    newBottles
     libgpg-error
     libxml2
     freetype
