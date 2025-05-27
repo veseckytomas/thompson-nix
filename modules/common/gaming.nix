@@ -50,12 +50,12 @@
     GPERF32_PATH = "${pkgs.pkgsi686Linux.gperftools}";
   };
 
-  gamescope = {
-    enable = true;
-    capSysNice = true;
-    args = [
-      "--rt"
-      "--expose-wayland"
-    ];
-  };
+  # gamescope = {
+  #   enable = true;
+  #   capSysNice = true;
+  #   args = [
+  #     "--rt"
+  #     "--expose-wayland"
+  #   ];
+  # };
 }
