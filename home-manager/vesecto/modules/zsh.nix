@@ -142,9 +142,6 @@ in {
           kill -9 "$pid" > /dev/null 2>&1 && echo "Process $pname (PID $pid) has been successfully killed."
         fi
       }
-
-      # Clear aliases
-      unalias run-help which-command l
     '';
     shellAliases = {
       "pentaho" = "export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh";
