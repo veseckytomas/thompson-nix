@@ -25,6 +25,7 @@
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
+    ./ncspot.nix
     ./nixvim
     ./pandoc.nix
     ./picom.nix
