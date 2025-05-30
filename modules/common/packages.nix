@@ -94,7 +94,6 @@
 
     dust
     fselect
-    ncspot
     bacon
     mprocs
   ];
