@@ -21,6 +21,7 @@
     nixvim-stable.url = "github:nix-community/nixvim/nixos-25.05";
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     polymc.url = "github:PolyMC/PolyMC";
+    yazi.url = "github:sxyazi/yazi";
     asus-numberpad-driver = {
       url = "github:asus-linux-drivers/asus-numberpad-driver";
       inputs.nixpkgs.follows = "nixpkgs";

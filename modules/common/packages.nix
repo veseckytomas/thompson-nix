@@ -96,6 +96,7 @@
     fselect
     bacon
     mprocs
+    nix-index
   ];
 
   # Install nerdfonts
