@@ -8,16 +8,23 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   programs.yazi = {
     enable = true;
+    package = inputs.yazi.packages.${pkgs.system}.default;
     enableZshIntegration = true;
+    shellWrapperName = "y";
     settings = {
-      manager = {
-        ratio = [1 4 4];
+      mgr = {
+        ratio = [1 4 2];
         sort_by = "natural";
         sort_dir_first = true;
         sort_translit = true;
+        show_symlink = true;
         show_hidden = true;
       };
     };
@@ -26,4 +33,17 @@
     enable = true;
     flavor = "mocha";
   };
+  home.packages = with pkgs; [
+    ffmpeg-full
+    _7zz
+    jq
+    poppler
+    fd
+    ripgrep
+    fzf
+    zoxide
+    resvg
+    imagemagick
+    xclip
+  ];
 }
