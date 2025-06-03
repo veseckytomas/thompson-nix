@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{username, ...}: {
+{
+  username,
+  lib,
+  ...
+}: {
   boot.initrd.luks.devices."luks-75e7b65c-68bb-4801-b9ec-49403d21ede5".device = "/dev/disk/by-uuid/75e7b65c-68bb-4801-b9ec-49403d21ede5";
   networking.hostName = "TomasVesa-NTB-NixOS";
 
@@ -19,6 +23,7 @@
     wayland = false;
   };
   users.users.${username}.extraGroups = ["input"];
+  services.displayManager.sddm.autoNumlock = lib.mkForce false;
 
   # System version
   system.stateVersion = "24.11";

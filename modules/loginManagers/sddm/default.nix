@@ -10,17 +10,21 @@
 # GitLab: vesecky.tomas
 {
   pkgs,
-  inputs,
+  lib,
   ...
 }: {
+  imports = [
+    ./sugar-dark.nix
+    # ./catppuccin.nix
+  ];
   services = {
     xserver.enable = true;
     displayManager = {
       defaultSession = "qtile";
       sddm = {
         enable = true;
-        autoNumlock = true;
-        theme = "${import ./sddm-theme/sddm-theme.nix {inherit pkgs inputs;}}";
+        package = pkgs.kdePackages.sddm;
+        autoNumlock = lib.mkDefault true;
       };
     };
   };

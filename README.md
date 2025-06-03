@@ -14,8 +14,8 @@ This repository contains these configurations:
 - Servers
 - Install ISO
 - Disk rescue ISO
-- Home-manager config
-- Server Home-manager config
+- Home-manager config as Standalone
+- Server Home-manager config as NixOS module
 
 ## Initial setup
 
@@ -45,3 +45,13 @@ WakaTimeApiKey
 
 - High resolution scaling
 - Touchscreen
+
+## Acknowledgments
+
+I would like to thank to all that projects that I used in my configuration.
+
+| Repository                                                | License     | Functionality                           |
+| --------------------------------------------------------- | ----------- | --------------------------------------- |
+| [ZaneyOS](https://gitlab.com/Zaney/zaneyos)               | MIT License | Hyprland config and other small changes |
+| [DT dotfiles](https://gitlab.com/dwt1/dotfiles)           | No License  | Qtile config                            |
+| [Loqusion dotfiles](https://github.com/loqusion/dotfiles) | No License  | Rofi theme                              |
