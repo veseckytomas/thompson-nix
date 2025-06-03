@@ -74,7 +74,6 @@
     thunderbird
     telegram-desktop
     vlc
-    wireshark
     lazygit
     home-manager
     usbutils
@@ -137,6 +136,8 @@
       enableSSHSupport = true;
       pinentryPackage = inputs.nixpkgs.lib.mkForce pkgs.pinentry-qt;
     };
+
+    nano.enable = false;
   };
 
   services = {
