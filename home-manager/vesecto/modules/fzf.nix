@@ -23,7 +23,8 @@ in {
     ];
   };
   catppuccin.fzf = {
-    enable = false;
+    enable = true;
     flavor = "mocha";
+    accent = "mauve";
   };
 }

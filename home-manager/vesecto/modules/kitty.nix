@@ -15,7 +15,7 @@
       mode = "no-cursor";
       enableZshIntegration = true;
     };
-    themeFile = "Catppuccin-Mocha";
+    # themeFile = "Catppuccin-Mocha";
     font = {
       name = "Hack Nerd Font Mono";
       package = null;
@@ -28,5 +28,9 @@
       shell_integration = "no-cursor";
     };
     extraConfig = ''term xterm-256color'';
+  };
+  catppuccin.kitty = {
+    enable = true;
+    flavor = "mocha";
   };
 }

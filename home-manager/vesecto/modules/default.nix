@@ -25,13 +25,14 @@
     ./kitty.nix
     ./lazygit.nix
     ./librewolf.nix
-    ./ncspot.nix
+    # ./ncspot.nix
     ./nixvim
     ./pandoc.nix
     ./picom.nix
     ./pylint.nix
     ./qtile
     # ./ranger
+    ./spotify-player.nix
     ./starship
     ./statix
     ./stylua

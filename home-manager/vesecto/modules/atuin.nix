@@ -13,4 +13,9 @@
     enable = true;
     enableZshIntegration = true;
   };
+  catppuccin.atuin = {
+    enable = true;
+    accent = "mauve";
+    flavor = "mocha";
+  };
 }
