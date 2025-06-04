@@ -17,49 +17,35 @@
     enable = true;
     package = pkgs.vimPlugins.avante-nvim.overrideAttrs (old: {
       src = inputs.avante-nvim;
-      nvimSkipModules = [
-        "avante.providers.azure"
-        "avante.providers.copilot"
-        "avante.providers.ollama"
-        "avante.providers.vertex_claude"
-        "avante.providers.vertex"
-        "avante.providers.gemini"
-      ];
     });
     settings = {
-      claude = {
-        model = "claude-3-7-sonnet-latest";
-        api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
-        timeout = 60000;
-      };
-      openai = {
-        model = "gpt-4.1";
-        api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/openai_api_key.gpg";
-        timeout = 60000;
-      };
-      ollama = {
-        endpoint = "http://127.0.0.1:11434";
-        model = "Deepseek-r1";
-        timeout = 60000;
-      };
-      copilot = {
-        timeout = 60000;
-      };
-
-      # Hide providers
-      cohere.hide_in_model_selector = true;
-      bedrock.hide_in_model_selector = true;
-      vertex_claude.hide_in_model_selector = true;
-      vertex.hide_in_model_selector = true;
-      gemini.hide_in_model_selector = true;
-      claude-opus.hide_in_model_selector = true;
-      claude-haiku.hide_in_model_selector = true;
-      "bedrock-claude-3.7-sonnet".hide_in_model_selector = true;
-      aihubmix-claude.hide_in_model_selector = true;
-      aihubmix.hide_in_model_selector = true;
-      openai-gpt-4o-mini.hide_in_model_selector = true;
-
-      vendors = {
+      providers = {
+        claude = {
+          api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
+          extra_request_body = {
+            max_tokens = 64000;
+          };
+        };
+        openai = {
+          model = "o3-2025-04-16"; # "gpt-4.1"
+          api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/openai_api_key.gpg";
+          extra_request_body = {
+            max_tokens = 64000;
+          };
+        };
+        ollama = {
+          endpoint = "http://127.0.0.1:11434";
+          model = "Deepseek-r1";
+          extra_request_body = {
+            max_tokens = 64000;
+          };
+        };
+        copilot = {
+          extra_request_body = {
+            max_tokens = 64000;
+            reasoning_effort = "high";
+          };
+        };
         llama = {
           __inherited_from = "openai";
           api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/groq_api_key.gpg";
@@ -78,22 +64,19 @@
           endpoint = "https://api.perplexity.ai";
           model = "sonar-pro";
         };
-        copilot_claude = {
-          __inherited_from = "copilot";
-          model = "claude-3.7-sonnet";
-        };
-        copilot_claude_thinking = {
-          __inherited_from = "copilot";
-          model = "claude-3.7-sonnet-thought";
-          temperature = 1;
-          max_tokens = 20000;
-        };
+        # Hide providers
+        vertex_claude.hide_in_model_selector = true;
+        vertex.hide_in_model_selector = true;
+        azure.hide_in_model_selector = true;
+        openai-gpt-4o-mini.hide_in_model_selector = true;
+        claude-opus.hide_in_model_selector = true;
+        claude-haiku.hide_in_model_selector = true;
       };
-      auto_suggestions_frequency = "copilot";
       provider = "copilot";
+      auto_suggestions_provider = "copilot";
       cursor_applying_provider = "copilot";
       behaviour = {
-        auto_suggestions = false;
+        auto_suggestions = true;
         enable_cursor_planning_mode = true;
       };
       config = ''
