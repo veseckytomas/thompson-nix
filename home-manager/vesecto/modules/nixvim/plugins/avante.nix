@@ -76,7 +76,7 @@
       auto_suggestions_provider = "copilot";
       cursor_applying_provider = "copilot";
       behaviour = {
-        auto_suggestions = true;
+        auto_suggestions = false;
         enable_cursor_planning_mode = true;
       };
       config = ''
