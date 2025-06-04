@@ -21,11 +21,12 @@ echo "4. Update"
 echo "5. Garbage collect"
 echo "6. Setup"
 echo "7. Generate ISO"
-echo "8. Exit"
+echo "8. Garbage collect (full)"
+echo "9. Exit"
 
 read -r input
 
-if [ "$input" != "5" ] && [ "$input" != "8" ]; then
+if [ "$input" != "5" ] && [ "$input" != "8" ] && [ "$input" != "9" ]; then
     echo -e "${RED}Please touch the device. (Pull)${NC}"
     git pull
 fi
@@ -50,6 +51,9 @@ case $input in
         ./scripts/gen-iso.sh
         ;;
     "8")
+        yes | ./scripts/clean.sh
+        ;;
+    "9")
         echo "Exiting..."
         ;;
     *)

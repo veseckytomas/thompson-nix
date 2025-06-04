@@ -10,15 +10,49 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 
-nix run nixpkgs#python3Packages.pip cache purge
-find "$HOME" -name '.direnv' -exec rm -r {} \; 2> /dev/null
-rm -rf ~/.local/share/nvim/mason
-sudo nix-collect-garbage -d
-sudo /run/current-system/bin/switch-to-configuration boot
-nix-collect-garbage -d
-nix-store --optimize
-docker system prune -af --volumes
-trash-empty -f --all-users
+read -r -p "Clean boot partition? [y/N] " response
+response=${response,,}
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  sudo nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 14d
+fi
+
+read -r -p "Clean Pip cache? [y/N] " response
+response=${response,,}
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  nix run nixpkgs#python3Packages.pip cache purge
+fi
+
+read -r -p "Clean dev shells? [y/N] " response
+response=${response,,}
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  find "$HOME" -name '.direnv' -exec rm -r {} \; 2> /dev/null
+fi
 
 
-# sudo nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 14d
+read -r -p "Clean nix-store? [y/N] " response
+response=${response,,}
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  rm -rf ~/.local/share/nvim/mason
+  sudo nix-collect-garbage -d
+  sudo /run/current-system/bin/switch-to-configuration boot
+  nix-collect-garbage -d
+  nix-store --optimize
+fi
+
+read -r -p "Prune docker cache? [y/N] " response
+response=${response,,}
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  docker system prune -af --volumes
+fi
+
+read -r -p "Empty trash? [y/N] " response
+response=${response,,}
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+  trash-empty -f --all-users
+fi
