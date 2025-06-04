@@ -79,7 +79,7 @@
     usbutils
     udiskie
     udisks
-    plex-media-player
+    plex-desktop
     kodi
     stremio
     qalculate-gtk
