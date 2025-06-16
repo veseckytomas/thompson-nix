@@ -62,6 +62,7 @@
     bitwarden
     discord
     evince
+    kdePackages.okular
     git
     git-crypt
     pre-commit
