@@ -16,11 +16,11 @@ git add flake.lock
 git commit -m "Update flake.lock"
 ./scripts/rebuild.sh
 if [ $? -ne 0 ]; then
-    git reset --hard HEAD~1
+    git reset origin/master
     exit 1
 fi
 ./scripts/home.sh
 if [ $? -ne 0 ]; then
     exit 1
-    git reset --hard HEAD~1
+    git reset origin/master
 fi
