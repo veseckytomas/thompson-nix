@@ -9,10 +9,13 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
+RED="\033[1;91m"
+NC="\033[0;0m"
 
 nix flake update
 git restore --staged :/
 git add flake.lock
+echo -e "${RED}Please touch the device. (Sign commit)${NC}"
 git commit -m "Update flake.lock"
 ./scripts/rebuild.sh
 if [ $? -ne 0 ]; then
