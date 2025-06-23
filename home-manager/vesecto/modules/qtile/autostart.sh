@@ -21,3 +21,6 @@ rclone mount eOnedrive: ~/mnt/Onedrive --vfs-cache-mode full --daemon &
 xset s off
 xset s noblank
 xset -dpms
+
+### Mouse Settings ###
+xinput --set-prop "Logitech MX Vertical Advanced Ergonomic Mouse" "libinput Accel Speed" -0.7
