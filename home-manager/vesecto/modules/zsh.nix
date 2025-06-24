@@ -148,6 +148,7 @@ in {
       "latexmk" = "latexmk -lualatex";
       "lg" = "lazygit";
       "sp" = "spotify_player";
+      "rsync" = "rsync -r --info=progress2";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
