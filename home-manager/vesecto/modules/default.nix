@@ -18,6 +18,7 @@
     ./direnv.nix
     ./clangd
     ./editorconfig.nix
+    ./flameshot.nix
     ./fzf.nix
     ./git
     ./hyprland

@@ -131,7 +131,6 @@ keys = [
     Key([mod, "shift"], "s", lazy.spawn(screenshot), desc="Take a screenshot"),
     Key([mod, "shift"], "w", lazy.spawn(window), desc="Open window switcher"),
     Key([mod, "shift"], "v", lazy.spawn(sound), desc="Launch sound manager"),
-    Key([mod, "shift"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     # Change master/slave ration
     Key(
         [mod, "shift"],
