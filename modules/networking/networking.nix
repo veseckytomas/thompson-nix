@@ -10,7 +10,10 @@
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    plugins = [pkgs.networkmanager-openvpn];
+  };
   programs.nm-applet.enable = true;
 
   environment = {
