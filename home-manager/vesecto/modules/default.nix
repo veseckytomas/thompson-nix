@@ -22,6 +22,7 @@
     ./fzf.nix
     ./git
     ./hyprland
+    ./ideavim
     ./nomacs
     ./kitty.nix
     ./lazygit.nix
