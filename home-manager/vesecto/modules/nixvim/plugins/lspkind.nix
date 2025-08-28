@@ -11,15 +11,15 @@
 {...}: {
   programs.nixvim.plugins.lspkind = {
     enable = true;
-    mode = "symbol_text";
-    symbolMap = {
-      Copilot = " ";
-    };
-    cmp = {
-      enable = true;
-      ellipsisChar = "...";
-    };
-    extraOptions = {
+    settings = {
+      mode = "symbol_text";
+      symbolMap = {
+        Copilot = " ";
+      };
+      cmp = {
+        enable = true;
+        ellipsisChar = "...";
+      };
       maxwidth = 50;
       ellipsis_char = "...";
     };

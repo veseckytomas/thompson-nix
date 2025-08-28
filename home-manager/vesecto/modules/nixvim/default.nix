@@ -102,7 +102,7 @@
   ];
 
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     ./extraConfig.nix
     ./keymaps.nix
     ./performance.nix

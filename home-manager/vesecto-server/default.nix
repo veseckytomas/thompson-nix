@@ -13,6 +13,6 @@
     ./home.nix
     ./modules
     inputs.catppuccin.homeModules.catppuccin
-    inputs.nixvim-stable.homeManagerModules.nixvim
+    inputs.nixvim-stable.homeModules.nixvim
   ];
 }

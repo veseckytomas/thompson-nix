@@ -150,10 +150,10 @@
     udisks2.enable = true;
 
     # Enable ollama
-    ollama.enable = true;
-    open-webui = {
-      enable = true;
-      port = 8181;
-    };
+    # ollama.enable = true;
+    # open-webui = {
+    #   enable = true;
+    #   port = 8181;
+    # };
   };
 }
