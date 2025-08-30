@@ -82,7 +82,7 @@
     udisks
     # plex-desktop
     kodi
-    stremio
+    # stremio
     qalculate-gtk
     signal-desktop
     whatsapp-for-linux
