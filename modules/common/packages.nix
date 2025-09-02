@@ -91,6 +91,7 @@
     teams-for-linux
     xournalpp
     motrix
+    super-productivity
 
     dust
     fselect
