@@ -10,6 +10,7 @@
 # GitLab: vesecky.tomas
 {
   pkgs,
+  config,
   inputs,
   ...
 }: let
@@ -17,7 +18,7 @@
 in {
   programs.zsh = {
     enable = true;
-    dotDir = ".config/zsh";
+    dotDir = config.xdg.configHome + "/zsh";
     enableCompletion = true;
     defaultKeymap = "emacs";
     autosuggestion = {
