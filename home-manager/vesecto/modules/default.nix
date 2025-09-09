@@ -17,7 +17,6 @@
     ./bat.nix
     ./direnv.nix
     ./clangd
-    ./dropbox.nix
     ./editorconfig.nix
     ./flameshot.nix
     ./fzf.nix
