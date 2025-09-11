@@ -103,6 +103,7 @@
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIF72lKNXtnCRS7Pb9+oB8Urusf9QEJmw1XEOhLQjxbenAAAABHNzaDo= Primary Key"
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO+xfsaB1PekrdJ6Zmt8ByvScyFy51hF2ZKRU9Glh8phAAAABHNzaDo= Secondary Key"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG8bYPFdj4hAx3gqCyMf5JPZXmBa7i5i63Qju0/rthOa openpgp:0x5D1FEA31"
     ];
   };
 
@@ -123,27 +124,27 @@
   };
 
   # Set systemd timer
-  systemd = {
-    services.rebuild = {
-      script = ''
-        cd /thompson-nix
-        git pull
-      '';
-      # script = ''
-      #   cd /thompson-nix
-      #   ${pkgs-stable.git}/bin/git pull
-      #   ${pkgs-stable.nixos-rebuild}/bin/nixos-rebuild switch --flake .# --no-write-lock-file --cores 1 -j 1
-      #   if [ "$(uname -m)" = "aarch64" ]
-      #   then
-      #     ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server-arm --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
-      #   else
-      #     ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
-      #   fi
-      # '';
-      startAt = "daily";
-      serviceConfig.Type = "oneshot";
-    };
-  };
+  # systemd = {
+  #   services.rebuild = {
+  #     script = ''
+  #       cd /thompson-nix
+  #       git pull
+  #     '';
+  #     script = ''
+  #       cd /thompson-nix
+  #       ${pkgs-stable.git}/bin/git pull
+  #       ${pkgs-stable.nixos-rebuild}/bin/nixos-rebuild switch --flake .# --no-write-lock-file --cores 1 -j 1
+  #       if [ "$(uname -m)" = "aarch64" ]
+  #       then
+  #         ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server-arm --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
+  #       else
+  #         ${pkgs-stable.su}/bin/su vesecto -c "cd /home/vesecto/thompson-nix && ${pkgs-stable.git}/bin/git pull && ${pkgs-stable.home-manager}/bin/home-manager switch --flake .#vesecto-server --no-write-lock-file -j 1 --cores 1 && ${pkgs-stable.home-manager}/bin/home-manager expire-generations -14days"
+  #       fi
+  #     '';
+  #     startAt = "daily";
+  #     serviceConfig.Type = "oneshot";
+  #   };
+  # };
 
   # Firewall open ports
   networking.firewall.allowedTCPPorts = [22];
