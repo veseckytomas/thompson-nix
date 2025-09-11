@@ -16,6 +16,7 @@ amixer set Master off
 xbindkeys &
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
 rclone mount eOnedrive: ~/mnt/Onedrive --vfs-cache-mode full --daemon &
+rclone mount eGDriveFIT: ~/mnt/GDriveFIT --vfs-cache-mode full --daemon &
 maestral start &
 
 ### Display Settings ###
