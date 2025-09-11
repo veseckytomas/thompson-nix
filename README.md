@@ -27,7 +27,9 @@ This repository contains these configurations:
 
 1. Add ssh, gpg keys, certificates.
 2. Set thunderbird email accounts and add certificates.
-3. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+3. Add rclone remote configs
+4. Authenticate with maestral and set SuperProductivity sync to maestral localfile
+5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
 ## Neovim initial setup
 
@@ -45,6 +47,7 @@ WakaTimeApiKey
 
 - High resolution scaling
 - Touchscreen
+- Speaker
 
 ## Acknowledgments
 
