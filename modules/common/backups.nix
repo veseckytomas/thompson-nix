@@ -17,7 +17,6 @@
         "/home/vesecto/Documents"
         "/home/vesecto/Downloads"
         "/home/vesecto/Git"
-        "/home/vesecto/mnt"
         "/home/vesecto/pentaho"
         "/home/vesecto/.setup.sh"
       ];
@@ -30,7 +29,7 @@
       inhibitsSleep = true;
       persistentTimer = true;
 
-      repo = "<rsync.net user>@<rsync.net server ip>:<path to repo name>";
+      repo = "/mnt/hdd/borg";
       encryption = {
         mode = "repokey-blake2";
         passCommand = "cat /var/trust/borg/passphrase";
@@ -44,9 +43,9 @@
           yearly = 10;
         };
       };
-      # extraArgs = [
-      #   "--remote-path=borg14"
-      # ];
+      extraArgs = [
+        "--remote-path=borg14"
+      ];
     };
   };
 
