@@ -35,7 +35,6 @@
 
     # Programming
     jetbrains.datagrip
-    pgadmin
 
     # DWH
     keepass
