@@ -15,7 +15,9 @@
 }: {
   programs.yazi = {
     enable = true;
-    package = inputs.yazi.packages.${pkgs.system}.default;
+    package = inputs.yazi.packages.${pkgs.system}.default.override {
+      _7zz = pkgs._7zz-rar;
+    };
     enableZshIntegration = true;
     shellWrapperName = "y";
     settings = {
