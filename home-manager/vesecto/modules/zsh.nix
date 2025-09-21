@@ -167,8 +167,6 @@ in {
       traceroute
       unzip
       zip
-      gotop
-      htop
       tokei
     ];
   };

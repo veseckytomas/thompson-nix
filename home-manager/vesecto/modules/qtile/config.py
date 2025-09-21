@@ -361,7 +361,7 @@ def init_widgets_list():
         widget.Spacer(length=8),
         widget.Memory(
             foreground=colors[9],
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e btop")},
             format="{MemUsed: .0f}{mm}",
             fmt=" Mem:{} used",
             decorations=[
