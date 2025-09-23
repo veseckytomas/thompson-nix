@@ -10,7 +10,7 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
-    # ./backups.nix
+    ./backups.nix
     ./common.nix
     # ./gaming.nix
     ./kanata.nix
