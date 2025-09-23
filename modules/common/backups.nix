@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{hostname, ...}: {
   # Enable automatic backups to rsync.net
   services.borgbackup.jobs = {
     rsync = {
@@ -29,7 +29,7 @@
       inhibitsSleep = true;
       persistentTimer = true;
 
-      repo = "/mnt/hdd/borg";
+      repo = "zh5849@zh5849.rsync.net:${hostname}";
       encryption = {
         mode = "repokey-blake2";
         passCommand = "cat /var/trust/borg/passphrase";

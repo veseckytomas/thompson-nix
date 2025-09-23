@@ -10,7 +10,6 @@
 # GitLab: vesecky.tomas
 {...}: {
   boot.initrd.luks.devices."luks-539c0859-dfb0-4823-8333-066792c99c43".device = "/dev/disk/by-uuid/539c0859-dfb0-4823-8333-066792c99c43";
-  networking.hostName = "TomasVesa-PC-NixOS";
   # services.borgbackup.jobs.rsync.paths = [
   #   "/mnt/hdd/bak"
   #   "/mnt/hdd/torrent"

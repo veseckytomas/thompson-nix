@@ -133,7 +133,10 @@
   in {
     nixosConfigurations = {
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
+        specialArgs = {
+          hostname = "TomasVesa-PC-NixOS";
+          inherit inputs username system;
+        };
         modules = [
           ./hosts/desktop/TomasVesa-PC-NixOS
           ./modules
@@ -141,7 +144,10 @@
       };
 
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
+        specialArgs = {
+          hostname = "TomasVesa-NTB-NixOS";
+          inherit inputs username system;
+        };
         modules = [
           inputs.asus-numberpad-driver.nixosModules.default
           ./hosts/desktop/TomasVesa-NTB-NixOS
@@ -152,7 +158,10 @@
       };
 
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs username system;};
+        specialArgs = {
+          inherit inputs username system;
+          hostname = "TomasVesa-Portable-NixOS";
+        };
         modules = [
           ./hosts/desktop/TomasVesa-Portable-NixOS
           ./modules/common/notebook.nix

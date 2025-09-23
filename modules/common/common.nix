@@ -9,12 +9,16 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
+  hostname,
   pkgs,
   lib,
   ...
 }: {
   # Enable nix flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  # Set hostname
+  networking.hostName = "${hostname}";
 
   # Set kernel
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;

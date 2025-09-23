@@ -9,8 +9,6 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  networking.hostName = "TomasVesa-Portable-NixOS";
-
   # System version
   system.stateVersion = "24.05";
 }
