@@ -22,29 +22,16 @@
       providers = {
         claude = {
           api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/anthropic_api_key.gpg";
-          extra_request_body = {
-            max_tokens = 64000;
-          };
         };
         openai = {
-          model = "o3-2025-04-16"; # "gpt-4.1"
+          model = "o3-2025-04-16";
           api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/openai_api_key.gpg";
-          extra_request_body = {
-            max_tokens = 64000;
-          };
         };
         ollama = {
           endpoint = "http://127.0.0.1:11434";
           model = "Deepseek-r1";
-          extra_request_body = {
-            max_tokens = 64000;
-          };
         };
         copilot = {
-          extra_request_body = {
-            max_tokens = 64000;
-            reasoning_effort = "high";
-          };
         };
         llama = {
           __inherited_from = "openai";
