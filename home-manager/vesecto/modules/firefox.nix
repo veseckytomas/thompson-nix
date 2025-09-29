@@ -9,6 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
+  programs.firefox.enable = true;
   catppuccin.firefox = {
     enable = true;
     flavor = "mocha";

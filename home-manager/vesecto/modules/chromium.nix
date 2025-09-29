@@ -9,6 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
+  programs.chromium.enable = true;
   catppuccin.chromium = {
     enable = true;
     flavor = "mocha";
