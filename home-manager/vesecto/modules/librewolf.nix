@@ -29,4 +29,9 @@
       "general.autoScroll" = true;
     };
   };
+  catppuccin.librewolf = {
+    enable = true;
+    flavor = "mocha";
+    accent = "mauve";
+  };
 }

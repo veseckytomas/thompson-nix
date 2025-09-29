@@ -16,9 +16,11 @@
     # ./autorandr.nix
     ./bat.nix
     ./btop.nix
+    ./chromium.nix
     ./direnv.nix
     ./clangd
     ./editorconfig.nix
+    ./firefox.nix
     ./flameshot.nix
     ./fzf.nix
     ./git
