@@ -138,7 +138,6 @@ in {
     '';
     shellAliases = {
       "pentaho" = "export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh";
-      "root@ebie" = "ssh -A -L 5431:dv1:5432 -L 2221:dv1:22 -L 2222:dv2:22 -L 2223:dv3:22 -L 2224:dv4:22  -L 8088:dv2:8080 -L 8008:dv2:8008 -L 5430:dv5:5433 root@ebie.is.cvut.cz";
       "cp" = "cp -r";
       "ls" = "eza --icons -F -H --group-directories-first --git";
       "la" = "ls -a -1";

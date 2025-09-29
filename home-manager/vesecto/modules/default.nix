@@ -36,6 +36,7 @@
     ./qtile
     # ./ranger
     ./spotify-player.nix
+    ./ssh.nix
     ./starship
     ./statix
     ./stylua
