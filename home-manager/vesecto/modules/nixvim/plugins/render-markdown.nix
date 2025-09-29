@@ -21,7 +21,7 @@
         settings = {
           cmd = "RenderMarkdown";
           keys = ["<leader>mr"];
-          ft = ["Avante"];
+          ft = ["Avante" "markdown"];
         };
       };
     };
