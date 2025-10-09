@@ -87,7 +87,6 @@
     udiskie
     udisks
     # plex-desktop
-    kodi
     stremio
     qalculate-gtk
     signal-desktop
