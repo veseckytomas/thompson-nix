@@ -12,7 +12,10 @@
   # Enable networking
   networking.networkmanager = {
     enable = true;
-    plugins = [pkgs.networkmanager-openvpn];
+    plugins = [
+      pkgs.networkmanager-openvpn
+      pkgs.networkmanager-openconnect
+    ];
   };
   programs.nm-applet.enable = true;
 
