@@ -109,15 +109,6 @@ in {
       	git push
       	popd > /dev/null
       }
-      function save_xournal {
-      	pushd ~/Git/Personal/thompson-notes > /dev/null
-        git pull
-      	git add --all
-      	current=$(date -Iseconds)
-      	git commit -m "Update: $current"
-      	git push
-      	popd > /dev/null
-      }
       function nixos-run {
       	pushd ~/Git/Personal/thompson-nix > /dev/null
       	./scripts/main.sh
@@ -147,7 +138,6 @@ in {
       "fzf" = "fzf --preview \"bat --color=always --style=header,grid --line-range :500 {}\"";
       "latexmk" = "latexmk -lualatex";
       "lg" = "lazygit";
-      "sp" = "spotify_player";
       "rsync" = "rsync -r --info=progress2";
     };
   };
