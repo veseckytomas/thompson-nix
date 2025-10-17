@@ -130,12 +130,16 @@
       inherit system;
       config = {allowUnfree = true;};
     };
+    pkgs-stable = import inputs.nixpkgs-stable {
+      inherit system;
+      config = {allowUnfree = true;};
+    };
   in {
     nixosConfigurations = {
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
           hostname = "TomasVesa-PC-NixOS";
-          inherit inputs username system;
+          inherit inputs username system pkgs-stable;
         };
         modules = [
           ./hosts/desktop/TomasVesa-PC-NixOS
@@ -146,7 +150,7 @@
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
           hostname = "TomasVesa-NTB-NixOS";
-          inherit inputs username system;
+          inherit inputs username system pkgs-stable;
         };
         modules = [
           inputs.asus-numberpad-driver.nixosModules.default
@@ -159,7 +163,7 @@
 
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs username system;
+          inherit inputs username system pkgs-stable;
           hostname = "TomasVesa-Portable-NixOS";
         };
         modules = [
