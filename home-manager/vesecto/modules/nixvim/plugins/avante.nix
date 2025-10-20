@@ -31,8 +31,6 @@
           endpoint = "http://127.0.0.1:11434";
           model = "Deepseek-r1";
         };
-        copilot = {
-        };
         llama = {
           __inherited_from = "openai";
           api_key_name = "cmd:gpg --decrypt -q /home/vesecto/.config/api_keys/groq_api_key.gpg";
