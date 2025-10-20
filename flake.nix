@@ -43,6 +43,8 @@
       owner = "MarianArlt";
       repo = "sddm-sugar-dark";
       flake = false;
+      # owner = "TiagoDamascena";
+      # repo = "sddm-sugar-catppuccin";
     };
     kulala-nvim = {
       type = "github";
@@ -114,6 +116,12 @@
     #   type = "github";
     #   owner = "yetone";
     #   repo = "avante.nvim";
+    #   flake = false;
+    # };
+    # copilot-lua = {
+    #   type = "github";
+    #   owner = "zbirenbaum";
+    #   repo = "copilot.lua";
     #   flake = false;
     # };
     dracula-qt5 = {
