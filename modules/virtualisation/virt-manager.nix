@@ -8,21 +8,21 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs-stable, ...}: {
+{pkgs, ...}: {
   # Virt-manager
   virtualisation = {
     spiceUSBRedirection.enable = true;
     libvirtd = {
       enable = true;
-      package = pkgs-stable.libvirt;
-      qemu.package = pkgs-stable.qemu_full;
+      # package = pkgs-stable.libvirt;
+      # qemu.package = pkgs-stable.qemu_full;
     };
   };
   programs.virt-manager = {
     enable = true;
-    package = pkgs-stable.virt-manager;
+    #   package = pkgs-stable.virt-manager;
   };
-  environment.systemPackages = with pkgs-stable; [
+  environment.systemPackages = with pkgs; [
     virtiofsd
     qemu_full
   ];

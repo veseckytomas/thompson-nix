@@ -17,10 +17,10 @@
 }: {
   # Allow unfree packages
   nixpkgs.config = {
-    permittedInsecurePackages = [
-      # needed until new stremio frontend is stable
-      "qtwebengine-5.15.19"
-    ];
+    # permittedInsecurePackages = [
+    #   # needed until new stremio frontend is stable
+    #   "qtwebengine-5.15.19"
+    # ];
     allowUnfree = true;
   };
 
@@ -87,7 +87,7 @@
     udiskie
     udisks
     # plex-desktop
-    stremio
+    # stremio
     qalculate-gtk
     signal-desktop
     whatsapp-for-linux

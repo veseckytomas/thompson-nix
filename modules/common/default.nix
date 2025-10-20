@@ -12,6 +12,7 @@
   imports = [
     ./backups.nix
     ./common.nix
+    ./flatpaks.nix
     # ./gaming.nix
     ./kanata.nix
     ./locale.nix
