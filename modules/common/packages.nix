@@ -97,6 +97,7 @@
     xournalpp
     motrix
     super-productivity
+    gemini-cli
 
     dust
     fselect
