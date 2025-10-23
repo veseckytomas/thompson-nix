@@ -22,7 +22,7 @@ if test $? != 0; then
     git restore --staged :/ >/dev/null
     exit 1
 fi
-gen=$(nixos-rebuild list-generations | grep current | cut -d' ' -f1)
+gen=$(nixos-rebuild list-generations | grep True | cut -d' ' -f1)
 echo -e "${RED}Please touch the device. (Sign commit)${NC}"
 git commit -m "$(hostname): Gen $gen"
 exit 0
