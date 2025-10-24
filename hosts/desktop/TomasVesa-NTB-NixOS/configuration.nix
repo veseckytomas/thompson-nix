@@ -10,6 +10,7 @@
 # GitLab: vesecky.tomas
 {
   username,
+  pkgs,
   lib,
   ...
 }: {
@@ -21,6 +22,7 @@
     layout = "up5401ea";
     wayland = false;
   };
+  # boot.kernelPackages = pkgs.linuxPackages_6_16;
   users.users.${username}.extraGroups = ["input"];
   services.displayManager.sddm.autoNumlock = lib.mkForce false;
 

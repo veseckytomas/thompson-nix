@@ -98,6 +98,7 @@
     motrix
     super-productivity
     gemini-cli
+    croc
 
     dust
     fselect
