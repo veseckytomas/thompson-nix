@@ -1032,16 +1032,16 @@
     "sddm-theme": {
       "flake": false,
       "locked": {
-        "lastModified": 1661321743,
-        "narHash": "sha256-flOspjpYezPvGZ6b4R/Mr18N7N3JdytCSwwu6mf4owQ=",
-        "owner": "MarianArlt",
-        "repo": "sddm-sugar-dark",
-        "rev": "ceb2c455663429be03ba62d9f898c571650ef7fe",
+        "lastModified": 1758163151,
+        "narHash": "sha256-zM4OLOl10X5h9Ycd3e2dlw8Q5bvsU5HAv/VbjwP1d2Y=",
+        "owner": "TiagoDamascena",
+        "repo": "sddm-sugar-catppuccin",
+        "rev": "59086d1b050b43a1cc0eee189268c6caaad8ac66",
         "type": "github"
       },
       "original": {
-        "owner": "MarianArlt",
-        "repo": "sddm-sugar-dark",
+        "owner": "TiagoDamascena",
+        "repo": "sddm-sugar-catppuccin",
         "type": "github"
       }
     },

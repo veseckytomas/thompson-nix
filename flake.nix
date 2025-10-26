@@ -40,11 +40,11 @@
     };
     sddm-theme = {
       type = "github";
-      owner = "MarianArlt";
-      repo = "sddm-sugar-dark";
+      # owner = "MarianArlt";
+      # repo = "sddm-sugar-dark";
+      owner = "TiagoDamascena";
+      repo = "sddm-sugar-catppuccin";
       flake = false;
-      # owner = "TiagoDamascena";
-      # repo = "sddm-sugar-catppuccin";
     };
     kulala-nvim = {
       type = "github";

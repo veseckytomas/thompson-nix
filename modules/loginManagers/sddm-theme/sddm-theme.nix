@@ -28,7 +28,7 @@ in
     installPhase = ''
       mkdir -p $out
       cp -R ./* $out/
-      rm Background.jpg
+      rm background.jpg
       cp -r ${img} $out/Background.jpg
       rm theme.conf
       cp -r ${config} $out/theme.conf
