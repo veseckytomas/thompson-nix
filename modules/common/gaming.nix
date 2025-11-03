@@ -58,6 +58,7 @@ in {
     SDL2
     sqlite
     xml2
+    jre8
   ];
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
   environment.variables = {
