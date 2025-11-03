@@ -105,7 +105,7 @@
     inputs.nixvim.homeModules.nixvim
     ./extraConfig.nix
     ./keymaps.nix
-    ./performance.nix
+    # ./performance.nix
     ./plugins
   ];
 }

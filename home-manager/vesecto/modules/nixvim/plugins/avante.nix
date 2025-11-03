@@ -15,9 +15,9 @@
 }: {
   programs.nixvim.plugins.avante = {
     enable = true;
-    # package = pkgs.vimPlugins.avante-nvim.overrideAttrs (old: {
-    #   src = inputs.avante-nvim;
-    # });
+    package = pkgs.vimPlugins.avante-nvim.overrideAttrs (old: {
+      src = inputs.avante-nvim;
+    });
     settings = {
       providers = {
         claude = {

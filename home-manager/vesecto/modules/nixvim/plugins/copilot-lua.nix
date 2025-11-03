@@ -8,16 +8,9 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{...}: {
   programs.nixvim.plugins.copilot-lua = {
     enable = true;
-    # package = pkgs.vimPlugins.copilot-lua.overrideAttrs (old: {
-    #   src = inputs.copilot-lua;
-    # });
     settings = {
       filetypes = {
         text = false;
