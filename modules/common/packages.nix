@@ -65,7 +65,7 @@
 
     # Other
     nomacs
-    bitwarden
+    bitwarden-desktop
     discord
     evince
     kdePackages.okular
@@ -90,7 +90,7 @@
     # stremio
     qalculate-gtk
     signal-desktop
-    whatsapp-for-linux
+    wasistlos
     alsa-utils
     pavucontrol
     teams-for-linux
@@ -142,7 +142,7 @@
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      pinentryPackage = inputs.nixpkgs.lib.mkForce pkgs.pinentry-qt;
+      pinentryPackage = inputs.nixpkgs.lib.mkForce pkgs.pinentry-gtk2;
     };
 
     nano.enable = false;

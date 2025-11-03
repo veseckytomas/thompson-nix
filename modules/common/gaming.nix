@@ -46,7 +46,7 @@ in {
   environment.systemPackages = with pkgs; [
     polymc
     mangohud
-    protonup
+    protonup-ng
     lutris
     heroic
     newBottles
