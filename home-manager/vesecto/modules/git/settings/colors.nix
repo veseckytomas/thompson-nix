@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.git.extraConfig = {
+  programs.git.settings = {
     "color \"decorate\"" = {
       HEAD = "red";
       branch = "blue";

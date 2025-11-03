@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.git.aliases = {
+  programs.git.settings.alias = {
     a = "add";
     ap = "add --patch";
     st = "status --short";

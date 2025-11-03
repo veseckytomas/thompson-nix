@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
-  programs.git.extraConfig = {
+  programs.git.settings = {
     core = {
       editor = "nvim";
       whitespace = "error";

@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.git.extraConfig = {
+  programs.git.settings = {
     "url \"git@github.com:\"" = {
       insteadOf = "gh:";
     };

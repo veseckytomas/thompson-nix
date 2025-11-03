@@ -11,8 +11,10 @@
 {...}: {
   programs.git = {
     enable = true;
-    userEmail = "vesecky@proton.me";
-    userName = "Tomáš Vesecký";
+    settings.user = {
+      email = "vesecky@proton.me";
+      name = "Tomáš Vesecký";
+    };
     signing = {
       signByDefault = true;
       key = "86020E9B84233A43E5249EC4E397E45D1BC4E984";

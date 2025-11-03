@@ -57,6 +57,15 @@
         claude-opus.hide_in_model_selector = true;
         claude-haiku.hide_in_model_selector = true;
       };
+      acp_providers = {
+        "gemini-cli" = {
+          command = "gemini";
+          args = ["--experimental-acp"];
+          env = {
+            NODE_NO_WARNINGS = "1";
+          };
+        };
+      };
       provider = "copilot";
       auto_suggestions_provider = "copilot";
       cursor_applying_provider = "copilot";

@@ -554,6 +554,7 @@ floating_layout = layout.Floating(
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="notification"),  # notifications
         Match(wm_class="pinentry-gtk-2"),  # GPG key password entry
+        Match(wm_class="pinentry"),
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(wm_class="toolbar"),  # toolbars
         Match(title="branchdialog"),  # gitk

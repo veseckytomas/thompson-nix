@@ -12,11 +12,11 @@
   programs.nixvim = {
     plugins.neo-tree = {
       enable = true;
-      enableGitStatus = true;
-      enableModifiedMarkers = true;
-      enableRefreshOnWrite = true;
-      closeIfLastWindow = true;
-      extraOptions = {
+      settings = {
+        enable_git_status = true;
+        enable_modified_markers = true;
+        enable_refresh_on_write = true;
+        close_if_last_window = true;
         filesystem = {
           filtered_items = {
             visible = false;
