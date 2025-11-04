@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{inputs, ...}: {
   imports = [
     ./audio
     ./bootLoaders
@@ -17,5 +17,6 @@
     ./networking
     ./virtualisation
     ./windowManagers
+    inputs.catppuccin.nixosModules.catppuccin
   ];
 }
