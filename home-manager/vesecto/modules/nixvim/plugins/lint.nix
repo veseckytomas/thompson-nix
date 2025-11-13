@@ -20,8 +20,6 @@
         # JavaScript
         javascript = ["eslint"];
         javascriptreact = ["eslint"];
-        # JSON
-        json = ["jsonlint"];
         # LaTeX
         tex = ["chktex"];
         # Markdown
@@ -61,7 +59,6 @@
   home.packages = with pkgs; [
     htmlhint
     eslint
-    nodePackages.jsonlint
     markdownlint-cli
     statix
     pylint
