@@ -575,13 +575,13 @@ auto_minimize = True
 wl_input_rules = None
 
 # Run startup scripts on every reload
-subprocess.call([home + "/.config/qtile/setup.sh"])
+subprocess.call([home + "/.config/qtile/setup.sh &"])
 
 
 @hook.subscribe.startup_once
 def start_once():
     home = os.path.expanduser("~")
-    subprocess.call([home + "/.config/qtile/autostart.sh"])
+    subprocess.call([home + "/.config/qtile/autostart.sh &"])
 
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
