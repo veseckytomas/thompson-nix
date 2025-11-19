@@ -23,7 +23,7 @@
     initrd = {
       availableKernelModules = ["xhci_pci" "ahci" "usbhid" "uas" "sd_mod"];
       kernelModules = [];
-      luks.devices."luks-0e27fe0a-b2e3-4df6-822b-af72783d54d2".device = "/dev/disk/by-uuid/0e27fe0a-b2e3-4df6-822b-af72783d54d2";
+      luks.devices."luks-26d5311f-4199-49cb-b93c-048d5b9305b7".device = "/dev/disk/by-uuid/26d5311f-4199-49cb-b93c-048d5b9305b7";
     };
     kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
     supportedFilesystems = ["ntfs"];
@@ -33,11 +33,11 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/f491badc-a573-4746-a242-3c38599dc978";
+      device = "/dev/disk/by-uuid/23f7ff37-986a-4da5-b305-e5c9a54488ec";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/29DE-7728";
+      device = "/dev/disk/by-uuid/433D-441E";
       fsType = "vfat";
       options = ["fmask=0022" "dmask=0022"];
     };
@@ -50,15 +50,15 @@
       fsType = "ntfs-3g";
       options = ["defaults" "uid=1000" "fmask=0022" "dmask=0022"];
     };
-    "/mnt/ssd_win" = {
-      device = "/dev/disk/by-uuid/B490644890641362";
-      fsType = "ntfs-3g";
-      options = ["defaults" "uid=1000" "fmask=0022" "dmask=0022"];
-    };
+    # "/mnt/ssd_win" = {
+    #   device = "/dev/disk/by-uuid/66743EE1743EB421";
+    #   fsType = "ntfs-3g";
+    #   options = ["defaults" "uid=1000" "fmask=0022" "dmask=0022"];
+    # };
   };
 
   swapDevices = [
-    {device = "/dev/disk/by-uuid/ff4ce559-ffcb-4af6-8e13-f2d428af6a61";}
+    {device = "/dev/disk/by-uuid/ce46aa64-ec69-44d2-9a50-66631a957d3d";}
   ];
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
