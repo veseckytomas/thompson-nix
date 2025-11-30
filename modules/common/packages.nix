@@ -99,6 +99,7 @@
     super-productivity
     gemini-cli
     croc
+    localsend
 
     dust
     fselect
