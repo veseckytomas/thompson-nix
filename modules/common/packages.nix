@@ -45,7 +45,7 @@
     # DWH
     keepass
     jdk
-    swt
+    # swt
     steam-run
 
     # Web browsers
