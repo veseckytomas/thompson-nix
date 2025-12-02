@@ -17,7 +17,7 @@
     ./kanata.nix
     ./locale.nix
     # ./notebook.nix
-    ./packages.nix
+    ./packages
     ./security.nix
     ./users.nix
   ];

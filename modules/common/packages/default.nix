@@ -13,8 +13,13 @@
   inputs,
   username,
   system,
+  lib,
   ...
-}: {
+}: let
+  new_swt = pkgs.swt.overrideAttrs (old: {
+    NIX_CFLAGS_COMPILE = toString (old.env.NIX_CFLAGS_COMPILE or "") + " -Wno-error";
+  });
+in {
   # Allow unfree packages
   nixpkgs.config = {
     # permittedInsecurePackages = [
@@ -27,7 +32,7 @@
   # List of packages
   environment.systemPackages = with pkgs; [
     # Shell
-    (callPackage ./packages/2048.nix {inherit inputs;})
+    (callPackage ./2048.nix {inherit inputs;})
     curl
     gzip
     gnutar
@@ -46,6 +51,7 @@
     keepass
     jdk
     # swt
+    new_swt
     steam-run
 
     # Web browsers
