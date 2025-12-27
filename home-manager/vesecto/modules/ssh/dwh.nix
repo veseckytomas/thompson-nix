@@ -78,6 +78,13 @@
           };
           bind.port = 5434;
         }
+        {
+          host = {
+            address = "dv5";
+            port = 5435;
+          };
+          bind.port = 5435;
+        }
       ];
     };
   };
