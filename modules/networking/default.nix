@@ -8,8 +8,40 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
-  imports = [
-    ./networking.nix
-  ];
+{pkgs, ...}: {
+  # Enable networking
+  networking.networkmanager = {
+    enable = true;
+    plugins = [
+      pkgs.networkmanager-openvpn
+      pkgs.networkmanager-openconnect
+    ];
+  };
+  programs.nm-applet.enable = true;
+
+  networking.firewall = {
+    allowedTCPPorts = [53317];
+    allowedUDPPorts = [53317];
+  };
+  environment = {
+    # Packages
+    systemPackages = with pkgs; [
+      networkmanagerapplet
+    ];
+    # VPN config
+    etc = {
+      "NetworkManager/system-connections/cvut-vpn.nmconnection" = {
+        source = ./cvut-vpn.nmconnection;
+        mode = "0600";
+      };
+      "NetworkManager/system-connections/vic-vpn.nmconnection" = {
+        source = ./vic-vpn.nmconnection;
+        mode = "0600";
+      };
+      # "NetworkManager/system-connections/fit-vpn.nmconnection" = {
+      #   source = ./fit-vpn.nmconnection;
+      #   mode = "0600";
+      # };
+    };
+  };
 }

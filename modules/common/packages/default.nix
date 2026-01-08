@@ -106,6 +106,7 @@ in {
     gemini-cli
     croc
     localsend
+    anki
 
     dust
     fselect
