@@ -13,7 +13,7 @@
     enable = true;
     folding.enable = true;
     indent.enable = true;
-    # highlight.enable = true;
+    highlight.enable = true;
     nixGrammars = true;
     nixvimInjections = true;
     grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -46,11 +46,8 @@
       xml
       yaml
       nginx
-      nix
+      # nix
     ];
-    settings = {
-      #   highlight.enable = true;
-      incremental_selection.enable = true;
-    };
+    settings.incremental_selection.enable = true;
   };
 }
