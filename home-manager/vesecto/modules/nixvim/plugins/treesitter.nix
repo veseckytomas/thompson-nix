@@ -11,8 +11,7 @@
 {pkgs, ...}: {
   programs.nixvim.plugins.treesitter = {
     enable = true;
-    folding = true;
-    # folding.enable = true;
+    folding.enable = true;
     # indent.enable = true;
     # highlight.enable = true;
     nixGrammars = true;
