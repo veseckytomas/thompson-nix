@@ -12,7 +12,7 @@
   programs.nixvim.plugins.treesitter = {
     enable = true;
     folding.enable = true;
-    # indent.enable = true;
+    indent.enable = true;
     # highlight.enable = true;
     nixGrammars = true;
     nixvimInjections = true;
@@ -48,11 +48,9 @@
       nginx
       nix
     ];
-    settings.incremental_selection.enable = true;
-    # settings = {
-    #   highlight.enable = true;
-    #   indent.enable = true;
-    #   incremental_selection.enable = true;
-    # };
+    settings = {
+      #   highlight.enable = true;
+      incremental_selection.enable = true;
+    };
   };
 }
