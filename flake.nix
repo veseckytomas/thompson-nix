@@ -14,11 +14,11 @@
   inputs = {
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-25.05-small";
+    nixpkgs-stable.url = "nixpkgs/nixos-25.11";
     home-manager.url = "github:nix-community/home-manager";
     nixvim.url = "github:nix-community/nixvim";
-    home-manager-stable.url = "github:nix-community/home-manager/release-25.05";
-    nixvim-stable.url = "github:nix-community/nixvim/nixos-25.05";
+    home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
+    nixvim-stable.url = "github:nix-community/nixvim/nixos-25.11";
     nix-flatpak.url = "github:gmodena/nix-flatpak/";
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     polymc.url = "github:PolyMC/PolyMC";
@@ -122,6 +122,18 @@
       type = "github";
       owner = "dracula";
       repo = "qt5";
+      flake = false;
+    };
+    ratbagd = {
+      type = "github";
+      owner = "libratbag";
+      repo = "libratbag";
+      flake = false;
+    };
+    piper = {
+      type = "github";
+      owner = "libratbag";
+      repo = "piper";
       flake = false;
     };
   };

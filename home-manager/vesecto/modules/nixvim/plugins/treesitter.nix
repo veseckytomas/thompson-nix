@@ -12,6 +12,9 @@
   programs.nixvim.plugins.treesitter = {
     enable = true;
     folding = true;
+    #    folding.enable = true;
+    #    indent.enable = true;
+    #    highlight.enable = true;
     nixGrammars = true;
     nixvimInjections = true;
     grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -24,7 +27,6 @@
       c
       java
       json5
-      jsonc
       latex
       lua
       make
@@ -47,10 +49,6 @@
       nginx
       nix
     ];
-    settings = {
-      highlight.enable = true;
-      indent.enable = true;
-      incremental_selection.enable = true;
-    };
+    settings.incremental_selection.enable = true;
   };
 }

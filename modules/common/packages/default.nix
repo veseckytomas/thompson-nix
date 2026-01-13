@@ -1,8 +1,6 @@
 #   ________
 #  /_  __/ /_  ____  ____ ___  ____  _________  ____
 #   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
-#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
-# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
 #                          /_/
 # Tomáš Vesecký
 # Email: vesecky@proton.me
@@ -10,13 +8,13 @@
 # GitLab: vesecky.tomas
 {
   pkgs,
+  pkgs-stable,
   inputs,
   username,
   system,
-  lib,
   ...
 }: let
-  new_swt = pkgs.swt.overrideAttrs (old: {
+  new_swt = pkgs-stable.swt.overrideAttrs (old: {
     NIX_CFLAGS_COMPILE = toString (old.env.NIX_CFLAGS_COMPILE or "") + " -Wno-error";
   });
 in {
@@ -106,7 +104,7 @@ in {
     gemini-cli
     croc
     localsend
-    anki
+    anki-bin
 
     dust
     fselect
@@ -135,7 +133,7 @@ in {
     # Enable thunar
     thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [
+      plugins = with pkgs; [
         thunar-volman
       ];
     };

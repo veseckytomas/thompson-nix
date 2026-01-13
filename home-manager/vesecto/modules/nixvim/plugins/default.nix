@@ -36,6 +36,7 @@
     ./friendly-snippets.nix
     # ./gitmessenger.nix
     ./gitsigns.nix
+    ./grug-far.nix
     ./indent-blankline.nix
     ./java.nix
     # ./kulala.nix
