@@ -19,18 +19,20 @@
     "/mnt/hdd/torrent"
     "/mnt/hdd_win/Data"
   ];
-  # services.ratbagd = {
-  #   enable = true;
-  #   package = pkgs.libratbag.overrideAttrs (old: {
-  #     src = inputs.ratbagd;
-  #   });
-  # };
-  # environment.systemPackages = with pkgs; [
-  #   piper.overrideAttrs
-  #   (old: {
-  #     src = inputs.piper;
-  #   })
-  # ];
+
+  # Gaming mouse configuration
+  services.ratbagd = {
+    enable = true;
+    package = pkgs.libratbag.overrideAttrs (old: {
+      src = inputs.ratbagd;
+    });
+  };
+  environment.systemPackages = with pkgs; [
+    (piper.overrideAttrs
+      (old: {
+        src = inputs.piper;
+      }))
+  ];
 
   # System version
   system.stateVersion = "24.05";
