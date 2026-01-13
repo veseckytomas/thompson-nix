@@ -101,8 +101,6 @@
     extraGroups = ["networkmanager" "wheel"];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIF72lKNXtnCRS7Pb9+oB8Urusf9QEJmw1XEOhLQjxbenAAAABHNzaDo= Primary Key"
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO+xfsaB1PekrdJ6Zmt8ByvScyFy51hF2ZKRU9Glh8phAAAABHNzaDo= Secondary Key"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG8bYPFdj4hAx3gqCyMf5JPZXmBa7i5i63Qju0/rthOa openpgp:0x5D1FEA31"
     ];
   };
