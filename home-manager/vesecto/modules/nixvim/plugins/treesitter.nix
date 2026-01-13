@@ -12,9 +12,9 @@
   programs.nixvim.plugins.treesitter = {
     enable = true;
     folding = true;
-    #    folding.enable = true;
-    #    indent.enable = true;
-    #    highlight.enable = true;
+    # folding.enable = true;
+    # indent.enable = true;
+    # highlight.enable = true;
     nixGrammars = true;
     nixvimInjections = true;
     grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -50,5 +50,10 @@
       nix
     ];
     settings.incremental_selection.enable = true;
+    # settings = {
+    #   highlight.enable = true;
+    #   indent.enable = true;
+    #   incremental_selection.enable = true;
+    # };
   };
 }
