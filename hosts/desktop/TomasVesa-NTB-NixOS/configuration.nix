@@ -20,6 +20,7 @@
     enable = true;
     layout = "up5401ea";
     wayland = false;
+    runtimeDir = "/run/user/1000";
   };
   users.users.${username}.extraGroups = ["input"];
   services.displayManager.sddm.autoNumlock = lib.mkForce false;
