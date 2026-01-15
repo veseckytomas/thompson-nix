@@ -26,7 +26,6 @@ in {
     };
     packages = with pkgs; [
       rclone
-      maestral
     ];
   };
 }
