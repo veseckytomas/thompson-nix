@@ -56,11 +56,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768216245,
-        "narHash": "sha256-8gF7h+FdPAuoUKmNXwVH7Lx4wionBr6pNuDFVF2+T0U=",
+        "lastModified": 1768568274,
+        "narHash": "sha256-xdGMdFIE2dB2QJWZO8JmWHBrxDjda3o3btIsyYHSPpA=",
         "owner": "asus-linux-drivers",
         "repo": "asus-numberpad-driver",
-        "rev": "c7625c31bcee9f76293c670d2ae8eaacd622eb5e",
+        "rev": "d10152608386543cfa6f9f305788942b262c1f10",
         "type": "github"
       },
       "original": {
@@ -256,11 +256,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1768434960,
-        "narHash": "sha256-cJbFn17oyg6qAraLr+NVeNJrXsrzJdrudkzI4H2iTcg=",
+        "lastModified": 1768530555,
+        "narHash": "sha256-EBXKDho4t1YSgodAL6C8M3UTm8MGMZNQ9rQnceR5+6c=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b4d88c9ac42ae1a745283f6547701da43b6e9f9b",
+        "rev": "d21bee5abf9fb4a42b2fa7728bf671f8bb246ba6",
         "type": "github"
       },
       "original": {
@@ -363,11 +363,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1768319076,
-        "narHash": "sha256-05KcSl14rRyzB6n7fLsZwdiknCh982H24xIo9vE458M=",
+        "lastModified": 1768551081,
+        "narHash": "sha256-1vJtgCsQL2wlM4cGTg52RRWuliD5B50gQOKoLH9jSVs=",
         "ref": "refs/heads/main",
-        "rev": "e0cf88809de12c39ad8a1ad1c0194967b0029ec8",
-        "revCount": 6809,
+        "rev": "0b13d398fe597c9b30beb8207828586718b8a9b0",
+        "revCount": 6811,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -886,11 +886,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1767448089,
-        "narHash": "sha256-U1fHsZBnFrUil731NHD9Sg5HoiG+eSHau8OFuClhwW0=",
+        "lastModified": 1768486829,
+        "narHash": "sha256-G621Q9cB1roQxK0C6guNjmWX0CmPA5xN46VD2kTdDEk=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "983751b66f255bbea1adc185364e9e7b73f82358",
+        "rev": "503259b749971f431cb4aca7099cd60eadd7a613",
         "type": "github"
       },
       "original": {
@@ -1273,11 +1273,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1768459112,
-        "narHash": "sha256-xagfknxbzMShZhji1b8jsIWFdMUf28cm7RzcdcwArSQ=",
+        "lastModified": 1768543407,
+        "narHash": "sha256-CVnfUviC0/3xKlj1z97RVRXjHy6AWJnaPwkFp7cepuM=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "0fc343b95a94c2cdec6e8c311187c9e250e2f3ca",
+        "rev": "8a909697f892187fc5a90d2cd63befb8b9d04c57",
         "type": "github"
       },
       "original": {
