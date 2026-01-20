@@ -57,9 +57,7 @@
     # };
   };
 
-  swapDevices = [
-    {device = "/dev/disk/by-uuid/ce46aa64-ec69-44d2-9a50-66631a957d3d";}
-  ];
+  swapDevices = [{device = "/dev/disk/by-uuid/ce46aa64-ec69-44d2-9a50-66631a957d3d";}];
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
@@ -68,6 +66,10 @@
       open = false;
       # modesetting.enable = true;
     };
+  };
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
   };
   # services.xserver = {
   #   enable = true;
