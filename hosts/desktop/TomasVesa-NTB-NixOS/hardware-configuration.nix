@@ -27,6 +27,7 @@
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
     kernelParams = ["i915.force_probe=7d55"];
+    resumeDevice = "/dev/dm-0";
   };
 
   fileSystems = {
