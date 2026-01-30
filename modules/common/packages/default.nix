@@ -56,7 +56,6 @@ in {
     librewolf
     chromium
     firefox
-    inputs.zen-browser.packages.${system}.specific
 
     # Text editors
     vscodium

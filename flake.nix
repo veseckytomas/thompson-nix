@@ -20,7 +20,6 @@
     home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-25.11";
     nix-flatpak.url = "github:gmodena/nix-flatpak/";
-    zen-browser.url = "github:MarceColl/zen-browser-flake";
     polymc.url = "github:PolyMC/PolyMC";
     yazi.url = "github:sxyazi/yazi";
     asus-numberpad-driver = {
