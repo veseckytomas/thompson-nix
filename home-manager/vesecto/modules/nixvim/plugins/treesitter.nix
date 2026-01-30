@@ -14,40 +14,40 @@
     folding.enable = true;
     indent.enable = true;
     highlight.enable = true;
-    # nixGrammars = true;
+    nixGrammars = true;
     nixvimInjections = true;
-    # grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-    #   html
-    #   bash
-    #   ini
-    #   javascript
-    #   json
-    #   cpp
-    #   c
-    #   java
-    #   json5
-    #   latex
-    #   lua
-    #   make
-    #   markdown
-    #   markdown-inline
-    #   python
-    #   regex
-    #   rust
-    #   scss
-    #   sql
-    #   tmux
-    #   toml
-    #   tsx
-    #   tsv
-    #   typescript
-    #   vim
-    #   vimdoc
-    #   xml
-    #   yaml
-    #   nginx
-    #   # nix
-    # ];
+    grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+      html
+      bash
+      ini
+      javascript
+      json
+      cpp
+      c
+      java
+      json5
+      latex
+      lua
+      make
+      markdown
+      markdown-inline
+      python
+      regex
+      rust
+      scss
+      sql
+      tmux
+      toml
+      tsx
+      tsv
+      typescript
+      vim
+      vimdoc
+      xml
+      yaml
+      nginx
+      # nix
+    ];
     settings.incremental_selection.enable = true;
     autoLoad = true;
   };
