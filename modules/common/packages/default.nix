@@ -99,7 +99,7 @@ in {
     teams-for-linux
     xournalpp
     motrix
-    super-productivity
+    # super-productivity
     gemini-cli
     croc
     localsend
