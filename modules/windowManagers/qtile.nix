@@ -28,6 +28,7 @@
     picom
     networkmanagerapplet
     flameshot
+    autorandr
   ];
   imports = [
     ../common/i3lock.nix
