@@ -10,6 +10,14 @@
 # GitLab: vesecky.tomas
 {...}: {
   programs.ssh.matchBlocks = {
+    dv7 = {
+      user = "vesecto1";
+      hostname = "dv7.ds.prod.is.vic";
+    };
+    dv9 = {
+      user = "vesecto1";
+      hostname = "dv9.ds.test.is.vic";
+    };
     ebie = {
       user = "root";
       hostname = "ebie.is.cvut.cz";
