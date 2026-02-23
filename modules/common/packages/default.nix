@@ -101,6 +101,7 @@ in {
     motrix
     # super-productivity
     gemini-cli
+    github-copilot-cli
     croc
     localsend
     anki-bin
