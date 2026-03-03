@@ -46,20 +46,6 @@
         }
         {
           host = {
-            address = "dv3";
-            port = 22;
-          };
-          bind.port = 2223;
-        }
-        {
-          host = {
-            address = "dv4";
-            port = 22;
-          };
-          bind.port = 2224;
-        }
-        {
-          host = {
             address = "dv2";
             port = 8080;
           };
@@ -71,27 +57,6 @@
             port = 8008;
           };
           bind.port = 8008;
-        }
-        {
-          host = {
-            address = "dv5";
-            port = 5433;
-          };
-          bind.port = 5430;
-        }
-        {
-          host = {
-            address = "dv5";
-            port = 5434;
-          };
-          bind.port = 5434;
-        }
-        {
-          host = {
-            address = "dv5";
-            port = 5435;
-          };
-          bind.port = 5435;
         }
       ];
     };
