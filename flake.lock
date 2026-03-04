@@ -56,11 +56,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1772445269,
-        "narHash": "sha256-oRFdaCPjU28ycZjD6i0flQj0wd1fAapV+BkJt5LO/lk=",
+        "lastModified": 1772624156,
+        "narHash": "sha256-aiFQ54qx+1iVf3ynk2kC74gy9uU2vMQG1RmiCrll2/8=",
         "owner": "asus-linux-drivers",
         "repo": "asus-numberpad-driver",
-        "rev": "ea5d1a76ed9ea487a0830de14daea137ca9be698",
+        "rev": "e9ab55c5d4d90fc7bb5b90efcf39c7b854e53b0b",
         "type": "github"
       },
       "original": {
@@ -72,11 +72,11 @@
     "avante-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1771853351,
-        "narHash": "sha256-vgMDC005PrSJBMpoqqxSmth6tCG4YZfTAQz2475Po6E=",
+        "lastModified": 1772620369,
+        "narHash": "sha256-5Od/GWzqKpxqprAtmCGSRpJ0E9v6lbVUFK1TzN7G8wo=",
         "owner": "yetone",
         "repo": "avante.nvim",
-        "rev": "2475e71982cadc8d38ba20b9b6112873f33caf31",
+        "rev": "865cee5f80db8b7959592f23f174acac36f8be8d",
         "type": "github"
       },
       "original": {
@@ -256,11 +256,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1772516620,
-        "narHash": "sha256-2r4cKdqCVlQkvcTcLUMxmsmAYZZxCMd//w/PnDnukTE=",
+        "lastModified": 1772569491,
+        "narHash": "sha256-bdr6ueeXO1Xg91sFkuvaysYF0mVdwHBpdyhTjBEWv+s=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2b9504d5a0169d4940a312abe2df2c5658db8de9",
+        "rev": "924e61f5c2aeab38504028078d7091077744ab17",
         "type": "github"
       },
       "original": {
@@ -363,11 +363,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1772543027,
-        "narHash": "sha256-EAhpSHxxxJiN/Cv7iZMobJxgvUR6BDKZ7wTPLNVYO5Y=",
+        "lastModified": 1772624024,
+        "narHash": "sha256-cBw/085SlodbarAcUtjXR1pf7z+qqHUo0nasl8lnQRc=",
         "ref": "refs/heads/main",
-        "rev": "7299a3b0d5332da030e980e60b0ee35b93387cff",
-        "revCount": 6976,
+        "rev": "8271cfc97b76d573f9122032d6cf5db256d63470",
+        "revCount": 6980,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -717,11 +717,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1770841267,
-        "narHash": "sha256-9xejG0KoqsoKEGp2kVbXRlEYtFFcDTHjidiuX8hGO44=",
+        "lastModified": 1772198003,
+        "narHash": "sha256-I45esRSssFtJ8p/gLHUZ1OUaaTaVLluNkABkk6arQwE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ec7c70d12ce2fc37cb92aff673dcdca89d187bae",
+        "rev": "dd9b079222d43e1943b6ebd802f04fd959dc8e61",
         "type": "github"
       },
       "original": {
@@ -765,11 +765,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1772433332,
-        "narHash": "sha256-izhTDFKsg6KeVBxJS9EblGeQ8y+O8eCa6RcW874vxEc=",
+        "lastModified": 1772542754,
+        "narHash": "sha256-WGV2hy+VIeQsYXpsLjdr4GvHv5eECMISX1zKLTedhdg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cf59864ef8aa2e178cccedbe2c178185b0365705",
+        "rev": "8c809a146a140c5c8806f13399592dbcb1bb5dc4",
         "type": "github"
       },
       "original": {
@@ -1256,11 +1256,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1772540335,
-        "narHash": "sha256-NCG394pzUEr7H4r2NTSwzpCsVu/GnDgX2aMmHRizdts=",
+        "lastModified": 1772609773,
+        "narHash": "sha256-+icOj/0PXwaRliwNdd7PD4F992FZ5ohJqhM6JwF9h0w=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "b92b576ce17c6e475e2c231c2ae9cbaf70de41bd",
+        "rev": "9648d8a43b340e972122a88e525f15d1d0f89a01",
         "type": "github"
       },
       "original": {
@@ -1272,11 +1272,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1772476351,
-        "narHash": "sha256-HlHLJcxXz3rxSyVuwOpT9nXXh5CidRDH8EtWRsxowTQ=",
+        "lastModified": 1772581637,
+        "narHash": "sha256-2CuMrdXesx0NCzYOazLJ13jsyBbxRmXXLprDE3zp8pI=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "f74a574041b13e2451074e52b20e691ae449bd29",
+        "rev": "0685cb414d2d163ef84106b37029d24aa154694c",
         "type": "github"
       },
       "original": {
