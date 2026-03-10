@@ -69,6 +69,9 @@
 
       # C++
       clangd.enable = true;
+
+      # Typst
+      tinymist.enable = true;
     };
   };
 }

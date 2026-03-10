@@ -55,6 +55,8 @@
           cpp = ["clang-format"];
           # Java
           java = ["google-java-format"];
+          # Typst
+          typ = ["prettytypst"];
         };
       };
     };
