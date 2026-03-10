@@ -38,6 +38,7 @@ in {
     gcc
     wget
     texlive.combined.scheme-full
+    typst
 
     # Terminal emulator
     kitty
