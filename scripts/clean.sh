@@ -28,7 +28,8 @@ read -r -p "Clean dev shells? [y/N] " response
 response=${response,,}
 if [[ "$response" =~ ^(yes|y)$ ]]
 then
-  find "$HOME" -name '.direnv' -exec rm -r {} \; 2> /dev/null
+  # find "$HOME" -name '.direnv' -exec rm -r {} \; 2> /dev/null
+  fd -HI ^\.direnv$ "$HOME" -E .git -E Trash -X rm -r
 fi
 
 
