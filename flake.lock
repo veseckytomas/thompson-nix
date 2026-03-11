@@ -256,11 +256,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1773093840,
-        "narHash": "sha256-u/96NoAyN8BSRuM3ZimGf7vyYgXa3pLx4MYWjokuoH4=",
+        "lastModified": 1773179137,
+        "narHash": "sha256-EdW2bwzlfme0vbMOcStnNmKlOAA05Bp6su2O8VLGT0k=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "bb014746edb2a98d975abde4dd40fa240de4cf86",
+        "rev": "3f98e2bbc661ec0aaf558d8a283d6955f05f1d09",
         "type": "github"
       },
       "original": {
@@ -363,11 +363,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1773137387,
-        "narHash": "sha256-P+9VCKO6a8aabiUyM0VCmaNt9yN2S5X1Dcoc6ibYueE=",
+        "lastModified": 1773171407,
+        "narHash": "sha256-vSR6bnvbtmy/2jOnY0H3V84tHnCnAkMInutDfekssR8=",
         "ref": "refs/heads/main",
-        "rev": "bc5bd8970ed2cf00fcb117ce6b126aa2740eec8b",
-        "revCount": 7016,
+        "rev": "0e083e886f02034c56b851649a6c27f55fe85e32",
+        "revCount": 7018,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -702,11 +702,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1772822230,
-        "narHash": "sha256-yf3iYLGbGVlIthlQIk5/4/EQDZNNEmuqKZkQssMljuw=",
+        "lastModified": 1773068389,
+        "narHash": "sha256-vMrm7Pk2hjBRPnCSjhq1pH0bg350Z+pXhqZ9ICiqqCs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "71caefce12ba78d84fe618cf61644dce01cf3a96",
+        "rev": "44bae273f9f82d480273bab26f5c50de3724f52f",
         "type": "github"
       },
       "original": {
@@ -1256,11 +1256,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1773118567,
-        "narHash": "sha256-fPMoWlLZIagImpv45pIs/KJ/jGfaH9Srm74iSSCadYI=",
+        "lastModified": 1773207251,
+        "narHash": "sha256-HxkX00IX1wUt7QHcpbml5FbtI/A4eSTgmCDjw1JdGf0=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "dee27a237788d99c0c2dc6d76c95dd3e10b3fba6",
+        "rev": "e4829372db533c6201ace0d627663adc12dd2868",
         "type": "github"
       },
       "original": {
@@ -1272,11 +1272,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1773097821,
-        "narHash": "sha256-ivFZOgXZ3UtIuZ108eiI7HNZsPhRzgXoIZe1xR5sQuA=",
+        "lastModified": 1773208577,
+        "narHash": "sha256-ZrUON+FsX5jGo7/vTkViauwotwmIWQ/BM4rO7Ou+Q6A=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "84f1867a21ef229b9eaa671be3775fae3b69ac4b",
+        "rev": "721b3059efc526c8f4ea7f1e7f69fcca6788a7f3",
         "type": "github"
       },
       "original": {
