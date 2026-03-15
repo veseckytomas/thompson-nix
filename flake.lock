@@ -56,11 +56,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773236313,
-        "narHash": "sha256-dB6xESgxtcaRlyPHz+rCY0bo63noYpsh/FjPESTuhbc=",
+        "lastModified": 1773490832,
+        "narHash": "sha256-R0KpCJe4wX7165jPb9XE489pThWfcvPqa9v9dnKQJp8=",
         "owner": "asus-linux-drivers",
         "repo": "asus-numberpad-driver",
-        "rev": "dd35093e3ed66dcf40e17bdef230e9013c3633f5",
+        "rev": "0e2a491c88167d02d5d91b20ecd850012793a998",
         "type": "github"
       },
       "original": {
@@ -256,11 +256,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1773367248,
-        "narHash": "sha256-FFMc1uAwy2GYasd0rdNDVxKyAgzuoJH2M+GglBQbqf0=",
+        "lastModified": 1773422513,
+        "narHash": "sha256-MPjR48roW7CUMU6lu0+qQGqj92Kuh3paIulMWFZy+NQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "be0c641a6a5564caa33982faa1fe2c60d92131c7",
+        "rev": "ef12a9a2b0f77c8fa3dda1e7e494fca668909056",
         "type": "github"
       },
       "original": {
@@ -363,11 +363,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1773409987,
-        "narHash": "sha256-wpkfqjNbts3WYDB8YBHdgxfx0uZ4zutjfiRWeXSjMYk=",
+        "lastModified": 1773439168,
+        "narHash": "sha256-wtsyBo4Kaw8EPFNKfo0xtMK62qk7UtodMuByd/S1myg=",
         "ref": "refs/heads/main",
-        "rev": "8aff5003514c2422e3f55168e676e858d1e8688f",
-        "revCount": 7022,
+        "rev": "9bf8fe7a5278b5f366384d73d87844a165c16b7a",
+        "revCount": 7027,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -702,11 +702,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1773222311,
-        "narHash": "sha256-BHoB/XpbqoZkVYZCfXJXfkR+GXFqwb/4zbWnOr2cRcU=",
+        "lastModified": 1773375660,
+        "narHash": "sha256-SEzUWw2Rf5Ki3bcM26nSKgbeoqi2uYy8IHVBqOKjX3w=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0590cd39f728e129122770c029970378a79d076a",
+        "rev": "3e20095fe3c6cbb1ddcef89b26969a69a1570776",
         "type": "github"
       },
       "original": {
@@ -765,11 +765,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1773282481,
-        "narHash": "sha256-b/GV2ysM8mKHhinse2wz+uP37epUrSE+sAKXy/xvBY4=",
+        "lastModified": 1773389992,
+        "narHash": "sha256-wvfdLLWJ2I9oEpDd9PfMA8osfIZicoQ5MT1jIwNs9Tk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "fe416aaedd397cacb33a610b33d60ff2b431b127",
+        "rev": "c06b4ae3d6599a672a6210b7021d699c351eebda",
         "type": "github"
       },
       "original": {
@@ -1256,11 +1256,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1773404924,
-        "narHash": "sha256-HczaRbfStxmt83umm0Eiie8ECdUELPAcoH/q/DdYpss=",
+        "lastModified": 1773559138,
+        "narHash": "sha256-ZOEABQupsxZoMureDvrS5zg59DENjrEM1oRcfA4ctk0=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "fa1ee46edce52e0d3bc0c4179b9d65ca46b1efbd",
+        "rev": "d22c96b69ced5571bd73c38585d4c48401ee3abd",
         "type": "github"
       },
       "original": {
@@ -1272,11 +1272,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1773352508,
-        "narHash": "sha256-xrK7r+SjZpyqR0vdfp3BpNElfIchfyXq14HBgfysBhg=",
+        "lastModified": 1773440071,
+        "narHash": "sha256-qDLmQIZaaTrZflV09opnMQx3EOtOiQysgJ+uhCYIDic=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "a83e89b724056736f5cbaaca398ee2e7ed2594b0",
+        "rev": "b17dce916dc730b6a9c20eee2546fb25a92198dc",
         "type": "github"
       },
       "original": {
@@ -1336,11 +1336,11 @@
     "zsh-fzf-tab": {
       "flake": false,
       "locked": {
-        "lastModified": 1772096724,
-        "narHash": "sha256-JrFUT0bxCWWKO3FWTpnFRK3DwNMZUstRdRaerKV2xZE=",
+        "lastModified": 1773502355,
+        "narHash": "sha256-QSIRUV3sV+ick7Y4dc/aIl0JD9Wgo3gYU5KIDZg6UWU=",
         "owner": "Aloxaf",
         "repo": "fzf-tab",
-        "rev": "0fbd5753f935dcb6899e5fb2a0fb9a3fd69f1ce0",
+        "rev": "9fa836466a01420a7f8a8bb56177455f9bdb105f",
         "type": "github"
       },
       "original": {
