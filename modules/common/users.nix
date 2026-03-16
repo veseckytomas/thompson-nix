@@ -17,7 +17,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "Tomas Vesecky";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "input"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "input" "libvirtd"];
     shell = pkgs.zsh;
   };
 }
