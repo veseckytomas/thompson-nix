@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   gtk = {
     enable = true;
     iconTheme = {
@@ -19,5 +23,6 @@
       package = pkgs.dracula-theme;
       name = "Dracula";
     };
+    gtk4.theme = config.gtk.theme;
   };
 }

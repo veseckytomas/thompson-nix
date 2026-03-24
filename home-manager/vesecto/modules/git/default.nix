@@ -11,6 +11,7 @@
 {...}: {
   programs.git = {
     enable = true;
+    signing.format = "openpgp";
     settings.user = {
       email = "vesecky@proton.me";
       name = "Tomáš Vesecký";
