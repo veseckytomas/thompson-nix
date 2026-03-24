@@ -111,12 +111,12 @@
       repo = "tmux-yank";
       flake = false;
     };
-    avante-nvim = {
-      type = "github";
-      owner = "yetone";
-      repo = "avante.nvim";
-      flake = false;
-    };
+    # avante-nvim = {
+    #   type = "github";
+    #   owner = "yetone";
+    #   repo = "avante.nvim";
+    #   flake = false;
+    # };
     dracula-qt5 = {
       type = "github";
       owner = "dracula";
