@@ -79,7 +79,7 @@ in {
     qbittorrent
     ntfs3g
     obsidian
-    protonvpn-gui
+    proton-vpn
     spotify
     gimp
     thunderbird
