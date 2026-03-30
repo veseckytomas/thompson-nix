@@ -56,11 +56,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774603644,
-        "narHash": "sha256-AiGJRQ+fomH1QiTU0/5WCh6wo4ubqafTV772KqsoKxo=",
+        "lastModified": 1774644700,
+        "narHash": "sha256-X4GW447oqOIdgpgfYHx3oH+koB0+09FNKqyLkdUBEwA=",
         "owner": "asus-linux-drivers",
         "repo": "asus-numberpad-driver",
-        "rev": "b9ef3ef4a00ce47542ab37b428e54293e7d5fbdf",
+        "rev": "d0159d66906ce8262b80a12d591d20b5cfb028fe",
         "type": "github"
       },
       "original": {
@@ -74,11 +74,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1774098279,
-        "narHash": "sha256-OoQRoQmwCuBBXObi82F6C+eYV1lYCt5Va5k/VckJ6vo=",
+        "lastModified": 1774799062,
+        "narHash": "sha256-U9RGxFsLeKivD1+7sVXj5TltHGfB4m/dkn3dENT2fSM=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "cb374516af3ccc3aa0c6ef518292bf4ae417a60e",
+        "rev": "948a8ee84858d053b83f01c8c168f9f4347937e6",
         "type": "github"
       },
       "original": {
@@ -240,11 +240,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1774584114,
-        "narHash": "sha256-uWR9fC+4NykFJVn4GN4Ini9LX+w8Llj7BnWKKp0N6bw=",
+        "lastModified": 1774870460,
+        "narHash": "sha256-DHeILNrZRmOQ8dj0MGHpjnGN+RfEoo5pHDwF+xekIl0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "4b1be5c38be350ee9452a4847945ce71d950dc31",
+        "rev": "293490e1c1bf3bc46d7a1f2763052f0230d12e0c",
         "type": "github"
       },
       "original": {
@@ -347,11 +347,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1774561136,
-        "narHash": "sha256-RnDWXEOILXgv6y4RRbirA7vynpWM5o98eT2prURiEfc=",
+        "lastModified": 1774794744,
+        "narHash": "sha256-2ksH16d6xwJaTpibyoQmBBqsL9NkGHIKdlWEWOc90IY=",
         "ref": "refs/heads/main",
-        "rev": "2fde538e0fa5663ac99f631fcfee6742e09368f6",
-        "revCount": 7064,
+        "rev": "bb84f4e91a3ac77706c4ef85e06e3bfaff487fc8",
+        "revCount": 7083,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -749,11 +749,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1774386573,
-        "narHash": "sha256-4hAV26quOxdC6iyG7kYaZcM3VOskcPUrdCQd/nx8obc=",
+        "lastModified": 1774709303,
+        "narHash": "sha256-D3Q07BbIA2KnTcSXIqqu9P586uWxN74zNoCH3h2ESHg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "46db2e09e1d3f113a13c0d7b81e2f221c63b8ce9",
+        "rev": "8110df5ad7abf5d4c0f6fb0f8f978390e77f9685",
         "type": "github"
       },
       "original": {
@@ -833,11 +833,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1774309640,
-        "narHash": "sha256-8oWL7YLwElBY9ebYri1LlSlhf/gd1Qoqj0nbBwG2yso=",
+        "lastModified": 1774802402,
+        "narHash": "sha256-L1UJ/zxKTyyaGGmytH6OYlgQ0HGSMhvPkvU+iz4Mkb8=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "28c58bf023bf537354f78d6e496a349d7a0ed554",
+        "rev": "cbd8536a05d1aae2593cb5c9ace1010c8c5845cb",
         "type": "github"
       },
       "original": {
@@ -1255,11 +1255,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1774577987,
-        "narHash": "sha256-rqhrfXn8DyfmRUWJ69tXn9PXBqfAxnTklWlVW5/5wng=",
+        "lastModified": 1774638028,
+        "narHash": "sha256-yAw+ty6FUnFbiRTdAe2QQHzj6uU24fZ/bEIXcHl/thg=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "b649a7ab8de6488c1341e94c37d032c07d5b3f13",
+        "rev": "e0d97af547ccbe4bcfdae64b97746ac2eecdf6fb",
         "type": "github"
       },
       "original": {
@@ -1303,11 +1303,11 @@
     "zsh-completions": {
       "flake": false,
       "locked": {
-        "lastModified": 1774537259,
-        "narHash": "sha256-aKbZoPO+akSzNczOpCbcq5rfeoDF2EEKXNjXVmq4560=",
+        "lastModified": 1774663449,
+        "narHash": "sha256-AT+GjA3il2rrAk/ti+PzfujsxT6pXCFdJZyAePpmG5o=",
         "owner": "zsh-users",
         "repo": "zsh-completions",
-        "rev": "fd4a16961f710da0f7a24d03b579a5b993e1f2d2",
+        "rev": "f0b1a348a15d9ce710c9487725e103ab8239b828",
         "type": "github"
       },
       "original": {
