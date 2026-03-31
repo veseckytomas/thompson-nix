@@ -88,12 +88,12 @@ chassis = subprocess.run(["hostnamectl", "chassis"], capture_output=True, text=T
 @lazy.function
 def change_keyboard_layout(qtile):
     global keyboard_layout
-    if keyboard_layout == "us":
-        keyboard_layout = "cz"
-        qtile.cmd_spawn("setxkbmap -layout cz")
-    else:
+    if keyboard_layout == "cz":
         keyboard_layout = "us"
-        qtile.cmd_spawn("setxkbmap -layout us")
+        qtile.spawn("setxkbmap -layout us")
+    else:
+        keyboard_layout = "cz"
+        qtile.spawn("setxkbmap -layout cz")
 
 
 # A function for hide/show all the windows in a group
@@ -317,7 +317,7 @@ def init_widgets_list():
         widget.Image(
             filename=widget_image,
             scale="False",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal)},
+            mouse_callbacks={"Button1": lambda: qtile.spawn(terminal)},
         ),
         widget.Prompt(font="Hack Nerd Font Mono", fontsize=14, foreground=colors[1]),
         widget.GroupBox(
@@ -361,7 +361,7 @@ def init_widgets_list():
         widget.Spacer(length=8),
         widget.Memory(
             foreground=colors[9],
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e btop")},
+            mouse_callbacks={"Button1": lambda: qtile.spawn(terminal + " -e btop")},
             format="{MemUsed: .0f}{mm}",
             fmt=" Mem:{} used",
             decorations=[
@@ -375,9 +375,7 @@ def init_widgets_list():
         widget.DF(
             update_interval=60,
             foreground=colors[5],
-            mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn(terminal + " -e df -h")
-            },
+            mouse_callbacks={"Button1": lambda: qtile.spawn(terminal + " -e df -h")},
             partition="/root",
             format="{uf}{m} free",
             fmt="󱊞 Disk: {}",
