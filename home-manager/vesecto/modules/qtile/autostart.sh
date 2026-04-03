@@ -16,13 +16,8 @@ amixer set Master off
 xbindkeys &
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
 rclone mount eOnedrive: ~/mnt/Onedrive --vfs-cache-mode full --daemon
-rclone mount eGDriveFIT: ~/mnt/GDriveFIT --vfs-cache-mode full --daemon
-maestral start
 
 ### Display Settings ###
 xset s off
 xset s noblank
 xset -dpms
-
-### Mouse Settings ###
-xinput --set-prop "Logitech MX Vertical Advanced Ergonomic Mouse" "libinput Accel Speed" -0.7

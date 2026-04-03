@@ -80,7 +80,7 @@
   home.packages = with pkgs; [
     codespell
     prettierd
-    nodePackages.prettier
+    prettier
     rubyPackages.htmlbeautifier
     jq
     alejandra
