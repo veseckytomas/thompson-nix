@@ -102,6 +102,10 @@ in {
     motrix
     # super-productivity
     gemini-cli
+    codex
+    claude-code
+    cursor-cli
+    opencode
     github-copilot-cli
     croc
     localsend
