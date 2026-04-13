@@ -86,11 +86,17 @@ chassis = subprocess.run(["hostnamectl", "chassis"], capture_output=True, text=T
 # A function to change keyboard layout
 @lazy.function
 def change_keyboard_layout(qtile):
-    layout = subprocess.run("setxkbmap -query | awk '/^layout:/ {print $2}'")
-    if layout == "cz":
-        qtile.spawn("setxkbmap -layout us")
+    try:
+        klayout = subprocess.check_output(
+            "setxkbmap -query | awk '/^layout:/ {print $2}'", shell=True, text=True
+        ).strip()
+    except Exception:
+        klayout = "us"
+
+    if klayout == "cz":
+        qtile.spawn("setxkbmap us")
     else:
-        qtile.spawn("setxkbmap -layout cz")
+        qtile.spawn("setxkbmap cz")
 
 
 # A function for hide/show all the windows in a group
