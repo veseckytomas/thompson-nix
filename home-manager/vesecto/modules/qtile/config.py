@@ -62,7 +62,6 @@ music_player = "spotify"
 bluetooth = "blueman-manager"
 sound = "pavucontrol"
 calculator = "qalculate-gtk"
-keyboard_layout = "us"
 
 # Get the backlight name
 backlightdir = os.listdir("/sys/class/backlight")
@@ -87,12 +86,10 @@ chassis = subprocess.run(["hostnamectl", "chassis"], capture_output=True, text=T
 # A function to change keyboard layout
 @lazy.function
 def change_keyboard_layout(qtile):
-    global keyboard_layout
-    if keyboard_layout == "cz":
-        keyboard_layout = "us"
+    layout = subprocess.run("setxkbmap -query | awk '/^layout:/ {print $2}'")
+    if layout == "cz":
         qtile.spawn("setxkbmap -layout us")
     else:
-        keyboard_layout = "cz"
         qtile.spawn("setxkbmap -layout cz")
 
 
