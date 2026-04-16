@@ -139,6 +139,7 @@ in {
       "latexmk" = "latexmk -lualatex";
       "lg" = "lazygit";
       "rsync" = "rsync -r --info=progress2";
+      "asus-num" = "systemctl restart asus-numberpad-driver.service";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
