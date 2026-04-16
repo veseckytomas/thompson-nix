@@ -49,5 +49,14 @@
     };
   };
 
+  systemd.services.borgbackup-job-rsync = {
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "5m";
+    };
+  };
+
   environment.sessionVariables.BORG_REMOTE_PATH = "borg14";
 }
