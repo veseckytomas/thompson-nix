@@ -80,6 +80,7 @@ in {
     ntfs3g
     obsidian
     proton-vpn
+    proton-vpn-cli
     spotify
     gimp
     thunderbird
