@@ -212,6 +212,12 @@ keys = [
         lazy.spawn(calculator),
         desc="Launch calculator",
     ),
+    Key(
+        [mod, "shift"],
+        "n",
+        lazy.spawn("sudo systemctl restart asus-numberpad-driver"),
+        desc="Restart Asus Numberpad Driver",
+    ),
 ]
 
 

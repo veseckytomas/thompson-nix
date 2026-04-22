@@ -36,6 +36,7 @@
     ./picom.nix
     ./pylint.nix
     ./qtile
+    ./rclone.nix
     # ./ranger
     ./spotify-player.nix
     ./ssh.nix

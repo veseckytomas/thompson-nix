@@ -15,7 +15,6 @@ nm-applet &
 amixer set Master off
 xbindkeys &
 systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
-rclone mount eOnedrive: ~/mnt/Onedrive --vfs-cache-mode full --daemon
 
 ### Display Settings ###
 xset s off

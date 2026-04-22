@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: let
+{...}: let
   config_dir = ".config/qtile";
 in {
   imports = [
@@ -24,8 +24,5 @@ in {
       "${config_dir}/autostart.sh".source = ./autostart.sh;
       "${config_dir}/setup.sh".source = ./setup.sh;
     };
-    packages = with pkgs; [
-      rclone
-    ];
   };
 }
