@@ -13,7 +13,7 @@
     # ./alacritty.nix
     ./asus-numberpad.nix
     ./atuin.nix
-    # ./autorandr.nix
+    ./autorandr.nix
     ./bat.nix
     ./btop.nix
     ./chromium.nix
