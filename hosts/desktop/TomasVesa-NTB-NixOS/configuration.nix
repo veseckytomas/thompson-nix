@@ -50,43 +50,70 @@
     # Display and Input hotplug setup
     udev.extraRules = let
       displaySetup = pkgs.writeShellScript "display-setup.sh" ''
-        export DISPLAY=:0
-        export XAUTHORITY=/home/${username}/.Xauthority
+        (
+          # Provide standard paths for grep, cat, pgrep, etc.
+          export PATH=${pkgs.coreutils}/bin:${pkgs.gnugrep}/bin:${pkgs.gawk}/bin:${pkgs.procps}/bin:$PATH
+          export DISPLAY=:0
 
-        # Wait a bit for hardware/X to settle
-        sleep 2
+          # Dynamically determine XAUTHORITY from the running window manager (qtile)
+          WM_PID=$(pgrep -u ${username} -x qtile | head -n1)
+          if [ -n "$WM_PID" ]; then
+            export XAUTHORITY=$(cat /proc/$WM_PID/environ | tr '\0' '\n' | grep '^XAUTHORITY=' | cut -d= -f2)
+          fi
+          
+          # Fallback
+          if [ -z "$XAUTHORITY" ]; then
+            export XAUTHORITY=/home/${username}/.Xauthority
+          fi
 
-        monitor_cnt=$(${pkgs.xorg.xrandr}/bin/xrandr | grep ' connected' | wc -l)
-        wacom_device="Wacom Intuos BT M Pen Pen (0x47803692)"
-        wacom_pad="Wacom Intuos BT M Pad"
+          # Wait up to 10 seconds for X server to be accessible
+          for i in $(seq 1 10); do
+            if ${pkgs.xorg.xset}/bin/xset q &>/dev/null; then
+              break
+            fi
+            sleep 1
+          done
 
-        # Apply Button Mapping for Wacom Pad
-        ${pkgs.xorg.xinput}/bin/xinput set-button-map "$wacom_pad" 17 18 19 4 5 6 7 20
+          wacom_device="Wacom Intuos BT M Pen Pen (0x47803692)"
+          wacom_pad="Wacom Intuos BT M Pad"
 
-        # Apply Monitor Layout & Wacom Pen Mapping
-        if [ "$monitor_cnt" -eq "3" ]; then
-          ${pkgs.xorg.xrandr}/bin/xrandr --output DP-1-1 --mode 1920x1200 --primary --output DP-1-2 --mode 1920x1200 --right-of DP-1-1 --output eDP-1 --mode 1920x1200 --below DP-1-1
-          ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "DP-1-1"
-        elif [ "$monitor_cnt" -eq "2" ]; then
-          ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --mode 1920x1200 --primary --output DP-1 --right-of eDP-1
-          ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "eDP-1"
-        elif [ "$monitor_cnt" -eq "4" ]; then
-          ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off --output DP-1-2 --primary --output DP-1-1-1 --right-of DP-1-2 --output DP-1-3-1 --left-of DP-1-2
-          ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "DP-1-2"
-        else
-          ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --primary --mode 1920x1200
-          ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "eDP-1"
-        fi
+          # Wait up to 5 seconds for Wacom Pad to appear in X11 and map buttons
+          for i in $(seq 1 5); do
+            if ${pkgs.xorg.xinput}/bin/xinput list | grep -q "Wacom Intuos BT M Pad"; then
+              ${pkgs.xorg.xinput}/bin/xinput set-button-map "$wacom_pad" 17 18 19 4 5 6 7 20
+              break
+            fi
+            sleep 1
+          done
+
+          # Apply Monitor Layout
+          ${pkgs.xorg.xrandr}/bin/xrandr --auto
+          monitor_cnt=$(${pkgs.xorg.xrandr}/bin/xrandr | grep -c ' connected')
+
+          if [ "$monitor_cnt" -eq "3" ]; then
+            ${pkgs.xorg.xrandr}/bin/xrandr --output DP-1-1 --mode 1920x1200 --primary --output DP-1-2 --mode 1920x1200 --right-of DP-1-1 --output eDP-1 --mode 1920x1200 --below DP-1-1
+            ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "DP-1-1" 2>/dev/null || true
+          elif [ "$monitor_cnt" -eq "2" ]; then
+            ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --mode 1920x1200 --primary --output DP-1 --right-of eDP-1
+            ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "eDP-1" 2>/dev/null || true
+          elif [ "$monitor_cnt" -eq "4" ]; then
+            ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off --output DP-1-2 --primary --output DP-1-1-1 --right-of DP-1-2 --output DP-1-3-1 --left-of DP-1-2
+            ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "DP-1-2" 2>/dev/null || true
+          else
+            ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --primary --mode 1920x1200
+            ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "eDP-1" 2>/dev/null || true
+          fi
+        ) &
       '';
     in ''
       # Trigger on Wacom connection
-      ACTION=="add", SUBSYSTEM=="input", ATTRS{name}=="Wacom Intuos BT M Pen Pen (0x47803692)", RUN+="${displaySetup}"
+      ACTION=="add", SUBSYSTEM=="input", ATTRS{name}=="*Wacom Intuos BT M*", RUN+="${displaySetup}"
 
       # Trigger on Monitor connection/change
       ACTION=="change", SUBSYSTEM=="drm", RUN+="${displaySetup}"
 
       # MX Vertical connection log (optional)
-      ACTION=="add", SUBSYSTEM=="input", ATTRS{name}=="MX Vertical", RUN+="${pkgs.writeShellScript "mx-vertical-hook.sh" ''
+      ACTION=="add", SUBSYSTEM=="input", ATTRS{name}=="*MX Vertical*", RUN+="${pkgs.writeShellScript "mx-vertical-hook.sh" ''
         echo "MX Vertical connected" > /tmp/mx-vertical-connection.log
       ''}"
     '';
