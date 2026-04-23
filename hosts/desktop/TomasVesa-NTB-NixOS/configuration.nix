@@ -60,6 +60,31 @@
     };
   };
 
+  # Fix autorandr service XAUTHORITY detection
+  systemd.services.autorandr = {
+    path = with pkgs; [ coreutils procps gnugrep gawk ];
+    serviceConfig.ExecStart = lib.mkForce (pkgs.writeShellScript "autorandr-wrapper" ''
+      export DISPLAY=:0
+      # Dynamically determine XAUTHORITY from the running window manager (qtile)
+      WM_PID=$(pgrep -u ${username} -x qtile | head -n1)
+      if [ -n "$WM_PID" ]; then
+        export XAUTHORITY=$(cat /proc/$WM_PID/environ | tr '\0' '\n' | grep '^XAUTHORITY=' | cut -d= -f2)
+      fi
+      
+      # Fallback to a common location if not found
+      if [ -z "$XAUTHORITY" ]; then
+        export XAUTHORITY=/home/${username}/.Xauthority
+      fi
+
+      if [ -f "$XAUTHORITY" ]; then
+        exec ${pkgs.autorandr}/bin/autorandr --batch --change --default default
+      else
+        echo "XAUTHORITY not found or not accessible: $XAUTHORITY"
+        exit 1
+      fi
+    '');
+  };
+
   users.users.${username}.extraGroups = ["input"];
 
   # System version
