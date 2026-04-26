@@ -482,11 +482,17 @@ def init_widgets_screen2():
 
 
 def init_screens():
-    return [
-        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
-    ]
+    try:
+        # Get number of connected monitors
+        xr = subprocess.check_output('xrandr --query | grep " connected"', shell=True).decode("utf-8")
+        num_monitors = xr.count(" connected")
+    except Exception:
+        num_monitors = 1
+
+    screens = [Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26))]
+    for _ in range(num_monitors - 1):
+        screens.append(Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)))
+    return screens
 
 
 if __name__ in ["config", "__main__"]:

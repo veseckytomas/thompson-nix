@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.autorandr = {
     enable = true;
     hooks.postswitch = {
@@ -22,9 +22,17 @@
         fi
 
         # Map to primary output
-        PRIMARY_OUTPUT=$(${pkgs.xorg.xrandr}/bin/xrandr | grep " primary" | awk '{print $1}')
+        PRIMARY_OUTPUT=$(${pkgs.xorg.xrandr}/bin/xrandr | ${pkgs.gnugrep}/bin/grep " primary" | ${pkgs.gawk}/bin/awk '{print $1}')
         if [ -n "$PRIMARY_OUTPUT" ]; then
           ${pkgs.xorg.xinput}/bin/xinput map-to-output "$wacom_device" "$PRIMARY_OUTPUT" 2>/dev/null || true
+        fi
+
+        # Reload qtile to update screens and bars
+        if ${pkgs.procps}/bin/pgrep -x qtile > /dev/null; then
+           # Using DISPLAY and XAUTHORITY from our earlier symlink fix
+           export DISPLAY=:0
+           export XAUTHORITY=$HOME/.Xauthority
+           ${pkgs.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f reload_config
         fi
       '';
     };
