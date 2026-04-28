@@ -8,8 +8,9 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{config, ...}: {
   programs.firefox.enable = true;
+  programs.firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
   catppuccin.firefox = {
     enable = true;
     flavor = "mocha";

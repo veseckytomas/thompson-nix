@@ -22,7 +22,7 @@
     };
     Service = {
       Type = "simple";
-      ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive && ! ${pkgs.utillinux}/bin/mountpoint -q %h/mnt/Onedrive'";
+      ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive && ! ${pkgs.util-linux}/bin/mountpoint -q %h/mnt/Onedrive'";
       ExecStart = "${pkgs.rclone}/bin/rclone mount eOnedrive: %h/mnt/Onedrive --vfs-cache-mode full";
       ExecStop = "${pkgs.fuse}/bin/fusermount -u %h/mnt/Onedrive";
       Restart = "on-failure";

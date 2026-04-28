@@ -65,6 +65,7 @@
     ./sleuth.nix
     # ./snacks.nix
     ./spectre.nix
+    ./spring-boot.nix
     ./telescope.nix
     ./tmux-navigator.nix
     ./todo-comments.nix
