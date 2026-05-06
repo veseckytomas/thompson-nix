@@ -95,7 +95,7 @@ in {
     # stremio
     qalculate-gtk
     signal-desktop
-    wasistlos
+    karere
     alsa-utils
     pavucontrol
     teams-for-linux

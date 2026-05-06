@@ -213,6 +213,22 @@
         "type": "github"
       }
     },
+    "get-shit-done": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778096643,
+        "narHash": "sha256-lFQVcEuiwyXsQtTbyC/4PD1zK/zlrFi7EV/kNvzuyXQ=",
+        "owner": "gsd-build",
+        "repo": "get-shit-done",
+        "rev": "265e85ce9467a4d1bae9fa9f55a9d514716a8176",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gsd-build",
+        "repo": "get-shit-done",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -989,6 +1005,7 @@
         "asus-numberpad-driver": "asus-numberpad-driver",
         "catppuccin": "catppuccin",
         "dracula-qt5": "dracula-qt5",
+        "get-shit-done": "get-shit-done",
         "home-manager": "home-manager",
         "home-manager-stable": "home-manager-stable",
         "hyprland": "hyprland",
@@ -1003,6 +1020,7 @@
         "ratbagd": "ratbagd",
         "render-markdown-nvim": "render-markdown-nvim",
         "sddm-theme": "sddm-theme",
+        "superpowers": "superpowers",
         "tmux-navigator": "tmux-navigator",
         "tmux-sensible": "tmux-sensible",
         "tmux-yank": "tmux-yank",
@@ -1049,6 +1067,22 @@
       "original": {
         "owner": "TiagoDamascena",
         "repo": "sddm-sugar-catppuccin",
+        "type": "github"
+      }
+    },
+    "superpowers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777932301,
+        "narHash": "sha256-3E3rO6hR87JUfS3XV1Eaoz6SDWOftleWvN9UPNFEMjw=",
+        "owner": "obra",
+        "repo": "superpowers",
+        "rev": "f2cbfbefebbfef77321e4c9abc9e949826bea9d7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "obra",
+        "repo": "superpowers",
         "type": "github"
       }
     },
