@@ -23,6 +23,7 @@
     ./firefox.nix
     ./flameshot.nix
     ./fzf.nix
+    ./gemini.nix
     ./git
     ./hyprland
     ./ideavim
