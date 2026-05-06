@@ -102,7 +102,6 @@ in {
     xournalpp
     motrix
     # super-productivity
-    gemini-cli
     codex
     claude-code
     cursor-cli
@@ -111,6 +110,7 @@ in {
     croc
     localsend
     anki-bin
+    glab
 
     dust
     fselect

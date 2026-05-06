@@ -135,6 +135,14 @@
       repo = "piper";
       flake = false;
     };
+    get-shit-done = {
+      url = "github:gsd-build/get-shit-done";
+      flake = false;
+    };
+    superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
