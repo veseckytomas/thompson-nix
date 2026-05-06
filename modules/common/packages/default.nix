@@ -103,6 +103,7 @@ in {
     motrix
     # super-productivity
     codex
+    cursor-cli
     claude-code
     cursor-cli
     opencode
