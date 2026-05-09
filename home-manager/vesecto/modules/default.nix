@@ -23,7 +23,6 @@
     ./firefox.nix
     ./flameshot.nix
     ./fzf.nix
-    ./gemini.nix
     ./git
     ./hyprland
     ./ideavim
@@ -32,6 +31,7 @@
     ./lazygit.nix
     ./librewolf.nix
     # ./ncspot.nix
+    ./opencode.nix
     ./nixvim
     ./pandoc.nix
     ./picom.nix
