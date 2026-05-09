@@ -11,7 +11,6 @@
   pkgs-stable,
   inputs,
   username,
-  system,
   ...
 }: let
   new_swt = pkgs-stable.swt.overrideAttrs (old: {
@@ -20,10 +19,6 @@
 in {
   # Allow unfree packages
   nixpkgs.config = {
-    # permittedInsecurePackages = [
-    #   # needed until new stremio frontend is stable
-    #   "qtwebengine-5.15.19"
-    # ];
     allowUnfree = true;
   };
 
@@ -105,10 +100,9 @@ in {
     codex
     cursor-cli
     claude-code
-    cursor-cli
+    gemini-cli
     opencode
     github-copilot-cli
-    croc
     localsend
     anki-bin
     glab
