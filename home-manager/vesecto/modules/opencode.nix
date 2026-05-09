@@ -8,13 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{inputs, ...}: {
+{...}: {
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
     settings = {
-      editor = "nvim";
-      terminal = "kitty";
       provider = {
         litellm = {
           npm = "@ai-sdk/openai-compatible";
