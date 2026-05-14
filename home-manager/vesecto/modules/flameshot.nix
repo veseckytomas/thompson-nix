@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   services.flameshot = {
     enable = true;
     settings = {
@@ -23,4 +23,8 @@
       };
     };
   };
+  home.packages = with pkgs; [
+    gnome-themes-extra
+    libnotify
+  ];
 }

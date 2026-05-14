@@ -20,7 +20,7 @@
       package = pkgs.dracula-qt5-theme.overrideAttrs (old: {
         src = inputs.dracula-qt5;
       });
-      name = "Dracula";
+      name = "gtk2";
     };
   };
 }
