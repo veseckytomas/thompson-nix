@@ -13,6 +13,7 @@
     enable = true;
     enableMcpIntegration = true;
     settings = {
+      autoupdate = false;
       provider = {
         litellm = {
           npm = "@ai-sdk/openai-compatible";

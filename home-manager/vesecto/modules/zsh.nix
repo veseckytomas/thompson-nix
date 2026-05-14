@@ -140,6 +140,7 @@ in {
       "lg" = "lazygit";
       "rsync" = "rsync -r --info=progress2";
       "asus-num" = "systemctl restart asus-numberpad-driver.service";
+      "oc" = "opencode";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
