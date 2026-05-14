@@ -24,6 +24,12 @@
             deepseek-r1 = {
               name = "deepseek-r1";
             };
+            deepseek-v4-pro-thinking = {
+              name = "deepseek-v4-pro-thinking";
+            };
+            deepseek-v4-pro = {
+              name = "deepseek-v4-pro";
+            };
             gpt-oss-120b = {
               name = "gpt-oss-120b";
             };
@@ -32,6 +38,12 @@
             };
             "glm-4.7" = {
               name = "qwen3-coder-next";
+            };
+            "glm-5.1" = {
+              name = "glm-5.1";
+            };
+            "kimi-k2.6" = {
+              name = "kimi-k2.6";
             };
           };
         };
