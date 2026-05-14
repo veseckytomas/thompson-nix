@@ -74,7 +74,7 @@
     };
     serviceConfig = {
       User = username;
-      # Re-use XAUTHORITY and DISPLAY from the symlink and default
+      # Reuse XAUTHORITY and DISPLAY from the symlink and default
       Environment = [
         "DISPLAY=:0"
         "XAUTHORITY=/home/${username}/.Xauthority"
@@ -84,7 +84,4 @@
   };
 
   users.users.${username}.extraGroups = ["input"];
-
-  # System version
-  system.stateVersion = "24.11";
 }

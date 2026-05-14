@@ -57,4 +57,7 @@
 
   # Enable zsh completion for system packages
   environment.pathsToLink = ["/share/zsh"];
+
+  # System version
+  system.stateVersion = "25.11";
 }

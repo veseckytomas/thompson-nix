@@ -33,7 +33,4 @@
         src = inputs.piper;
       }))
   ];
-
-  # System version
-  system.stateVersion = "24.05";
 }
