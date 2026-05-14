@@ -62,6 +62,7 @@
     # Symlink XAUTHORITY to a predictable location so autorandr service can find it
     xserver.displayManager.sessionCommands = ''
       ln -sfT "$XAUTHORITY" "$HOME/.Xauthority"
+      ${pkgs.autorandr}/bin/autorandr --change
     '';
   };
 
@@ -78,6 +79,7 @@
         "DISPLAY=:0"
         "XAUTHORITY=/home/${username}/.Xauthority"
       ];
+      ExecStart = lib.mkForce "${pkgs.autorandr}/bin/autorandr --change --default default";
     };
   };
 

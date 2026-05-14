@@ -12,15 +12,23 @@
   inputs,
   username,
   ...
-}: let
-  new_swt = pkgs-stable.swt.overrideAttrs (old: {
-    NIX_CFLAGS_COMPILE = toString (old.env.NIX_CFLAGS_COMPILE or "") + " -Wno-error";
-  });
-in {
+}: {
   # Allow unfree packages
   nixpkgs.config = {
     allowUnfree = true;
   };
+
+  # Global overlays
+  nixpkgs.overlays = [
+    (final: prev: {
+      openldap = prev.openldap.overrideAttrs (old: {
+        doCheck = false;
+      });
+      swt = pkgs-stable.swt.overrideAttrs (old: {
+        NIX_CFLAGS_COMPILE = toString (old.env.NIX_CFLAGS_COMPILE or "") + " -Wno-error";
+      });
+    })
+  ];
 
   # List of packages
   environment.systemPackages = with pkgs; [
@@ -44,8 +52,7 @@ in {
     # DWH
     keepass
     jdk
-    # swt
-    new_swt
+    swt
     steam-run
 
     # Web browsers

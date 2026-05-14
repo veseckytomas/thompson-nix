@@ -11,12 +11,13 @@
 {
   inputs,
   pkgs,
+  pkgs-stable,
   ...
 }: let
   newBottles = pkgs.bottles.override {removeWarningPopup = true;};
 in {
   # Enable polymc overlay
-  nixpkgs.overlays = [inputs.polymc.overlay];
+  # nixpkgs.overlays = [inputs.polymc.overlay];
 
   # Load OpenGL
   hardware.graphics = {
@@ -44,7 +45,8 @@ in {
 
   # Other packages
   environment.systemPackages = with pkgs; [
-    polymc
+    # polymc
+    inputs.polymc.packages.${pkgs.system}.polymc
     mangohud
     protonup-ng
     lutris
