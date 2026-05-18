@@ -266,7 +266,7 @@
 
     homeConfigurations = {
       vesecto = inputs.home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit inputs system username;};
+        extraSpecialArgs = {inherit inputs system username pkgs-stable;};
         inherit pkgs;
         modules = [
           ./home-manager/vesecto
