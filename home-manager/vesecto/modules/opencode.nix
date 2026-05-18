@@ -14,7 +14,16 @@
     enableMcpIntegration = true;
     settings = {
       autoupdate = false;
+      lsp = true;
+      plugin = [
+        "opencode-wakatime"
+      ];
       provider = {
+        openai = {
+          whitelist = [
+            "gpt-5.5"
+          ];
+        };
         litellm = {
           npm = "@ai-sdk/openai-compatible";
           name = "LiteLLM";
@@ -38,7 +47,7 @@
               name = "qwen3-coder";
             };
             "glm-4.7" = {
-              name = "qwen3-coder-next";
+              name = "glm-4.7";
             };
             "glm-5.1" = {
               name = "glm-5.1";

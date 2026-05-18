@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-stable,
+  ...
+}: {
   programs.autorandr = {
     enable = true;
     hooks.postswitch = {
@@ -32,7 +36,7 @@
            # Using DISPLAY and XAUTHORITY from our earlier symlink fix
            export DISPLAY=:0
            export XAUTHORITY=$HOME/.Xauthority
-           ${pkgs.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f reload_config
+           ${pkgs-stable.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f reload_config
         fi
       '';
     };
