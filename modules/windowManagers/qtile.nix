@@ -8,15 +8,20 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-stable,
+  ...
+}: {
   services = {
     libinput.touchpad.naturalScrolling = true;
     acpid.enable = true;
     xserver = {
       windowManager.qtile = {
         enable = true;
+        package = pkgs-stable.python3Packages.qtile;
         extraPackages = python3Packages:
-          with python3Packages; [
+          with pkgs-stable.python3Packages; [
             qtile-extras
           ];
       };

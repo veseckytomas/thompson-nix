@@ -64,10 +64,10 @@
     vscodium
 
     # libreoffice
-    libreoffice
-    hunspell
-    hunspellDicts.cs-cz
-    hunspellDicts.en-us
+    pkgs-stable.libreoffice
+    pkgs-stable.hunspell
+    pkgs-stable.hunspellDicts.cs-cz
+    pkgs-stable.hunspellDicts.en-us
 
     # Other
     nomacs
