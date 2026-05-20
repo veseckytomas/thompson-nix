@@ -84,4 +84,7 @@
   };
 
   users.users.${username}.extraGroups = ["input"];
+
+  # Enable ollama on NTB
+  services.ollama.enable = true;
 }
