@@ -908,6 +908,25 @@
         "type": "github"
       }
     },
+    "oh-my-openagent": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779709333,
+        "narHash": "sha256-b6j/mwx1RvbZMh9cd0kMdyyD8v404v2JzYw+eP5RPR4=",
+        "ref": "dev",
+        "rev": "939f2b8b43a21e683cf2672ee7d924325be94dbf",
+        "revCount": 6879,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/code-yeongyu/oh-my-openagent"
+      },
+      "original": {
+        "ref": "dev",
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/code-yeongyu/oh-my-openagent"
+      }
+    },
     "piper": {
       "flake": false,
       "locked": {
@@ -1016,6 +1035,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "nixvim-stable": "nixvim-stable",
+        "oh-my-openagent": "oh-my-openagent",
         "piper": "piper",
         "polymc": "polymc",
         "ratbagd": "ratbagd",

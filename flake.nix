@@ -143,6 +143,13 @@
       url = "github:obra/superpowers";
       flake = false;
     };
+    oh-my-openagent = {
+      type = "git";
+      url = "https://github.com/code-yeongyu/oh-my-openagent";
+      ref = "dev";
+      submodules = true;
+      flake = false;
+    };
   };
 
   outputs = inputs: let
