@@ -40,118 +40,186 @@
         substituteInPlace "$file" --replace "$out" "${opencodeConfigDir}"
       done < <(find "$out" -type f -print0)
     '';
-  opencodeCaveman =
-    pkgs.runCommand "opencode-caveman" {} ''
-      mkdir -p \
-        "$out/opencode/plugins/caveman" \
-        "$out/opencode/commands" \
-        "$out/opencode/agents" \
-        "$out/opencode/skills"
+  opencodeCaveman = pkgs.runCommand "opencode-caveman" {} ''
+    mkdir -p \
+      "$out/opencode/plugins/caveman" \
+      "$out/opencode/commands" \
+      "$out/opencode/agents" \
+      "$out/opencode/skills"
 
-      cp ${inputs.caveman}/src/plugins/opencode/plugin.js "$out/opencode/plugins/caveman/"
-      cp ${inputs.caveman}/src/plugins/opencode/package.json "$out/opencode/plugins/caveman/"
-      cp ${inputs.caveman}/src/hooks/caveman-config.js "$out/opencode/plugins/caveman/caveman-config.cjs"
+    cp ${inputs.caveman}/src/plugins/opencode/plugin.js "$out/opencode/plugins/caveman/"
+    cp ${inputs.caveman}/src/plugins/opencode/package.json "$out/opencode/plugins/caveman/"
+    cp ${inputs.caveman}/src/hooks/caveman-config.js "$out/opencode/plugins/caveman/caveman-config.cjs"
 
-      cp -R ${inputs.caveman}/src/plugins/opencode/commands/. "$out/opencode/commands/"
-      cp -R ${inputs.caveman}/agents/. "$out/opencode/agents/"
-      cp -R ${inputs.caveman}/skills/. "$out/opencode/skills/"
-      cp ${inputs.caveman}/src/rules/caveman-activate.md "$out/opencode/AGENTS.md"
+    cp -R ${inputs.caveman}/src/plugins/opencode/commands/. "$out/opencode/commands/"
+    cp -R ${inputs.caveman}/agents/. "$out/opencode/agents/"
+    cp -R ${inputs.caveman}/skills/. "$out/opencode/skills/"
+    cp ${inputs.caveman}/src/rules/caveman-activate.md "$out/opencode/AGENTS.md"
 
-      substituteInPlace "$out/opencode/agents/cavecrew-builder.md" \
-        --replace "tools: [Read, Edit, Write, Grep, Glob]" "tools: { read: true, edit: true, write: true, grep: true, glob: true }"
-      substituteInPlace "$out/opencode/agents/cavecrew-investigator.md" \
-        --replace "tools: [Read, Grep, Glob, Bash]" "tools: { read: true, grep: true, glob: true, bash: true }"
-      substituteInPlace "$out/opencode/agents/cavecrew-reviewer.md" \
-        --replace "tools: [Read, Grep, Bash]" "tools: { read: true, grep: true, bash: true }"
+    substituteInPlace "$out/opencode/agents/cavecrew-builder.md" \
+      --replace "tools: [Read, Edit, Write, Grep, Glob]" "tools: { read: true, edit: true, write: true, grep: true, glob: true }"
+    substituteInPlace "$out/opencode/agents/cavecrew-investigator.md" \
+      --replace "tools: [Read, Grep, Glob, Bash]" "tools: { read: true, grep: true, glob: true, bash: true }"
+    substituteInPlace "$out/opencode/agents/cavecrew-reviewer.md" \
+      --replace "tools: [Read, Grep, Bash]" "tools: { read: true, grep: true, bash: true }"
+
+    sed -i '/^model: haiku$/d' "$out/opencode/agents/cavecrew-investigator.md"
+    sed -i '/^model: haiku$/d' "$out/opencode/agents/cavecrew-reviewer.md"
+  '';
+  opencodeAgents = pkgs.runCommand "opencode-agents" {} ''
+    mkdir -p "$out"
+    cp -R ${opencodeGsd}/agents/. "$out"/
+    cp -R ${opencodeCaveman}/opencode/agents/. "$out"/
+  '';
+  opencodeWakatimeDeps = pkgs.stdenv.mkDerivation {
+    pname = "opencode-wakatime-deps";
+    version = "1.3.8";
+    src = inputs.opencode-wakatime;
+
+    nativeBuildInputs = [pkgs.nodejs_22 pkgs.cacert];
+
+    dontConfigure = true;
+    dontFixup = true;
+
+    outputHashAlgo = "sha256";
+    outputHashMode = "recursive";
+    outputHash = "sha256-LH+rlOOF2QjMczVxbj5Lc3LcM4wc4w8dDHc+ExThpRs=";
+
+    buildPhase = ''
+      runHook preBuild
+
+      export HOME="$TMPDIR/home"
+      export NODE_EXTRA_CA_CERTS="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+
+      npm install --frozen-lockfile --ignore-scripts
+
+      runHook postBuild
     '';
-  opencodeAgents =
-    pkgs.runCommand "opencode-agents" {} ''
+
+    installPhase = ''
+      runHook preInstall
+
       mkdir -p "$out"
-      cp -R ${opencodeGsd}/agents/. "$out"/
-      cp -R ${opencodeCaveman}/opencode/agents/. "$out"/
+      cp -R node_modules "$out"/
+
+      runHook postInstall
     '';
-  opencodeOhMyOpenAgentDeps =
-    pkgs.stdenv.mkDerivation {
-      pname = "oh-my-openagent-deps";
-      version = "4.4.0-dev";
-      src = inputs.oh-my-openagent;
+  };
+  opencodeWakatime = pkgs.stdenv.mkDerivation {
+    pname = "opencode-wakatime";
+    version = "1.3.8";
+    src = inputs.opencode-wakatime;
 
-      nativeBuildInputs = [pkgs.bun];
+    nativeBuildInputs = [pkgs.nodejs_22];
 
-      dontConfigure = true;
-      dontFixup = true;
+    dontConfigure = true;
 
-      outputHashAlgo = "sha256";
-      outputHashMode = "recursive";
-      outputHash = "sha256-MZzLQhas31hM2CvHJZXgQZVJQulJUAd5SDiMnv9ZUe4=";
+    buildPhase = ''
+      runHook preBuild
 
-      buildPhase = ''
-        runHook preBuild
+      cp -R ${opencodeWakatimeDeps}/node_modules ./node_modules
+      chmod -R u+w node_modules
+      patchShebangs node_modules
 
-        export HOME="$TMPDIR/home"
-        export XDG_CACHE_HOME="$TMPDIR/cache"
-        export BUN_INSTALL_CACHE_DIR="$TMPDIR/bun-cache"
+      export HOME="$TMPDIR/home"
 
-        bun install --frozen-lockfile --ignore-scripts
+      npm run build
 
-        runHook postBuild
-      '';
+      runHook postBuild
+    '';
 
-      installPhase = ''
-        runHook preInstall
+    installPhase = ''
+      runHook preInstall
 
-        mkdir -p "$out"
-        cp -R node_modules "$out"/
+      mkdir -p "$out"
+      cp -R \
+        package.json \
+        dist \
+        "$out"/
 
-        runHook postInstall
-      '';
-    };
-  opencodeOhMyOpenAgent =
-    pkgs.stdenv.mkDerivation {
-      pname = "oh-my-openagent-opencode-plugin";
-      version = "4.4.0-dev";
-      src = inputs.oh-my-openagent;
+      runHook postInstall
+    '';
+  };
+  opencodeOhMyOpenAgentDeps = pkgs.stdenv.mkDerivation {
+    pname = "oh-my-openagent-deps";
+    version = "4.4.0-dev";
+    src = inputs.oh-my-openagent;
 
-      nativeBuildInputs = [
-        pkgs.bun
-        pkgs.nodejs_22
-      ];
+    nativeBuildInputs = [pkgs.bun];
 
-      dontConfigure = true;
+    dontConfigure = true;
+    dontFixup = true;
 
-      buildPhase = ''
-        runHook preBuild
+    outputHashAlgo = "sha256";
+    outputHashMode = "recursive";
+    outputHash = "sha256-MZzLQhas31hM2CvHJZXgQZVJQulJUAd5SDiMnv9ZUe4=";
 
-        cp -R ${opencodeOhMyOpenAgentDeps}/node_modules ./node_modules
-        chmod -R u+w node_modules
-        patchShebangs node_modules
+    buildPhase = ''
+      runHook preBuild
 
-        export HOME="$TMPDIR/home"
-        export XDG_CACHE_HOME="$TMPDIR/cache"
-        export BUN_INSTALL_CACHE_DIR="$TMPDIR/bun-cache"
+      export HOME="$TMPDIR/home"
+      export XDG_CACHE_HOME="$TMPDIR/cache"
+      export BUN_INSTALL_CACHE_DIR="$TMPDIR/bun-cache"
 
-        bun run build
+      bun install --frozen-lockfile --ignore-scripts
 
-        runHook postBuild
-      '';
+      runHook postBuild
+    '';
 
-      installPhase = ''
-        runHook preInstall
+    installPhase = ''
+      runHook preInstall
 
-        mkdir -p "$out"
-        cp -R \
-          package.json \
-          bin \
-          dist \
-          node_modules \
-          .opencode \
-          packages \
-          assets \
-          "$out"/
+      mkdir -p "$out"
+      cp -R node_modules "$out"/
 
-        runHook postInstall
-      '';
-    };
+      runHook postInstall
+    '';
+  };
+  opencodeOhMyOpenAgent = pkgs.stdenv.mkDerivation {
+    pname = "oh-my-openagent-opencode-plugin";
+    version = "4.4.0-dev";
+    src = inputs.oh-my-openagent;
+
+    nativeBuildInputs = [
+      pkgs.bun
+      pkgs.nodejs_22
+    ];
+
+    dontConfigure = true;
+
+    buildPhase = ''
+      runHook preBuild
+
+      cp -R ${opencodeOhMyOpenAgentDeps}/node_modules ./node_modules
+      chmod -R u+w node_modules
+      patchShebangs node_modules
+
+      export HOME="$TMPDIR/home"
+      export XDG_CACHE_HOME="$TMPDIR/cache"
+      export BUN_INSTALL_CACHE_DIR="$TMPDIR/bun-cache"
+
+      bun run build
+
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p "$out"
+      cp -R \
+        package.json \
+        bin \
+        dist \
+        node_modules \
+        .opencode \
+        packages \
+        assets \
+        "$out"/
+
+      runHook postInstall
+    '';
+  };
 in {
   xdg.configFile."opencode/agents".source = opencodeAgents;
   xdg.configFile."opencode/command".source = "${opencodeGsd}/command";
@@ -163,6 +231,7 @@ in {
   xdg.configFile."opencode/skills".source = "${opencodeCaveman}/opencode/skills";
   xdg.configFile."opencode/AGENTS.md".source = "${opencodeCaveman}/opencode/AGENTS.md";
   xdg.configFile."opencode/superpowers".source = inputs.superpowers;
+  xdg.configFile."opencode/wakatime".source = opencodeWakatime;
   xdg.configFile."opencode/oh-my-openagent".source = opencodeOhMyOpenAgent;
 
   home.sessionVariables = {
@@ -182,7 +251,7 @@ in {
         external_directory."${opencodeConfigDir}/get-shit-done/*" = "allow";
       };
       plugin = [
-        "opencode-wakatime"
+        "file:${opencodeConfigDir}/wakatime"
         "${opencodeConfigDir}/plugins/caveman/plugin.js"
         "${opencodeConfigDir}/superpowers"
         "file:${opencodeConfigDir}/oh-my-openagent"
