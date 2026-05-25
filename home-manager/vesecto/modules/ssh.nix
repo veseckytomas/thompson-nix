@@ -12,7 +12,7 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."*" = {
+    settings."*" = {
     };
   };
   imports = [./ssh];

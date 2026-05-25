@@ -9,20 +9,14 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.ssh.matchBlocks = {
+  programs.ssh.settings = {
     am1 = {
       user = "vesecto1~am1";
       hostname = "fit-workspaces.ksi.fit.cvut.cz";
       forwardAgent = true;
-      localForwards = [
-        {
-          host = {
-            address = "localhost";
-            port = 8080;
-          };
-          bind.port = 8080;
-        }
-      ];
+      extraConfig = ''
+        LocalForward 8080 localhost:8080
+      '';
     };
   };
 }

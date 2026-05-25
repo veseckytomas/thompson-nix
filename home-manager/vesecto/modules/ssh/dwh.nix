@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.ssh.matchBlocks = {
+  programs.ssh.settings = {
     dv7 = {
       user = "vesecto1";
       hostname = "dv7.ds.prod.is.vic";
@@ -22,43 +22,13 @@
       user = "root";
       hostname = "ebie.is.cvut.cz";
       forwardAgent = true;
-      localForwards = [
-        {
-          host = {
-            address = "dv1";
-            port = 5432;
-          };
-          bind.port = 5431;
-        }
-        {
-          host = {
-            address = "dv1";
-            port = 22;
-          };
-          bind.port = 2221;
-        }
-        {
-          host = {
-            address = "dv2";
-            port = 22;
-          };
-          bind.port = 2222;
-        }
-        {
-          host = {
-            address = "dv2";
-            port = 8080;
-          };
-          bind.port = 8081;
-        }
-        {
-          host = {
-            address = "dv2";
-            port = 8008;
-          };
-          bind.port = 8008;
-        }
-      ];
+      extraConfig = ''
+        LocalForward 5431 dv1:5432
+        LocalForward 2221 dv1:22
+        LocalForward 2222 dv2:22
+        LocalForward 8081 dv2:8080
+        LocalForward 8008 dv2:8008
+      '';
     };
   };
 }
