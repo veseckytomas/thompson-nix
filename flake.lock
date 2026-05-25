@@ -943,6 +943,22 @@
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
       }
     },
+    "opencode-wakatime": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778707460,
+        "narHash": "sha256-TLOwTJkqzVkKX3ZbUrTYiL3YJ+Q0lzbCosYQTLm6PWo=",
+        "owner": "angristan",
+        "repo": "opencode-wakatime",
+        "rev": "4f8a98f700d4a1135a369572c005461a24923dd8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "angristan",
+        "repo": "opencode-wakatime",
+        "type": "github"
+      }
+    },
     "piper": {
       "flake": false,
       "locked": {
@@ -1053,6 +1069,7 @@
         "nixvim": "nixvim",
         "nixvim-stable": "nixvim-stable",
         "oh-my-openagent": "oh-my-openagent",
+        "opencode-wakatime": "opencode-wakatime",
         "piper": "piper",
         "polymc": "polymc",
         "ratbagd": "ratbagd",

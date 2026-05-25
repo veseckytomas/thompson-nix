@@ -154,6 +154,10 @@
       url = "github:JuliusBrussee/caveman";
       flake = false;
     };
+    opencode-wakatime = {
+      url = "github:angristan/opencode-wakatime";
+      flake = false;
+    };
   };
 
   outputs = inputs: let

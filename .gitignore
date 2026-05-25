@@ -14,3 +14,4 @@ build/
 result
 eduroam.py
 *.qcow2
+.omo/
