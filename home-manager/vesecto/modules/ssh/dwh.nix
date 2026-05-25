@@ -18,17 +18,16 @@
       user = "vesecto1";
       hostname = "dv9.ds.test.is.vic";
     };
-    ebie = {
-      user = "root";
-      hostname = "ebie.is.cvut.cz";
-      forwardAgent = true;
-      extraConfig = ''
-        LocalForward 5431 dv1:5432
-        LocalForward 2221 dv1:22
-        LocalForward 2222 dv2:22
-        LocalForward 8081 dv2:8080
-        LocalForward 8008 dv2:8008
-      '';
-    };
   };
+  programs.ssh.extraConfig = ''
+    Host ebie
+      User root
+      HostName ebie.is.cvut.cz
+      ForwardAgent yes
+      LocalForward 5431 dv1:5432
+      LocalForward 2221 dv1:22
+      LocalForward 2222 dv2:22
+      LocalForward 8081 dv2:8080
+      LocalForward 8008 dv2:8008
+  '';
 }

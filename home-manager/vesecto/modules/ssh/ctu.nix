@@ -9,14 +9,11 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  programs.ssh.settings = {
-    am1 = {
-      user = "vesecto1~am1";
-      hostname = "fit-workspaces.ksi.fit.cvut.cz";
-      forwardAgent = true;
-      extraConfig = ''
-        LocalForward 8080 localhost:8080
-      '';
-    };
-  };
+  programs.ssh.extraConfig = ''
+    Host am1
+      User vesecto1~am1
+      HostName fit-workspaces.ksi.fit.cvut.cz
+      ForwardAgent yes
+      LocalForward 8080 localhost:8080
+  '';
 }
