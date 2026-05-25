@@ -150,6 +150,10 @@
       submodules = true;
       flake = false;
     };
+    caveman = {
+      url = "github:JuliusBrussee/caveman";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
