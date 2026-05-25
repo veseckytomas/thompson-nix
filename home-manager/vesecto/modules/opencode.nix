@@ -40,6 +40,36 @@
         substituteInPlace "$file" --replace "$out" "${opencodeConfigDir}"
       done < <(find "$out" -type f -print0)
     '';
+  opencodeCaveman =
+    pkgs.runCommand "opencode-caveman" {} ''
+      mkdir -p \
+        "$out/opencode/plugins/caveman" \
+        "$out/opencode/commands" \
+        "$out/opencode/agents" \
+        "$out/opencode/skills"
+
+      cp ${inputs.caveman}/src/plugins/opencode/plugin.js "$out/opencode/plugins/caveman/"
+      cp ${inputs.caveman}/src/plugins/opencode/package.json "$out/opencode/plugins/caveman/"
+      cp ${inputs.caveman}/src/hooks/caveman-config.js "$out/opencode/plugins/caveman/caveman-config.cjs"
+
+      cp -R ${inputs.caveman}/src/plugins/opencode/commands/. "$out/opencode/commands/"
+      cp -R ${inputs.caveman}/agents/. "$out/opencode/agents/"
+      cp -R ${inputs.caveman}/skills/. "$out/opencode/skills/"
+      cp ${inputs.caveman}/src/rules/caveman-activate.md "$out/opencode/AGENTS.md"
+
+      substituteInPlace "$out/opencode/agents/cavecrew-builder.md" \
+        --replace "tools: [Read, Edit, Write, Grep, Glob]" "tools: { read: true, edit: true, write: true, grep: true, glob: true }"
+      substituteInPlace "$out/opencode/agents/cavecrew-investigator.md" \
+        --replace "tools: [Read, Grep, Glob, Bash]" "tools: { read: true, grep: true, glob: true, bash: true }"
+      substituteInPlace "$out/opencode/agents/cavecrew-reviewer.md" \
+        --replace "tools: [Read, Grep, Bash]" "tools: { read: true, grep: true, bash: true }"
+    '';
+  opencodeAgents =
+    pkgs.runCommand "opencode-agents" {} ''
+      mkdir -p "$out"
+      cp -R ${opencodeGsd}/agents/. "$out"/
+      cp -R ${opencodeCaveman}/opencode/agents/. "$out"/
+    '';
   opencodeOhMyOpenAgentDeps =
     pkgs.stdenv.mkDerivation {
       pname = "oh-my-openagent-deps";
@@ -123,11 +153,15 @@
       '';
     };
 in {
-  xdg.configFile."opencode/agents".source = "${opencodeGsd}/agents";
+  xdg.configFile."opencode/agents".source = opencodeAgents;
   xdg.configFile."opencode/command".source = "${opencodeGsd}/command";
   xdg.configFile."opencode/get-shit-done".source = "${opencodeGsd}/get-shit-done";
   xdg.configFile."opencode/hooks".source = "${opencodeGsd}/hooks";
   xdg.configFile."opencode/package.json".source = "${opencodeGsd}/package.json";
+  xdg.configFile."opencode/plugins/caveman".source = "${opencodeCaveman}/opencode/plugins/caveman";
+  xdg.configFile."opencode/commands".source = "${opencodeCaveman}/opencode/commands";
+  xdg.configFile."opencode/skills".source = "${opencodeCaveman}/opencode/skills";
+  xdg.configFile."opencode/AGENTS.md".source = "${opencodeCaveman}/opencode/AGENTS.md";
   xdg.configFile."opencode/superpowers".source = inputs.superpowers;
   xdg.configFile."opencode/oh-my-openagent".source = opencodeOhMyOpenAgent;
 
@@ -142,14 +176,16 @@ in {
     settings = {
       autoupdate = false;
       lsp = true;
+      model = "openai/gpt-5.5";
       permission = {
         read."${opencodeConfigDir}/get-shit-done/*" = "allow";
         external_directory."${opencodeConfigDir}/get-shit-done/*" = "allow";
       };
       plugin = [
         "opencode-wakatime"
+        "${opencodeConfigDir}/plugins/caveman/plugin.js"
         "${opencodeConfigDir}/superpowers"
-        "${opencodeConfigDir}/oh-my-openagent"
+        "file:${opencodeConfigDir}/oh-my-openagent"
       ];
       provider = {
         openai = {
@@ -179,9 +215,6 @@ in {
             qwen3-coder = {
               name = "qwen3-coder";
             };
-            "glm-4.7" = {
-              name = "glm-4.7";
-            };
             "glm-5.1" = {
               name = "glm-5.1";
             };
@@ -193,6 +226,9 @@ in {
       };
     };
     tui = {
+      plugin = [
+        "file:${opencodeConfigDir}/oh-my-openagent"
+      ];
       theme = "catppuccin";
     };
   };
