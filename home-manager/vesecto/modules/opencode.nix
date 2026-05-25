@@ -8,15 +8,58 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}: let
+  opencodeConfigDir = "${config.home.homeDirectory}/.config/opencode";
+  opencodeGsd =
+    pkgs.runCommand "opencode-gsd" {
+      nativeBuildInputs = [pkgs.nodejs_22];
+    } ''
+      mkdir -p "$out" "$TMPDIR/home"
+
+      export HOME="$TMPDIR/home"
+      export XDG_CONFIG_HOME="$TMPDIR/home/.config"
+      export GSD_SKIP_STALE_SDK_CHECK=1
+
+      ${pkgs.nodejs_22}/bin/node \
+        ${inputs.get-shit-done-redux}/bin/install.js \
+        --opencode \
+        --global \
+        --no-sdk \
+        --config-dir "$out"
+
+      rm -f "$out/opencode.json"
+      rm -f "$out/gsd-file-manifest.json"
+
+      while IFS= read -r -d "" file; do
+        substituteInPlace "$file" --replace "$out" "${opencodeConfigDir}"
+      done < <(find "$out" -type f -print0)
+    '';
+in {
+  xdg.configFile."opencode/agents".source = "${opencodeGsd}/agents";
+  xdg.configFile."opencode/command".source = "${opencodeGsd}/command";
+  xdg.configFile."opencode/get-shit-done".source = "${opencodeGsd}/get-shit-done";
+  xdg.configFile."opencode/hooks".source = "${opencodeGsd}/hooks";
+  xdg.configFile."opencode/package.json".source = "${opencodeGsd}/package.json";
+  xdg.configFile."opencode/superpowers".source = inputs.superpowers;
+
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
     settings = {
       autoupdate = false;
       lsp = true;
+      permission = {
+        read."${opencodeConfigDir}/get-shit-done/*" = "allow";
+        external_directory."${opencodeConfigDir}/get-shit-done/*" = "allow";
+      };
       plugin = [
         "opencode-wakatime"
+        "${opencodeConfigDir}/superpowers"
       ];
       provider = {
         openai = {
