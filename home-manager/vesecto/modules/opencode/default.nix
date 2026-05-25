@@ -1,0 +1,114 @@
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  options.opencodePlugins = {
+    agentSources = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Agent directory sources from enabled plugins";
+    };
+    pluginEntries = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Plugin entries for opencode settings from enabled plugins";
+    };
+    tuiPluginEntries = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "TUI plugin entries from enabled plugins";
+    };
+  };
+
+  imports = [
+    ./plugins/gsd.nix
+    ./plugins/caveman.nix
+    ./plugins/wakatime.nix
+    ./plugins/oh-my-openagent.nix
+    ./plugins/superpowers.nix
+  ];
+
+  config = let
+    opencodeAgents = pkgs.runCommand "opencode-agents" {} ''
+      mkdir -p "$out"
+      ${lib.concatMapStrings (src: ''
+          cp -R ${src}/. "$out"/
+        '')
+        config.opencodePlugins.agentSources}
+    '';
+  in {
+    opencodePlugins = {
+      gsd.enable = true;
+      caveman.enable = true;
+      wakatime.enable = true;
+      oh-my-openagent.enable = true;
+      superpowers.enable = true;
+    };
+
+    xdg.configFile."opencode/agents".source = opencodeAgents;
+
+    programs.opencode = {
+      enable = true;
+      enableMcpIntegration = true;
+      settings = {
+        autoupdate = false;
+        lsp = true;
+        # model = "openai/gpt-5.5";
+        plugin = config.opencodePlugins.pluginEntries;
+        provider = {
+          openai = {
+            whitelist = [
+              "gpt-5.5"
+            ];
+          };
+          litellm = {
+            npm = "@ai-sdk/openai-compatible";
+            name = "LiteLLM";
+            options = {
+              baseURL = "https://llm.ai.e-infra.cz/v1";
+            };
+            models = {
+              deepseek-r1 = {
+                name = "deepseek-r1";
+              };
+              deepseek-v4-pro-thinking = {
+                name = "deepseek-v4-pro-thinking";
+              };
+              deepseek-v4-pro = {
+                name = "deepseek-v4-pro";
+              };
+              gpt-oss-120b = {
+                name = "gpt-oss-120b";
+              };
+              qwen3-coder = {
+                name = "qwen3-coder";
+              };
+              "glm-5.1" = {
+                name = "glm-5.1";
+              };
+              "kimi-k2.6" = {
+                name = "kimi-k2.6";
+              };
+            };
+          };
+        };
+      };
+      tui = {
+        plugin = config.opencodePlugins.tuiPluginEntries;
+        theme = "catppuccin";
+      };
+    };
+  };
+}

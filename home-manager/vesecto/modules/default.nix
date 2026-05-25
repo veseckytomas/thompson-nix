@@ -31,7 +31,7 @@
     ./lazygit.nix
     ./librewolf.nix
     # ./ncspot.nix
-    ./opencode.nix
+    ./opencode
     ./nixvim
     ./pandoc.nix
     ./picom.nix
