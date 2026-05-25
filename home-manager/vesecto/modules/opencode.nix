@@ -11,6 +11,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }: let
@@ -39,6 +40,88 @@
         substituteInPlace "$file" --replace "$out" "${opencodeConfigDir}"
       done < <(find "$out" -type f -print0)
     '';
+  opencodeOhMyOpenAgentDeps =
+    pkgs.stdenv.mkDerivation {
+      pname = "oh-my-openagent-deps";
+      version = "4.4.0-dev";
+      src = inputs.oh-my-openagent;
+
+      nativeBuildInputs = [pkgs.bun];
+
+      dontConfigure = true;
+      dontFixup = true;
+
+      outputHashAlgo = "sha256";
+      outputHashMode = "recursive";
+      outputHash = "sha256-MZzLQhas31hM2CvHJZXgQZVJQulJUAd5SDiMnv9ZUe4=";
+
+      buildPhase = ''
+        runHook preBuild
+
+        export HOME="$TMPDIR/home"
+        export XDG_CACHE_HOME="$TMPDIR/cache"
+        export BUN_INSTALL_CACHE_DIR="$TMPDIR/bun-cache"
+
+        bun install --frozen-lockfile --ignore-scripts
+
+        runHook postBuild
+      '';
+
+      installPhase = ''
+        runHook preInstall
+
+        mkdir -p "$out"
+        cp -R node_modules "$out"/
+
+        runHook postInstall
+      '';
+    };
+  opencodeOhMyOpenAgent =
+    pkgs.stdenv.mkDerivation {
+      pname = "oh-my-openagent-opencode-plugin";
+      version = "4.4.0-dev";
+      src = inputs.oh-my-openagent;
+
+      nativeBuildInputs = [
+        pkgs.bun
+        pkgs.nodejs_22
+      ];
+
+      dontConfigure = true;
+
+      buildPhase = ''
+        runHook preBuild
+
+        cp -R ${opencodeOhMyOpenAgentDeps}/node_modules ./node_modules
+        chmod -R u+w node_modules
+        patchShebangs node_modules
+
+        export HOME="$TMPDIR/home"
+        export XDG_CACHE_HOME="$TMPDIR/cache"
+        export BUN_INSTALL_CACHE_DIR="$TMPDIR/bun-cache"
+
+        bun run build
+
+        runHook postBuild
+      '';
+
+      installPhase = ''
+        runHook preInstall
+
+        mkdir -p "$out"
+        cp -R \
+          package.json \
+          bin \
+          dist \
+          node_modules \
+          .opencode \
+          packages \
+          assets \
+          "$out"/
+
+        runHook postInstall
+      '';
+    };
 in {
   xdg.configFile."opencode/agents".source = "${opencodeGsd}/agents";
   xdg.configFile."opencode/command".source = "${opencodeGsd}/command";
@@ -46,6 +129,12 @@ in {
   xdg.configFile."opencode/hooks".source = "${opencodeGsd}/hooks";
   xdg.configFile."opencode/package.json".source = "${opencodeGsd}/package.json";
   xdg.configFile."opencode/superpowers".source = inputs.superpowers;
+  xdg.configFile."opencode/oh-my-openagent".source = opencodeOhMyOpenAgent;
+
+  home.sessionVariables = {
+    OMO_DISABLE_POSTHOG = "1";
+    OMO_SEND_ANONYMOUS_TELEMETRY = "0";
+  };
 
   programs.opencode = {
     enable = true;
@@ -60,6 +149,7 @@ in {
       plugin = [
         "opencode-wakatime"
         "${opencodeConfigDir}/superpowers"
+        "${opencodeConfigDir}/oh-my-openagent"
       ];
       provider = {
         openai = {
