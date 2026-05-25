@@ -213,19 +213,20 @@
         "type": "github"
       }
     },
-    "get-shit-done": {
+    "get-shit-done-redux": {
       "flake": false,
       "locked": {
-        "lastModified": 1779223744,
-        "narHash": "sha256-Z6TER5nyYn3ibsH4UBaLa3FD5qGlh3BjNKYEgW6s9eY=",
-        "owner": "gsd-build",
-        "repo": "get-shit-done",
-        "rev": "e5461ad4e2a728f376f9f48462a97eb528da1d9a",
+        "lastModified": 1779678744,
+        "narHash": "sha256-2lrpgWqdtwUk4tMht+zKaHf3b0eHlYU+9SkD2wKG8KA=",
+        "owner": "open-gsd",
+        "repo": "get-shit-done-redux",
+        "rev": "dc4b90ae4b202007524e0576ff92b010b7460567",
         "type": "github"
       },
       "original": {
-        "owner": "gsd-build",
-        "repo": "get-shit-done",
+        "owner": "open-gsd",
+        "ref": "next",
+        "repo": "get-shit-done-redux",
         "type": "github"
       }
     },
@@ -1005,7 +1006,7 @@
         "asus-numberpad-driver": "asus-numberpad-driver",
         "catppuccin": "catppuccin",
         "dracula-qt5": "dracula-qt5",
-        "get-shit-done": "get-shit-done",
+        "get-shit-done-redux": "get-shit-done-redux",
         "home-manager": "home-manager",
         "home-manager-stable": "home-manager-stable",
         "hyprland": "hyprland",

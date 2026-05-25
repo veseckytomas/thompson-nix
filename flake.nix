@@ -135,8 +135,8 @@
       repo = "piper";
       flake = false;
     };
-    get-shit-done = {
-      url = "github:gsd-build/get-shit-done";
+    get-shit-done-redux = {
+      url = "github:open-gsd/get-shit-done-redux/next";
       flake = false;
     };
     superpowers = {
