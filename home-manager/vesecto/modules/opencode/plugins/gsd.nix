@@ -21,13 +21,15 @@
       nativeBuildInputs = [pkgs.nodejs_22];
     } ''
       mkdir -p "$out" "$TMPDIR/home"
+      cp -R ${inputs.get-shit-done-redux} "$TMPDIR/get-shit-done-redux"
+      chmod -R u+rwX "$TMPDIR/get-shit-done-redux"
 
       export HOME="$TMPDIR/home"
       export XDG_CONFIG_HOME="$TMPDIR/home/.config"
       export GSD_SKIP_STALE_SDK_CHECK=1
 
       ${pkgs.nodejs_22}/bin/node \
-        ${inputs.get-shit-done-redux}/bin/install.js \
+        "$TMPDIR/get-shit-done-redux/bin/install.js" \
         --opencode \
         --global \
         --no-sdk \

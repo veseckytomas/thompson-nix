@@ -18,8 +18,6 @@
           timeoutMs = 500;
         };
         formatters_by_ft = {
-          # All filetypes
-          "*" = ["codespell"];
           # CSS
           css = ["prettierd" "prettier"];
           scss = ["prettierd" "prettier"];

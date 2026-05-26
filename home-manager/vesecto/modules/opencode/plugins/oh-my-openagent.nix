@@ -23,6 +23,10 @@
 
     nativeBuildInputs = [pkgs.bun];
 
+    postPatch = ''
+      substituteInPlace package.json --replace '"4.5.0"' '"4.4.0"'
+    '';
+
     dontConfigure = true;
     dontFixup = true;
 
@@ -62,6 +66,11 @@
     ];
 
     dontConfigure = true;
+
+    postPatch = ''
+      substituteInPlace src/features/team-mode/tools/lifecycle-test-fixture.ts \
+        --replace 'ask: async () => {},' 'ask: () => Effect.void,'
+    '';
 
     buildPhase = ''
       runHook preBuild
