@@ -33,7 +33,6 @@
   # List of packages
   environment.systemPackages = with pkgs; [
     # Shell
-    (callPackage ./2048.nix {inherit inputs;})
     curl
     gzip
     gnutar
@@ -113,6 +112,7 @@
     localsend
     anki-bin
     glab
+    croc
 
     dust
     fselect

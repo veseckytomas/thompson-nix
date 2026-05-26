@@ -61,6 +61,13 @@ in {
     sqlite
     xml2
     jre8
+
+    # TUI Games
+    (callPackage ./packages/2048.nix {inherit inputs;})
+    tty-solitaire
+    bastet # Tetris
+    nsnake # Snake
+    benhsm-minesweeper # Minesweeper
   ];
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
   environment.variables = {
