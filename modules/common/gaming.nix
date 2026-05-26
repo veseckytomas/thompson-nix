@@ -46,7 +46,7 @@ in {
   # Other packages
   environment.systemPackages = with pkgs; [
     # polymc
-    inputs.polymc.packages.${pkgs.system}.polymc
+    inputs.polymc.packages.${pkgs.stdenv.hostPlatform.system}.polymc
     mangohud
     protonup-ng
     lutris
