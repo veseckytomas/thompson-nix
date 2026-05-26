@@ -927,11 +927,11 @@
     "oh-my-openagent": {
       "flake": false,
       "locked": {
-        "lastModified": 1779782067,
-        "narHash": "sha256-ya+47keTJKBk98VGtOsd7kTuK6+8py5M+Vs+2EVOPeE=",
+        "lastModified": 1779790096,
+        "narHash": "sha256-tcNQgyBGS5PGlMpV1ZsbzrVuTGout6kx8eCPXXW7YBM=",
         "ref": "dev",
-        "rev": "d7b4072a904aaf80ccfd238494d42ef6391f9d8a",
-        "revCount": 6903,
+        "rev": "36e69f8b3cb7c5b9af3730f7984fd61e40c9e455",
+        "revCount": 6908,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
