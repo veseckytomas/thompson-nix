@@ -17,7 +17,6 @@
   services.borgbackup.jobs.rsync.paths = [
     "/mnt/hdd/bak"
     "/mnt/hdd/torrent"
-    "/mnt/hdd_win/Data"
   ];
 
   # Gaming mouse configuration
