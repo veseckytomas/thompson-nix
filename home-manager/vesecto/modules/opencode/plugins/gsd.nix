@@ -55,13 +55,15 @@ in {
     opencodePlugins.gsd.package = opencodeGsd;
 
     xdg.configFile = {
-      "opencode/command".source = "${opencodeGsd}/command";
       "opencode/get-shit-done".source = "${opencodeGsd}/get-shit-done";
       "opencode/hooks".source = "${opencodeGsd}/hooks";
       "opencode/package.json".source = "${opencodeGsd}/package.json";
     };
 
-    opencodePlugins.agentSources = ["${opencodeGsd}/agents"];
+    opencodePlugins = {
+      agentSources = ["${opencodeGsd}/agents"];
+      commandSources = ["${opencodeGsd}/command"];
+    };
 
     programs.opencode.settings.permission = {
       read."${opencodeConfigDir}/get-shit-done/*" = "allow";

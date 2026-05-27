@@ -23,6 +23,9 @@ in {
   config = lib.mkIf config.opencodePlugins.superpowers.enable {
     xdg.configFile."opencode/superpowers".source = inputs.superpowers;
 
-    opencodePlugins.pluginEntries = ["${opencodeConfigDir}/superpowers"];
+    opencodePlugins = {
+      pluginEntries = ["${opencodeConfigDir}/superpowers"];
+      skillSources = ["${inputs.superpowers}/skills"];
+    };
   };
 }

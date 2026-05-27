@@ -55,13 +55,13 @@ in {
     opencodePlugins = {
       caveman.package = opencodeCaveman;
       agentSources = ["${opencodeCaveman}/opencode/agents"];
+      skillSources = ["${opencodeCaveman}/opencode/skills"];
       pluginEntries = ["${opencodeConfigDir}/plugins/caveman/plugin.js"];
     };
 
     xdg.configFile = {
       "opencode/plugins/caveman".source = "${opencodeCaveman}/opencode/plugins/caveman";
       "opencode/commands".source = "${opencodeCaveman}/opencode/commands";
-      "opencode/skills".source = "${opencodeCaveman}/opencode/skills";
       "opencode/AGENTS.md".source = "${opencodeCaveman}/opencode/AGENTS.md";
     };
   };

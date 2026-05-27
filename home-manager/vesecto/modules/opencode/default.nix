@@ -30,6 +30,16 @@
       default = [];
       description = "TUI plugin entries from enabled plugins";
     };
+    commandSources = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Command directory sources from enabled plugins";
+    };
+    skillSources = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Skill directory sources from enabled plugins";
+    };
   };
 
   imports = [
@@ -48,16 +58,34 @@
         '')
         config.opencodePlugins.agentSources}
     '';
+    opencodeCommands = pkgs.runCommand "opencode-commands" {} ''
+      mkdir -p "$out"
+      ${lib.concatMapStrings (src: ''
+          cp -R ${src}/. "$out"/
+        '')
+        config.opencodePlugins.commandSources}
+    '';
+    opencodeSkills = pkgs.runCommand "opencode-skills" {} ''
+      mkdir -p "$out"
+      ${lib.concatMapStrings (src: ''
+          cp -R ${src}/. "$out"/
+        '')
+        config.opencodePlugins.skillSources}
+    '';
   in {
     opencodePlugins = {
       gsd.enable = true;
-      caveman.enable = true;
+      caveman.enable = false;
       wakatime.enable = true;
       oh-my-openagent.enable = true;
       superpowers.enable = true;
     };
 
-    xdg.configFile."opencode/agents".source = opencodeAgents;
+    xdg.configFile = {
+      "opencode/agents".source = opencodeAgents;
+      "opencode/command".source = opencodeCommands;
+      "opencode/skills".source = opencodeSkills;
+    };
 
     programs.opencode = {
       enable = true;
@@ -65,7 +93,7 @@
       settings = {
         autoupdate = false;
         lsp = true;
-        # model = "openai/gpt-5.5";
+        model = "litellm/kimi-k2.6";
         plugin = config.opencodePlugins.pluginEntries;
         provider = {
           openai = {
