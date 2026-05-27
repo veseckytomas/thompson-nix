@@ -74,11 +74,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1779741226,
-        "narHash": "sha256-2Oz1vwT1lRF16zXFpT8FoxSTF6/V6uKLsKo52Xxa0cs=",
+        "lastModified": 1779876564,
+        "narHash": "sha256-0cPac2/hEW5hnfNaKd+fHVjWb3dScO2VyExme1vIZDQ=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "823da4d4f1160d7ac395fe459a4e33d9dfe57bb2",
+        "rev": "7d283dea9a4e25cfa9a544eb40933d256cb57957",
         "type": "github"
       },
       "original": {
@@ -232,11 +232,11 @@
     "get-shit-done-redux": {
       "flake": false,
       "locked": {
-        "lastModified": 1779729208,
-        "narHash": "sha256-peNu9BMZ5v443ct/TsN00U2oALgYUD/DUW8x6/tZSR4=",
+        "lastModified": 1779849969,
+        "narHash": "sha256-afqLfwYNuWKf3uICV/yn9A6UVTes0cGoU7d7SfHR42k=",
         "owner": "open-gsd",
         "repo": "get-shit-done-redux",
-        "rev": "80d971d01e56839952755a026751bff38f83e61d",
+        "rev": "33ebd1de195a128d51256b6d7939bfb910f517b8",
         "type": "github"
       },
       "original": {
@@ -380,11 +380,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1779729308,
-        "narHash": "sha256-tMt7oeAahwHGDgSIf5XKZoUXenOvlxjI0KBPku97tzM=",
+        "lastModified": 1779801868,
+        "narHash": "sha256-qLEUYPaxWezxcRttqLiU1/1YwrAiF0jfVyLePdpOKSs=",
         "ref": "refs/heads/main",
-        "rev": "bb3353f864be97e9236cfafca68ce71d7cf590dc",
-        "revCount": 7364,
+        "rev": "864dc89c9595095b5368a890fb39afbc75f590ca",
+        "revCount": 7368,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -657,11 +657,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1779709698,
-        "narHash": "sha256-+HezOzb3e+MqigfoG4NMFwzhQ/UwOUIfM/p4C0syaXE=",
+        "lastModified": 1779810691,
+        "narHash": "sha256-x6yQOIxgtpAo3XRg7PlFSXIXWjGakGs0rkwZB7FahoQ=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "b92e6e962fc84a0e6b82d4c8e25c1f460f08289f",
+        "rev": "87601ddef556f21888c59e0a2713873ad73f9c29",
         "type": "github"
       },
       "original": {
@@ -866,11 +866,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1779683452,
-        "narHash": "sha256-Ksx8jghpDBCPDiTaTyGhYUXG1BUwqPjf5pajl0q0cqA=",
+        "lastModified": 1779816597,
+        "narHash": "sha256-Kgod3gZlhSp6WozZ2pFaclXbWpjs6kQLAtldoxb85Lc=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "afec1bae0e6f7983a5c03ec559f7ed2ec0e714a9",
+        "rev": "297f9341476ba7f821a42d7a2805e206ef8c6ef8",
         "type": "github"
       },
       "original": {
@@ -927,11 +927,11 @@
     "oh-my-openagent": {
       "flake": false,
       "locked": {
-        "lastModified": 1779790096,
-        "narHash": "sha256-tcNQgyBGS5PGlMpV1ZsbzrVuTGout6kx8eCPXXW7YBM=",
+        "lastModified": 1779877583,
+        "narHash": "sha256-wWtf8HtcETFz7dckijz4wnM7oyfgxdsWmOBP/HoAGLU=",
         "ref": "dev",
-        "rev": "36e69f8b3cb7c5b9af3730f7984fd61e40c9e455",
-        "revCount": 6908,
+        "rev": "06c86f526a556b7289933307b8de495545700588",
+        "revCount": 6928,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
