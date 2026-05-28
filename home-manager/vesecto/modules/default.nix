@@ -24,6 +24,7 @@
     ./flameshot.nix
     ./fzf.nix
     ./git
+    ./gsd-sdk.nix
     ./hyprland
     ./ideavim
     ./nomacs

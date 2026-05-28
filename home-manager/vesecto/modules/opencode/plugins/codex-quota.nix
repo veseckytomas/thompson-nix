@@ -21,12 +21,12 @@
     nodejs = pkgs.nodejs_22;
     derivationArgs = {
       pname = "opencode-codex-quota-deps";
-      version = "1.0.1";
+      version = "unstable";
     };
   };
   opencodeCodexQuota = pkgs.stdenv.mkDerivation {
     pname = "opencode-codex-quota";
-    version = "1.0.1";
+    version = "unstable";
     src = inputs.opencode-codex-quota;
 
     nativeBuildInputs = [pkgs.nodejs_22];

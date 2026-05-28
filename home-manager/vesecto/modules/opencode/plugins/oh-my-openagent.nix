@@ -18,7 +18,7 @@
   inherit (pkgs.stdenv.hostPlatform) system;
   bun2nix = inputs.bun2nix.packages.${system}.default;
   bunNix = builtins.toFile "oh-my-openagent-bun.nix" (
-    builtins.replaceStrings ["@src@"] ["${inputs.oh-my-openagent}"] (builtins.readFile ./oh-my-openagent-bun.nix)
+    builtins.replaceStrings ["@src@"] ["${inputs.oh-my-openagent}"] (builtins.readFile ./lockfiles/oh-my-openagent-bun.nix)
   );
 
   bunDeps = bun2nix.fetchBunDeps {
@@ -27,7 +27,7 @@
 
   opencodeOhMyOpenagent = pkgs.stdenv.mkDerivation {
     pname = "oh-my-openagent";
-    version = "4.5.1";
+    version = "unstable";
     src = inputs.oh-my-openagent;
 
     nativeBuildInputs = [
@@ -78,7 +78,7 @@
 
   ohMyOpenagentConfig = pkgs.stdenv.mkDerivation {
     pname = "oh-my-openagent-config";
-    version = "4.5.1";
+    version = "unstable";
     src = inputs.oh-my-openagent;
 
     nativeBuildInputs = [
@@ -101,7 +101,6 @@
       cat > generate-oh-my-openagent-config.ts <<'EOF'
       import { generateModelConfig } from "./src/cli/model-fallback"
 
-      const OPENAI_MODELS = new Set(["gpt-5.5"])
       const LITELLM_MODELS = new Set([
         "deepseek-r1",
         "deepseek-v4-pro-thinking",
@@ -113,10 +112,12 @@
       ])
 
       function useConfiguredProviderModel(model: string): string {
-        const modelName = model.replace(/^[^/]+\//, "")
+        const [provider, ...rest] = model.split("/")
+        const modelName = rest.join("/") || provider
 
-        if (OPENAI_MODELS.has(modelName)) {
-          return `openai/''${modelName}`
+        // Preserve native providers that are explicitly enabled
+        if (provider === "openai" || provider === "github-copilot" || provider === "opencode") {
+          return model
         }
 
         if (LITELLM_MODELS.has(modelName)) {

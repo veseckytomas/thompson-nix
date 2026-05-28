@@ -50,6 +50,7 @@
     ./plugins/superpowers.nix
     ./plugins/claude.nix
     ./plugins/codex-quota.nix
+    ./plugins/gemini.nix
   ];
 
   config = let
@@ -83,6 +84,7 @@
       superpowers.enable = true;
       claude.enable = true;
       codex-quota.enable = true;
+      gemini.enable = true;
     };
 
     xdg.configFile = {
@@ -134,6 +136,11 @@
                 name = "kimi-k2.6";
               };
             };
+          };
+        };
+        permission = {
+          external_directory = {
+            "/tmp/**" = "allow";
           };
         };
       };

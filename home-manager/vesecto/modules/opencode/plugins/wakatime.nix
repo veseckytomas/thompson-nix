@@ -21,12 +21,12 @@
     nodejs = pkgs.nodejs_22;
     derivationArgs = {
       pname = "opencode-wakatime-deps";
-      version = "1.3.8";
+      version = "unstable";
     };
   };
   opencodeWakatime = pkgs.stdenv.mkDerivation {
     pname = "opencode-wakatime";
-    version = "1.3.8";
+    version = "unstable";
     src = inputs.opencode-wakatime;
 
     nativeBuildInputs = [pkgs.nodejs_22];

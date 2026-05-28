@@ -21,12 +21,12 @@
     nodejs = pkgs.nodejs_22;
     derivationArgs = {
       pname = "opencode-claude-bridge-deps";
-      version = "1.9.0";
+      version = "unstable";
     };
   };
   opencodeClaudeBridge = pkgs.stdenv.mkDerivation {
     pname = "opencode-claude-bridge";
-    version = "1.9.0";
+    version = "unstable";
     src = inputs.opencode-claude-bridge;
 
     nativeBuildInputs = [pkgs.nodejs_22];
