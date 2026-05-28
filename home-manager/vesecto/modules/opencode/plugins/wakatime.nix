@@ -16,39 +16,13 @@
   ...
 }: let
   opencodeConfigDir = "${config.home.homeDirectory}/.config/opencode";
-  opencodeWakatimeDeps = pkgs.stdenv.mkDerivation {
-    pname = "opencode-wakatime-deps";
-    version = "1.3.8";
-    src = inputs.opencode-wakatime;
-
-    nativeBuildInputs = [pkgs.nodejs_22 pkgs.cacert];
-
-    dontConfigure = true;
-    dontFixup = true;
-
-    outputHashAlgo = "sha256";
-    outputHashMode = "recursive";
-    outputHash = "sha256-LH+rlOOF2QjMczVxbj5Lc3LcM4wc4w8dDHc+ExThpRs=";
-
-    buildPhase = ''
-      runHook preBuild
-
-      export HOME="$TMPDIR/home"
-      export NODE_EXTRA_CA_CERTS="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-
-      npm install --frozen-lockfile --ignore-scripts
-
-      runHook postBuild
-    '';
-
-    installPhase = ''
-      runHook preInstall
-
-      mkdir -p "$out"
-      cp -R node_modules "$out"/
-
-      runHook postInstall
-    '';
+  opencodeWakatimeDeps = pkgs.importNpmLock.buildNodeModules {
+    npmRoot = inputs.opencode-wakatime;
+    nodejs = pkgs.nodejs_22;
+    derivationArgs = {
+      pname = "opencode-wakatime-deps";
+      version = "1.3.8";
+    };
   };
   opencodeWakatime = pkgs.stdenv.mkDerivation {
     pname = "opencode-wakatime";

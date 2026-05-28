@@ -15,40 +15,14 @@
   pkgs,
   ...
 }: let
-  opencodeOhMyOpenagentDeps = pkgs.stdenv.mkDerivation {
-    pname = "oh-my-openagent-deps";
-    version = "4.5.1";
-    src = inputs.oh-my-openagent;
+  inherit (pkgs.stdenv.hostPlatform) system;
+  bun2nix = inputs.bun2nix.packages.${system}.default;
+  bunNix = builtins.toFile "oh-my-openagent-bun.nix" (
+    builtins.replaceStrings ["@src@"] ["${inputs.oh-my-openagent}"] (builtins.readFile ./oh-my-openagent-bun.nix)
+  );
 
-    nativeBuildInputs = [pkgs.bun pkgs.cacert];
-
-    dontConfigure = true;
-    dontFixup = true;
-
-    outputHashAlgo = "sha256";
-    outputHashMode = "recursive";
-    outputHash = "sha256-i2AtcrGw9OJ/40GbXhHBopjLWUOtwfLnQvGjBH9HumQ=";
-
-    buildPhase = ''
-      runHook preBuild
-
-      export HOME="$TMPDIR/home"
-      export XDG_CACHE_HOME="$TMPDIR/cache"
-      export NODE_EXTRA_CA_CERTS="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-
-      bun install --frozen-lockfile --ignore-scripts
-
-      runHook postBuild
-    '';
-
-    installPhase = ''
-      runHook preInstall
-
-      mkdir -p "$out"
-      cp -R node_modules "$out"/
-
-      runHook postInstall
-    '';
+  bunDeps = bun2nix.fetchBunDeps {
+    inherit bunNix;
   };
 
   opencodeOhMyOpenagent = pkgs.stdenv.mkDerivation {
@@ -56,15 +30,20 @@
     version = "4.5.1";
     src = inputs.oh-my-openagent;
 
-    nativeBuildInputs = [pkgs.bun pkgs.nodejs_22];
+    nativeBuildInputs = [
+      bun2nix.hook
+      pkgs.nodejs_22
+    ];
 
+    inherit bunDeps;
     dontConfigure = true;
+    dontRunLifecycleScripts = true;
+    dontUseBunBuild = true;
+    dontUseBunInstall = true;
 
     buildPhase = ''
       runHook preBuild
 
-      cp -R ${opencodeOhMyOpenagentDeps}/node_modules ./node_modules
-      chmod -R u+w node_modules
       patchShebangs node_modules
 
       export HOME="$TMPDIR/home"
@@ -79,7 +58,6 @@
 
     installPhase = ''
       runHook preInstall
-
 
       mkdir -p "$out" "$out/opencode"
       cp -R \
@@ -98,18 +76,30 @@
     '';
   };
 
-  ohMyOpenagentConfig =
-    pkgs.runCommand "oh-my-openagent-config" {
-      nativeBuildInputs = [pkgs.bun];
-    } ''
-      mkdir -p "$TMPDIR/source" "$out"
-      cp -R ${inputs.oh-my-openagent}/. "$TMPDIR/source"/
-      chmod -R u+rwX "$TMPDIR/source"
-      cp -R ${opencodeOhMyOpenagentDeps}/node_modules "$TMPDIR/source"/
-      chmod -R u+w "$TMPDIR/source/node_modules"
+  ohMyOpenagentConfig = pkgs.stdenv.mkDerivation {
+    pname = "oh-my-openagent-config";
+    version = "4.5.1";
+    src = inputs.oh-my-openagent;
 
-      cat > "$TMPDIR/generate-oh-my-openagent-config.ts" <<'EOF'
-      import { generateModelConfig } from "./source/src/cli/model-fallback"
+    nativeBuildInputs = [
+      bun2nix.hook
+    ];
+
+    inherit bunDeps;
+    dontConfigure = true;
+    dontRunLifecycleScripts = true;
+    dontUseBunBuild = true;
+    dontUseBunInstall = true;
+    dontUseBunCheck = true;
+
+    buildPhase = ''
+      runHook preBuild
+
+      patchShebangs node_modules
+      chmod -R u+w node_modules
+
+      cat > generate-oh-my-openagent-config.ts <<'EOF'
+      import { generateModelConfig } from "./src/cli/model-fallback"
 
       const OPENAI_MODELS = new Set(["gpt-5.5"])
       const LITELLM_MODELS = new Set([
@@ -178,9 +168,20 @@
       }, null, 2))
       EOF
 
-      cd "$TMPDIR"
-      bun run "$TMPDIR/generate-oh-my-openagent-config.ts" > "$out/oh-my-openagent.jsonc"
+      bun run generate-oh-my-openagent-config.ts > oh-my-openagent.jsonc
+
+      runHook postBuild
     '';
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p "$out"
+      cp oh-my-openagent.jsonc "$out"/
+
+      runHook postInstall
+    '';
+  };
 in {
   options.opencodePlugins.oh-my-openagent = {
     enable = lib.mkEnableOption "Oh My OpenAgent plugin";

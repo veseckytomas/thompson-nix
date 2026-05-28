@@ -48,6 +48,8 @@
     ./plugins/wakatime.nix
     ./plugins/oh-my-openagent.nix
     ./plugins/superpowers.nix
+    ./plugins/claude.nix
+    ./plugins/codex-quota.nix
   ];
 
   config = let
@@ -79,6 +81,8 @@
       wakatime.enable = true;
       oh-my-openagent.enable = true;
       superpowers.enable = true;
+      claude.enable = true;
+      codex-quota.enable = true;
     };
 
     xdg.configFile = {
