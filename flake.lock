@@ -276,16 +276,16 @@
     "get-shit-done-redux": {
       "flake": false,
       "locked": {
-        "lastModified": 1779974639,
-        "narHash": "sha256-jLGw5zXzgRuwAC63Z/gkraFj04+pXgVecYOYbq+rgmw=",
+        "lastModified": 1779592306,
+        "narHash": "sha256-bz1BkpMeTX1/rvNiYXzZFJGBUzmvW3NbAwqer32NVQo=",
         "owner": "open-gsd",
         "repo": "get-shit-done-redux",
-        "rev": "48b1e351874202b0d18f2b07aa11295b9db4ac72",
+        "rev": "13c64e02999a41e180fa498085a4ac4674077a2d",
         "type": "github"
       },
       "original": {
         "owner": "open-gsd",
-        "ref": "next",
+        "ref": "v1.01.0",
         "repo": "get-shit-done-redux",
         "type": "github"
       }
@@ -1016,6 +1016,22 @@
         "type": "github"
       }
     },
+    "opencode-gemini-auth": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779406931,
+        "narHash": "sha256-M/uJSbtahFAebmpQyhBLd9rNpF1YraDeHcdqYcX5oqM=",
+        "owner": "jenslys",
+        "repo": "opencode-gemini-auth",
+        "rev": "15b98a7955db21da990d1e80bfbad88406841c49",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jenslys",
+        "repo": "opencode-gemini-auth",
+        "type": "github"
+      }
+    },
     "opencode-wakatime": {
       "flake": false,
       "locked": {
@@ -1145,6 +1161,7 @@
         "oh-my-openagent": "oh-my-openagent",
         "opencode-claude-bridge": "opencode-claude-bridge",
         "opencode-codex-quota": "opencode-codex-quota",
+        "opencode-gemini-auth": "opencode-gemini-auth",
         "opencode-wakatime": "opencode-wakatime",
         "piper": "piper",
         "polymc": "polymc",

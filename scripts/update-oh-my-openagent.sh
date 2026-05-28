@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-target="$repo_root/home-manager/vesecto/modules/opencode/plugins/oh-my-openagent-bun.nix"
+target="$repo_root/home-manager/vesecto/modules/opencode/plugins/lockfiles/oh-my-openagent-bun.nix"
 tmpdir="$(mktemp -d)"
 
 cleanup() {

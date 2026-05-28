@@ -136,7 +136,7 @@
       flake = false;
     };
     get-shit-done-redux = {
-      url = "github:open-gsd/get-shit-done-redux/next";
+      url = "github:open-gsd/get-shit-done-redux/v1.01.0";
       flake = false;
     };
     superpowers = {
@@ -164,6 +164,10 @@
     };
     opencode-codex-quota = {
       url = "github:guyinwonder168/opencode-codex-quota";
+      flake = false;
+    };
+    opencode-gemini-auth = {
+      url = "github:jenslys/opencode-gemini-auth";
       flake = false;
     };
     taskwarrior-tui = {

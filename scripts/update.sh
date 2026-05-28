@@ -13,8 +13,13 @@ RED="\033[1;91m"
 NC="\033[0;0m"
 
 nix flake update
+
+"${BASH_SOURCE%/*}/update-gemini-auth.sh"
+"${BASH_SOURCE%/*}/update-oh-my-openagent.sh"
+
 git restore --staged :/
 git add flake.lock
+git add home-manager/vesecto/modules/opencode/plugins/lockfiles
 echo -e "${RED}Please touch the device. (Sign commit)${NC}"
 git commit -m "Update flake.lock"
 ./scripts/rebuild.sh
