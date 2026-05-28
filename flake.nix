@@ -158,6 +158,22 @@
       url = "github:angristan/opencode-wakatime";
       flake = false;
     };
+    opencode-claude-bridge = {
+      url = "github:a-ledu/opencode-claude-bridge";
+      flake = false;
+    };
+    opencode-codex-quota = {
+      url = "github:guyinwonder168/opencode-codex-quota";
+      flake = false;
+    };
+    taskwarrior-tui = {
+      url = "github:kdheepak/taskwarrior-tui";
+      flake = false;
+    };
+    bun2nix = {
+      url = "github:nix-community/bun2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: let

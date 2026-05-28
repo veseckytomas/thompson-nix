@@ -68,6 +68,18 @@
     pkgs-stable.hunspellDicts.cs-cz
     pkgs-stable.hunspellDicts.en-us
 
+    # Task management
+    taskwarrior3
+    taskwarrior-tui
+    # (taskwarrior-tui.overrideAttrs
+    #   (old: {
+    #     src = inputs.taskwarrior-tui;
+    #     cargoDeps = pkgs.rustPlatform.importCargoLock {
+    #       lockFile = inputs.taskwarrior-tui + "/Cargo.lock";
+    #       allowBuiltinFetchGit = true;
+    #     };
+    #   }))
+
     # Other
     nomacs
     bitwarden-desktop
