@@ -46,6 +46,7 @@
     ./statix
     ./stylua
     ./themes
+    ./taskwarrior
     ./tmux.nix
     ./xournalpp
     ./yazi.nix
