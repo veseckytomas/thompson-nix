@@ -109,11 +109,6 @@ in {
       	git push
       	popd > /dev/null
       }
-      function nixos-run {
-      	pushd ~/Git/Personal/thompson-nix > /dev/null
-      	./scripts/main.sh
-      	popd > /dev/null
-      }
       function ga {
         git add $(git status --porcelain | command fzf | awk '{print $2}' | tr '\n' ' ');
       }
@@ -141,6 +136,7 @@ in {
       "rsync" = "rsync -r --info=progress2";
       "asus-num" = "systemctl restart asus-numberpad-driver.service";
       "oc" = "opencode";
+      "nixos-run" = "~/Git/Personal/thompson-nix/scripts/main.sh";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
