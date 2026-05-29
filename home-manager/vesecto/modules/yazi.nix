@@ -36,14 +36,12 @@
             run = "$EDITOR \"$@\"";
             desc = "Edit";
             block = true;
-            for = "unix";
           }
         ];
         open = [
           {
             run = "xdg-open \"$@\"";
             desc = "Open";
-            for = "unix";
           }
         ];
       };
@@ -53,35 +51,35 @@
           { mime = "application/json"; use = [ "edit" "open" ]; }
           { mime = "application/javascript"; use = [ "edit" "open" ]; }
           { mime = "application/xml"; use = [ "edit" "open" ]; }
-          { name = "*.toml"; use = [ "edit" "open" ]; }
-          { name = "*.nix"; use = [ "edit" "open" ]; }
-          { name = "*.lua"; use = [ "edit" "open" ]; }
-          { name = "*.py"; use = [ "edit" "open" ]; }
-          { name = "*.rs"; use = [ "edit" "open" ]; }
-          { name = "*.go"; use = [ "edit" "open" ]; }
-          { name = "*.c"; use = [ "edit" "open" ]; }
-          { name = "*.h"; use = [ "edit" "open" ]; }
-          { name = "*.cpp"; use = [ "edit" "open" ]; }
-          { name = "*.hpp"; use = [ "edit" "open" ]; }
-          { name = "*.sh"; use = [ "edit" "open" ]; }
-          { name = "*.bash"; use = [ "edit" "open" ]; }
-          { name = "*.zsh"; use = [ "edit" "open" ]; }
-          { name = "*.js"; use = [ "edit" "open" ]; }
-          { name = "*.ts"; use = [ "edit" "open" ]; }
-          { name = "*.jsx"; use = [ "edit" "open" ]; }
-          { name = "*.tsx"; use = [ "edit" "open" ]; }
-          { name = "*.html"; use = [ "edit" "open" ]; }
-          { name = "*.css"; use = [ "edit" "open" ]; }
-          { name = "*.scss"; use = [ "edit" "open" ]; }
-          { name = "*.xml"; use = [ "edit" "open" ]; }
-          { name = "*.yaml"; use = [ "edit" "open" ]; }
-          { name = "*.yml"; use = [ "edit" "open" ]; }
-          { name = "*.ini"; use = [ "edit" "open" ]; }
-          { name = "*.conf"; use = [ "edit" "open" ]; }
-          { name = "*.md"; use = [ "edit" "open" ]; }
-          { name = "*.txt"; use = [ "edit" "open" ]; }
+          { url = "*.toml"; use = [ "edit" "open" ]; }
+          { url = "*.nix"; use = [ "edit" "open" ]; }
+          { url = "*.lua"; use = [ "edit" "open" ]; }
+          { url = "*.py"; use = [ "edit" "open" ]; }
+          { url = "*.rs"; use = [ "edit" "open" ]; }
+          { url = "*.go"; use = [ "edit" "open" ]; }
+          { url = "*.c"; use = [ "edit" "open" ]; }
+          { url = "*.h"; use = [ "edit" "open" ]; }
+          { url = "*.cpp"; use = [ "edit" "open" ]; }
+          { url = "*.hpp"; use = [ "edit" "open" ]; }
+          { url = "*.sh"; use = [ "edit" "open" ]; }
+          { url = "*.bash"; use = [ "edit" "open" ]; }
+          { url = "*.zsh"; use = [ "edit" "open" ]; }
+          { url = "*.js"; use = [ "edit" "open" ]; }
+          { url = "*.ts"; use = [ "edit" "open" ]; }
+          { url = "*.jsx"; use = [ "edit" "open" ]; }
+          { url = "*.tsx"; use = [ "edit" "open" ]; }
+          { url = "*.html"; use = [ "edit" "open" ]; }
+          { url = "*.css"; use = [ "edit" "open" ]; }
+          { url = "*.scss"; use = [ "edit" "open" ]; }
+          { url = "*.xml"; use = [ "edit" "open" ]; }
+          { url = "*.yaml"; use = [ "edit" "open" ]; }
+          { url = "*.yml"; use = [ "edit" "open" ]; }
+          { url = "*.ini"; use = [ "edit" "open" ]; }
+          { url = "*.conf"; use = [ "edit" "open" ]; }
+          { url = "*.md"; use = [ "edit" "open" ]; }
+          { url = "*.txt"; use = [ "edit" "open" ]; }
           { mime = "inode/directory"; use = [ "open" ]; }
-          { name = "*"; use = [ "open" ]; }
+          { url = "*"; use = [ "open" ]; }
         ];
       };
     };
