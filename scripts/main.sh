@@ -33,33 +33,33 @@ fi
 
 case $input in
     "2")
-        ./scripts/home.sh
+        "${BASH_SOURCE%/*}/home.sh"
         ;;
     "3")
-        ./scripts/test.sh
+        "${BASH_SOURCE%/*}/test.sh"
         ;;
     "4")
-        ./scripts/update.sh
+        "${BASH_SOURCE%/*}/update.sh"
         ;;
     "5")
-        ./scripts/clean.sh
+        "${BASH_SOURCE%/*}/clean.sh"
         ;;
     "6")
-        ./scripts/setup.sh
+        "${BASH_SOURCE%/*}/setup.sh"
         ;;
     "7")
-        ./scripts/gen-iso.sh
+        "${BASH_SOURCE%/*}/gen-iso.sh"
         ;;
     "8")
-        yes | ./scripts/clean.sh
+        yes | "${BASH_SOURCE%/*}/clean.sh"
         ;;
     "9")
         echo "Exiting..."
         ;;
     *)
-        if ! ./scripts/rebuild.sh; then
+        if ! "${BASH_SOURCE%/*}/rebuild.sh"; then
             exit 1
         fi
-        ./scripts/home.sh
+        "${BASH_SOURCE%/*}/home.sh"
         ;;
 esac
