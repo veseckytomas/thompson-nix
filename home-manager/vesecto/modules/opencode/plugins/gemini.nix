@@ -28,7 +28,7 @@
     version = "1.4.16";
     src = opencodeGeminiAuthSrc;
 
-    npmDepsHash = "sha256-u/ZQ6GiG6CYijevypm5ytHyyJFB204jtw4k3V4FL7gA=";
+    npmDepsHash = "sha256-Fs0RcEvLI5wyVZWk9cnmP0aVT6BIj5tZg2bkY1C+H+s=";
 
     nativeBuildInputs = [pkgs.nodejs_22];
 
