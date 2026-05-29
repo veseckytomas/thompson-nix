@@ -69,8 +69,8 @@
     pkgs-stable.hunspellDicts.en-us
 
     # Task management
-    taskwarrior3
-    taskwarrior-tui
+    # taskwarrior3
+    # taskwarrior-tui
     # (taskwarrior-tui.overrideAttrs
     #   (old: {
     #     src = inputs.taskwarrior-tui;
