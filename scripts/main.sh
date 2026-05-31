@@ -26,7 +26,7 @@ echo "9. Exit"
 
 read -r input
 
-pushd "${BASH_SOURCE%/*}/.." || exit 1
+pushd "${BASH_SOURCE%/*}/.." > /dev/null || exit 1
 
 if [ "$input" != "5" ] && [ "$input" != "8" ] && [ "$input" != "9" ]; then
     echo -e "${RED}Please touch the device. (Pull)${NC}"
@@ -65,4 +65,4 @@ case $input in
         "${BASH_SOURCE%/*}/home.sh"
         ;;
 esac
-popd || exit
+popd > /dev/null || exit

@@ -16,7 +16,6 @@
   boot.initrd.luks.devices."luks-ed07d8eb-0f44-43c0-9c1a-21ca61defdad".device = "/dev/disk/by-uuid/ed07d8eb-0f44-43c0-9c1a-21ca61defdad";
   services.borgbackup.jobs.rsync.paths = [
     "/mnt/hdd/bak"
-    "/mnt/hdd/torrent"
   ];
 
   # Gaming mouse configuration

@@ -19,4 +19,9 @@
     ./windowManagers
     inputs.catppuccin.nixosModules.catppuccin
   ];
+
+  catppuccin = {
+    enable = false;
+    autoEnable = false;
+  };
 }
