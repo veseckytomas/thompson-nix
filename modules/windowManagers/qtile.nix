@@ -29,10 +29,14 @@
   };
   xdg.portal = {
     enable = true;
+    xdgOpenUsePortal = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
     ];
-    config.common.default = ["gtk"];
+    config = {
+      common.default = ["gtk"];
+      qtile.default = ["gtk"];
+    };
   };
   environment.systemPackages = with pkgs; [
     feh

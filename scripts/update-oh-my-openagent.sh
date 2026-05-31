@@ -12,8 +12,6 @@ trap cleanup EXIT
 
 cd "$repo_root"
 
-nix flake lock --update-input oh-my-openagent
-
 oh_my_openagent_path="$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./. )).inputs.oh-my-openagent.outPath')"
 bun2nix_rev="$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./. )).inputs.bun2nix.rev')"
 cp "$oh_my_openagent_path/bun.lock" "$tmpdir/bun.lock"

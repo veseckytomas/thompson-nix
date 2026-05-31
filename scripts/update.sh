@@ -22,11 +22,11 @@ git add flake.lock
 git add home-manager/vesecto/modules/opencode/plugins/lockfiles
 echo -e "${RED}Please touch the device. (Sign commit)${NC}"
 git commit -m "Update flake.lock"
-if "${BASH_SOURCE%/*}/rebuild.sh"; then
+if ! "${BASH_SOURCE%/*}/rebuild.sh"; then
     git reset origin/master
     exit 1
 fi
-if "${BASH_SOURCE%/*}/home.sh"; then
+if ! "${BASH_SOURCE%/*}/home.sh"; then
     git reset origin/master
     exit 1
 fi

@@ -13,8 +13,6 @@ trap cleanup EXIT
 
 cd "$repo_root"
 
-nix flake lock --update-input opencode-gemini-auth
-
 gemini_auth_path="$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./. )).inputs.opencode-gemini-auth.outPath')"
 
 # Generate a fresh package-lock.json from upstream package.json
