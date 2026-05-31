@@ -47,39 +47,138 @@
       };
       open = {
         rules = [
-          { mime = "text/*"; use = [ "edit" "open" ]; }
-          { mime = "application/json"; use = [ "edit" "open" ]; }
-          { mime = "application/javascript"; use = [ "edit" "open" ]; }
-          { mime = "application/xml"; use = [ "edit" "open" ]; }
-          { url = "*.toml"; use = [ "edit" "open" ]; }
-          { url = "*.nix"; use = [ "edit" "open" ]; }
-          { url = "*.lua"; use = [ "edit" "open" ]; }
-          { url = "*.py"; use = [ "edit" "open" ]; }
-          { url = "*.rs"; use = [ "edit" "open" ]; }
-          { url = "*.go"; use = [ "edit" "open" ]; }
-          { url = "*.c"; use = [ "edit" "open" ]; }
-          { url = "*.h"; use = [ "edit" "open" ]; }
-          { url = "*.cpp"; use = [ "edit" "open" ]; }
-          { url = "*.hpp"; use = [ "edit" "open" ]; }
-          { url = "*.sh"; use = [ "edit" "open" ]; }
-          { url = "*.bash"; use = [ "edit" "open" ]; }
-          { url = "*.zsh"; use = [ "edit" "open" ]; }
-          { url = "*.js"; use = [ "edit" "open" ]; }
-          { url = "*.ts"; use = [ "edit" "open" ]; }
-          { url = "*.jsx"; use = [ "edit" "open" ]; }
-          { url = "*.tsx"; use = [ "edit" "open" ]; }
-          { url = "*.html"; use = [ "edit" "open" ]; }
-          { url = "*.css"; use = [ "edit" "open" ]; }
-          { url = "*.scss"; use = [ "edit" "open" ]; }
-          { url = "*.xml"; use = [ "edit" "open" ]; }
-          { url = "*.yaml"; use = [ "edit" "open" ]; }
-          { url = "*.yml"; use = [ "edit" "open" ]; }
-          { url = "*.ini"; use = [ "edit" "open" ]; }
-          { url = "*.conf"; use = [ "edit" "open" ]; }
-          { url = "*.md"; use = [ "edit" "open" ]; }
-          { url = "*.txt"; use = [ "edit" "open" ]; }
-          { mime = "inode/directory"; use = [ "open" ]; }
-          { url = "*"; use = [ "open" ]; }
+          {
+            mime = "text/*";
+            use = ["edit" "open"];
+          }
+          {
+            mime = "application/json";
+            use = ["edit" "open"];
+          }
+          {
+            mime = "application/javascript";
+            use = ["edit" "open"];
+          }
+          {
+            mime = "application/xml";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.toml";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.nix";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.lua";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.py";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.rs";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.go";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.c";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.h";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.cpp";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.hpp";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.sh";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.bash";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.zsh";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.js";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.ts";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.jsx";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.tsx";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.html";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.css";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.scss";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.xml";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.yaml";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.yml";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.ini";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.conf";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.md";
+            use = ["edit" "open"];
+          }
+          {
+            url = "*.txt";
+            use = ["edit" "open"];
+          }
+          {
+            mime = "inode/directory";
+            use = ["open"];
+          }
+          {
+            url = "*";
+            use = ["open"];
+          }
         ];
       };
     };

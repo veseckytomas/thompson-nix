@@ -52,7 +52,12 @@ in {
   };
 
   config = lib.mkIf config.opencodePlugins.gsd.enable {
-    opencodePlugins.gsd.package = opencodeGsd;
+    opencodePlugins = {
+      gsd.package = opencodeGsd;
+      gsd-sdk.enable = lib.mkForce true;
+      agentSources = ["${opencodeGsd}/agents"];
+      commandSources = ["${opencodeGsd}/command"];
+    };
 
     xdg.configFile = {
       "opencode/get-shit-done".source = "${opencodeGsd}/get-shit-done";
@@ -60,17 +65,9 @@ in {
       "opencode/package.json".source = "${opencodeGsd}/package.json";
     };
 
-    opencodePlugins = {
-      agentSources = ["${opencodeGsd}/agents"];
-      commandSources = ["${opencodeGsd}/command"];
-    };
-
     programs.opencode.settings.permission = {
       read."${opencodeConfigDir}/get-shit-done/*" = "allow";
       external_directory."${opencodeConfigDir}/get-shit-done/*" = "allow";
     };
   };
-  imports = [
-    ./gsd-sdk.nix
-  ];
 }

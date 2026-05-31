@@ -43,14 +43,7 @@
   };
 
   imports = [
-    ./plugins/gsd.nix
-    ./plugins/caveman.nix
-    ./plugins/wakatime.nix
-    ./plugins/oh-my-openagent.nix
-    ./plugins/superpowers.nix
-    ./plugins/claude.nix
-    ./plugins/codex-quota.nix
-    ./plugins/gemini.nix
+    ./plugins
   ];
 
   config = let
@@ -78,6 +71,7 @@
   in {
     opencodePlugins = {
       gsd.enable = true;
+      gsd-sdk.enable = true;
       caveman.enable = false;
       wakatime.enable = true;
       oh-my-openagent.enable = true;

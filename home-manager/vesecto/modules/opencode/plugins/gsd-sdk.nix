@@ -94,5 +94,11 @@
     '';
   };
 in {
-  home.packages = [getShitDoneRedux];
+  options.opencodePlugins.gsd-sdk = {
+    enable = lib.mkEnableOption "GSD SDK (get-shit-done-redux CLI tools)";
+  };
+
+  config = lib.mkIf config.opencodePlugins.gsd-sdk.enable {
+    home.packages = [getShitDoneRedux];
+  };
 }
