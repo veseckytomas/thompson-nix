@@ -14,8 +14,13 @@
   lib,
   ...
 }: {
-  # Enable nix flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings = {
+    # Enable nix flakes
+    experimental-features = ["nix-command" "flakes"];
+
+    # Set vesecto as trusted user
+    trusted-users = ["root" "vesecto"];
+  };
 
   # Set hostname
   networking.hostName = "${hostname}";
