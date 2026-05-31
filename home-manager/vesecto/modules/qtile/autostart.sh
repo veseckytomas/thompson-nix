@@ -11,10 +11,30 @@
 # GitLab: vesecky.tomas
 
 ### AUTOSTART PROGRAMS ###
+export XDG_CURRENT_DESKTOP=qtile
+export XDG_SESSION_DESKTOP=qtile
+export DESKTOP_SESSION=qtile
+export XDG_SESSION_TYPE=x11
+
+dbus-update-activation-environment --systemd \
+  XDG_CURRENT_DESKTOP \
+  XDG_SESSION_DESKTOP \
+  DESKTOP_SESSION \
+  XDG_SESSION_TYPE \
+  PATH
+
+systemctl --user import-environment \
+  XDG_CURRENT_DESKTOP \
+  XDG_SESSION_DESKTOP \
+  DESKTOP_SESSION \
+  XDG_SESSION_TYPE \
+  PATH
+
+systemctl --user restart xdg-desktop-portal.service
+
 nm-applet &
 amixer set Master off
 xbindkeys &
-systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service
 
 ### Display Settings ###
 xset s off

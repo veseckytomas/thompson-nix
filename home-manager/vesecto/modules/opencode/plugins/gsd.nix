@@ -70,4 +70,7 @@ in {
       external_directory."${opencodeConfigDir}/get-shit-done/*" = "allow";
     };
   };
+  imports = [
+    ./gsd-sdk.nix
+  ];
 }

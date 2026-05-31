@@ -18,6 +18,12 @@ in {
     ../xbindkeys
   ];
   home = {
+    sessionVariables = {
+      XDG_CURRENT_DESKTOP = "qtile";
+      XDG_SESSION_DESKTOP = "qtile";
+      DESKTOP_SESSION = "qtile";
+      XDG_SESSION_TYPE = "x11";
+    };
     file = {
       "${config_dir}/config.py".source = ./config.py;
       "${config_dir}/colors.py".source = ./colors.py;
