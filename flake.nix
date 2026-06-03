@@ -139,10 +139,6 @@
       url = "github:open-gsd/get-shit-done-redux/v1.01.0";
       flake = false;
     };
-    superpowers = {
-      url = "github:obra/superpowers";
-      flake = false;
-    };
     oh-my-openagent = {
       type = "git";
       url = "https://github.com/code-yeongyu/oh-my-openagent";
@@ -152,22 +148,6 @@
     };
     caveman = {
       url = "github:JuliusBrussee/caveman";
-      flake = false;
-    };
-    opencode-wakatime = {
-      url = "github:angristan/opencode-wakatime";
-      flake = false;
-    };
-    opencode-claude-bridge = {
-      url = "github:a-ledu/opencode-claude-bridge";
-      flake = false;
-    };
-    opencode-codex-quota = {
-      url = "github:guyinwonder168/opencode-codex-quota";
-      flake = false;
-    };
-    opencode-gemini-auth = {
-      url = "github:jenslys/opencode-gemini-auth";
       flake = false;
     };
     taskwarrior-tui = {
