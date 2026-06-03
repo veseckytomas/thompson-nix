@@ -86,6 +86,7 @@
     nomacs
     # bitwarden-desktop
     bitwarden-cli
+    bitwarden-menu
     discord
     evince
     kdePackages.okular
