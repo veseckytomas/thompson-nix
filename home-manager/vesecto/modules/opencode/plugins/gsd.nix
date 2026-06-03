@@ -15,59 +15,70 @@
   pkgs,
   ...
 }: let
-  opencodeConfigDir = "${config.home.homeDirectory}/.config/opencode";
-  opencodeGsd =
-    pkgs.runCommand "opencode-gsd" {
-      nativeBuildInputs = [pkgs.nodejs_22];
-    } ''
-      mkdir -p "$out" "$TMPDIR/home"
-      cp -R ${inputs.get-shit-done-redux} "$TMPDIR/get-shit-done-redux"
-      chmod -R u+rwX "$TMPDIR/get-shit-done-redux"
+  cfg = config.opencodePlugins.gsd;
 
-      export HOME="$TMPDIR/home"
-      export XDG_CONFIG_HOME="$TMPDIR/home/.config"
-      export GSD_SKIP_STALE_SDK_CHECK=1
+  gsdOpencodePlugin = pkgs.stdenv.mkDerivation {
+    pname = "gsd-opencode-plugin";
+    version = "1.1.0";
+    src = inputs.get-shit-done-redux;
 
-      ${pkgs.nodejs_22}/bin/node \
-        "$TMPDIR/get-shit-done-redux/bin/install.js" \
-        --opencode \
-        --global \
-        --no-sdk \
-        --config-dir "$out"
+    nativeBuildInputs = [ pkgs.nodejs_22 ];
 
-      rm -f "$out/opencode.json"
-      rm -f "$out/gsd-file-manifest.json"
+    dontConfigure = true;
 
-      while IFS= read -r -d "" file; do
-        substituteInPlace "$file" --replace "$out" "${opencodeConfigDir}"
-      done < <(find "$out" -type f -print0)
+    buildPhase = ''
+      runHook preBuild
+      export HOME=$TMPDIR
+      node bin/install.js --opencode --global --config-dir $out --no-sdk
+      runHook postBuild
     '';
+
+    installPhase = ''
+      runHook preInstall
+      runHook postInstall
+    '';
+  };
 in {
   options.opencodePlugins.gsd = {
-    enable = lib.mkEnableOption "GSD (Get Shit Done) plugin";
-    package = lib.mkOption {
-      type = lib.types.package;
-      readOnly = true;
-    };
+    enable = lib.mkEnableOption "GSD (get-shit-done-redux) opencode plugin";
   };
 
-  config = lib.mkIf config.opencodePlugins.gsd.enable {
-    opencodePlugins = {
-      gsd.package = opencodeGsd;
-      gsd-sdk.enable = lib.mkForce true;
-      agentSources = ["${opencodeGsd}/agents"];
-      commandSources = ["${opencodeGsd}/command"];
+  config = lib.mkIf cfg.enable {
+    programs.opencode.settings = {
+      permission.read."~/.config/opencode/get-shit-done/*" = "allow";
+      permission.external_directory."~/.config/opencode/get-shit-done/*" = "allow";
+    };
+
+    home.file.".gsd/defaults.json".text = builtins.toJSON {
+      resolve_model_ids = "omit";
     };
 
     xdg.configFile = {
-      "opencode/get-shit-done".source = "${opencodeGsd}/get-shit-done";
-      "opencode/hooks".source = "${opencodeGsd}/hooks";
-      "opencode/package.json".source = "${opencodeGsd}/package.json";
-    };
-
-    programs.opencode.settings.permission = {
-      read."${opencodeConfigDir}/get-shit-done/*" = "allow";
-      external_directory."${opencodeConfigDir}/get-shit-done/*" = "allow";
+      "opencode/agents" = {
+        source = "${gsdOpencodePlugin}/agents";
+        recursive = true;
+      };
+      "opencode/command" = {
+        source = "${gsdOpencodePlugin}/command";
+        recursive = true;
+      };
+      "opencode/get-shit-done" = {
+        source = "${gsdOpencodePlugin}/get-shit-done";
+        recursive = true;
+      };
+      "opencode/hooks" = {
+        source = "${gsdOpencodePlugin}/hooks";
+        recursive = true;
+      };
+      "opencode/gsd-file-manifest.json" = {
+        source = "${gsdOpencodePlugin}/gsd-file-manifest.json";
+      };
+      "opencode/.gsd-profile" = {
+        source = "${gsdOpencodePlugin}/.gsd-profile";
+      };
+      "opencode/gsd-install-state.json" = {
+        source = "${gsdOpencodePlugin}/gsd-install-state.json";
+      };
     };
   };
 }

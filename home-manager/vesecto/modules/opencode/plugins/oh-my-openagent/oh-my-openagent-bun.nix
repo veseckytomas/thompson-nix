@@ -12,6 +12,14 @@
   fetchurl,
   ...
 }:
+let
+  ohMyOpenagentSrc = fetchgit {
+    url = "https://github.com/code-yeongyu/oh-my-openagent";
+    rev = "7afa4d08ffe9de7189a12ba871884b1023392e22";
+    hash = "sha256-UetLusMwezPBruAsr0wXRp5ay1HNhU6hlJXxckX6HAs=";
+    fetchSubmodules = true;
+  };
+in
 {
   "@ast-grep/cli-darwin-arm64@0.41.1" = fetchurl {
     url = "https://registry.npmjs.org/@ast-grep/cli-darwin-arm64/-/cli-darwin-arm64-0.41.1.tgz";
@@ -161,19 +169,19 @@
     url = "https://registry.npmjs.org/@msgpackr-extract/msgpackr-extract-win32-x64/-/msgpackr-extract-win32-x64-3.0.4.tgz";
     hash = "sha512-CmCXPQrkbwExx3j946/PtHWHbYJiCRBRDl4BlkRQcJB/YOwQxJRTpoo7aTsortjgoJ1x7opzTSxn7C+ASSLVjQ==";
   };
-  "@oh-my-opencode/agents-md-core" = copyPathToStore @src@/packages/agents-md-core;
-  "@oh-my-opencode/ast-grep-core" = copyPathToStore @src@/packages/ast-grep-core;
-  "@oh-my-opencode/ast-grep-mcp" = copyPathToStore @src@/packages/ast-grep-mcp;
-  "@oh-my-opencode/boulder-state" = copyPathToStore @src@/packages/boulder-state;
-  "@oh-my-opencode/comment-checker-core" = copyPathToStore @src@/packages/comment-checker-core;
-  "@oh-my-opencode/git-bash-mcp" = copyPathToStore @src@/packages/git-bash-mcp;
-  "@oh-my-opencode/hashline-core" = copyPathToStore @src@/packages/hashline-core;
-  "@oh-my-opencode/model-core" = copyPathToStore @src@/packages/model-core;
-  "@oh-my-opencode/omo-codex" = copyPathToStore @src@/packages/omo-codex;
-  "@oh-my-opencode/prompts-core" = copyPathToStore @src@/packages/prompts-core;
-  "@oh-my-opencode/rules-engine" = copyPathToStore @src@/packages/rules-engine;
-  "@oh-my-opencode/shared-skills" = copyPathToStore @src@/packages/shared-skills;
-  "@oh-my-opencode/utils" = copyPathToStore @src@/packages/utils;
+  "@oh-my-opencode/agents-md-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/agents-md-core");
+  "@oh-my-opencode/ast-grep-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/ast-grep-core");
+  "@oh-my-opencode/ast-grep-mcp" = copyPathToStore (ohMyOpenagentSrc + "/packages/ast-grep-mcp");
+  "@oh-my-opencode/boulder-state" = copyPathToStore (ohMyOpenagentSrc + "/packages/boulder-state");
+  "@oh-my-opencode/comment-checker-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/comment-checker-core");
+  "@oh-my-opencode/git-bash-mcp" = copyPathToStore (ohMyOpenagentSrc + "/packages/git-bash-mcp");
+  "@oh-my-opencode/hashline-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/hashline-core");
+  "@oh-my-opencode/model-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/model-core");
+  "@oh-my-opencode/omo-codex" = copyPathToStore (ohMyOpenagentSrc + "/packages/omo-codex");
+  "@oh-my-opencode/prompts-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/prompts-core");
+  "@oh-my-opencode/rules-engine" = copyPathToStore (ohMyOpenagentSrc + "/packages/rules-engine");
+  "@oh-my-opencode/shared-skills" = copyPathToStore (ohMyOpenagentSrc + "/packages/shared-skills");
+  "@oh-my-opencode/utils" = copyPathToStore (ohMyOpenagentSrc + "/packages/utils");
   "@opencode-ai/plugin@1.15.10" = fetchurl {
     url = "https://registry.npmjs.org/@opencode-ai/plugin/-/plugin-1.15.10.tgz";
     hash = "sha512-V2p7CvpBtKWB+FID7Dl1y0Ci02zUT40A9b2RD9R9BOiuD8ZcKhHWov+irN0xVJA0Eg6OhEBfA0lPKRn1FNKPlw==";

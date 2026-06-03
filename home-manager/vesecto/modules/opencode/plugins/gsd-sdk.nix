@@ -71,7 +71,6 @@
 
       mkdir -p "$out"
       cp -R \
-        package.json \
         bin \
         commands \
         get-shit-done \

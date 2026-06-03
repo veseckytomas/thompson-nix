@@ -8,140 +8,77 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  options.opencodePlugins = {
-    agentSources = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-      description = "Agent directory sources from enabled plugins";
-    };
-    pluginEntries = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-      description = "Plugin entries for opencode settings from enabled plugins";
-    };
-    tuiPluginEntries = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-      description = "TUI plugin entries from enabled plugins";
-    };
-    commandSources = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-      description = "Command directory sources from enabled plugins";
-    };
-    skillSources = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-      description = "Skill directory sources from enabled plugins";
-    };
+{pkgs, ...}: {
+  opencodePlugins = {
+    omo.enable = false;
+    gsd-sdk.enable = true;
+    gsd.enable = true;
+    caveman.enable = true;
   };
 
+  programs.opencode = {
+    enable = true;
+    enableMcpIntegration = true;
+    settings = {
+      autoupdate = false;
+      lsp = true;
+      model = "litellm/kimi-k2.6";
+      plugin = [
+        "./plugins/caveman/plugin.js"
+        "oh-my-openagent"
+        "superpowers@git+https://github.com/obra/superpowers.git"
+        "opencode-wakatime"
+        "opencode-codex-quota"
+        "opencode-gemini-auth@latest"
+        "opencode-claude-bridge"
+      ];
+      provider = {
+        litellm = {
+          npm = "@ai-sdk/openai-compatible";
+          name = "LiteLLM";
+          options = {
+            baseURL = "https://llm.ai.e-infra.cz/v1";
+          };
+          models = {
+            deepseek-r1 = {
+              name = "deepseek-r1";
+            };
+            deepseek-v4-pro-thinking = {
+              name = "deepseek-v4-pro-thinking";
+            };
+            deepseek-v4-pro = {
+              name = "deepseek-v4-pro";
+            };
+            gpt-oss-120b = {
+              name = "gpt-oss-120b";
+            };
+            qwen3-coder = {
+              name = "qwen3-coder";
+            };
+            "glm-5.1" = {
+              name = "glm-5.1";
+            };
+            "kimi-k2.6" = {
+              name = "kimi-k2.6";
+            };
+          };
+        };
+      };
+      permission = {
+        external_directory = {
+          "/tmp/**" = "allow";
+        };
+      };
+    };
+    tui = {
+      theme = "catppuccin";
+      plugin = ["oh-my-openagent/tui"];
+    };
+  };
   imports = [
     ./plugins
   ];
-
-  config = let
-    opencodeAgents = pkgs.runCommand "opencode-agents" {} ''
-      mkdir -p "$out"
-      ${lib.concatMapStrings (src: ''
-          cp -R ${src}/. "$out"/
-        '')
-        config.opencodePlugins.agentSources}
-    '';
-    opencodeCommands = pkgs.runCommand "opencode-commands" {} ''
-      mkdir -p "$out"
-      ${lib.concatMapStrings (src: ''
-          cp -R ${src}/. "$out"/
-        '')
-        config.opencodePlugins.commandSources}
-    '';
-    opencodeSkills = pkgs.runCommand "opencode-skills" {} ''
-      mkdir -p "$out"
-      ${lib.concatMapStrings (src: ''
-          cp -R ${src}/. "$out"/
-        '')
-        config.opencodePlugins.skillSources}
-    '';
-  in {
-    opencodePlugins = {
-      gsd.enable = true;
-      gsd-sdk.enable = true;
-      caveman.enable = false;
-      wakatime.enable = true;
-      oh-my-openagent.enable = true;
-      superpowers.enable = true;
-      claude.enable = true;
-      codex-quota.enable = true;
-      gemini.enable = true;
-    };
-
-    xdg.configFile = {
-      "opencode/agents".source = opencodeAgents;
-      "opencode/command".source = opencodeCommands;
-      "opencode/skills".source = opencodeSkills;
-    };
-
-    programs.opencode = {
-      enable = true;
-      enableMcpIntegration = true;
-      settings = {
-        autoupdate = false;
-        lsp = true;
-        model = "litellm/kimi-k2.6";
-        plugin = config.opencodePlugins.pluginEntries;
-        provider = {
-          openai = {
-            whitelist = [
-              "gpt-5.5"
-            ];
-          };
-          litellm = {
-            npm = "@ai-sdk/openai-compatible";
-            name = "LiteLLM";
-            options = {
-              baseURL = "https://llm.ai.e-infra.cz/v1";
-            };
-            models = {
-              deepseek-r1 = {
-                name = "deepseek-r1";
-              };
-              deepseek-v4-pro-thinking = {
-                name = "deepseek-v4-pro-thinking";
-              };
-              deepseek-v4-pro = {
-                name = "deepseek-v4-pro";
-              };
-              gpt-oss-120b = {
-                name = "gpt-oss-120b";
-              };
-              qwen3-coder = {
-                name = "qwen3-coder";
-              };
-              "glm-5.1" = {
-                name = "glm-5.1";
-              };
-              "kimi-k2.6" = {
-                name = "kimi-k2.6";
-              };
-            };
-          };
-        };
-        permission = {
-          external_directory = {
-            "/tmp/**" = "allow";
-          };
-        };
-      };
-      tui = {
-        plugin = config.opencodePlugins.tuiPluginEntries;
-        theme = "catppuccin";
-      };
-    };
-  };
+  home.packages = [
+    pkgs.wakatime-cli
+  ];
 }

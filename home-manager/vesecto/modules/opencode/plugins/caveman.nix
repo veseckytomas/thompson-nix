@@ -15,54 +15,101 @@
   pkgs,
   ...
 }: let
-  opencodeConfigDir = "${config.home.homeDirectory}/.config/opencode";
-  opencodeCaveman = pkgs.runCommand "opencode-caveman" {} ''
-    mkdir -p \
-      "$out/opencode/plugins/caveman" \
-      "$out/opencode/commands" \
-      "$out/opencode/agents" \
-      "$out/opencode/skills"
+  cfg = config.opencodePlugins.caveman;
 
-    cp ${inputs.caveman}/src/plugins/opencode/plugin.js "$out/opencode/plugins/caveman/"
-    cp ${inputs.caveman}/src/plugins/opencode/package.json "$out/opencode/plugins/caveman/"
-    cp ${inputs.caveman}/src/hooks/caveman-config.js "$out/opencode/plugins/caveman/caveman-config.cjs"
+  # The caveman JS plugin (hooks for TUI caveman-mode).  This is loaded as a
+  # local plugin (see settings.plugin).  It only contains the entry-point and
+  # the config helper — agents/commands/skills live in the global opencode
+  # directories where opencode actually scans for them.
+  cavemanPlugin = pkgs.runCommand "caveman-opencode-plugin" {} ''
+    mkdir -p $out
+    cp ${inputs.caveman}/src/plugins/opencode/plugin.js $out/
+    cp ${inputs.caveman}/src/plugins/opencode/package.json $out/
+    cp ${inputs.caveman}/src/hooks/caveman-config.js $out/caveman-config.cjs
+  '';
 
-    cp -R ${inputs.caveman}/src/plugins/opencode/commands/. "$out/opencode/commands/"
-    cp -R ${inputs.caveman}/agents/. "$out/opencode/agents/"
-    cp -R ${inputs.caveman}/skills/. "$out/opencode/skills/"
-    cp ${inputs.caveman}/src/rules/caveman-activate.md "$out/opencode/AGENTS.md"
-
-    substituteInPlace "$out/opencode/agents/cavecrew-builder.md" \
-      --replace "tools: [Read, Edit, Write, Grep, Glob]" "tools: { read: true, edit: true, write: true, grep: true, glob: true }"
-    substituteInPlace "$out/opencode/agents/cavecrew-investigator.md" \
-      --replace "tools: [Read, Grep, Glob, Bash]" "tools: { read: true, grep: true, glob: true, bash: true }"
-    substituteInPlace "$out/opencode/agents/cavecrew-reviewer.md" \
-      --replace "tools: [Read, Grep, Bash]" "tools: { read: true, grep: true, bash: true }"
-
-    sed -i '/^model: haiku$/d' "$out/opencode/agents/cavecrew-investigator.md"
-    sed -i '/^model: haiku$/d' "$out/opencode/agents/cavecrew-reviewer.md"
+  # Caveman agent files ship with two opencode-incompatible YAML front-matter
+  # features:
+  #   1. `tools: [Read, Edit, Write, Grep, Glob]` — a JSON-style array that
+  #      opencode's YAML parser (js-yaml in JSON_SCHEMA mode) crashes on.
+  #   2. `description: >` folded block scalars which opencode silently drops.
+  # GSD agents use single-line descriptions and include `mode: subagent`.
+  # We strip `tools:`, flatten `description: >` to a single line, and inject
+  # `mode: subagent`.
+  cavemanAgents = pkgs.runCommand "caveman-opencode-agents" {} ''
+    mkdir -p $out
+    for src in ${inputs.caveman}/agents/cavecrew-builder.md \
+               ${inputs.caveman}/agents/cavecrew-investigator.md \
+               ${inputs.caveman}/agents/cavecrew-reviewer.md; do
+      dst="$out/$(basename "$src")"
+      awk 'BEGIN { in_desc=0; desc=""; seen_name=0 }
+           /^tools:/ { next }
+           in_desc && /^[^ \t]/ { print "description: " desc; in_desc=0 }
+           in_desc { sub(/^[ \t]+/,""); if (length>0) { if (desc=="") desc=$0; else desc=desc" "$0 }; next }
+           /^description: >/ { in_desc=1; desc=""; next }
+           /^---$/ && seen_name { print "mode: subagent" }
+           { print; if (/^name:/) seen_name=1 }' "$src" > "$dst"
+    done
   '';
 in {
   options.opencodePlugins.caveman = {
-    enable = lib.mkEnableOption "Caveman plugin";
-    package = lib.mkOption {
-      type = lib.types.package;
-      readOnly = true;
-    };
+    enable = lib.mkEnableOption "Caveman opencode plugin";
   };
 
-  config = lib.mkIf config.opencodePlugins.caveman.enable {
-    opencodePlugins = {
-      caveman.package = opencodeCaveman;
-      agentSources = ["${opencodeCaveman}/opencode/agents"];
-      skillSources = ["${opencodeCaveman}/opencode/skills"];
-      pluginEntries = ["${opencodeConfigDir}/plugins/caveman/plugin.js"];
+  config = lib.mkIf cfg.enable {
+    # Plugin entry point (TUI hooks, slash-command handling) loaded as a local
+    # plugin by opencode.
+    xdg.configFile."opencode/plugins/caveman" = {
+      source = cavemanPlugin;
+      recursive = true;
     };
 
-    xdg.configFile = {
-      "opencode/plugins/caveman".source = "${opencodeCaveman}/opencode/plugins/caveman";
-      "opencode/commands".source = "${opencodeCaveman}/opencode/commands";
-      "opencode/AGENTS.md".source = "${opencodeCaveman}/opencode/AGENTS.md";
+    # Agents discovered by opencode's global agent scanner from
+    # ~/.config/opencode/agents/ (same directory GSD uses).
+    xdg.configFile."opencode/agents/cavecrew-builder.md".source = "${cavemanAgents}/cavecrew-builder.md";
+    xdg.configFile."opencode/agents/cavecrew-investigator.md".source = "${cavemanAgents}/cavecrew-investigator.md";
+    xdg.configFile."opencode/agents/cavecrew-reviewer.md".source = "${cavemanAgents}/cavecrew-reviewer.md";
+
+    # Commands discovered by opencode's global command scanner.
+    xdg.configFile."opencode/commands/caveman.md".source =
+      inputs.caveman + "/src/plugins/opencode/commands/caveman.md";
+    xdg.configFile."opencode/commands/caveman-commit.md".source =
+      inputs.caveman + "/src/plugins/opencode/commands/caveman-commit.md";
+    xdg.configFile."opencode/commands/caveman-help.md".source =
+      inputs.caveman + "/src/plugins/opencode/commands/caveman-help.md";
+    xdg.configFile."opencode/commands/caveman-review.md".source =
+      inputs.caveman + "/src/plugins/opencode/commands/caveman-review.md";
+    xdg.configFile."opencode/commands/caveman-stats.md".source =
+      inputs.caveman + "/src/plugins/opencode/commands/caveman-stats.md";
+
+    # Skills discovered by opencode's global skill scanner.
+    xdg.configFile."opencode/skills/cavecrew" = {
+      source = inputs.caveman + "/skills/cavecrew";
+      recursive = true;
+    };
+    xdg.configFile."opencode/skills/caveman" = {
+      source = inputs.caveman + "/skills/caveman";
+      recursive = true;
+    };
+    xdg.configFile."opencode/skills/caveman-commit" = {
+      source = inputs.caveman + "/skills/caveman-commit";
+      recursive = true;
+    };
+    xdg.configFile."opencode/skills/caveman-compress" = {
+      source = inputs.caveman + "/skills/caveman-compress";
+      recursive = true;
+    };
+    xdg.configFile."opencode/skills/caveman-help" = {
+      source = inputs.caveman + "/skills/caveman-help";
+      recursive = true;
+    };
+    xdg.configFile."opencode/skills/caveman-review" = {
+      source = inputs.caveman + "/skills/caveman-review";
+      recursive = true;
+    };
+    xdg.configFile."opencode/skills/caveman-stats" = {
+      source = inputs.caveman + "/skills/caveman-stats";
+      recursive = true;
     };
   };
 }

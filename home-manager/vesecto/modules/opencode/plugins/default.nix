@@ -10,14 +10,9 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
-    ./caveman.nix
-    ./claude.nix
-    ./codex-quota.nix
-    ./gemini.nix
-    ./gsd.nix
+    ./oh-my-openagent
     ./gsd-sdk.nix
-    ./oh-my-openagent.nix
-    ./superpowers.nix
-    ./wakatime.nix
+    ./gsd.nix
+    ./caveman.nix
   ];
 }
