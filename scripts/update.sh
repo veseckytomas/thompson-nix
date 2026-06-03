@@ -14,7 +14,6 @@ NC="\033[0;0m"
 
 nix flake update
 "${BASH_SOURCE%/*}/update-oh-my-openagent.sh"
-"${BASH_SOURCE%/*}/update-gemini-auth.sh"
 
 git restore --staged :/
 

@@ -984,70 +984,6 @@
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
       }
     },
-    "opencode-claude-bridge": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1776350208,
-        "narHash": "sha256-yyBvzHMn5+uMy7D8sGwOp5Fl2mJI6dL+o73odsyyw0w=",
-        "owner": "a-ledu",
-        "repo": "opencode-claude-bridge",
-        "rev": "8eff4c5c1ce10ef1302a5ec16cfec61e3a237ec2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "a-ledu",
-        "repo": "opencode-claude-bridge",
-        "type": "github"
-      }
-    },
-    "opencode-codex-quota": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1775250547,
-        "narHash": "sha256-0A3gAWj/5DcN7m9YozJpE30EcyCcwlPhsqs7zZtpNac=",
-        "owner": "guyinwonder168",
-        "repo": "opencode-codex-quota",
-        "rev": "2d285cb41d84e20feca04cea65f2015386c865a6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "guyinwonder168",
-        "repo": "opencode-codex-quota",
-        "type": "github"
-      }
-    },
-    "opencode-gemini-auth": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1779406931,
-        "narHash": "sha256-M/uJSbtahFAebmpQyhBLd9rNpF1YraDeHcdqYcX5oqM=",
-        "owner": "jenslys",
-        "repo": "opencode-gemini-auth",
-        "rev": "15b98a7955db21da990d1e80bfbad88406841c49",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jenslys",
-        "repo": "opencode-gemini-auth",
-        "type": "github"
-      }
-    },
-    "opencode-wakatime": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1778707460,
-        "narHash": "sha256-TLOwTJkqzVkKX3ZbUrTYiL3YJ+Q0lzbCosYQTLm6PWo=",
-        "owner": "angristan",
-        "repo": "opencode-wakatime",
-        "rev": "4f8a98f700d4a1135a369572c005461a24923dd8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "angristan",
-        "repo": "opencode-wakatime",
-        "type": "github"
-      }
-    },
     "piper": {
       "flake": false,
       "locked": {
@@ -1159,16 +1095,11 @@
         "nixvim": "nixvim",
         "nixvim-stable": "nixvim-stable",
         "oh-my-openagent": "oh-my-openagent",
-        "opencode-claude-bridge": "opencode-claude-bridge",
-        "opencode-codex-quota": "opencode-codex-quota",
-        "opencode-gemini-auth": "opencode-gemini-auth",
-        "opencode-wakatime": "opencode-wakatime",
         "piper": "piper",
         "polymc": "polymc",
         "ratbagd": "ratbagd",
         "render-markdown-nvim": "render-markdown-nvim",
         "sddm-theme": "sddm-theme",
-        "superpowers": "superpowers",
         "taskwarrior-tui": "taskwarrior-tui",
         "tmux-navigator": "tmux-navigator",
         "tmux-sensible": "tmux-sensible",
@@ -1216,22 +1147,6 @@
       "original": {
         "owner": "TiagoDamascena",
         "repo": "sddm-sugar-catppuccin",
-        "type": "github"
-      }
-    },
-    "superpowers": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1780085125,
-        "narHash": "sha256-P/FD8HTQO+QzvMe3A/B2v2vjs8T6ZmIYH3MPp79dSzo=",
-        "owner": "obra",
-        "repo": "superpowers",
-        "rev": "6fd4507659784c351abbd2bc264c7162cfd386dc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "obra",
-        "repo": "superpowers",
         "type": "github"
       }
     },
