@@ -23,10 +23,10 @@
     Service = {
       Type = "simple";
       ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive && ! ${pkgs.util-linux}/bin/mountpoint -q %h/mnt/Onedrive'";
-      ExecStart = "${pkgs.rclone}/bin/rclone mount eOnedrive: %h/mnt/Onedrive --vfs-cache-mode full";
+      ExecStart = "${pkgs.rclone}/bin/rclone mount eOnedrive: %h/mnt/Onedrive --vfs-cache-mode writes --dir-cache-time 1000h --poll-interval 15s --timeout 1h --umask 002";
       ExecStop = "${pkgs.fuse}/bin/fusermount -u %h/mnt/Onedrive";
       Restart = "on-failure";
-      RestartSec = "30s";
+      RestartSec = "10s";
     };
   };
 }

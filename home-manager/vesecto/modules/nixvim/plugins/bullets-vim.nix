@@ -13,8 +13,7 @@
     enable = true;
     settings = {
       enable_in_empty_buffers = 0;
-      bullets_set_mappings = 0;
-      bullets_outline_levels = "['ROM', 'ABC', 'num', 'abc', 'rom', 'std-', 'std*', 'std+']";
+      outline_levels = ["ROM" "ABC" "num" "abc" "rom" "std-"];
       enabled_file_types = [
         "markdown"
         "text"
