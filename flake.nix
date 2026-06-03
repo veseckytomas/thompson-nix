@@ -150,6 +150,10 @@
       url = "github:JuliusBrussee/caveman";
       flake = false;
     };
+    superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
     taskwarrior-tui = {
       url = "github:kdheepak/taskwarrior-tui";
       flake = false;
