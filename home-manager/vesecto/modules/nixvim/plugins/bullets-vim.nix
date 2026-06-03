@@ -8,10 +8,25 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
-  programs.nixvim = {
-    extraPlugins = [
-      pkgs.vimPlugins.bullets-vim
-    ];
+{...}: {
+  programs.nixvim.plugins.bullets = {
+    enable = true;
+    settings = {
+      enable_in_empty_buffers = 0;
+      bullets_set_mappings = 0;
+      bullets_outline_levels = "['ROM', 'ABC', 'num', 'abc', 'rom', 'std-', 'std*', 'std+']";
+      enabled_file_types = [
+        "markdown"
+        "text"
+        "gitcommit"
+        "scratch"
+      ];
+    };
+    lazyLoad = {
+      enable = true;
+      settings.ft = [
+        "markdown"
+      ];
+    };
   };
 }

@@ -26,7 +26,7 @@
       plugin = [
         "./plugins/caveman/plugin.js"
         "oh-my-openagent"
-        "superpowers@git+https://github.com/obra/superpowers.git"
+        "./plugins/superpowers/plugin.js"
         "opencode-wakatime"
         "opencode-codex-quota"
         "opencode-gemini-auth@latest"

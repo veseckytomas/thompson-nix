@@ -14,5 +14,6 @@
     ./gsd-sdk.nix
     ./gsd.nix
     ./caveman.nix
+    ./superpowers.nix
   ];
 }
