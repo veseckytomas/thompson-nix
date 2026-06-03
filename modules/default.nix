@@ -21,7 +21,7 @@
   ];
 
   catppuccin = {
-    enable = false;
+    enable = true;
     autoEnable = false;
   };
 }
