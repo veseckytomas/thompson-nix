@@ -69,6 +69,13 @@
           "/tmp/**" = "allow";
         };
       };
+      compaction = {
+        auto = true;
+        prune = false;
+        tail_turns = 2;
+        preserve_recent_tokens = 0;
+        reserved = 0;
+      };
     };
     tui = {
       theme = "catppuccin";
