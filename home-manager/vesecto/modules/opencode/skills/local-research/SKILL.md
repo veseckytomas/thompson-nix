@@ -1,6 +1,6 @@
 ---
-name: current-directory-answers
-description: Use when odpovídání na otázky ze slidech nebo dokumentů v aktuálním adresáři; applicable ke zkouškám, přípravě nebo review materiálů v pracovním adresáři
+name: local-research
+description: Use when odpovídání na otázky ze slidů nebo dokumentů v aktuálním adresáři; applicable ke zkouškám, přípravě nebo review materiálů v pracovním adresáři
 ---
 
 # Odpovědi výhradně z aktuálního adresáře
@@ -20,7 +20,7 @@ Kdykoliv uživatel položí otázku ve stylu „podle slidů“, „na základě
 
 ## Red flags — zastav se a přečti znovu
 
-- Uživatel napsal: „na základě slidech“, „podle přednášek“, „co říkají materiály v adresáři“
+- Uživatel napsal: „na základě slidů“, „podle přednášek“, „co říkají materiály v adresáři“
 - Uživatel se ptá na konkrétní pojem a tys nenalezl žádný slide, kde by se objevil
 - Tys odpověděl obecnou znalostí a v odpovědi chybí citace konkrétního slajdu nebo souboru
 - Tys odpověděl slovy „obecně platí“ nebo „dle znalostí“ — to je ZAKÁZÁNO
@@ -29,6 +29,7 @@ Kdykoliv uživatel položí otázku ve stylu „podle slidů“, „na základě
 
 Uživatel: „Co je ad-hoc polymorphism podle slidů?“
 Postup:
+
 - Najdi PDF v adresáři s klíčovými slovy polymorphism / ad-hoc.
 - Přečti konkrétní slajdy týkající se polymorfismu.
 - Odpověz: „Ad-hoc polymorphism je podle [Lecture 2, slide XY] případ, kdy stejný název funkce nebo operátoru funguje pro různé typy argumentů s různým chováním. Typickým příkladem je overloading – výběr metody se provádí při překladu (staticky).“
