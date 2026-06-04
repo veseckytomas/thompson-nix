@@ -14,7 +14,7 @@
     luaLoader.enable = true;
     performance = {
       byteCompileLua = {
-        enable = false;
+        enable = true;
         configs = true;
         initLua = true;
         nvimRuntime = true;

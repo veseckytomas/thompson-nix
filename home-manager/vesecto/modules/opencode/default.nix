@@ -78,6 +78,12 @@
   imports = [
     ./plugins
   ];
+
+  xdg.configFile."opencode/skills" = {
+    source = ./skills;
+    recursive = true;
+  };
+
   home.packages = [
     pkgs.wakatime-cli
   ];
