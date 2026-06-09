@@ -56,11 +56,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779784375,
-        "narHash": "sha256-PZKffqfdwBW6b7RgnbEG036MI8HxBn7rVnYR8svGbiw=",
+        "lastModified": 1780946693,
+        "narHash": "sha256-AtvjhOGF4fi20EbIxozmdI7U/DtB3Sv5BRgUpjX69BU=",
         "owner": "asus-linux-drivers",
         "repo": "asus-numberpad-driver",
-        "rev": "3aebce77113cf599794c65d4fdd0f40ee8f2ef26",
+        "rev": "c868723bf94b1872e1436176cafd7ec5ed979d5e",
         "type": "github"
       },
       "original": {
@@ -317,11 +317,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1780935377,
-        "narHash": "sha256-geCmxeKxlozqmj62ooNR7RWTs/UtD4dZ1IQRH51cqAo=",
+        "lastModified": 1780943742,
+        "narHash": "sha256-01bTMR9ZPG+uxPaZBeOwagg5uxIaFYs2/3YIrOX+bCA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "301871cd96c005a410e8317e90b80d59ac312c4a",
+        "rev": "df39142474950e42d5fc3bf2fef9d6c62abbe8d7",
         "type": "github"
       },
       "original": {
@@ -424,11 +424,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1780931488,
-        "narHash": "sha256-GnU0rqa9qu3TuWJwYTKS3zQz73fFsSalELeMAFRG2Cc=",
+        "lastModified": 1780990983,
+        "narHash": "sha256-2YzbWcG8OQV4lvGxnjhjClTVOwudpTERA6K4FsQSOXU=",
         "ref": "refs/heads/main",
-        "rev": "0aa7a843515823177ba85c157f947c18b5f75a61",
-        "revCount": 7436,
+        "rev": "4aff8ba45156333e80b97579c88ba1c03d2f59c1",
+        "revCount": 7437,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -907,11 +907,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1780884186,
-        "narHash": "sha256-ueTLp7DofvIZ0BXEWwi8AjP1cCsuEfO445dk6DtmfKc=",
+        "lastModified": 1780995253,
+        "narHash": "sha256-6Lsoyw2XPvY8YNMCtPnsyw0JVVtHsXP2xtrFJBBTAOQ=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "82f2ec369eb597554a71ec82f33922d01b7dba8f",
+        "rev": "43a7e6f82978ac975c3bba6728869b231e7a1ba0",
         "type": "github"
       },
       "original": {
@@ -968,11 +968,11 @@
     "oh-my-openagent": {
       "flake": false,
       "locked": {
-        "lastModified": 1780915096,
-        "narHash": "sha256-cM5p762BQGHIIksU24jAx9DLW0QSHjq685LuvgB0uyQ=",
+        "lastModified": 1780995782,
+        "narHash": "sha256-CqiboHXF7B06KML8Az3qdbbH3bGHHnICQ+IfdQikn3g=",
         "ref": "dev",
-        "rev": "02f37d0d2fc7ea288ed36b5f2f422840123e758f",
-        "revCount": 8381,
+        "rev": "1d12c0e5781fa5d1e6cd5e314952d2feebbf9eb8",
+        "revCount": 8437,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
