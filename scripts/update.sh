@@ -19,15 +19,12 @@ git restore --staged :/
 
 git add flake.lock
 git add home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix
-git add home-manager/vesecto/modules/opencode/plugins/gemini/gemini-package-lock.nix
 
 echo -e "${RED}Please touch the device. (Sign commit)${NC}"
 git commit -m "Update flake.lock"
 if ! "${BASH_SOURCE%/*}/rebuild.sh"; then
-    git reset origin/master
     exit 1
 fi
 if ! "${BASH_SOURCE%/*}/home.sh"; then
-    git reset origin/master
     exit 1
 fi
