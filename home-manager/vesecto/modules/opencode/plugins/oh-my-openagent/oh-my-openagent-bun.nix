@@ -15,8 +15,8 @@
 let
   ohMyOpenagentSrc = fetchgit {
     url = "https://github.com/code-yeongyu/oh-my-openagent";
-    rev = "1d12c0e5781fa5d1e6cd5e314952d2feebbf9eb8";
-    hash = "sha256-CqiboHXF7B06KML8Az3qdbbH3bGHHnICQ+IfdQikn3g=";
+    rev = "6f4aa197cd0a5c33671fade91e5a05e3dcab74b5";
+    hash = "sha256-jYqRs32XBTzaITj71Kx2ojmkyy2SU6xP6Nce30iclwA=";
     fetchSubmodules = true;
   };
 in
@@ -178,6 +178,7 @@ in
   "@oh-my-opencode/hashline-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/hashline-core");
   "@oh-my-opencode/model-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/model-core");
   "@oh-my-opencode/omo-codex" = copyPathToStore (ohMyOpenagentSrc + "/packages/omo-codex");
+  "@oh-my-opencode/omo-opencode" = copyPathToStore (ohMyOpenagentSrc + "/packages/omo-opencode");
   "@oh-my-opencode/prompts-core" = copyPathToStore (ohMyOpenagentSrc + "/packages/prompts-core");
   "@oh-my-opencode/rules-engine" = copyPathToStore (ohMyOpenagentSrc + "/packages/rules-engine");
   "@oh-my-opencode/shared-skills" = copyPathToStore (ohMyOpenagentSrc + "/packages/shared-skills");
