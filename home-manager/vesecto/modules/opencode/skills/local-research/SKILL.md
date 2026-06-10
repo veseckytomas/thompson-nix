@@ -1,45 +1,63 @@
 ---
 name: local-research
-description: Use when odpovídání na otázky ze slidů nebo dokumentů v aktuálním adresáři; applicable ke zkouškám, přípravě nebo review materiálů v pracovním adresáři
+description: Use when answering questions or synthesizing notes exclusively from files in the current directory, with strict rules against unsanctioned external knowledge and mandatory citation of local sources.
 ---
 
-# Odpovědi výhradně z aktuálního adresáře
+# Local-Research: Directory-Grounded Answers
 
-## Princip
+## Overview
 
-Kdykoliv uživatel položí otázku ve stylu „podle slidů“, „na základě textu v aktuálním adresáři“, „podle informací v souborech“ nebo jakýmkoliv analogickým způsobem vyžaduje zdrojová data z aktuálního pracovního adresáře (soubory .pdf, .md, .txt apod.), platí NÁSLEDUJÍCÍ NEPOSTRADATELNÁ PRAVIDLA.
+Every claim must be traceable to a file in the current directory. If the information is not there, say so. No exceptions, no silent web searches, no "general knowledge" filler.
 
-## Povinný workflow
+## When to Use
 
-1. Prohledej aktuální adresář a jeho podadresáře pomocí `glob`/`grep` nebo jiných vhodných nástrojů a nalezené materiály čti nástrojem `read` nebo `look_at` (podle typu souboru).
-2. POUŽIJ POUZE informace, které jsou fyzicky obsaženy ve slidech/dokumentech v adresáři. Nikdy nepřidávej obecné znalosti, překlady nebo domněnky, které nejsou doslova ve zdrojových souborech.
-3. Pokud je odpověď na otázku ve slidech částečná nebo neúplná — odpověz částečně a uveď, v čem je informace neúplná.
-4. Pokud odpověď ve slidech NENÍ — explicitně a bez výjimky řekni: „Ve slidech / v materiálech v aktuálním adresáři jsem nenašel odpovídající informaci. Tato informace není v aktuálních materiálech dostupná.“
-   - Tato věta se musí objevit v odpovědi, aby uživatel měl jistotu, že jsi nevynechal/ignoroval dotaz.
-5. Nepoužívej webové vyhledávání ani interní obecné znalosti jako náhradu za chybějící slajdy — to by uživatele mohlo zmást, protože předpokládá znalosti, které nejsou součástí jeho materiálů.
+- Trigger: "podle přednášek" / "according to the lectures" / "based on the files"
+- Trigger: User asks about course materials, exam prep, or directory contents
+- Trigger: Note creation or summarization from local documents
+- Do NOT use: When user explicitly asks for general knowledge or web searches
 
-## Red flags — zastav se a přečti znovu
+## Mandatory Workflow
 
-- Uživatel napsal: „na základě slidů“, „podle přednášek“, „co říkají materiály v adresáři“
-- Uživatel se ptá na konkrétní pojem a tys nenalezl žádný slide, kde by se objevil
-- Tys odpověděl obecnou znalostí a v odpovědi chybí citace konkrétního slajdu nebo souboru
-- Tys odpověděl slovy „obecně platí“ nebo „dle znalostí“ — to je ZAKÁZÁNO
+1. **Search** current directory recursively (`glob`, `grep`).
+2. **Read** files (`read`, `look_at`; PDF fallback: `pdftotext`, `strings`).
+3. **Cite** every claim with filename and page/section.
+4. **Synthesize** ONLY from extracted content.
+5. **Handle gaps:**
+   - Missing → state explicitly (see bilingual templates).
+   - Incomplete → state what was found and what is missing.
+6. **External sources** → ONLY with explicit user permission. You may propose them, but you must NOT search until the user says yes.
 
-## Příklad správného postupu
+**Explicit permission required:** "yes", "sure", "go ahead", "you may use...". Vague encouragement is NOT permission.
 
-Uživatel: „Co je ad-hoc polymorphism podle slidů?“
-Postup:
+## Bilingual Response Templates
 
-- Najdi PDF v adresáři s klíčovými slovy polymorphism / ad-hoc.
-- Přečti konkrétní slajdy týkající se polymorfismu.
-- Odpověz: „Ad-hoc polymorphism je podle [Lecture 2, slide XY] případ, kdy stejný název funkce nebo operátoru funguje pro různé typy argumentů s různým chováním. Typickým příkladem je overloading – výběr metody se provádí při překladu (staticky).“
+| Situation         | English                                                                              | Czech                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| Missing info      | "The required information is not present in the current directory materials."        | "Požadovaná informace se v materiálech v aktuálním adresáři nenachází." |
+| Incomplete info   | "The materials in [file] mention [topic] but do not provide a complete explanation." | "Materiály v [soubor] zmiňují [téma], ale neobsahují úplné vysvětlení." |
+| Source suggestion | "The current materials do not cover this. Shall I check [source]?"                   | "Aktuální materiály toto neobsahují. Mám vyhledat ve [zdroj]?"          |
 
-## Co se neděje (zakázané chování)
+## Rationalization Table
 
-- Odpovědět obecnou definicí z vlastních znalostí bez citace zdroje z adresáře.
-- Vynechat otázku, pokud odpověď není ve slidech — vždy explicitně napiš, že informace není dostupná.
-- Použít webfetch nebo general_answer jako náhradu za lokální slajdy.
+| Excuse                              | Reality                                           |
+| ----------------------------------- | ------------------------------------------------- |
+| "I already know this."              | External knowledge without citation is forbidden. |
+| "The files are incomplete."         | State it is incomplete. Do not supplement.        |
+| "The user wants a complete answer." | Completeness without citation is misinformation.  |
+| "It's faster to search the web."    | Speed does not override the source rule.          |
 
----
+## Red Flags — STOP and Start Over
 
-**Shrnutí:** Pokud odpověď není fyzicky ve slidech v aktuálním adresáři — řekni to. Žádné výjimky, žádné domněnky, žádné externí zdroje.
+- Answering from memory without reading files
+- "Generally speaking," "it is known that," "in practice"
+- Using `webfetch`, `websearch`, or `general_answer`
+- Adding information "for context"
+
+## PDF Handling
+
+`look_at` may time out on large PDFs. Fall back to:
+
+1. `pdftotext <file> - | head -n 50`
+2. `pdfgrep <term> <file>`
+3. `strings <file> | grep <term>`
+4. If all fail: "I was unable to read [file] due to PDF extraction limitations."
