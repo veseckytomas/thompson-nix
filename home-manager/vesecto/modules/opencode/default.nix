@@ -8,9 +8,14 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   opencodePlugins = {
-    omo.enable = false;
+    omo.enable = true;
     gsd-sdk.enable = true;
     gsd.enable = true;
     caveman.enable = true;
@@ -23,15 +28,18 @@
       autoupdate = false;
       lsp = true;
       model = "litellm/kimi-k2.6";
-      plugin = [
-        "./plugins/caveman/plugin.js"
-        "oh-my-openagent"
-        "./plugins/superpowers/plugin.js"
-        "opencode-wakatime"
-        "opencode-codex-quota"
-        "opencode-gemini-auth@latest"
-        "opencode-claude-bridge"
-      ];
+      plugin =
+        [
+          "./plugins/caveman/plugin.js"
+        ]
+        ++ lib.optional config.opencodePlugins.omo.enable "oh-my-openagent"
+        ++ [
+          "./plugins/superpowers/plugin.js"
+          "opencode-wakatime"
+          "opencode-codex-quota"
+          "opencode-gemini-auth@latest"
+          "opencode-claude-bridge"
+        ];
       provider = {
         litellm = {
           npm = "@ai-sdk/openai-compatible";
@@ -79,7 +87,7 @@
     };
     tui = {
       theme = "catppuccin";
-      plugin = ["oh-my-openagent/tui"];
+      plugin = lib.optional config.opencodePlugins.omo.enable "oh-my-openagent/tui";
     };
   };
   imports = [

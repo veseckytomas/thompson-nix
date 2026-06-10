@@ -40,7 +40,7 @@
       sed -i 's/entry.isFile()/(entry.isFile() || (entry.isSymbolicLink ? entry.isSymbolicLink() : false))/' packages/utils/src/file-utils.ts
 
       # Fix skill directory loader to not exclude symlinks explicitly
-      sed -i '/!entry.isSymbolicLink() &&/d' src/features/opencode-skill-loader/skill-directory-loader.ts
+      sed -i '/!entry.isSymbolicLink() &&/d' packages/omo-opencode/src/features/opencode-skill-loader/skill-directory-loader.ts
 
       runHook postPatch
     '';
