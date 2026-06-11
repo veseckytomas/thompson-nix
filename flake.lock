@@ -317,11 +317,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1781064232,
-        "narHash": "sha256-+7cIaqM6ucKf5fDyMnkwehxG8tBdaU51TZOMtxacXmI=",
+        "lastModified": 1781129616,
+        "narHash": "sha256-Hl0Pz/QIKpePSU7SdK3BMe5VNmUhFvfWyg57GyawxzE=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "1ffdc28076a1809ee7c0cf08f06af18f31c480cd",
+        "rev": "7dbd305f8b81050f223f00bcfbc8a6b74e048806",
         "type": "github"
       },
       "original": {
@@ -424,11 +424,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1781082294,
-        "narHash": "sha256-E0orkjWiANjZXMKM2KhePKO1nZ1RE8un+k7My5q79Pw=",
+        "lastModified": 1781118082,
+        "narHash": "sha256-CQD0WPm9rwtyuusUogKx+WmxUeOT59oyYxchsJ5uMDw=",
         "ref": "refs/heads/main",
-        "rev": "2acc906538b756311fbe947880fd66a2d4c57dc6",
-        "revCount": 7444,
+        "rev": "68e3e40491d3f87a388ddb11ea1966ed7c3e9612",
+        "revCount": 7447,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -701,11 +701,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1781017048,
-        "narHash": "sha256-9w/WvEHodFDqP6S+6YZxunYZu40lI/xvWngo7sGeBUI=",
+        "lastModified": 1781166770,
+        "narHash": "sha256-sl7tR+t+giat0yw5wh8jE2+O/3BxokTpn6Qvdlpcc/I=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "69250f64e60f75c010feac413576acbd9ffa4ec8",
+        "rev": "5f37d5cbcf55f9f1c6d38299d9c6b4b669cf7d86",
         "type": "github"
       },
       "original": {
@@ -968,11 +968,11 @@
     "oh-my-openagent": {
       "flake": false,
       "locked": {
-        "lastModified": 1781094260,
-        "narHash": "sha256-jYqRs32XBTzaITj71Kx2ojmkyy2SU6xP6Nce30iclwA=",
+        "lastModified": 1781163426,
+        "narHash": "sha256-S3EjkRDooQj4Czk5E2FuWR1xW6Gkk7F5Zuf0Cfa7RQk=",
         "ref": "dev",
-        "rev": "6f4aa197cd0a5c33671fade91e5a05e3dcab74b5",
-        "revCount": 8494,
+        "rev": "96ad1974c5102e962c67d11d59852e4d9b2a174d",
+        "revCount": 8547,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
