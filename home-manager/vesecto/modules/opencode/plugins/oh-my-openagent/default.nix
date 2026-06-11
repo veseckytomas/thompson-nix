@@ -25,7 +25,7 @@
 
   oh-my-openagent = pkgs.stdenv.mkDerivation {
     pname = "oh-my-openagent";
-    version = "4.5.12";
+    version = "4.8.1";
 
     src = inputs.oh-my-openagent;
 
@@ -109,5 +109,25 @@ in {
 
       "opencode/oh-my-openagent.json".source = ./oh-my-openagent.json;
     };
+
+    # OpenCode's plugin sandbox rejects server entries that resolve outside
+    # the plugin directory via realpath. home-manager creates every file as
+    # a symlink into /nix/store, so the resolved paths are "outside".
+    # We copy the critical entry-point files as real files after linkGeneration.
+    #
+    # `rm -f` handles all prior states: home-manager symlink (first switch),
+    # read-only 0444 regular file (copied from Nix store on a previous switch),
+    # or missing. `install -m 0644` then writes a fresh owner-writeable copy
+    # so future activations can replace it idempotently.
+    home.activation.copyOmoPluginEntry = lib.hm.dag.entryAfter ["linkGeneration"] ''
+      omoDir="$HOME/.config/opencode/node_modules/oh-my-openagent"
+      mkdir -p "$omoDir/dist"
+      rm -f "$omoDir/package.json" \
+            "$omoDir/dist/index.js" \
+            "$omoDir/postinstall.mjs"
+      install -m 0644 "${oh-my-openagent}/package.json"     "$omoDir/package.json"
+      install -m 0644 "${oh-my-openagent}/dist/index.js"    "$omoDir/dist/index.js"
+      install -m 0644 "${oh-my-openagent}/postinstall.mjs"  "$omoDir/postinstall.mjs"
+    '';
   };
 }

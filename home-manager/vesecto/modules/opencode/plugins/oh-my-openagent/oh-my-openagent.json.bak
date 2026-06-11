@@ -1,5 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "auto_update": false,
   "agents": {
     "sisyphus": {
       "model": "litellm/kimi-k2.6",

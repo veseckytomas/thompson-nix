@@ -64,6 +64,26 @@ in {
       recursive = true;
     };
 
+    # OpenCode's plugin sandbox rejects server entries that resolve outside
+    # the plugin directory via realpath. Copy the critical entry-point files
+    # as real files after linkGeneration.
+    #
+    # `rm -f` handles all prior states: home-manager symlink (first switch),
+    # read-only 0444 regular file (copied from Nix store on a previous switch),
+    # or missing. `install -m 0644` then writes a fresh owner-writeable copy
+    # so future activations can replace it idempotently.
+    home.activation.copyCavemanPluginEntry = lib.hm.dag.entryAfter ["linkGeneration"] ''
+      cavemanDir="$HOME/.config/opencode/plugins/caveman"
+      mkdir -p "$cavemanDir"
+      rm -f "$cavemanDir/plugin.js" \
+            "$cavemanDir/package.json" \
+            "$cavemanDir/caveman-config.cjs"
+      install -m 0644 "${cavemanPlugin}/plugin.js"          "$cavemanDir/plugin.js"
+      install -m 0644 "${cavemanPlugin}/package.json"       "$cavemanDir/package.json"
+      install -m 0644 "${cavemanPlugin}/caveman-config.cjs" "$cavemanDir/caveman-config.cjs"
+    '';
+
+
     # Agents discovered by opencode's global agent scanner from
     # ~/.config/opencode/agents/ (same directory GSD uses).
     xdg.configFile."opencode/agents/cavecrew-builder.md".source = "${cavemanAgents}/cavecrew-builder.md";

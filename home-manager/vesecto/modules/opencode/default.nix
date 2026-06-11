@@ -32,13 +32,13 @@
         [
           "./plugins/caveman/plugin.js"
         ]
-        ++ lib.optional config.opencodePlugins.omo.enable "oh-my-openagent"
+        ++ lib.optional config.opencodePlugins.omo.enable "./node_modules/oh-my-openagent"
         ++ [
           "./plugins/superpowers/plugin.js"
           "opencode-wakatime"
           "opencode-codex-quota"
-          "opencode-gemini-auth@latest"
           "opencode-claude-bridge"
+          "opencode-gemini-auth"
         ];
       provider = {
         litellm = {
@@ -87,7 +87,6 @@
     };
     tui = {
       theme = "catppuccin";
-      plugin = lib.optional config.opencodePlugins.omo.enable "oh-my-openagent/tui";
     };
   };
   imports = [
