@@ -84,6 +84,13 @@
         preserve_recent_tokens = 0;
         reserved = 0;
       };
+      mcp = {
+        markitdown = {
+          type = "local";
+          command = ["${pkgs.markitdown-mcp}/bin/markitdown-mcp"];
+          enabled = true;
+        };
+      };
     };
     tui = {
       theme = "catppuccin";
@@ -100,5 +107,6 @@
 
   home.packages = [
     pkgs.wakatime-cli
+    pkgs.python3Packages.markitdown
   ];
 }
