@@ -36,9 +36,9 @@
         ++ [
           "./plugins/superpowers/plugin.js"
           "opencode-wakatime"
-          "opencode-codex-quota"
           "opencode-claude-bridge"
           "opencode-gemini-auth"
+          "@slkiser/opencode-quota"
         ];
       provider = {
         litellm = {
@@ -94,15 +94,21 @@
     };
     tui = {
       theme = "catppuccin";
+      plugin = ["@slkiser/opencode-quota"];
     };
   };
   imports = [
     ./plugins
   ];
 
-  xdg.configFile."opencode/skills" = {
-    source = ./skills;
-    recursive = true;
+  xdg.configFile = {
+    "opencode/skills" = {
+      source = ./skills;
+      recursive = true;
+    };
+    "opencode/opencode-quota/quota-toast.json" = {
+      source = ./plugins/opencode-quota.json;
+    };
   };
 
   home.packages = [
