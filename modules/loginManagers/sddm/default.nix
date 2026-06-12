@@ -43,7 +43,7 @@
     background = "${import ./background {inherit pkgs inputs;}}/sddm_bg.png";
   };
   environment.systemPackages = with pkgs; [
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
+    qt5.qtquickcontrols2
+    qt5.qtgraphicaleffects
   ];
 }
