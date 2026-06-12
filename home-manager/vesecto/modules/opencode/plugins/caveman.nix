@@ -57,27 +57,24 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # Plugin entry point (TUI hooks, slash-command handling) loaded as a local
-    # plugin by opencode.
-    xdg.configFile."opencode/plugins/caveman" = {
-      source = cavemanPlugin;
-      recursive = true;
-    };
-
-    # OpenCode's plugin sandbox rejects server entries that resolve outside
-    # the plugin directory via realpath. Copy the critical entry-point files
-    # as real files after linkGeneration.
+    # OpenCode's plugin sandbox rejects entries that resolve outside the plugin
+    # directory via realpath, i.e. home-manager symlinks into /nix/store. So the
+    # plugin's three files must be REAL files in $HOME. We therefore provision
+    # them entirely from this activation script and deliberately do NOT manage
+    # the directory via xdg.configFile — doing so symlinked the same paths we
+    # overwrite here and produced "in the way" warnings on every switch.
     #
-    # `rm -f` handles all prior states: home-manager symlink (first switch),
-    # read-only 0444 regular file (copied from Nix store on a previous switch),
-    # or missing. `install -m 0644` then writes a fresh owner-writeable copy
-    # so future activations can replace it idempotently.
+    # `rm -f` clears any prior state (real file from a previous switch, leftover
+    # symlink, stale *.backup from the old xdg.configFile collisions, or
+    # missing). `install -m 0644` then writes fresh owner-writeable copies so
+    # future activations replace them idempotently.
     home.activation.copyCavemanPluginEntry = lib.hm.dag.entryAfter ["linkGeneration"] ''
       cavemanDir="$HOME/.config/opencode/plugins/caveman"
       mkdir -p "$cavemanDir"
       rm -f "$cavemanDir/plugin.js" \
             "$cavemanDir/package.json" \
-            "$cavemanDir/caveman-config.cjs"
+            "$cavemanDir/caveman-config.cjs" \
+            "$cavemanDir"/*.backup
       install -m 0644 "${cavemanPlugin}/plugin.js"          "$cavemanDir/plugin.js"
       install -m 0644 "${cavemanPlugin}/package.json"       "$cavemanDir/package.json"
       install -m 0644 "${cavemanPlugin}/caveman-config.cjs" "$cavemanDir/caveman-config.cjs"

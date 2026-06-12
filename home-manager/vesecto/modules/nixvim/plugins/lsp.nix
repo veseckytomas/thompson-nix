@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.nixvim.plugins.lsp = {
     enable = true;
 
@@ -74,4 +74,9 @@
       tinymist.enable = true;
     };
   };
+  home.packages = with pkgs; [
+    # LSP servers
+    bash-language-server
+    nixd
+  ];
 }
