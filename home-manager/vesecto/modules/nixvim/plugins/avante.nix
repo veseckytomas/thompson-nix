@@ -100,6 +100,6 @@
     };
   };
   imports = [
-    ./api_keys/default.nix
+    ../../api_keys
   ];
 }

@@ -99,6 +99,7 @@
   };
   imports = [
     ./plugins
+    ../api_keys
   ];
 
   xdg.configFile = {
