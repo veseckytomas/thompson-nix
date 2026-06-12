@@ -25,6 +25,12 @@
       background_opacity = 0.80;
       cursor_shape = "block";
       shell_integration = "no-cursor";
+      # Disable Kitty's config-file watcher. On kitty < 0.47.2 it follows this
+      # config's /nix/store realpath (HM symlink) and recursively watches the
+      # whole store, leaking ~524k inotify watches and exhausting
+      # fs.inotify.max_user_watches -> Thunar (and others) stop auto-refreshing.
+      # Negative value = disabled. Safe to remove once kitty >= 0.47.2.
+      auto_reload_config = -1;
     };
     extraConfig = ''term xterm-256color'';
   };

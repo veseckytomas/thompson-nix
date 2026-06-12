@@ -1,5 +1,6 @@
 {
   "enabledProviders": "auto",
+  "minIntervalMs": 1800000,
   "enableToast": false,
   "formatStyle": "allWindows",
   "tuiSidebarPanel": {

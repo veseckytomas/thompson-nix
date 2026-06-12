@@ -20,7 +20,7 @@ Every claim must be traceable to a file in the current directory — or to a sou
 
 1. **Check** for `SOURCES.txt` in the current directory. If present, every line is a pre-approved source (see **Pre-Approved Sources: SOURCES.txt** below).
 2. **Search** current directory recursively (`glob`, `grep`).
-3. **Read** files (`read`, `look_at`; PDF fallback: `pdftotext`, `strings`). You may also read/fetch any source listed in `SOURCES.txt`.
+3. **Read** files (`read`, `look_at`). For non-text files (PDF, DOCX, PPTX, XLSX, HTML, images), PREFER the `markitdown` MCP `convert_to_markdown` tool when available — see **Non-Text & PDF File Handling** below. You may also read/fetch any source listed in `SOURCES.txt`.
 4. **Cite** every claim with filename/URL and page/section.
 5. **Synthesize** ONLY from content you actually extracted (current-directory files + sources read from `SOURCES.txt`).
 6. **Handle gaps:**
@@ -61,19 +61,36 @@ If — and ONLY if — a file named `SOURCES.txt` exists in the current director
 | "It's faster to search the web."    | Speed does not override the source rule.          |
 | "`SOURCES.txt` lists a site on this topic, so I know the answer." | Listing grants ACCESS, not memory. Open the source and cite it. |
 | "This source is basically the same as a listed one." | Only exact listings are pre-approved. Otherwise ask permission. |
+| "I'll use `markitdown` to fetch this web page for context." | `markitdown` on an unlisted URL is a web fetch. Forbidden unless that exact URL is in `SOURCES.txt`. |
+| "markitdown rephrased the file, so I'll cite markitdown." | Cite the original file. `markitdown` only reformats content the file already contains. |
 
 ## Red Flags — STOP and Start Over
 
 - Answering from memory without reading files
 - "Generally speaking," "it is known that," "in practice"
 - Using `webfetch`/`websearch` on anything NOT listed in `SOURCES.txt` (listed URLs are allowed); using `general_answer`
+- Calling `markitdown` / `convert_to_markdown` on an `http:`/`https:` URI that is not listed in `SOURCES.txt`
 - Adding information "for context"
 
-## PDF Handling
+## Non-Text & PDF File Handling
 
-`look_at` may time out on large PDFs. Fall back to:
+Plain-text files (`.md`, `.txt`, source code) → read directly with `read` / `look_at`.
 
-1. `pdftotext <file> - | head -n 50`
-2. `pdfgrep <term> <file>`
-3. `strings <file> | grep <term>`
-4. If all fail: "I was unable to read [file] due to PDF extraction limitations."
+**Non-text files (PDF, DOCX, PPTX, XLSX, HTML, images, EPUB, etc.) — PREFER `markitdown`, which extracts clean, structured Markdown:**
+
+1. **`markitdown` MCP (preferred when available).** Call the markitdown MCP `convert_to_markdown` tool (it appears in your tool list as `markitdown_convert_to_markdown`). It takes one argument, `uri`, which MUST be a **`file:` URI with an absolute path** for local files — a bare or relative path is rejected:
+   - `convert_to_markdown(uri="file:///absolute/path/to/lecture_03.pdf")`
+2. **`markitdown` CLI (fallback when the MCP tool is not in your tool list).** It is on `PATH`:
+   - `markitdown /absolute/path/to/lecture_03.pdf` — Markdown to stdout
+   - `markitdown /absolute/path/to/slides.pptx -o /tmp/slides.md` — save to a file
+3. **Plain extraction fallback (only if `markitdown` is unavailable or fails on a PDF):**
+   - `pdftotext <file> - | head -n 50`
+   - `pdfgrep <term> <file>`
+   - `strings <file> | grep <term>`
+4. **If every method fails:** "I was unable to read [file] due to extraction limitations."
+
+**`markitdown` is bound by the same source rules as every other read — it widens *format* support, not *source* scope:**
+
+- Use it ONLY on (a) files in the current directory and (b) sources listed in `SOURCES.txt`. Convert a `SOURCES.txt` local path with a `file:` URI; for a `SOURCES.txt` URL you may pass that exact URL.
+- NEVER pass an `http:`/`https:` URI that is not listed in `SOURCES.txt`. Converting an unlisted URL is a web fetch — forbidden, exactly like `webfetch`/`websearch`.
+- **Cite the original file, never the tool.** A `markitdown` conversion of `lecture_03.pdf` is cited as `lecture_03.pdf` (page/section), not "markitdown".

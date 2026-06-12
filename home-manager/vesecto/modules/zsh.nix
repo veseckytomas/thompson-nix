@@ -82,15 +82,6 @@ in {
       # Variables
       export DIRENV_WARN_TIMEOUT=0
 
-      # Long-lived Claude Code OAuth token (generated via `claude setup-token`,
-      # stored gpg-encrypted). Keeps the opencode quota plugin and `claude` CLI
-      # authenticated without a daily `claude auth login`. Decrypts once per
-      # shell tree; no-op until the encrypted file exists.
-      if [[ -z "$CLAUDE_CODE_OAUTH_TOKEN" && -r "$HOME/.config/api_keys/claude_oauth_token.gpg" ]]; then
-        CLAUDE_CODE_OAUTH_TOKEN="$(gpg --decrypt -q "$HOME/.config/api_keys/claude_oauth_token.gpg" 2>/dev/null)"
-        [[ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]] && export CLAUDE_CODE_OAUTH_TOKEN || unset CLAUDE_CODE_OAUTH_TOKEN
-      fi
-
       # Enable SSH Agent
       { eval $(gnome-keyring-daemon -s) } &>/dev/null
 
@@ -144,7 +135,7 @@ in {
       "lg" = "lazygit";
       "rsync" = "rsync -r --info=progress2";
       "asus-num" = "systemctl restart asus-numberpad-driver.service";
-      "oc" = "opencode";
+      "oc" = ''opencode attach http://127.0.0.1:4096 --dir "$PWD"'';
       "nixos-run" = "~/Git/Personal/thompson-nix/scripts/main.sh";
     };
   };

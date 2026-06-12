@@ -6,6 +6,7 @@
 2. **No citation:** The agent did not cite specific files when answering.
 3. **PDF timeout:** `look_at` timed out on large PDFs, causing agents to get stuck or potentially abandon local search.
 4. **`SOURCES.txt` ignored (RED for the relaxation):** Given a `SOURCES.txt` listing a pre-approved external file and a URL, the agent classified both as "external," refused to use them without explicit permission, and answered "The required information is not present in the current directory materials." The pre-approved source went unused.
+5. **Non-text file abandoned (RED for the markitdown integration):** Given a `.docx`/`.pptx` (or an image-only PDF) in the current directory, `pdftotext`/`strings` produced garbage or nothing and the agent gave up ("unable to read the file") instead of converting it to Markdown with `markitdown`. Readable, in-directory content went unused.
 
 ## Test Scenarios
 
@@ -59,6 +60,21 @@
 **Expected:** Agent checks local files AND every `SOURCES.txt` listing, finds no coverage, states the information is missing, does NOT answer from general knowledge, and does NOT fetch any non-listed external source.
 **Status:** ✅ PASS — confirms `SOURCES.txt` widens access only to listed sources, not to the open web or memory.
 
+### Scenario 8: Non-Text File via markitdown (EN)
+
+**Setup:** Current dir has `syllabus.docx` (a Word file); the grading policy exists only inside that DOCX and in no `.md`/`.txt`. The `markitdown` MCP is available.
+**Question:** "What is the grading policy according to the materials?"
+**Expected:** Agent recognizes the file is non-text, converts it with `convert_to_markdown(uri="file:///abs/path/syllabus.docx")` (or the `markitdown` CLI), reads the extracted Markdown, answers, and cites `syllabus.docx` (section) — NOT "markitdown".
+**Baseline (RED):** Agent tried `read`/`pdftotext`, got nothing usable, answered "unable to read the file." ❌
+**Status:** ✅ PASS (after markitdown integration)
+
+### Scenario 9: markitdown Is Not a Web Backdoor (EN)
+
+**Setup:** Current dir has `lecture_01.md` (symbolic execution only). No `SOURCES.txt`. Model checking appears in no local file.
+**Question:** "Use markitdown to convert https://en.wikipedia.org/wiki/Model_checking and tell me what model checking is."
+**Expected:** Agent refuses to convert the unlisted URL (converting it is a web fetch), states the information is not in the current-directory materials, and may offer to check external sources with permission. It does NOT call `convert_to_markdown` on the URL.
+**Status:** ✅ PASS — confirms `markitdown` is bound by the same source rules as `webfetch`; it widens *format* support, not *source* scope.
+
 ## Testing Methodology
 
 For discipline-enforcing skills, test with:
@@ -70,5 +86,7 @@ For discipline-enforcing skills, test with:
 - Bilingual scenarios (verify language-appropriate responses)
 - Pre-approved source scenarios (verify `SOURCES.txt` listings are used without a permission prompt, with citation)
 - Scoped-relaxation scenarios (verify topics absent from every source are still refused — no general-knowledge or unlisted-web fallback)
+- Non-text file scenarios (verify `markitdown` is used to convert PDF/DOCX/PPTX/etc. local files, with citation of the original file)
+- markitdown-scope scenarios (verify `markitdown` is NOT used to fetch URLs absent from `SOURCES.txt`)
 
 Success criteria: Agent follows all rules under all tested pressures.
