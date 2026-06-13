@@ -98,6 +98,9 @@ in {
   };
 
   config = lib.mkIf config.opencodePlugins.gsd-sdk.enable {
-    home.packages = [getShitDoneRedux];
+    home.packages = [
+      getShitDoneRedux
+      pkgs.nodejs-slim_24
+    ];
   };
 }

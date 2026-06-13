@@ -22,7 +22,7 @@
     version = "1.1.0";
     src = inputs.get-shit-done-redux;
 
-    nativeBuildInputs = [ pkgs.nodejs_22 ];
+    nativeBuildInputs = [pkgs.nodejs_22];
 
     dontConfigure = true;
 
@@ -49,8 +49,11 @@ in {
       permission.external_directory."~/.config/opencode/get-shit-done/*" = "allow";
     };
 
-    home.file.".gsd/defaults.json".text = builtins.toJSON {
-      resolve_model_ids = "omit";
+    home = {
+      file.".gsd/defaults.json".text = builtins.toJSON {
+        resolve_model_ids = "omit";
+      };
+      packages = [pkgs.nodejs-slim_24];
     };
 
     xdg.configFile = {
