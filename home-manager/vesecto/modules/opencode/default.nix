@@ -13,15 +13,7 @@
   lib,
   config,
   ...
-}: let
-  # Headless OpenCode server launcher. Replicates the interactive PATH so the
-  # server's subprocesses (claude, curl, LSPs, formatters, …) resolve when run
-  # outside an interactive shell.
-  opencode-serve = pkgs.writeShellScript "opencode-serve" ''
-    export PATH="${config.home.profileDirectory}/bin:/run/current-system/sw/bin:/run/wrappers/bin:/usr/bin:/bin"
-    exec opencode serve --port 4096 --hostname 127.0.0.1
-  '';
-in {
+}: {
   opencodePlugins = {
     omo.enable = true;
     gsd-sdk.enable = true;
@@ -105,23 +97,6 @@ in {
       plugin = ["@slkiser/opencode-quota"];
     };
   };
-  systemd.user.services.opencode-serve = {
-    Unit = {
-      Description = "OpenCode headless server (shared by all opencode windows)";
-      After = ["graphical-session.target"];
-      PartOf = ["graphical-session.target"];
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${opencode-serve}";
-      Restart = "on-failure";
-      RestartSec = "5s";
-    };
-  };
-
   imports = [
     ./plugins
   ];

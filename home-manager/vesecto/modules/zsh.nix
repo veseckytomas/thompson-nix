@@ -135,7 +135,7 @@ in {
       "lg" = "lazygit";
       "rsync" = "rsync -r --info=progress2";
       "asus-num" = "systemctl restart asus-numberpad-driver.service";
-      "oc" = ''opencode attach http://127.0.0.1:4096 --dir "$PWD"'';
+      "oc" = "opencode";
       "nixos-run" = "~/Git/Personal/thompson-nix/scripts/main.sh";
     };
   };
