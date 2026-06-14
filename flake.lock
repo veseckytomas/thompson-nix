@@ -317,11 +317,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1781189114,
-        "narHash": "sha256-5inaamLgUMWy+MOBE9ChF9QAF1o/74LFuHkI0W/9rqc=",
+        "lastModified": 1781365335,
+        "narHash": "sha256-zqDBhXMzfbdlO7F2bGHe7MOtB3xngd/+4ieMHDC+ZXo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "486595d2cf49cfcd649b58a284fa11ac0e34da22",
+        "rev": "5b6f5733726a1b2ccafb5dec6ac4ca7299fad66c",
         "type": "github"
       },
       "original": {
@@ -424,11 +424,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1781275123,
-        "narHash": "sha256-xeka+MUDnfJzef8aG7QZk0AhAnzucfF5Lo/AfCdXxvc=",
+        "lastModified": 1781374697,
+        "narHash": "sha256-r2rpHpl29VKTVQ2X0KJLEkmmoyCxvZUWKIU4atgmevY=",
         "ref": "refs/heads/main",
-        "rev": "d5b8d7288d1ad56da906714fe911f54dca4245c4",
-        "revCount": 7454,
+        "rev": "05922ec760c7d3bcaba1d6e7c69b68f92f622a3a",
+        "revCount": 7461,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -701,11 +701,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1781278158,
-        "narHash": "sha256-L14V315ahWsbSVupwEkRnrcPyCq7LseT3gecv1b6rEc=",
+        "lastModified": 1781367081,
+        "narHash": "sha256-vWF4JAuBLl7iyOsouTgR0HIZb0hgk5U9JME0wdu3R10=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "b069eb9cad3e19f2d477ba7e8a8e3c2cf543ea88",
+        "rev": "2fc8ab5dd15b55b38ed3421689d63cce9fa8a897",
         "type": "github"
       },
       "original": {
@@ -907,11 +907,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1781287415,
-        "narHash": "sha256-e0KtxMotoMhWLw4xi90XvbajZFAv3jzIZqPQJ1F3Du8=",
+        "lastModified": 1781388258,
+        "narHash": "sha256-Kx1zxra9sZ215H3OiWUfkulu8N2v3iu19wqlzpD/Ac0=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "fec49e73762ed01f7e7440faf09028c2f767b252",
+        "rev": "e3c908fdf6dff268b04ffb6758bcfc7c018489b9",
         "type": "github"
       },
       "original": {
@@ -968,11 +968,11 @@
     "oh-my-openagent": {
       "flake": false,
       "locked": {
-        "lastModified": 1781263277,
-        "narHash": "sha256-PfG7SJStJtII0qqh7YQkBXl/asRbZU5u2XEj2riiOzA=",
+        "lastModified": 1781426691,
+        "narHash": "sha256-cDvkAzpZ3cgHFMyVTD3jFRXe7eWJDEa75KPonqsRXyg=",
         "ref": "dev",
-        "rev": "6b0f7ec70d7f5fd43144eb3139b6f561d30c1a7b",
-        "revCount": 8714,
+        "rev": "28637154b5ad0bfb950b19859987e1f775660f94",
+        "revCount": 8791,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
@@ -1407,11 +1407,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1781181862,
-        "narHash": "sha256-EBeyydl9ekGp/98VyF4ciFS3zNkspWhJiTG/+UWyHQ4=",
+        "lastModified": 1781350649,
+        "narHash": "sha256-cC/7YCNpYVfTzLvKTDTsEe3/shuSUiOdGXASUO1PLxo=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "9b920ed2e3ebc126cf8ba3e51acfc5be8b8cbf56",
+        "rev": "b37be0529aca0c49768f0ed731b83af108acd6fe",
         "type": "github"
       },
       "original": {
