@@ -42,6 +42,11 @@
       # Fix skill directory loader to not exclude symlinks explicitly
       sed -i '/!entry.isSymbolicLink() &&/d' packages/omo-opencode/src/features/opencode-skill-loader/skill-directory-loader.ts
 
+      # Runtime fallback retries are wrongly rejected by the promptAsync gate
+      # because a failed provider leaves an incomplete assistant turn. Bypass the
+      # tool-state check for fallback auto-retries so the retry can dispatch.
+      sed -i 's/queueBehavior: "defer",/queueBehavior: "defer", checkToolState: false,/g' packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-dispatch.ts
+
       runHook postPatch
     '';
 
