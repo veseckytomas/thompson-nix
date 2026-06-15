@@ -15,5 +15,6 @@
     ./gsd.nix
     ./caveman.nix
     ./superpowers.nix
+    ./claude-token-sync.nix
   ];
 }

@@ -19,6 +19,7 @@
     gsd-sdk.enable = true;
     gsd.enable = true;
     caveman.enable = true;
+    claude-token-sync.enable = true;
   };
 
   programs.opencode = {
@@ -38,6 +39,7 @@
           "opencode-wakatime"
           "opencode-claude-bridge"
           "opencode-gemini-auth"
+          "./plugins/claude-token-sync/plugin.js"
           "@slkiser/opencode-quota"
         ];
       provider = {

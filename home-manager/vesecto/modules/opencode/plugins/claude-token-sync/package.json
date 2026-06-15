@@ -1,0 +1,8 @@
+{
+  "name": "claude-token-sync-opencode-plugin",
+  "version": "0.1.0",
+  "description": "Mirror opencode-claude-bridge's Anthropic OAuth token into ~/.claude/.credentials.json so opencode-quota keeps authenticating off the same account",
+  "type": "module",
+  "main": "plugin.js",
+  "private": true
+}
