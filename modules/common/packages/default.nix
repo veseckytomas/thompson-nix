@@ -57,7 +57,9 @@
     steam-run
 
     # Web browsers
-    librewolf
+    # LibreWolf: upstream binary release, decoupled from (unmaintained) nixpkgs
+    # librewolf. Bumped by scripts/update.sh. See ./librewolf-bin.nix.
+    (callPackage ./librewolf-bin.nix {})
     chromium
     firefox
 
