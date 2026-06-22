@@ -118,17 +118,18 @@ def maximize_by_switching_layout(qtile):
         qtile.current_group.layout = "monadtall"
 
 
-# Focus the next/previous monitor ordered by physical position.
-# Qtile's built-in next_screen/prev_screen step through screens in the order the
-# outputs were detected (xrandr/RandR order), which is not stable and often does
-# not match how the monitors are physically arranged. Sorting by (x, y) makes
-# super+. always move right and super+, always move left across the real layout.
-@lazy.function
-def focus_screen_in_direction(qtile, direction):
-    ordered = sorted(qtile.screens, key=lambda s: (s.x, s.y))
-    current = ordered.index(qtile.current_screen)
-    target = ordered[(current + direction) % len(ordered)]
-    qtile.focus_screen(target.index)
+# Per-host monitor navigation direction.
+# Qtile cycles monitors in screen-index order (the order outputs are detected),
+# which varies per machine. On some hosts that order runs opposite to the
+# physical left-to-right arrangement, so super+. / super+, feel swapped. List
+# those hosts here to flip next/prev for them only; every other host keeps
+# qtile's default order.
+REVERSED_MONITOR_NAV_HOSTS = {}
+
+if platform.node() in REVERSED_MONITOR_NAV_HOSTS:
+    next_monitor, prev_monitor = lazy.prev_screen(), lazy.next_screen()
+else:
+    next_monitor, prev_monitor = lazy.next_screen(), lazy.prev_screen()
 
 
 keys = [
@@ -186,19 +187,9 @@ keys = [
         minimize_all(),
         desc="Toggle hide/show all windows on current group",
     ),
-    # Switch focus of monitors (ordered left-to-right by physical position)
-    Key(
-        [mod],
-        "period",
-        focus_screen_in_direction(1),
-        desc="Move focus to next monitor (right)",
-    ),
-    Key(
-        [mod],
-        "comma",
-        focus_screen_in_direction(-1),
-        desc="Move focus to prev monitor (left)",
-    ),
+    # Switch focus of monitors (direction flipped per-host, see above)
+    Key([mod], "period", next_monitor, desc="Move focus to next monitor"),
+    Key([mod], "comma", prev_monitor, desc="Move focus to prev monitor"),
     # Change brightness
     Key(
         [],
