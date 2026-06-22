@@ -15,7 +15,7 @@
 }: {
   qt = {
     enable = true;
-    platformTheme.name = "gtk";
+    platformTheme.name = "gtk3";
     style = {
       package = pkgs.dracula-qt5-theme.overrideAttrs (old: {
         src = inputs.dracula-qt5;

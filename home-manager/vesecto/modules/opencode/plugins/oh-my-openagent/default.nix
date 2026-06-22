@@ -25,7 +25,7 @@
 
   oh-my-openagent = pkgs.stdenv.mkDerivation {
     pname = "oh-my-openagent";
-    version = "4.8.1";
+    version = "4.12.1";
 
     src = inputs.oh-my-openagent;
 
@@ -46,6 +46,30 @@
       # because a failed provider leaves an incomplete assistant turn. Bypass the
       # tool-state check for fallback auto-retries so the retry can dispatch.
       sed -i 's/queueBehavior: "defer",/queueBehavior: "defer", checkToolState: false,/g' packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-dispatch.ts
+
+      # Upstream's root `build` script now chains npm-based sub-builds for three
+      # non-bun-workspace packages — lsp-tools-mcp, lsp-daemon and the codex
+      # plugin — each via `npm --prefix <dir> ci && ...`. `npm ci` needs network
+      # and dies in the offline Nix sandbox with npm's "Exit handler never
+      # called!" crash, which aborts the whole build during the `prepare`
+      # lifecycle script. Drop those sub-builds from the `build` chain; we
+      # recompile the two LSP packages offline in buildPhase below, and the
+      # codex plugin is unused by the opencode runtime.
+      sed -i \
+        -e 's/bun run build:lsp-tools-mcp && //g' \
+        -e 's/bun run build:lsp-daemon && //g' \
+        -e 's/bun run build:codex-plugin && //g' \
+        package.json
+
+      # `build:shared-skills-assets` runs materialize-shared-upstreams.mjs, which
+      # shells out to `git submodule update --init` to refresh three shared-skills
+      # upstreams. Our flake input already fetches them (submodules = true), and
+      # the Nix sandbox has neither `git` nor a `.git` dir, so the refresh dies
+      # with `spawnSync git ENOENT` under --strict. Short-circuit initSubmodules:
+      # the submodule content is already present, so the downstream materialize
+      # step succeeds without a git refresh.
+      sed -i 's/function initSubmodules({ strict }) {/function initSubmodules({ strict }) { return true;/' \
+        packages/omo-codex/plugin/scripts/materialize-shared-upstreams.mjs
 
       runHook postPatch
     '';
@@ -71,16 +95,22 @@
       bun run build
 
       # Pre-build the LSP daemon + tools MCP (the `lsp` MCP server, a.k.a.
-      # omo-lsp). Upstream's root `build` script omits these — they are built
-      # lazily via `npm ci && npm run build` on the first `lsp` MCP launch.
-      # Under the read-only Nix store that lazy build cannot write its dist/,
-      # so opencode's first connection died with `-32000: Connection closed`
-      # and the race recurred after every `home-manager switch`. We compile
-      # them here against the already-installed hoisted node_modules (no
-      # network / npm ci needed), so the store ships a ready-to-run
-      # packages/lsp-daemon/dist/cli.js.
+      # omo-lsp). Upstream's root `build` now builds these via `npm ci && npm
+      # run build` (stripped from the chain in patchPhase above, since npm ci
+      # cannot run offline). We recompile them here against the already
+      # installed hoisted node_modules, mirroring each package's own `build`
+      # script but driving tsc/bun directly (no npm ci): the workspace deps
+      # (@oh-my-opencode/lsp-core, mcp-stdio-core) resolve from the root
+      # node_modules. Pre-building also avoids the lazy first-launch build that
+      # cannot write its dist/ under the read-only Nix store — which otherwise
+      # made opencode's first `lsp` connection die with `-32000: Connection
+      # closed` after every `home-manager switch`.
       echo "Pre-building @code-yeongyu/lsp-tools-mcp ..."
-      ( cd packages/lsp-tools-mcp && ../../node_modules/.bin/tsc -p tsconfig.build.json )
+      ( cd packages/lsp-tools-mcp \
+          && node scripts/ensure-core-links.mjs \
+          && rm -rf dist \
+          && ../../node_modules/.bin/tsc -p tsconfig.build.json --emitDeclarationOnly \
+          && bun build src/cli.ts src/mcp.ts src/tools.ts src/request-context.ts src/lsp/manager.ts --outdir dist --target node --format esm )
 
       # lsp-daemon resolves lsp-tools-mcp via `file:../lsp-tools-mcp`; provide
       # that link explicitly since these packages are not bun workspace members.

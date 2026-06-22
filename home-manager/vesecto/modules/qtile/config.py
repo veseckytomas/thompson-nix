@@ -37,6 +37,7 @@
 
 import os
 import platform
+import re
 import subprocess
 
 import colors
@@ -117,6 +118,19 @@ def maximize_by_switching_layout(qtile):
         qtile.current_group.layout = "monadtall"
 
 
+# Focus the next/previous monitor ordered by physical position.
+# Qtile's built-in next_screen/prev_screen step through screens in the order the
+# outputs were detected (xrandr/RandR order), which is not stable and often does
+# not match how the monitors are physically arranged. Sorting by (x, y) makes
+# super+. always move right and super+, always move left across the real layout.
+@lazy.function
+def focus_screen_in_direction(qtile, direction):
+    ordered = sorted(qtile.screens, key=lambda s: (s.x, s.y))
+    current = ordered.index(qtile.current_screen)
+    target = ordered[(current + direction) % len(ordered)]
+    qtile.focus_screen(target.index)
+
+
 keys = [
     # General Keybindings
     Key([mod], "Return", lazy.spawn(run_terminal), desc="Launch terminal"),
@@ -172,9 +186,19 @@ keys = [
         minimize_all(),
         desc="Toggle hide/show all windows on current group",
     ),
-    # Switch focus of monitors
-    Key([mod], "period", lazy.next_screen(), desc="Move focus to next monitor"),
-    Key([mod], "comma", lazy.prev_screen(), desc="Move focus to prev monitor"),
+    # Switch focus of monitors (ordered left-to-right by physical position)
+    Key(
+        [mod],
+        "period",
+        focus_screen_in_direction(1),
+        desc="Move focus to next monitor (right)",
+    ),
+    Key(
+        [mod],
+        "comma",
+        focus_screen_in_direction(-1),
+        desc="Move focus to prev monitor (left)",
+    ),
     # Change brightness
     Key(
         [],
@@ -321,21 +345,53 @@ widget_defaults = {
 extension_defaults = widget_defaults.copy()
 
 
-def init_widgets_list():
+# --- HiDPI bar scaling -------------------------------------------------------
+# The bar size and widget font/padding sizes below are tuned for a 1080p
+# monitor. On higher-resolution screens they are scaled up automatically so the
+# bar stays legible. Tweak REFERENCE_HEIGHT or BASE_BAR_SIZE to taste.
+REFERENCE_HEIGHT = 1080  # baseline monitor height the sizes are tuned for
+BASE_BAR_SIZE = 26  # bar thickness (px) on a reference monitor
+
+
+def get_monitor_heights():
+    """Return the pixel height of each active monitor, in xrandr order."""
+    try:
+        xr = subprocess.check_output("xrandr --query", shell=True, text=True)
+    except Exception:
+        return [REFERENCE_HEIGHT]
+
+    heights = []
+    for line in xr.splitlines():
+        if " connected" in line:
+            match = re.search(r"\d+x(\d+)\+\d+\+\d+", line)
+            if match:
+                heights.append(int(match.group(1)))
+    return heights or [REFERENCE_HEIGHT]
+
+
+def bar_scale(height):
+    """Scale factor for a monitor of the given height (never below 1x)."""
+    return max(1.0, height / REFERENCE_HEIGHT)
+
+
+def init_widgets_list(scale=1.0):
+    def s(value):
+        return round(value * scale)
+
     widgets_list = [
         widget.Image(
             filename=widget_image,
             scale="False",
             mouse_callbacks={"Button1": lambda: qtile.spawn(terminal)},
         ),
-        widget.Prompt(font="Hack Nerd Font Mono", fontsize=14, foreground=colors[1]),
+        widget.Prompt(font="Hack Nerd Font Mono", fontsize=s(14), foreground=colors[1]),
         widget.GroupBox(
-            fontsize=11,
-            margin_y=5,
-            margin_x=5,
+            fontsize=s(11),
+            margin_y=s(5),
+            margin_x=s(5),
             padding_y=0,
-            padding_x=1,
-            borderwidth=3,
+            padding_x=s(1),
+            borderwidth=s(3),
             active=colors[8],
             inactive=colors[1],
             rounded=False,
@@ -350,25 +406,28 @@ def init_widgets_list():
             text="|",
             font="Hack Nerd Font Mono",
             foreground=colors[1],
-            padding=2,
-            fontsize=14,
+            padding=s(2),
+            fontsize=s(14),
         ),
         widget.WindowName(
+            fontsize=s(12),
             foreground=colors[6],
             format="{state}",
         ),
         widget.CPU(
+            fontsize=s(12),
             format=" Cpu: {load_percent}%",
             foreground=colors[4],
             decorations=[
                 BorderDecoration(
                     colour=colors[4],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 )
             ],
         ),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
         widget.Memory(
+            fontsize=s(12),
             foreground=colors[9],
             mouse_callbacks={"Button1": lambda: qtile.spawn(terminal + " -e btop")},
             format="{MemUsed: .0f}{mm}",
@@ -376,12 +435,13 @@ def init_widgets_list():
             decorations=[
                 BorderDecoration(
                     colour=colors[9],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 )
             ],
         ),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
         widget.DF(
+            fontsize=s(12),
             update_interval=60,
             foreground=colors[5],
             mouse_callbacks={"Button1": lambda: qtile.spawn(terminal + " -e df -h")},
@@ -392,34 +452,37 @@ def init_widgets_list():
             decorations=[
                 BorderDecoration(
                     colour=colors[5],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 )
             ],
         ),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
         widget.KeyboardLayout(
+            fontsize=s(12),
             foreground=colors[7],
             fmt="⌨ Kbd: {}",
             decorations=[
                 BorderDecoration(
                     colour=colors[7],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 )
             ],
         ),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
         widget.Volume(
+            fontsize=s(12),
             foreground=colors[10],
             fmt="󰕾 Vol: {}",
             decorations=[
                 BorderDecoration(
                     colour=colors[10],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 )
             ],
         ),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
         widget.Battery(
+            fontsize=s(12),
             foreground=colors[3],
             charge_char="󰁾󰉁",
             discharge_char="󰁿",
@@ -431,50 +494,52 @@ def init_widgets_list():
             decorations=[
                 BorderDecoration(
                     colour=colors[3],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 )
             ],
         ),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
         widget.Backlight(
+            fontsize=s(12),
             foreground=colors[6],
             backlight_name=backlight,
             format="󰃠 Brightness: {percent:2.0%}",
             decorations=[
                 BorderDecoration(
                     colour=colors[6],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 ),
             ],
         ),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
         widget.Clock(
+            fontsize=s(12),
             foreground=colors[8],
             format="󰥔 %a, %b %d - %H:%M",
             decorations=[
                 BorderDecoration(
                     colour=colors[8],
-                    border_width=[0, 0, 2, 0],
+                    border_width=[0, 0, s(2), 0],
                 )
             ],
         ),
-        widget.Spacer(length=8),
-        widget.Systray(padding=3),
-        widget.Spacer(length=8),
+        widget.Spacer(length=s(8)),
+        widget.Systray(padding=s(3), icon_size=s(20)),
+        widget.Spacer(length=s(8)),
     ]
     return widgets_list
 
 
-def init_widgets_screen1():
-    ws1 = init_widgets_list()
+def init_widgets_screen1(scale=1.0):
+    ws1 = init_widgets_list(scale)
     if "desktop" in str(chassis.stdout):
         del ws1[15:19]
     return ws1
 
 
 # All other monitors' bars will display everything but widgets 24 (systray) and 25 (spacer).
-def init_widgets_screen2():
-    ws2 = init_widgets_list()
+def init_widgets_screen2(scale=1.0):
+    ws2 = init_widgets_list(scale)
     del ws2[21:23]
     if "desktop" in str(chassis.stdout):
         del ws2[15:19]
@@ -482,16 +547,17 @@ def init_widgets_screen2():
 
 
 def init_screens():
-    try:
-        # Get number of connected monitors
-        xr = subprocess.check_output('xrandr --query | grep " connected"', shell=True).decode("utf-8")
-        num_monitors = xr.count(" connected")
-    except Exception:
-        num_monitors = 1
-
-    screens = [Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26))]
-    for _ in range(num_monitors - 1):
-        screens.append(Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)))
+    # One screen per active monitor; the bar height and its widgets are scaled
+    # to each monitor's resolution so the bar stays legible on HiDPI displays.
+    screens = []
+    for index, height in enumerate(get_monitor_heights()):
+        scale = bar_scale(height)
+        size = round(BASE_BAR_SIZE * scale)
+        if index == 0:
+            widgets = init_widgets_screen1(scale)
+        else:
+            widgets = init_widgets_screen2(scale)
+        screens.append(Screen(top=bar.Bar(widgets=widgets, size=size)))
     return screens
 
 

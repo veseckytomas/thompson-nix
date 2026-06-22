@@ -8,9 +8,12 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: {
+{pkgs, ...}: {
   programs.librewolf = {
     enable = true;
+    # Upstream binary release, decoupled from (unmaintained) nixpkgs librewolf.
+    # Shared with the system package; bumped by scripts/update.sh.
+    package = pkgs.callPackage ../../../modules/common/packages/librewolf-bin.nix {};
     settings = {
       "identity.fxaccounts.enabled" = true;
       "browser.safebrowsing.malware.enabled" = true;
