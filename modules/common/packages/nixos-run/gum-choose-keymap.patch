@@ -1,0 +1,31 @@
+--- a/choose/choose.go
++++ b/choose/choose.go
+@@ -42,13 +42,13 @@
+ 			key.WithKeys("G", "end"),
+ 		),
+ 		ToggleAll: key.NewBinding(
+-			key.WithKeys("a", "A", "ctrl+a"),
+-			key.WithHelp("ctrl+a", "select all"),
++			key.WithKeys("a", "A"),
++			key.WithHelp("a", "select/unselect all"),
+ 			key.WithDisabled(),
+ 		),
+ 		Toggle: key.NewBinding(
+-			key.WithKeys(" ", "tab", "x", "ctrl+@"),
+-			key.WithHelp("x", "toggle"),
++			key.WithKeys(" ", "tab", "ctrl+@"),
++			key.WithHelp("space", "toggle"),
+ 			key.WithDisabled(),
+ 		),
+ 		Abort: key.NewBinding(
+@@ -88,8 +88,8 @@
+ 	return []key.Binding{
+ 		k.Toggle,
+ 		key.NewBinding(
+-			key.WithKeys("up", "down", "right", "left"),
+-			key.WithHelp("←↓↑→", "navigate"),
++			key.WithKeys("up", "down", "right", "left", "h", "j", "k", "l"),
++			key.WithHelp("↑↓←→ / hjkl", "navigate"),
+ 		),
+ 		k.Submit,
+ 		k.ToggleAll,

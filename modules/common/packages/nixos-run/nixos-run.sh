@@ -1,0 +1,520 @@
+# shellcheck shell=bash
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# nixos-run: TUI to control NixOS rebuilding.
+#
+# Interaction model:
+#   - All user input happens UP FRONT (option selection + git pull touch)
+#     or at the VERY END (switch / commit / push / yubikey).
+#   - The heavy build runs UNATTENDED in between.
+#   - A no-timeout confirmation gate separates the unattended build from the
+#     system-changing activation, so an AFK build finishing never times out.
+
+FLAKE_DIR="${NIXOS_RUN_FLAKE:-@flakePath@}"
+DRY_RUN="${NIXOS_RUN_DRY_RUN:-0}"
+
+# ---------------------------------------------------------------------------
+# Styling helpers (gum)
+# ---------------------------------------------------------------------------
+hdr() { gum style --bold --foreground 212 "$@"; }
+warn() { gum style --bold --foreground 196 "$@"; } # red: "Please touch the device"
+info() { gum style --foreground 244 "$@"; }
+ok() { gum style --bold --foreground 84 "$@"; }
+
+# Run a state-changing command, honoring dry-run.
+run() {
+  if [ "$DRY_RUN" = 1 ]; then
+    info "[dry-run] $*"
+    return 0
+  fi
+  "$@"
+}
+
+# No-timeout confirmation gate. Returns 0 to proceed, 1 to abort.
+gate() {
+  echo
+  if gum confirm "$1"; then
+    return 0
+  fi
+  warn "Aborted by user."
+  return 1
+}
+
+# Pause until the user presses Enter (used for physical hardware steps).
+pause() {
+  gum input --placeholder "$1 (press Enter)" >/dev/null 2>&1 || true
+}
+
+print_help() {
+  cat <<EOF
+nixos-run - TUI to control NixOS rebuilding
+
+Usage: nixos-run [--dry-run|-n] [--help|-h]
+
+All interactive input happens up front (option selection) or at the very end
+(switch / commit / push / yubikey). The build runs unattended in between, with a
+no-timeout confirmation gate before any system-changing activation.
+
+Interactive controls:
+  ↑/↓ or h/j/k/l  Navigate lists
+  space            Toggle selected item
+  a                Select/unselect all (multi-select lists)
+  enter            Confirm selection
+
+Environment:
+  NIXOS_RUN_FLAKE     Path to the flake repo (default: @flakePath@)
+  NIXOS_RUN_DRY_RUN   Set to 1 to print state-changing commands instead of
+                      running them.
+EOF
+}
+
+# ---------------------------------------------------------------------------
+# Shared phases
+# ---------------------------------------------------------------------------
+
+# Early step (user is still present): pull latest. May require a Yubikey touch
+# for the SSH remote, hence it lives in the up-front phase.
+git_pull() {
+  warn "Please touch the device. (Pull)"
+  run git pull || warn "git pull failed, continuing."
+}
+
+nixos_build() {
+  hdr "Building NixOS configuration (.#$(hostname)) ..."
+  run nixos-rebuild build --flake ".#"
+}
+
+home_build() {
+  hdr "Building Home-Manager configuration (.#$(whoami)) ..."
+  run home-manager build --flake ".#$(whoami)"
+}
+
+current_nixos_gen() {
+  nixos-rebuild list-generations | grep True | cut -d' ' -f1 || true
+}
+
+current_home_gen() {
+  home-manager generations | head -1 | cut -d' ' -f5 || true
+}
+
+# ---------------------------------------------------------------------------
+# Action: Rebuild (NixOS + Home-Manager)
+# ---------------------------------------------------------------------------
+action_rebuild() {
+  git_pull
+
+  # --- unattended: stage everything so the flake sees new files, then build ---
+  run git add --all
+  nixos_build
+  home_build
+
+  if ! gate "Build complete. Proceed to switch + commit + push?"; then
+    run git restore --staged :/
+    return 0
+  fi
+
+  # --- attended end: NixOS switch + commit (commit excludes home-manager) ---
+  warn "Switching NixOS (sudo) ..."
+  if ! run nixos-rebuild switch --sudo --flake ".#"; then
+    warn "NixOS switch failed."
+    run git restore --staged :/
+    return 1
+  fi
+  local gen
+  gen=$(current_nixos_gen)
+  run git restore --staged home-manager
+  warn "Please touch the device. (Sign commit)"
+  run git commit -m "$(hostname): Gen ${gen}"
+
+  # --- attended end: Home-Manager switch + commit ---
+  run git restore --staged :/
+  run git add home-manager
+  warn "Switching Home-Manager ..."
+  if ! run home-manager switch --flake ".#$(whoami)"; then
+    warn "Home-Manager switch failed."
+    run git restore --staged :/
+    return 1
+  fi
+  local hgen
+  hgen=$(current_home_gen)
+  warn "Please touch the device. (Sign commit)"
+  run git commit -m "Home-manager $(hostname): Gen ${hgen}"
+
+  warn "Please touch the device. (Push)"
+  run git push
+  ok "Rebuild complete."
+}
+
+# ---------------------------------------------------------------------------
+# Action: Home-Manager only
+# ---------------------------------------------------------------------------
+action_home() {
+  git_pull
+
+  run git restore --staged :/
+  run git add home-manager
+  home_build
+
+  if ! gate "Build complete. Proceed to switch + commit + push?"; then
+    run git restore --staged :/
+    return 0
+  fi
+
+  warn "Switching Home-Manager ..."
+  if ! run home-manager switch --flake ".#$(whoami)"; then
+    warn "Home-Manager switch failed."
+    run git restore --staged :/
+    return 1
+  fi
+  local hgen
+  hgen=$(current_home_gen)
+  warn "Please touch the device. (Sign commit)"
+  run git commit -m "Home-manager $(hostname): Gen ${hgen}"
+  warn "Please touch the device. (Push)"
+  run git push
+  ok "Home-Manager rebuild complete."
+}
+
+# ---------------------------------------------------------------------------
+# Action: Rebuild Test (build, then activate test config; no commit)
+# ---------------------------------------------------------------------------
+action_test() {
+  git_pull
+
+  run git add --all
+  nixos_build
+
+  if ! gate "Build complete. Activate test configuration? (needs sudo)"; then
+    run git restore --staged :/
+    return 0
+  fi
+
+  warn "Activating test configuration (sudo) ..."
+  run nixos-rebuild test --sudo --flake ".#" || warn "Test activation failed."
+  run git restore --staged :/
+  ok "Test complete (not persisted across reboot)."
+}
+
+# ---------------------------------------------------------------------------
+# Action: Update (flake + plugins + librewolf, then rebuild NixOS + Home)
+# ---------------------------------------------------------------------------
+update_librewolf() {
+  local json="modules/common/packages/librewolf-bin.json"
+  local latest current sum hash
+  latest=$(curl -H 'accept: application/json' -sL https://codeberg.org/api/v1/repos/librewolf/bsys6/releases/latest | jq -r '.tag_name' || true)
+  current=$(jq -r '.version' "$json" 2>/dev/null || true)
+  if [ -z "$latest" ] || [ "$latest" = "null" ]; then
+    warn "LibreWolf: could not fetch latest version, keeping ${current}."
+  elif [ "$latest" = "$current" ]; then
+    info "LibreWolf: already up-to-date (${current})"
+  else
+    sum=$(curl -sfL "https://codeberg.org/api/packages/librewolf/generic/librewolf/$latest/librewolf-$latest-linux-x86_64-package.tar.xz.sha256sum" | awk '{print $1}' || true)
+    if [ -z "$sum" ]; then
+      warn "LibreWolf: could not fetch checksum for ${latest}, keeping ${current}."
+    else
+      hash=$(nix --extra-experimental-features 'nix-command' hash convert --to sri --hash-algo sha256 "$sum")
+      if [ "$DRY_RUN" = 1 ]; then
+        info "[dry-run] would write ${json}: ${latest} / ${hash}"
+      else
+        printf '{\n  "version": "%s",\n  "hash": "%s"\n}\n' "$latest" "$hash" >"$json"
+      fi
+      info "LibreWolf: ${current} -> ${latest}"
+    fi
+  fi
+}
+
+action_update() {
+  git_pull
+
+  hdr "Updating flake inputs ..."
+  run nix flake update
+  hdr "Updating oh-my-openagent ..."
+  run bash "$FLAKE_DIR/scripts/update-oh-my-openagent.sh"
+  hdr "Updating LibreWolf ..."
+  update_librewolf
+
+  # --- unattended: stage + build both ---
+  run git add --all
+  nixos_build
+  home_build
+
+  if ! gate "Build complete. Proceed to commit + switch + push?"; then
+    run git restore --staged :/
+    return 0
+  fi
+
+  # --- attended end: commit lockfiles first (matches scripts/update.sh) ---
+  run git restore --staged :/
+  run git add flake.lock
+  run git add home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix
+  run git add modules/common/packages/librewolf-bin.json
+  warn "Please touch the device. (Sign commit)"
+  run git commit -m "Update lockfiles"
+
+  # --- NixOS switch + commit ---
+  warn "Switching NixOS (sudo) ..."
+  if ! run nixos-rebuild switch --sudo --flake ".#"; then
+    warn "NixOS switch failed."
+    run git restore --staged :/
+    return 1
+  fi
+  local gen
+  gen=$(current_nixos_gen)
+  run git add --all
+  run git restore --staged home-manager
+  warn "Please touch the device. (Sign commit)"
+  run git commit -m "$(hostname): Gen ${gen}"
+
+  # --- Home-Manager switch + commit ---
+  run git restore --staged :/
+  run git add home-manager
+  warn "Switching Home-Manager ..."
+  if ! run home-manager switch --flake ".#$(whoami)"; then
+    warn "Home-Manager switch failed."
+    run git restore --staged :/
+    return 1
+  fi
+  local hgen
+  hgen=$(current_home_gen)
+  warn "Please touch the device. (Sign commit)"
+  run git commit -m "Home-manager $(hostname): Gen ${hgen}"
+
+  warn "Please touch the device. (Push)"
+  run git push
+  ok "Update complete."
+}
+
+# ---------------------------------------------------------------------------
+# Action: Garbage collect (options chosen up front; sudo cached once)
+# ---------------------------------------------------------------------------
+action_clean() {
+  local choices
+  choices=$(gum choose --no-limit \
+    --header "Select cleanup tasks (hjkl to navigate, space to toggle, a to select/unselect all, enter to confirm):" \
+    "Clean boot partition (>14d)" \
+    "Clean Pip cache" \
+    "Clean dev shells (.direnv)" \
+    "Clean nix-store (gc + optimize)" \
+    "Prune docker cache" \
+    "Empty trash" || true)
+
+  if [ -z "$choices" ]; then
+    info "Nothing selected."
+    return 0
+  fi
+
+  # Cache sudo credentials up front if any privileged task was selected.
+  if grep -qF "boot partition" <<<"$choices" || grep -qF "nix-store" <<<"$choices"; then
+    warn "Caching sudo credentials ..."
+    run sudo -v
+  fi
+
+  if grep -qF "boot partition" <<<"$choices"; then
+    hdr "Cleaning boot partition ..."
+    run sudo nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 14d || warn "Boot partition cleanup failed."
+  fi
+  if grep -qF "Pip cache" <<<"$choices"; then
+    hdr "Cleaning Pip cache ..."
+    run nix run nixpkgs#python3Packages.pip cache purge || warn "Pip cache cleanup failed."
+  fi
+  if grep -qF "dev shells" <<<"$choices"; then
+    hdr "Cleaning dev shells (.direnv) ..."
+    run fd -HI '^\.direnv$' "$HOME" -E .git -E Trash -X rm -r || warn "Dev shell cleanup failed."
+  fi
+  if grep -qF "nix-store" <<<"$choices"; then
+    hdr "Cleaning nix-store ..."
+    run rm -rf "$HOME/.local/share/nvim/mason" || true
+    run sudo nix-collect-garbage -d || warn "System garbage collection failed."
+    run sudo /run/current-system/bin/switch-to-configuration boot || warn "switch-to-configuration boot failed."
+    run nix-collect-garbage -d || warn "User garbage collection failed."
+    run nix-store --optimize || warn "Store optimization failed."
+  fi
+  if grep -qF "docker cache" <<<"$choices"; then
+    hdr "Pruning docker cache ..."
+    run docker system prune -af --volumes || warn "Docker prune failed."
+  fi
+  if grep -qF "Empty trash" <<<"$choices"; then
+    hdr "Emptying trash ..."
+    run trash-empty -f --all-users || warn "Empty trash failed."
+  fi
+  ok "Cleanup complete."
+}
+
+# ---------------------------------------------------------------------------
+# Action: Generate ISO
+# ---------------------------------------------------------------------------
+action_iso() {
+  local choices
+  choices=$(gum choose --no-limit --header "Select ISOs to build:" \
+    "Rescue ISO" "Install ISO" || true)
+  if [ -z "$choices" ]; then
+    info "Nothing selected."
+    return 0
+  fi
+
+  git_pull
+  run git add --all
+  run mkdir -p build
+
+  if grep -qF "Rescue ISO" <<<"$choices"; then
+    hdr "Building rescue ISO ..."
+    run nix run nixpkgs#nixos-generators -- --format iso --flake ".#rescueIso" -o build/rescue || warn "Rescue ISO build failed."
+  fi
+  if grep -qF "Install ISO" <<<"$choices"; then
+    hdr "Building install ISO ..."
+    run nix run nixpkgs#nixos-generators -- --format iso --flake ".#installIso" -o build/install || warn "Install ISO build failed."
+  fi
+
+  run git restore --staged :/
+  ok "ISO generation complete."
+}
+
+# ---------------------------------------------------------------------------
+# Action: Setup (bootstrap). Yubikey config moved to the end batch.
+# ---------------------------------------------------------------------------
+setup_yubikeys() {
+  if [ -f "$HOME/.config/Yubico/u2f_keys" ]; then
+    info "Yubikeys already configured."
+    return 0
+  fi
+  run mkdir -p "$HOME/.config/Yubico"
+  warn "Insert FIRST Yubikey."
+  pause "First Yubikey inserted?"
+  run nix-shell -p pam_u2f --run "pamu2fcfg > \"$HOME/.config/Yubico/u2f_keys\""
+  warn "Insert SECOND Yubikey."
+  pause "Second Yubikey inserted?"
+  run nix-shell -p pam_u2f --run "pamu2fcfg -n >> \"$HOME/.config/Yubico/u2f_keys\""
+  ok "Yubikeys configured."
+}
+
+setup_clone() {
+  hdr "Cloning repositories ..."
+  run git clone git@gitlab.com:vesecky.tomas/thompson-nix.git "$HOME/Git/Personal/thompson-nix" || warn "Clone thompson-nix failed."
+  run git clone git@gitlab.com:vesecky.tomas/thompson-obsidian.git "$HOME/Git/Personal/thompson-obsidian" || warn "Clone thompson-obsidian failed."
+  run git clone git@gitlab.com:homelab1960731/thompson-dwh.git "$HOME/DataGripProjects/Homelab" || warn "Clone thompson-dwh failed."
+  run git clone git@gitlab.fit.cvut.cz:vesecto1/dwh-project.git "$HOME/DataGripProjects/DWH" || warn "Clone dwh-project failed."
+}
+
+setup_eduroam() {
+  hdr "Installing eduroam ..."
+  if [ "$DRY_RUN" = 1 ]; then
+    info "[dry-run] would download and run eduroam installer"
+    return 0
+  fi
+  curl "https://cat.eduroam.org/user/API.php?action=downloadInstaller&lang=en&profile=2904&device=linux&generatedfor=user&openroaming=0" >eduroam.py
+  nix-shell -p 'python311.withPackages(ps: with ps; [ dbus-python ])' --run "python3 ./eduroam.py" || warn "eduroam installer failed."
+  rm -f eduroam.py
+}
+
+action_setup() {
+  local hostname_in opts yubi clone eduroam
+  hostname_in=$(gum input --header "Enter hostname:" --placeholder "TomasVesa-PC-NixOS" || true)
+  if [ -z "$hostname_in" ]; then
+    warn "Hostname is required."
+    return 1
+  fi
+  opts=$(gum choose --no-limit --header "Setup options:" \
+    "Install Yubikeys" "Clone repositories" "Install eduroam" || true)
+  if grep -qF "Install Yubikeys" <<<"$opts"; then yubi=yes; else yubi=no; fi
+  if grep -qF "Clone repositories" <<<"$opts"; then clone=yes; else clone=no; fi
+  if grep -qF "Install eduroam" <<<"$opts"; then eduroam=yes; else eduroam=no; fi
+
+  git_pull
+
+  # --- unattended build ---
+  hdr "Building NixOS configuration (.#${hostname_in}) ..."
+  run nixos-rebuild build --flake ".#${hostname_in}"
+
+  if ! gate "Build complete. Proceed to activate (boot) + home-manager + extras?"; then
+    return 0
+  fi
+
+  # --- attended end ---
+  warn "Setting boot configuration (sudo) ..."
+  run sudo nixos-rebuild boot -j 8 --cores 8 --flake ".#${hostname_in}"
+  warn "Activating Home-Manager ..."
+  run nix-shell -p home-manager --run "home-manager switch --flake .#$(whoami)"
+
+  if [ "$yubi" = yes ]; then setup_yubikeys; fi
+  if [ "$clone" = yes ]; then setup_clone; fi
+  if [ "$eduroam" = yes ]; then setup_eduroam; fi
+
+  if command -v protonup >/dev/null 2>&1; then
+    hdr "Running protonup ..."
+    run protonup
+  fi
+  ok "Setup complete."
+}
+
+# ---------------------------------------------------------------------------
+# Main menu
+# ---------------------------------------------------------------------------
+main_menu() {
+  hdr "NixOS Rebuild Control"
+  if [ "$DRY_RUN" = 1 ]; then
+    info "(dry-run: state-changing commands are printed, not executed)"
+  fi
+
+  local action
+  action=$(gum choose --header "Choose an action:" \
+    "Rebuild (NixOS + Home-Manager)" \
+    "Home-Manager only" \
+    "Rebuild Test" \
+    "Update (flake + plugins, then rebuild)" \
+    "Garbage collect" \
+    "Generate ISO" \
+    "Setup (bootstrap)" \
+    "Exit" || true)
+
+  case "$action" in
+  "Rebuild (NixOS + Home-Manager)") action_rebuild ;;
+  "Home-Manager only") action_home ;;
+  "Rebuild Test") action_test ;;
+  "Update (flake + plugins, then rebuild)") action_update ;;
+  "Garbage collect") action_clean ;;
+  "Generate ISO") action_iso ;;
+  "Setup (bootstrap)") action_setup ;;
+  "Exit" | "")
+    info "Exiting ..."
+    exit 0
+    ;;
+  *)
+    warn "Unknown action."
+    exit 1
+    ;;
+  esac
+}
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+  -n | --dry-run)
+    DRY_RUN=1
+    shift
+    ;;
+  -h | --help)
+    print_help
+    exit 0
+    ;;
+  *)
+    warn "Unknown argument: $1"
+    print_help
+    exit 1
+    ;;
+  esac
+done
+
+if [ ! -d "$FLAKE_DIR" ]; then
+  warn "Flake directory not found: ${FLAKE_DIR}"
+  info "Set NIXOS_RUN_FLAKE to override the default."
+  exit 1
+fi
+cd "$FLAKE_DIR"
+
+main_menu

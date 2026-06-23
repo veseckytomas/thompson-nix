@@ -292,5 +292,9 @@
         ];
       };
     };
+
+    packages.${system}.nixos-run = pkgs.callPackage ./modules/common/packages/nixos-run {
+      flakePath = "/home/${username}/Git/Personal/thompson-nix";
+    };
   };
 }

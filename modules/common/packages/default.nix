@@ -107,6 +107,8 @@
     vlc
     lazygit
     home-manager
+    # TUI to control NixOS rebuilding (replaces scripts/main.sh). Run: `nixos-run`
+    (callPackage ./nixos-run {flakePath = "/home/${username}/Git/Personal/thompson-nix";})
     usbutils
     udiskie
     udisks
