@@ -15,8 +15,8 @@
 let
   ohMyOpenagentSrc = fetchgit {
     url = "https://github.com/code-yeongyu/oh-my-openagent";
-    rev = "552ef209332a287798d0a63d63da37d496382a42";
-    hash = "sha256-2ONsiSQO6VFLGyvNLm7OthlErtFsUQRo3kM7b+UOquI=";
+    rev = "ff4e13418e43fb78408cce5f04f243a0bc0ab459";
+    hash = "sha256-791remwpI2G+WumLhHESunWBNxCoobC619ghz4GE/uU=";
     fetchSubmodules = true;
   };
 in

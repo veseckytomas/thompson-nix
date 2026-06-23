@@ -317,11 +317,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1782103446,
-        "narHash": "sha256-+vMR3KPBVoY9nJrQI9qje5H1vmv51dJgMYkUuYimtJg=",
+        "lastModified": 1782166451,
+        "narHash": "sha256-SA7LyrayyZBvtzZnesnSLV7haciFuVLeZaX2hd5v4j4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d8dac1f668fd861369571be3678ec75b1573e7e3",
+        "rev": "471a1d2f840eb7fcbdfd541d99c13a64096f46db",
         "type": "github"
       },
       "original": {
@@ -701,11 +701,11 @@
     "kulala-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1781894805,
-        "narHash": "sha256-ZpTSvY0iyXx+4RYGA/gIamQnaYAjB4p1j7ovBCfzMbs=",
+        "lastModified": 1782148324,
+        "narHash": "sha256-yv8DroCklms1QySCQiCHxAprfoowf4Ni53xbCVxFsHs=",
         "owner": "mistweaverco",
         "repo": "kulala.nvim",
-        "rev": "bed6150762d4a5ab5c0a336ebb01626f7ad0ab26",
+        "rev": "a627ebcafe2d053fa395b2d324dc9f6cbb61495e",
         "type": "github"
       },
       "original": {
@@ -907,11 +907,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1782062554,
-        "narHash": "sha256-v2J6/S33H2ms6jz3qr6in0UUlGFqUW46+iB3hMJDuD4=",
+        "lastModified": 1782176672,
+        "narHash": "sha256-8gNmp6mdko4/ALHsiewq4t/I3OvX4nbjAIoz5uyn1p4=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "b3e7b2d2e568f29becae04217242ed18a90febc4",
+        "rev": "91df3d9f91c2b6e4c07541903b9d7f80a5b857e1",
         "type": "github"
       },
       "original": {
@@ -968,11 +968,11 @@
     "oh-my-openagent": {
       "flake": false,
       "locked": {
-        "lastModified": 1782128016,
-        "narHash": "sha256-2ONsiSQO6VFLGyvNLm7OthlErtFsUQRo3kM7b+UOquI=",
+        "lastModified": 1782206427,
+        "narHash": "sha256-791remwpI2G+WumLhHESunWBNxCoobC619ghz4GE/uU=",
         "ref": "dev",
-        "rev": "552ef209332a287798d0a63d63da37d496382a42",
-        "revCount": 9494,
+        "rev": "ff4e13418e43fb78408cce5f04f243a0bc0ab459",
+        "revCount": 9550,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
@@ -1008,11 +1008,11 @@
         "tomlplusplus": "tomlplusplus"
       },
       "locked": {
-        "lastModified": 1779753118,
-        "narHash": "sha256-K70TMZet+y4qPu0c8HZZDwuQIEhENP6XDjRzBptAiQI=",
+        "lastModified": 1782178410,
+        "narHash": "sha256-VFCMNk2fHspvYylCFc/HIOwGJKOpQ6rF1+r4ttZsRA8=",
         "owner": "PolyMC",
         "repo": "PolyMC",
-        "rev": "49e06691c47b6ed55f0306771c2dada301733b79",
+        "rev": "1fd29a1fbd0e3890f963f4b28e72e4341d812e1c",
         "type": "github"
       },
       "original": {
@@ -1407,11 +1407,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1781971032,
-        "narHash": "sha256-lxliQTpjaN1iF2ntK2gJ4UO55HM4w47Hcqwe6gBo85o=",
+        "lastModified": 1782143849,
+        "narHash": "sha256-V9mr1eQj/UH/dUVNWpjjfeRVFhV/Cs/dUievPxbc938=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "4f45ddb514c3db558da0c5fffabaaa44f18cc18e",
+        "rev": "581886a3552e9e9ea0b3f7bc173f7127ecfd6a22",
         "type": "github"
       },
       "original": {
@@ -1423,11 +1423,11 @@
     "zsh-atuin": {
       "flake": false,
       "locked": {
-        "lastModified": 1781696781,
-        "narHash": "sha256-Bz0r5KMdhSZtB1F+pJTUkhdNljw6c+qOwz5S5QiSd6M=",
+        "lastModified": 1782145620,
+        "narHash": "sha256-2gafe5/JOPJHyYztzggnrLfKNElRnw4Nw/Q+nLwsNJ8=",
         "owner": "atuinsh",
         "repo": "atuin",
-        "rev": "ad41103d49061ed1f9f7c512ea08b6650fed39f4",
+        "rev": "54abd607d3d2b5f3ffe2400067a2175122b4a666",
         "type": "github"
       },
       "original": {
