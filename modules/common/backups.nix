@@ -18,6 +18,7 @@
         "/home/vesecto/Downloads"
         "/home/vesecto/Git"
         "/home/vesecto/pentaho"
+        "/home/vesecto/.librewolf.bak"
         "/home/vesecto/.setup.sh"
       ];
       user = "root";
