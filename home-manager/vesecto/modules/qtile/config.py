@@ -124,7 +124,7 @@ def maximize_by_switching_layout(qtile):
 # physical left-to-right arrangement, so super+. / super+, feel swapped. List
 # those hosts here to flip next/prev for them only; every other host keeps
 # qtile's default order.
-REVERSED_MONITOR_NAV_HOSTS = {}
+REVERSED_MONITOR_NAV_HOSTS = {"TomasVesa-PC-NixOS"}
 
 if platform.node() in REVERSED_MONITOR_NAV_HOSTS:
     next_monitor, prev_monitor = lazy.prev_screen(), lazy.next_screen()

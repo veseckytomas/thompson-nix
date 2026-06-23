@@ -16,7 +16,7 @@
   programs.autorandr = {
     enable = true;
     hooks.postswitch = {
-      "wacom-setup" = ''
+      "10_wacom-setup" = ''
         wacom_device="Wacom Intuos BT M Pen Pen (0x47803692)"
         wacom_pad="Wacom Intuos BT M Pad"
 
@@ -30,7 +30,9 @@
         if [ -n "$PRIMARY_OUTPUT" ]; then
           ${pkgs.xinput}/bin/xinput map-to-output "$wacom_device" "$PRIMARY_OUTPUT" 2>/dev/null || true
         fi
+      '';
 
+      "20_qtile-reload" = ''
         # Reload qtile to update screens and bars
         if ${pkgs.procps}/bin/pgrep -x qtile > /dev/null; then
            # Using DISPLAY and XAUTHORITY from our earlier symlink fix

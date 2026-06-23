@@ -132,7 +132,6 @@ in {
       "rm" = "trash";
       "fzf" = "fzf --preview \"bat --color=always --style=header,grid --line-range :500 {}\"";
       "latexmk" = "latexmk -lualatex";
-      "lg" = "lazygit";
       "rsync" = "rsync -r --info=progress2";
       "asus-num" = "systemctl restart asus-numberpad-driver.service";
       "oc" = "opencode";

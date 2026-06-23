@@ -11,6 +11,8 @@
 {...}: {
   programs.lazygit = {
     enable = true;
+    shellWrapperName = "lg";
+    enableZshIntegration = true;
     settings.gui = {
       theme = {
         activeBorderColor = ["#a6e3a1" "bold"];
