@@ -97,6 +97,15 @@
     tui = {
       theme = "catppuccin";
       plugin = ["@slkiser/opencode-quota"];
+      keybinds = {
+        leader = "ctrl+o";
+        model_list = "<leader>m";
+        session_list = "<leader>l";
+        prompt_stash = "<leader>s";
+        prompt_stash_pop = "<leader>p";
+        # Default binds <leader>s to status_view; free it for stash above.
+        status_view = "none";
+      };
     };
   };
   imports = [

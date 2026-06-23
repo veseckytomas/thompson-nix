@@ -135,7 +135,6 @@ in {
       "rsync" = "rsync -r --info=progress2";
       "asus-num" = "systemctl restart asus-numberpad-driver.service";
       "oc" = "opencode";
-      "nixos-run" = "~/Git/Personal/thompson-nix/scripts/main.sh";
     };
   };
   catppuccin.zsh-syntax-highlighting = {

@@ -47,6 +47,7 @@
     ./themes
     ./taskwarrior
     ./tmux.nix
+    ./vlc
     ./xournalpp
     ./yazi.nix
     ./zoxide.nix
