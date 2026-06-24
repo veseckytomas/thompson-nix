@@ -49,6 +49,20 @@ pause() {
   gum input --placeholder "$1 (press Enter)" >/dev/null 2>&1 || true
 }
 
+# Commit staged changes, prompting for a Yubikey touch ONLY when something is
+# actually staged. Without this guard an empty `git commit` returns non-zero,
+# and `set -e` (added by writeShellApplication) aborts the whole script before
+# later phases run -- e.g. an empty NixOS commit would kill the run before the
+# Home-Manager commit + push ever happen.
+commit_if_changes() {
+  if [ "$DRY_RUN" != 1 ] && git diff --cached --quiet; then
+    info "Nothing to commit: $1"
+    return 0
+  fi
+  warn "Please touch the device. (Sign commit)"
+  run git commit -m "$1"
+}
+
 print_help() {
   cat <<EOF
 nixos-run - TUI to control NixOS rebuilding
@@ -127,8 +141,7 @@ action_rebuild() {
   local gen
   gen=$(current_nixos_gen)
   run git restore --staged home-manager
-  warn "Please touch the device. (Sign commit)"
-  run git commit -m "$(hostname): Gen ${gen}"
+  commit_if_changes "$(hostname): Gen ${gen}"
 
   # --- attended end: Home-Manager switch + commit ---
   run git restore --staged :/
@@ -141,8 +154,7 @@ action_rebuild() {
   fi
   local hgen
   hgen=$(current_home_gen)
-  warn "Please touch the device. (Sign commit)"
-  run git commit -m "Home-manager $(hostname): Gen ${hgen}"
+  commit_if_changes "Home-manager $(hostname): Gen ${hgen}"
 
   warn "Please touch the device. (Push)"
   run git push
@@ -172,8 +184,7 @@ action_home() {
   fi
   local hgen
   hgen=$(current_home_gen)
-  warn "Please touch the device. (Sign commit)"
-  run git commit -m "Home-manager $(hostname): Gen ${hgen}"
+  commit_if_changes "Home-manager $(hostname): Gen ${hgen}"
   warn "Please touch the device. (Push)"
   run git push
   ok "Home-Manager rebuild complete."
@@ -227,15 +238,47 @@ update_librewolf() {
   fi
 }
 
+# CodeGraph ships as a platform-specific npm bundle that runs under nixpkgs Node
+# (see home-manager/vesecto/modules/opencode/codegraph). npm's per-version
+# dist.integrity is already an SRI hash, so we read it straight from the registry
+# packument -- no tarball download needed to bump version + hash.
+update_codegraph() {
+  local json="home-manager/vesecto/modules/opencode/codegraph/codegraph.json"
+  local pkg="@colbymchenry/codegraph-linux-x64"
+  local packument latest current hash
+  packument=$(curl -H 'accept: application/json' -sL "https://registry.npmjs.org/${pkg}" || true)
+  latest=$(jq -r '."dist-tags".latest' <<<"$packument" 2>/dev/null || true)
+  current=$(jq -r '.version' "$json" 2>/dev/null || true)
+  if [ -z "$latest" ] || [ "$latest" = "null" ]; then
+    warn "CodeGraph: could not fetch latest version, keeping ${current}."
+  elif [ "$latest" = "$current" ]; then
+    info "CodeGraph: already up-to-date (${current})"
+  else
+    hash=$(jq -r --arg v "$latest" '.versions[$v].dist.integrity' <<<"$packument" 2>/dev/null || true)
+    if [ -z "$hash" ] || [ "$hash" = "null" ]; then
+      warn "CodeGraph: could not fetch integrity for ${latest}, keeping ${current}."
+    else
+      if [ "$DRY_RUN" = 1 ]; then
+        info "[dry-run] would write ${json}: ${latest} / ${hash}"
+      else
+        printf '{\n  "version": "%s",\n  "hash": "%s"\n}\n' "$latest" "$hash" >"$json"
+      fi
+      info "CodeGraph: ${current} -> ${latest}"
+    fi
+  fi
+}
+
 action_update() {
   git_pull
 
   hdr "Updating flake inputs ..."
   run nix flake update
   hdr "Updating oh-my-openagent ..."
-  run bash "$FLAKE_DIR/scripts/update-oh-my-openagent.sh"
+  run bash "$FLAKE_DIR/modules/common/packages/nixos-run/update-oh-my-openagent.sh"
   hdr "Updating LibreWolf ..."
   update_librewolf
+  hdr "Updating CodeGraph ..."
+  update_codegraph
 
   # --- unattended: stage + build both ---
   run git add --all
@@ -252,8 +295,8 @@ action_update() {
   run git add flake.lock
   run git add home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix
   run git add modules/common/packages/librewolf-bin.json
-  warn "Please touch the device. (Sign commit)"
-  run git commit -m "Update lockfiles"
+  run git add home-manager/vesecto/modules/opencode/codegraph/codegraph.json
+  commit_if_changes "Update lockfiles"
 
   # --- NixOS switch + commit ---
   warn "Switching NixOS (sudo) ..."
@@ -266,8 +309,7 @@ action_update() {
   gen=$(current_nixos_gen)
   run git add --all
   run git restore --staged home-manager
-  warn "Please touch the device. (Sign commit)"
-  run git commit -m "$(hostname): Gen ${gen}"
+  commit_if_changes "$(hostname): Gen ${gen}"
 
   # --- Home-Manager switch + commit ---
   run git restore --staged :/
@@ -280,8 +322,7 @@ action_update() {
   fi
   local hgen
   hgen=$(current_home_gen)
-  warn "Please touch the device. (Sign commit)"
-  run git commit -m "Home-manager $(hostname): Gen ${hgen}"
+  commit_if_changes "Home-manager $(hostname): Gen ${hgen}"
 
   warn "Please touch the device. (Push)"
   run git push
@@ -299,6 +340,7 @@ action_clean() {
     "Clean Pip cache" \
     "Clean dev shells (.direnv)" \
     "Clean nix-store (gc + optimize)" \
+    "Prune Nix fetcher cache (git/tarball)" \
     "Prune docker cache" \
     "Empty trash" || true)
 
@@ -332,6 +374,15 @@ action_clean() {
     run sudo /run/current-system/bin/switch-to-configuration boot || warn "switch-to-configuration boot failed."
     run nix-collect-garbage -d || warn "User garbage collection failed."
     run nix-store --optimize || warn "Store optimization failed."
+  fi
+  if grep -qF "Nix fetcher cache" <<<"$choices"; then
+    # These caches live OUTSIDE the nix store, so `nix-collect-garbage` never
+    # touches them. The git mirror (gitv3) keeps full per-input clones —
+    # including submodules like oh-my-openagent's ~1.7 GB open-design — and the
+    # tarball caches keep every github: input snapshot. Nix re-fetches lazily on
+    # the next build, so removing them is always safe.
+    hdr "Pruning Nix fetcher cache (git mirrors + tarball downloads) ..."
+    run rm -rf "$HOME/.cache/nix/gitv3" "$HOME/.cache/nix/tarball-cache" "$HOME/.cache/nix/tarball-cache-v2" || warn "Nix fetcher cache prune failed."
   fi
   if grep -qF "docker cache" <<<"$choices"; then
     hdr "Pruning docker cache ..."

@@ -972,13 +972,15 @@
         "narHash": "sha256-791remwpI2G+WumLhHESunWBNxCoobC619ghz4GE/uU=",
         "ref": "dev",
         "rev": "ff4e13418e43fb78408cce5f04f243a0bc0ab459",
-        "revCount": 9550,
+        "shallow": true,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
       },
       "original": {
         "ref": "dev",
+        "rev": "ff4e13418e43fb78408cce5f04f243a0bc0ab459",
+        "shallow": true,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/code-yeongyu/oh-my-openagent"
