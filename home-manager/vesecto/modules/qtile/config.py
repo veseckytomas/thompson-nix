@@ -482,6 +482,7 @@ def init_widgets_list(scale=1.0):
             not_charging_char="󰁿",
             show_short_text=False,
             format="{char} Bat: {percent:2.0%}",
+            update_interval=5,
             decorations=[
                 BorderDecoration(
                     colour=colors[3],
