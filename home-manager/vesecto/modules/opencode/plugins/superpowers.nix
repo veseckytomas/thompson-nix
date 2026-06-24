@@ -34,16 +34,19 @@
   '';
 in {
   # Plugin entry point loaded as a local plugin by opencode.
-  xdg.configFile = {
-    "opencode/plugins/superpowers" = {
-      source = superpowersPlugin;
-      recursive = true;
-    };
-  } // builtins.listToAttrs (map (name: {
-    name = "opencode/skills/${name}";
-    value = {
-      source = "${skillsDir}/${name}";
-      recursive = true;
-    };
-  }) skillNames);
+  xdg.configFile =
+    {
+      "opencode/plugins/superpowers" = {
+        source = superpowersPlugin;
+        recursive = true;
+      };
+    }
+    // builtins.listToAttrs (map (name: {
+        name = "opencode/skills/${name}";
+        value = {
+          source = "${skillsDir}/${name}";
+          recursive = true;
+        };
+      })
+      skillNames);
 }

@@ -8,10 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.nixvim.plugins.grug-far = {
     enable = true;
     package = pkgs.vimPlugins.grug-far-nvim.overrideAttrs (old: {

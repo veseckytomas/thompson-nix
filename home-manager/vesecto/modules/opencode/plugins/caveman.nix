@@ -80,7 +80,6 @@ in {
       install -m 0644 "${cavemanPlugin}/caveman-config.cjs" "$cavemanDir/caveman-config.cjs"
     '';
 
-
     # Agents discovered by opencode's global agent scanner from
     # ~/.config/opencode/agents/ (same directory GSD uses).
     xdg.configFile."opencode/agents/cavecrew-builder.md".source = "${cavemanAgents}/cavecrew-builder.md";

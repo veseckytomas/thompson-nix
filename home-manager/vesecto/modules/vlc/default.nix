@@ -74,8 +74,7 @@
 in {
   home.packages = [vlcWrapper];
 
-  xdg.dataFile."applications/vlc.desktop".source =
-    "${vlcResumeDesktop}/share/applications/vlc.desktop";
+  xdg.dataFile."applications/vlc.desktop".source = "${vlcResumeDesktop}/share/applications/vlc.desktop";
 
   xdg.dataFile."vlc/lua/intf/resumejump.lua".source = ./resumejump.lua;
 
