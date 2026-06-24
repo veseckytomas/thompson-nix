@@ -13,7 +13,11 @@
   lib,
   config,
   ...
-}: {
+}: let
+  # CodeGraph, rebuilt to run under nixpkgs Node instead of the broken prebuilt
+  # bundle oh-my-openagent provisions into ~/.omo/codegraph. See ./codegraph.
+  codegraph = pkgs.callPackage ./codegraph {};
+in {
   opencodePlugins = {
     omo.enable = true;
     gsd-sdk.enable = true;
@@ -122,8 +126,15 @@
     };
   };
 
+  # oh-my-openagent resolves the codegraph MCP command from $OMO_CODEGRAPH_BIN
+  # before anything else, so this overrides the broken prebuilt bundle in
+  # ~/.omo/codegraph (whose vendored Node can't run on NixOS) and fixes the
+  # `codegraph MCP error -32000: Connection close` error.
+  home.sessionVariables.OMO_CODEGRAPH_BIN = lib.getExe codegraph;
+
   home.packages = [
     pkgs.wakatime-cli
     pkgs.python3Packages.markitdown
+    codegraph
   ];
 }

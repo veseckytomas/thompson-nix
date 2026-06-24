@@ -59,6 +59,7 @@
     # ./nvim-autopairs.nix
     ./nvim-ufo.nix
     ./oil.nix
+    ./opencode.nix
     # ./outline-nvim.nix
     ./render-markdown.nix
     ./rustaceanvim.nix
