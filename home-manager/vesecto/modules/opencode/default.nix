@@ -102,7 +102,7 @@ in {
       theme = "catppuccin";
       plugin = ["@slkiser/opencode-quota"];
       keybinds = {
-        leader = "ctrl+o";
+        leader = "ctrl+x";
         model_list = "<leader>m";
         session_list = "<leader>l";
         prompt_stash = "<leader>s";
