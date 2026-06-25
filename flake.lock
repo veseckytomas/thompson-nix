@@ -730,6 +730,22 @@
         "type": "github"
       }
     },
+    "mattpocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782296984,
+        "narHash": "sha256-+Crwt+cP8B6wiIsthpwFUBgRHeTSRoPm2YASZEQE/9k=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "8370e760d0251a3738e006aeacec6d1cb31dd208",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "nix-flatpak": {
       "locked": {
         "lastModified": 1780908363,
@@ -1091,6 +1107,7 @@
         "home-manager-stable": "home-manager-stable",
         "hyprland": "hyprland",
         "kulala-nvim": "kulala-nvim",
+        "mattpocock-skills": "mattpocock-skills",
         "nix-flatpak": "nix-flatpak",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-stable": "nixpkgs-stable",
