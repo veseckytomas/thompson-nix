@@ -9,11 +9,14 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
+  config,
   inputs,
   lib,
   pkgs,
   ...
 }: let
+  cfg = config.opencodePlugins.superpowers;
+
   superpowersSrc = inputs.superpowers;
 
   # Dynamically discover all skill directories in the superpowers repo so new
@@ -21,6 +24,11 @@
   skillsDir = "${superpowersSrc}/skills";
   skillEntries = builtins.readDir skillsDir;
   skillNames = builtins.filter (name: (builtins.getAttr name skillEntries) == "directory") (builtins.attrNames skillEntries);
+
+  # Skills selected for installation. Each per-skill toggle defaults to
+  # skills.enableAll, so setting `skills.<name> = false` (or true) overrides the
+  # bulk default for that single skill.
+  enabledSkills = builtins.filter (name: cfg.skills.${name}) skillNames;
 
   # Local copy of the superpowers plugin entry point.
   # When installed at ~/.config/opencode/plugins/superpowers/plugin.js,
@@ -33,20 +41,50 @@
     cp ${superpowersSrc}/.opencode/plugins/superpowers.js $out/plugin.js
   '';
 in {
-  # Plugin entry point loaded as a local plugin by opencode.
-  xdg.configFile =
-    {
-      "opencode/plugins/superpowers" = {
-        source = superpowersPlugin;
-        recursive = true;
-      };
-    }
-    // builtins.listToAttrs (map (name: {
-        name = "opencode/skills/${name}";
-        value = {
-          source = "${skillsDir}/${name}";
+  options.opencodePlugins.superpowers = {
+    enable = lib.mkEnableOption "Superpowers opencode plugin";
+
+    skills =
+      {
+        enableAll = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = ''
+            Whether to install all Superpowers skills. Individual skills can
+            override this default via `skills.<name>`.
+          '';
+        };
+      }
+      // builtins.listToAttrs (map (name: {
+          inherit name;
+          value = lib.mkOption {
+            type = lib.types.bool;
+            default = cfg.skills.enableAll;
+            description = ''
+              Whether to install the Superpowers "${name}" skill. Defaults to
+              `skills.enableAll`.
+            '';
+          };
+        })
+        skillNames);
+  };
+
+  config = lib.mkIf cfg.enable {
+    # Plugin entry point loaded as a local plugin by opencode.
+    xdg.configFile =
+      {
+        "opencode/plugins/superpowers" = {
+          source = superpowersPlugin;
           recursive = true;
         };
-      })
-      skillNames);
+      }
+      // builtins.listToAttrs (map (name: {
+          name = "opencode/skills/${name}";
+          value = {
+            source = "${skillsDir}/${name}";
+            recursive = true;
+          };
+        })
+        enabledSkills);
+  };
 }

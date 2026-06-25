@@ -24,6 +24,38 @@ in {
     gsd.enable = true;
     caveman.enable = true;
     claude-token-sync.enable = true;
+    superpowers = {
+      enable = true;
+      skills.enableAll = true;
+    };
+    mattpocock = {
+      # Upstream link-skills.sh excludes "deprecated"; skip it here too.
+      # Toggle any group or skill, e.g. `skills.in-progress.enable = false;`
+      # or `skills.engineering.tdd = false;` (skill overrides its group).
+      enable = true;
+      skills = {
+        enableAll = false;
+        deprecated.enable = false;
+        in-progress.enable = false;
+        personal.enable = false;
+        productivity.enable = true;
+        engineering = {
+          enable = false;
+          improve-codebase-architecture = true;
+          to-issues = true;
+          to-prd = true;
+          prototype = true;
+          diagnosing-bugs = true;
+          tdd = true;
+          domain-modeling = true;
+          codebase-design = true;
+        };
+        misc = {
+          enable = false;
+          git-guardrails-claude-code = true;
+        };
+      };
+    };
   };
 
   programs.opencode = {
@@ -38,8 +70,8 @@ in {
           "./plugins/caveman/plugin.js"
         ]
         ++ lib.optional config.opencodePlugins.omo.enable "./node_modules/oh-my-openagent"
+        ++ lib.optional config.opencodePlugins.superpowers.enable "./plugins/superpowers/plugin.js"
         ++ [
-          "./plugins/superpowers/plugin.js"
           "opencode-wakatime"
           "opencode-claude-bridge"
           "opencode-gemini-auth"
