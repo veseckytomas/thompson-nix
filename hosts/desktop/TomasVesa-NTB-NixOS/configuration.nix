@@ -14,6 +14,9 @@
   lib,
   ...
 }: {
+  # TMP while in Canary Islands
+  time.timeZone = lib.mkForce "Atlantic/Canary";
+
   boot.initrd.luks.devices."luks-75e7b65c-68bb-4801-b9ec-49403d21ede5".device = "/dev/disk/by-uuid/75e7b65c-68bb-4801-b9ec-49403d21ede5";
 
   systemd.services.asus-numberpad-driver = {
