@@ -56,6 +56,13 @@ in {
         };
       };
     };
+    localSkills = {
+      # Skills authored locally in ./skills. Discovered dynamically; toggle any
+      # one with `skills.<name> = false;` (or set `skills.enableAll = false;`
+      # and opt individual skills back in with `skills.<name> = true;`).
+      enable = true;
+      skills.enableAll = true;
+    };
   };
 
   programs.opencode = {
@@ -148,11 +155,9 @@ in {
     ./plugins
   ];
 
+  # Local "living" skills (./skills) are deployed per-skill by the localSkills
+  # module (./plugins/local-skills.nix), mirroring superpowers/mattpocock.
   xdg.configFile = {
-    "opencode/skills" = {
-      source = ./skills;
-      recursive = true;
-    };
     "opencode/opencode-quota/quota-toast.json" = {
       source = ./plugins/opencode-quota.json;
     };

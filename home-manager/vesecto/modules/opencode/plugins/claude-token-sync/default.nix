@@ -32,8 +32,8 @@ in {
       dir="$HOME/.config/opencode/plugins/claude-token-sync"
       mkdir -p "$dir"
       rm -f "$dir/plugin.js" "$dir/package.json"
-      install -m 0644 ${./claude-token-sync/plugin.js}   "$dir/plugin.js"
-      install -m 0644 ${./claude-token-sync/package.json} "$dir/package.json"
+      install -m 0644 ${./plugin.js}   "$dir/plugin.js"
+      install -m 0644 ${./package.json} "$dir/package.json"
     '';
   };
 }

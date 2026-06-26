@@ -10,12 +10,13 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
+    ./claude-token-sync
+    ./local-skills
     ./oh-my-openagent
     ./gsd-sdk.nix
     ./gsd.nix
     ./caveman.nix
     ./superpowers.nix
     ./mattpocock.nix
-    ./claude-token-sync.nix
   ];
 }

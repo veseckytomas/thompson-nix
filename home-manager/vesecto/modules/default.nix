@@ -24,6 +24,7 @@
     ./flameshot.nix
     ./fzf.nix
     ./git
+    ./gnupg.nix
     ./hyprland
     ./ideavim
     ./nomacs
