@@ -25,6 +25,12 @@
     };
   };
 
+  # YubiKey smartcard (CCID) support.
+  # pcscd is the PC/SC daemon that lets `ykman` and gpg's OpenPGP applet talk to
+  # the card; yubikey-manager provides the `ykman` CLI.
+  services.pcscd.enable = true;
+  environment.systemPackages = [pkgs.yubikey-manager];
+
   security.polkit.enable = true;
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
