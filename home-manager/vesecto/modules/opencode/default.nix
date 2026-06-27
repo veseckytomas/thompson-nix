@@ -172,6 +172,7 @@ in {
   home.packages = [
     pkgs.wakatime-cli
     pkgs.python3Packages.markitdown
+    pkgs.worktrunk
     codegraph
   ];
 }
