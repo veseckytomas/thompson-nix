@@ -12,5 +12,6 @@
   imports = [
     ./configuration.nix
     ./hardware-configuration.nix
+    ./media-server.nix
   ];
 }
