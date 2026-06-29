@@ -126,6 +126,32 @@ in {
           kill -9 "$pid" > /dev/null 2>&1 && echo "Process $pname (PID $pid) has been successfully killed."
         fi
       }
+
+      function yk-touch {
+        case "$1" in
+          on|off)
+            ykman openpgp keys set-touch -f sig "$1" \
+              && echo "YubiKey signing touch policy set to: $1"
+            ;;
+          ""|status)
+            local policy
+            policy=$(ykman openpgp info 2>/dev/null \
+              | awk '/^Signature key:/{f=1} f&&/Touch policy:/{print $3; exit}')
+            if [ -z "$policy" ]; then
+              echo "Could not read YubiKey OpenPGP status (is the key inserted?)" >&2
+              return 1
+            fi
+            echo "YubiKey signing touch policy: $policy"
+            ;;
+          *)
+            echo "Usage: yk-touch [on|off|status]" >&2
+            echo "  on      require touch for signing (manual work)" >&2
+            echo "  off     no touch required for signing (agent work)" >&2
+            echo "  status  show current signing touch policy (default)" >&2
+            return 1
+            ;;
+        esac
+      }
     '';
     shellAliases = {
       "pentaho" = "export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh";
