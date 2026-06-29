@@ -5,6 +5,10 @@
 #  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
 # /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
 #                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
 # nixos-run: TUI to control NixOS rebuilding.
 #
 # Interaction model:
