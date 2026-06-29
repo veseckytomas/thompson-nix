@@ -8,6 +8,15 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
+#
+# GSD Core CLI tools (formerly "GSD SDK").
+#
+# Upstream retired the standalone `sdk/` package (open-gsd migrations
+# enh-191-retire-sdk-package / bug-505 / bug-3810) and renamed the project to
+# @opengsd/gsd-core. The old `sdk/` build + `gsd-sdk.js` binary no longer exist.
+# This module now ships the gsd-core CLI entry points instead:
+#   - get-shit-done-redux / gsd-core -> bin/install.js (the installer)
+#   - gsd-tools / gsd_run            -> gsd-core/bin/gsd-tools.cjs (workflow CLI)
 {
   config,
   inputs,
@@ -15,86 +24,51 @@
   pkgs,
   ...
 }: let
-  src = inputs.get-shit-done-redux;
-
-  rootDeps = pkgs.importNpmLock.buildNodeModules {
-    npmRoot = src;
-    nodejs = pkgs.nodejs_22;
-    derivationArgs = {
-      pname = "get-shit-done-redux-root-deps";
-      version = "unstable";
-    };
-  };
-
-  sdkDeps = pkgs.importNpmLock.buildNodeModules {
-    npmRoot = "${src}/sdk";
-    nodejs = pkgs.nodejs_22;
-    derivationArgs = {
-      pname = "get-shit-done-redux-sdk-deps";
-      version = "unstable";
-    };
-  };
+  gsdCoreBuilt = import ./gsd-core-built.nix {inherit pkgs inputs;};
 
   getShitDoneRedux = pkgs.stdenv.mkDerivation {
     pname = "get-shit-done-redux";
     version = "unstable";
-    inherit src;
+    src = gsdCoreBuilt;
 
-    nativeBuildInputs = [
-      pkgs.nodejs_22
-      pkgs.makeWrapper
-    ];
+    nativeBuildInputs = [pkgs.makeWrapper];
 
     dontConfigure = true;
-
-    buildPhase = ''
-      runHook preBuild
-
-      cp -R ${rootDeps}/node_modules ./node_modules
-      chmod -R u+w node_modules
-      patchShebangs node_modules
-
-      rm -rf sdk/node_modules
-      cp -R ${sdkDeps}/node_modules ./sdk/
-      chmod -R u+w sdk/node_modules
-      patchShebangs sdk/node_modules
-
-      pushd sdk
-      npm run build
-      popd
-
-      runHook postBuild
-    '';
+    dontBuild = true;
 
     installPhase = ''
       runHook preInstall
 
-      mkdir -p "$out"
-      cp -R \
-        bin \
-        commands \
-        get-shit-done \
-        agents \
-        hooks \
-        scripts \
-        sdk \
-        "$out"/
+      libexec="$out/libexec/gsd-core"
+      mkdir -p "$libexec"
+      cp -R . "$libexec"/
 
       mkdir -p "$out/bin"
-      chmod +x "$out/bin/install.js" "$out/bin/gsd-sdk.js"
+
+      # Installer (renamed upstream to gsd-core; keep the legacy name too).
+      makeWrapper ${pkgs.nodejs_22}/bin/node "$out/bin/gsd-core" \
+        --add-flags "$libexec/bin/install.js"
       makeWrapper ${pkgs.nodejs_22}/bin/node "$out/bin/get-shit-done-redux" \
-        --add-flags "$out/bin/install.js"
-      makeWrapper ${pkgs.nodejs_22}/bin/node "$out/bin/gsd-sdk" \
-        --add-flags "$out/bin/gsd-sdk.js"
+        --add-flags "$libexec/bin/install.js"
+
+      # Workflow CLI (replaces the retired gsd-sdk.js). gsd-tools.cjs resolves
+      # its lib/ relative to its own location, so point node straight at it.
       makeWrapper ${pkgs.nodejs_22}/bin/node "$out/bin/gsd-tools" \
-        --add-flags "$out/bin/gsd-sdk.js"
+        --add-flags "$libexec/gsd-core/bin/gsd-tools.cjs"
+      makeWrapper ${pkgs.nodejs_22}/bin/node "$out/bin/gsd_run" \
+        --add-flags "$libexec/gsd-core/bin/gsd-tools.cjs"
 
       runHook postInstall
     '';
+
+    meta = {
+      description = "GSD Core CLI tools (installer + workflow tools)";
+      mainProgram = "gsd-core";
+    };
   };
 in {
   options.opencodePlugins.gsd-sdk = {
-    enable = lib.mkEnableOption "GSD SDK (get-shit-done-redux CLI tools)";
+    enable = lib.mkEnableOption "GSD Core CLI tools (get-shit-done-redux / gsd-core)";
   };
 
   config = lib.mkIf config.opencodePlugins.gsd-sdk.enable {

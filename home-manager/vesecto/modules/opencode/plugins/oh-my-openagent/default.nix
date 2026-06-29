@@ -25,7 +25,7 @@
 
   oh-my-openagent = pkgs.stdenv.mkDerivation {
     pname = "oh-my-openagent";
-    version = "4.12.1";
+    version = "unstable";
 
     src = inputs.oh-my-openagent;
 

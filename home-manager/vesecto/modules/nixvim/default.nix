@@ -16,6 +16,8 @@
   programs.nixvim = {
     enable = true;
 
+    nixpkgs.source = pkgs.path;
+
     # Set default editor
     defaultEditor = true;
 

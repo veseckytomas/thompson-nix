@@ -17,10 +17,12 @@
 }: let
   cfg = config.opencodePlugins.gsd;
 
+  gsdCoreBuilt = import ./gsd-core-built.nix {inherit pkgs inputs;};
+
   gsdOpencodePlugin = pkgs.stdenv.mkDerivation {
     pname = "gsd-opencode-plugin";
-    version = "1.1.0";
-    src = inputs.get-shit-done-redux;
+    version = "unstable";
+    src = gsdCoreBuilt;
 
     nativeBuildInputs = [pkgs.nodejs_22];
 
@@ -45,8 +47,8 @@ in {
 
   config = lib.mkIf cfg.enable {
     programs.opencode.settings = {
-      permission.read."~/.config/opencode/get-shit-done/*" = "allow";
-      permission.external_directory."~/.config/opencode/get-shit-done/*" = "allow";
+      permission.read."~/.config/opencode/gsd-core/*" = "allow";
+      permission.external_directory."~/.config/opencode/gsd-core/*" = "allow";
     };
 
     home = {
@@ -65,8 +67,8 @@ in {
         source = "${gsdOpencodePlugin}/command";
         recursive = true;
       };
-      "opencode/get-shit-done" = {
-        source = "${gsdOpencodePlugin}/get-shit-done";
+      "opencode/gsd-core" = {
+        source = "${gsdOpencodePlugin}/gsd-core";
         recursive = true;
       };
       "opencode/hooks" = {
