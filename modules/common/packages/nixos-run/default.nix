@@ -43,5 +43,8 @@ in
       gnugrep
       coreutils
     ];
-    text = builtins.replaceStrings ["@flakePath@"] [flakePath] (builtins.readFile ./nixos-run.sh);
+    text = builtins.replaceStrings
+      ["@flakePath@" "@updateOhMyOpenagentScript@"]
+      [flakePath "${./update-oh-my-openagent.sh}"]
+      (builtins.readFile ./nixos-run.sh);
   }

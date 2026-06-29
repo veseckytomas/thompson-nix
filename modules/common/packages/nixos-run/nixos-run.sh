@@ -17,6 +17,11 @@
 FLAKE_DIR="${NIXOS_RUN_FLAKE:-@flakePath@}"
 DRY_RUN="${NIXOS_RUN_DRY_RUN:-0}"
 
+# Build performance flags (--max-jobs / --cores), chosen per run by
+# choose_performance and applied to every nixos-rebuild / home-manager build and
+# switch in the selected action. Empty = let Nix use its configured defaults.
+PERF_FLAGS=()
+
 # ---------------------------------------------------------------------------
 # Styling helpers (gum)
 # ---------------------------------------------------------------------------
@@ -69,9 +74,14 @@ nixos-run - TUI to control NixOS rebuilding
 
 Usage: nixos-run [--dry-run|-n] [--help|-h]
 
-All interactive input happens up front (option selection) or at the very end
-(switch / commit / push / yubikey). The build runs unattended in between, with a
-no-timeout confirmation gate before any system-changing activation.
+All interactive input happens up front (build performance + option selection) or
+at the very end (switch / commit / push / yubikey). The build runs unattended in
+between, with a no-timeout confirmation gate before any system-changing
+activation.
+
+Rebuild actions first ask for a build performance profile:
+  Light  --max-jobs 1 --cores 1     (one job, one core; keeps the PC usable)
+  Full   --max-jobs auto --cores 0  (all jobs, all cores; finishes ASAP)
 
 Interactive controls:
   ↑/↓ or h/j/k/l  Navigate lists
@@ -97,14 +107,32 @@ git_pull() {
   run git pull || warn "git pull failed, continuing."
 }
 
+# Up-front step: pick how much CPU the unattended build may use. Sets the global
+# PERF_FLAGS array, applied to every nixos-rebuild / home-manager build + switch
+# in the chosen action.
+#   - Light: one job, one core   -> machine stays responsive during the build.
+#   - Full:  all jobs, all cores -> build finishes as fast as possible.
+# A cancelled prompt defaults to Light (the safe, non-hogging choice).
+choose_performance() {
+  local choice
+  choice=$(gum choose --header "Build performance (CPU usage for this run):" \
+    "Light - keep PC usable (1 job, 1 core)" \
+    "Full - finish ASAP (unlimited jobs, unlimited cores)" || true)
+  case "$choice" in
+  "Full"*) PERF_FLAGS=(--max-jobs auto --cores 0) ;;
+  *) PERF_FLAGS=(--max-jobs 1 --cores 1) ;;
+  esac
+  info "Build performance: ${PERF_FLAGS[*]}"
+}
+
 nixos_build() {
   hdr "Building NixOS configuration (.#$(hostname)) ..."
-  run nixos-rebuild build --flake ".#"
+  run nixos-rebuild build --flake ".#" "${PERF_FLAGS[@]}"
 }
 
 home_build() {
   hdr "Building Home-Manager configuration (.#$(whoami)) ..."
-  run home-manager build --flake ".#$(whoami)"
+  run home-manager build --flake ".#$(whoami)" "${PERF_FLAGS[@]}"
 }
 
 current_nixos_gen() {
@@ -119,6 +147,7 @@ current_home_gen() {
 # Action: Rebuild (NixOS + Home-Manager)
 # ---------------------------------------------------------------------------
 action_rebuild() {
+  choose_performance
   git_pull
 
   # --- unattended: stage everything so the flake sees new files, then build ---
@@ -133,7 +162,7 @@ action_rebuild() {
 
   # --- attended end: NixOS switch + commit (commit excludes home-manager) ---
   warn "Switching NixOS (sudo) ..."
-  if ! run nixos-rebuild switch --sudo --flake ".#"; then
+  if ! run nixos-rebuild switch --sudo --flake ".#" "${PERF_FLAGS[@]}"; then
     warn "NixOS switch failed."
     run git restore --staged :/
     return 1
@@ -147,7 +176,7 @@ action_rebuild() {
   run git restore --staged :/
   run git add home-manager
   warn "Switching Home-Manager ..."
-  if ! run home-manager switch --flake ".#$(whoami)"; then
+  if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
     warn "Home-Manager switch failed."
     run git restore --staged :/
     return 1
@@ -165,6 +194,7 @@ action_rebuild() {
 # Action: Home-Manager only
 # ---------------------------------------------------------------------------
 action_home() {
+  choose_performance
   git_pull
 
   run git restore --staged :/
@@ -177,7 +207,7 @@ action_home() {
   fi
 
   warn "Switching Home-Manager ..."
-  if ! run home-manager switch --flake ".#$(whoami)"; then
+  if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
     warn "Home-Manager switch failed."
     run git restore --staged :/
     return 1
@@ -194,6 +224,7 @@ action_home() {
 # Action: Rebuild Test (build, then activate test config; no commit)
 # ---------------------------------------------------------------------------
 action_test() {
+  choose_performance
   git_pull
 
   run git add --all
@@ -205,7 +236,7 @@ action_test() {
   fi
 
   warn "Activating test configuration (sudo) ..."
-  run nixos-rebuild test --sudo --flake ".#" || warn "Test activation failed."
+  run nixos-rebuild test --sudo --flake ".#" "${PERF_FLAGS[@]}" || warn "Test activation failed."
   run git restore --staged :/
   ok "Test complete (not persisted across reboot)."
 }
@@ -269,12 +300,13 @@ update_codegraph() {
 }
 
 action_update() {
+  choose_performance
   git_pull
 
   hdr "Updating flake inputs ..."
   run nix flake update
   hdr "Updating oh-my-openagent ..."
-  run bash "$FLAKE_DIR/modules/common/packages/nixos-run/update-oh-my-openagent.sh"
+  run bash "@updateOhMyOpenagentScript@"
   hdr "Updating LibreWolf ..."
   update_librewolf
   hdr "Updating CodeGraph ..."
@@ -300,7 +332,7 @@ action_update() {
 
   # --- NixOS switch + commit ---
   warn "Switching NixOS (sudo) ..."
-  if ! run nixos-rebuild switch --sudo --flake ".#"; then
+  if ! run nixos-rebuild switch --sudo --flake ".#" "${PERF_FLAGS[@]}"; then
     warn "NixOS switch failed."
     run git restore --staged :/
     return 1
@@ -315,7 +347,7 @@ action_update() {
   run git restore --staged :/
   run git add home-manager
   warn "Switching Home-Manager ..."
-  if ! run home-manager switch --flake ".#$(whoami)"; then
+  if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
     warn "Home-Manager switch failed."
     run git restore --staged :/
     return 1

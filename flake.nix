@@ -15,8 +15,14 @@
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-25.11";
-    home-manager.url = "github:nix-community/home-manager";
-    nixvim.url = "github:nix-community/nixvim";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-25.11";
     nix-flatpak.url = "github:gmodena/nix-flatpak/";
@@ -136,7 +142,7 @@
       flake = false;
     };
     get-shit-done-redux = {
-      url = "github:open-gsd/get-shit-done-redux/v1.01.0";
+      url = "github:open-gsd/get-shit-done-redux";
       flake = false;
     };
     oh-my-openagent = {
