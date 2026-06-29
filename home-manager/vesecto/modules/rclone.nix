@@ -22,9 +22,13 @@
     };
     Service = {
       Type = "simple";
-      ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive && ! ${pkgs.util-linux}/bin/mountpoint -q %h/mnt/Onedrive'";
+      # Ensure the mountpoint exists, then clear any stale FUSE mount left over
+      # from an unclean exit (sleep/resume, network drop). Without this cleanup a
+      # stale endpoint keeps the path registered as a mountpoint, every restart
+      # fails its pre-check, and the unit crash-loops forever (ENOTCONN / err 107).
+      ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive; ${pkgs.fuse}/bin/fusermount -uz %h/mnt/Onedrive 2>/dev/null || true'";
       ExecStart = "${pkgs.rclone}/bin/rclone mount eOnedrive: %h/mnt/Onedrive --vfs-cache-mode writes --dir-cache-time 1000h --poll-interval 15s --timeout 1h --umask 002";
-      ExecStop = "${pkgs.fuse}/bin/fusermount -u %h/mnt/Onedrive";
+      ExecStop = "${pkgs.fuse}/bin/fusermount -uz %h/mnt/Onedrive";
       Restart = "on-failure";
       RestartSec = "10s";
     };
