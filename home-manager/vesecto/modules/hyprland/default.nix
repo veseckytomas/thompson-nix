@@ -8,8 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: let
-in {
+{pkgs, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
     configType = "lua";

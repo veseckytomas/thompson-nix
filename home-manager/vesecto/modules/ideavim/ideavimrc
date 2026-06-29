@@ -1,3 +1,14 @@
+"   ________
+"  /_  __/ /_  ____  ____ ___  ____  _________  ____
+"   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+"  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+" /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+"                          /_/
+" Tomáš Vesecký
+" Email: vesecky@proton.me
+" GitHub: veseckytomas
+" GitLab: vesecky.tomas
+
 " .ideavimrc is a configuration file for IdeaVim plugin. It uses
 "   the same commands as the original .vimrc configuration.
 " You can find a list of commands here: https://jb.gg/h38q75

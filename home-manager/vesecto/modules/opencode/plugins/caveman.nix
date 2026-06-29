@@ -82,50 +82,52 @@ in {
 
     # Agents discovered by opencode's global agent scanner from
     # ~/.config/opencode/agents/ (same directory GSD uses).
-    xdg.configFile."opencode/agents/cavecrew-builder.md".source = "${cavemanAgents}/cavecrew-builder.md";
-    xdg.configFile."opencode/agents/cavecrew-investigator.md".source = "${cavemanAgents}/cavecrew-investigator.md";
-    xdg.configFile."opencode/agents/cavecrew-reviewer.md".source = "${cavemanAgents}/cavecrew-reviewer.md";
+    xdg.configFile = {
+      "opencode/agents/cavecrew-builder.md".source = "${cavemanAgents}/cavecrew-builder.md";
+      "opencode/agents/cavecrew-investigator.md".source = "${cavemanAgents}/cavecrew-investigator.md";
+      "opencode/agents/cavecrew-reviewer.md".source = "${cavemanAgents}/cavecrew-reviewer.md";
 
-    # Commands discovered by opencode's global command scanner.
-    xdg.configFile."opencode/commands/caveman.md".source =
-      inputs.caveman + "/src/plugins/opencode/commands/caveman.md";
-    xdg.configFile."opencode/commands/caveman-commit.md".source =
-      inputs.caveman + "/src/plugins/opencode/commands/caveman-commit.md";
-    xdg.configFile."opencode/commands/caveman-help.md".source =
-      inputs.caveman + "/src/plugins/opencode/commands/caveman-help.md";
-    xdg.configFile."opencode/commands/caveman-review.md".source =
-      inputs.caveman + "/src/plugins/opencode/commands/caveman-review.md";
-    xdg.configFile."opencode/commands/caveman-stats.md".source =
-      inputs.caveman + "/src/plugins/opencode/commands/caveman-stats.md";
+      # Commands discovered by opencode's global command scanner.
+      "opencode/commands/caveman.md".source =
+        inputs.caveman + "/src/plugins/opencode/commands/caveman.md";
+      "opencode/commands/caveman-commit.md".source =
+        inputs.caveman + "/src/plugins/opencode/commands/caveman-commit.md";
+      "opencode/commands/caveman-help.md".source =
+        inputs.caveman + "/src/plugins/opencode/commands/caveman-help.md";
+      "opencode/commands/caveman-review.md".source =
+        inputs.caveman + "/src/plugins/opencode/commands/caveman-review.md";
+      "opencode/commands/caveman-stats.md".source =
+        inputs.caveman + "/src/plugins/opencode/commands/caveman-stats.md";
 
-    # Skills discovered by opencode's global skill scanner.
-    xdg.configFile."opencode/skills/cavecrew" = {
-      source = inputs.caveman + "/skills/cavecrew";
-      recursive = true;
-    };
-    xdg.configFile."opencode/skills/caveman" = {
-      source = inputs.caveman + "/skills/caveman";
-      recursive = true;
-    };
-    xdg.configFile."opencode/skills/caveman-commit" = {
-      source = inputs.caveman + "/skills/caveman-commit";
-      recursive = true;
-    };
-    xdg.configFile."opencode/skills/caveman-compress" = {
-      source = inputs.caveman + "/skills/caveman-compress";
-      recursive = true;
-    };
-    xdg.configFile."opencode/skills/caveman-help" = {
-      source = inputs.caveman + "/skills/caveman-help";
-      recursive = true;
-    };
-    xdg.configFile."opencode/skills/caveman-review" = {
-      source = inputs.caveman + "/skills/caveman-review";
-      recursive = true;
-    };
-    xdg.configFile."opencode/skills/caveman-stats" = {
-      source = inputs.caveman + "/skills/caveman-stats";
-      recursive = true;
+      # Skills discovered by opencode's global skill scanner.
+      "opencode/skills/cavecrew" = {
+        source = inputs.caveman + "/skills/cavecrew";
+        recursive = true;
+      };
+      "opencode/skills/caveman" = {
+        source = inputs.caveman + "/skills/caveman";
+        recursive = true;
+      };
+      "opencode/skills/caveman-commit" = {
+        source = inputs.caveman + "/skills/caveman-commit";
+        recursive = true;
+      };
+      "opencode/skills/caveman-compress" = {
+        source = inputs.caveman + "/skills/caveman-compress";
+        recursive = true;
+      };
+      "opencode/skills/caveman-help" = {
+        source = inputs.caveman + "/skills/caveman-help";
+        recursive = true;
+      };
+      "opencode/skills/caveman-review" = {
+        source = inputs.caveman + "/skills/caveman-review";
+        recursive = true;
+      };
+      "opencode/skills/caveman-stats" = {
+        source = inputs.caveman + "/skills/caveman-stats";
+        recursive = true;
+      };
     };
   };
 }
