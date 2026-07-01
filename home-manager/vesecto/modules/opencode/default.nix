@@ -121,6 +121,9 @@ in {
         external_directory = {
           "/tmp/**" = "allow";
         };
+        bash = {
+          "glab *" = "allow";
+        };
       };
       compaction = {
         auto = true;
@@ -134,6 +137,17 @@ in {
           type = "local";
           command = ["${pkgs.markitdown-mcp}/bin/markitdown-mcp"];
           enabled = true;
+        };
+      };
+      command = {
+        issue = {
+          description = "Pull a GitLab issue into context";
+          template = ''
+            GitLab issue $ARGUMENTS:
+            !`glab issue view $ARGUMENTS --comments`
+
+            Summarize it and list what needs doing.
+          '';
         };
       };
     };
@@ -161,6 +175,16 @@ in {
     "opencode/opencode-quota/quota-toast.json" = {
       source = ./plugins/opencode-quota.json;
     };
+    "opencode/AGENTS.md".text = ''
+      # GitLab issues
+
+      `glab` is installed and authenticated. Read issue context via bash before
+      starting work tied to an issue number or a branch like `123-fix-foo`.
+
+      - View one issue:        glab issue view <id> --comments
+      - Issues assigned to me: glab issue list --assignee=@me
+      - Search:                glab issue list --search "<text>"
+    '';
   };
 
   # oh-my-openagent resolves the codegraph MCP command from $OMO_CODEGRAPH_BIN
@@ -173,6 +197,7 @@ in {
     pkgs.wakatime-cli
     pkgs.python3Packages.markitdown
     pkgs.worktrunk
+    pkgs.nodejs-slim
     codegraph
   ];
 }
