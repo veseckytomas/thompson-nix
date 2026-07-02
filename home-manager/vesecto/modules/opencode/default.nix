@@ -71,7 +71,7 @@ in {
     settings = {
       autoupdate = false;
       lsp = true;
-      model = "litellm/kimi-k2.6";
+      model = "litellm/kimi-k2.7";
       plugin =
         [
           "./plugins/caveman/plugin.js"
@@ -93,26 +93,20 @@ in {
             baseURL = "https://llm.ai.e-infra.cz/v1";
           };
           models = {
-            deepseek-r1 = {
-              name = "deepseek-r1";
+            deepseek-v4-pro = {
+              name = "deepseek-v4-pro";
             };
             deepseek-v4-pro-thinking = {
               name = "deepseek-v4-pro-thinking";
             };
-            deepseek-v4-pro = {
-              name = "deepseek-v4-pro";
+            glm-5 = {
+              name = "glm-5";
             };
-            gpt-oss-120b = {
-              name = "gpt-oss-120b";
+            "kimi-k2.7" = {
+              name = "kimi-k2.7";
             };
-            qwen3-coder = {
-              name = "qwen3-coder";
-            };
-            "glm-5.1" = {
-              name = "glm-5.1";
-            };
-            "kimi-k2.6" = {
-              name = "kimi-k2.6";
+            "qwen3.5" = {
+              name = "qwen3.5";
             };
           };
         };

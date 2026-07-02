@@ -166,6 +166,8 @@ in {
       "rsync" = "rsync -r --info=progress2";
       "asus-num" = "systemctl restart asus-numberpad-driver.service";
       "oc" = "opencode";
+      "wts" = "wt switch";
+      "wtr" = "wt remove";
     };
   };
   catppuccin.zsh-syntax-highlighting = {
