@@ -24,6 +24,7 @@ in {
     gsd.enable = true;
     caveman.enable = true;
     claude-token-sync.enable = true;
+    cache-control-cap.enable = true;
     superpowers = {
       enable = true;
       skills.enableAll = true;
@@ -85,7 +86,8 @@ in {
           "opencode-gemini-auth"
           "./plugins/claude-token-sync/plugin.js"
           "@slkiser/opencode-quota"
-        ];
+        ]
+        ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js";
       provider = {
         litellm = {
           npm = "@ai-sdk/openai-compatible";

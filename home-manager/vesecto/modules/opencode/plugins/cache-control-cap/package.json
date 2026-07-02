@@ -1,0 +1,8 @@
+{
+  "name": "cache-control-cap-opencode-plugin",
+  "version": "0.1.0",
+  "description": "Trim outbound Anthropic /v1/messages requests to at most 4 cache_control breakpoints so opencode stops hitting the 'maximum of 4 blocks' 400",
+  "type": "module",
+  "main": "plugin.js",
+  "private": true
+}

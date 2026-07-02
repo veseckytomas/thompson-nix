@@ -10,6 +10,7 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
+    ./cache-control-cap
     ./claude-token-sync
     ./local-skills
     ./oh-my-openagent
