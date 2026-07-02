@@ -47,8 +47,15 @@ in {
 
   config = lib.mkIf cfg.enable {
     programs.opencode.settings = {
-      permission.read."~/.config/opencode/gsd-core/*" = "allow";
-      permission.external_directory."~/.config/opencode/gsd-core/*" = "allow";
+      permission = {
+        read."~/.config/opencode/gsd-core/*" = "allow";
+        external_directory."~/.config/opencode/gsd-core/*" = "allow";
+        # Match the stable gsd-tools/gsd_run tokens, not the hash-bearing store path.
+        bash = {
+          "*gsd-tools*" = "allow";
+          "*gsd_run*" = "allow";
+        };
+      };
     };
 
     home = {
