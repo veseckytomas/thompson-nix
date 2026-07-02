@@ -41,14 +41,15 @@ in {
         productivity.enable = true;
         engineering = {
           enable = false;
+          codebase-design = true;
+          diagnosing-bugs = true;
+          domain-modeling = true;
+          grill-with-docs = true;
           improve-codebase-architecture = true;
+          prototype = true;
+          tdd = true;
           to-issues = true;
           to-prd = true;
-          prototype = true;
-          diagnosing-bugs = true;
-          tdd = true;
-          domain-modeling = true;
-          codebase-design = true;
         };
         misc = {
           enable = false;
