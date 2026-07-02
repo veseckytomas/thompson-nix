@@ -194,7 +194,7 @@ in {
     pkgs.wakatime-cli
     pkgs.python3Packages.markitdown
     pkgs.worktrunk
-    pkgs.nodejs-slim
+    pkgs.nodejs
     codegraph
   ];
 }
