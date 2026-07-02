@@ -86,6 +86,7 @@ in {
           "opencode-gemini-auth"
           "./plugins/claude-token-sync/plugin.js"
           "@slkiser/opencode-quota"
+          "opencode-openai-multi-auth"
         ]
         ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js";
       provider = {

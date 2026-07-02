@@ -43,9 +43,10 @@
       sed -i '/!entry.isSymbolicLink() &&/d' packages/omo-opencode/src/features/opencode-skill-loader/skill-directory-loader.ts
 
       # Runtime fallback retries are wrongly rejected by the promptAsync gate
-      # because a failed provider leaves an incomplete assistant turn. Bypass the
-      # tool-state check for fallback auto-retries so the retry can dispatch.
-      sed -i 's/queueBehavior: "defer",/queueBehavior: "defer", checkToolState: false,/g' packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-dispatch.ts
+      # because a failed/hung provider leaves an incomplete assistant turn. Bypass
+      # both the session-active and tool-state checks for fallback auto-retries so
+      # the retry can dispatch even while the original turn is still being torn down.
+      sed -i 's/mode: "async",/mode: "async", checkStatus: false, checkToolState: false,/g' packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-dispatch.ts
 
       # Upstream's root `build` script now chains npm-based sub-builds for three
       # non-bun-workspace packages — lsp-tools-mcp, lsp-daemon and the codex
