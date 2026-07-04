@@ -24,6 +24,14 @@ rofi_command="rofi -theme $HOME/.config/rofi/config/powermenu.rasi"
 # Variable passed to rofi
 options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
 
+if [ "${XDG_SESSION_TYPE:-x11}" = "wayland" ]; then
+	lock_cmd="hyprlock"
+	logout_cmd="hyprctl dispatch exit"
+else
+	lock_cmd="$HOME/.config/i3lock/lock.sh"
+	logout_cmd="qtile cmd-obj -f shutdown"
+fi
+
 chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
 case $chosen in
 $shutdown)
@@ -33,14 +41,14 @@ $reboot)
 	systemctl reboot
 	;;
 $lock)
-	"$HOME/.config/i3lock/lock.sh"
+	$lock_cmd
 	;;
 $suspend)
-	"$HOME/.config/i3lock/lock.sh"
+	$lock_cmd
 	amixer set Master mute
 	systemctl suspend
 	;;
 $logout)
-	qtile cmd-obj -f shutdown
+	$logout_cmd
 	;;
 esac
