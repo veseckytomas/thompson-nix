@@ -48,6 +48,34 @@
       # the retry can dispatch even while the original turn is still being torn down.
       sed -i 's/mode: "async",/mode: "async", checkStatus: false, checkToolState: false,/g' packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-dispatch.ts
 
+      # Upstream snapshots fallback state *before* prepareFallback. When a retry
+      # fails to dispatch, restore rewinds failedModels/fallbackIndex/attemptCount,
+      # causing the same first fallback model to be retried forever. Snapshot after
+      # prepareFallback so the chain advances to the next model.
+      perl -0pi -e 's/  const snapshot = snapshotFallbackState\(options\.state\)\n  const result = prepareFallback\(\n    options\.sessionID,\n    options\.state,\n    options\.fallbackModels,\n    deps\.config,\n  \)/  const result = prepareFallback(\n    options.sessionID,\n    options.state,\n    options.fallbackModels,\n    deps.config,\n  )\n  const snapshot = snapshotFallbackState(options.state)/s' \
+        packages/omo-opencode/src/hooks/runtime-fallback/fallback-retry-dispatcher.ts
+      perl -0pi -e 's/      const stateSnapshot = snapshotFallbackState\(state\)\n\n      const fallbackModels/      const fallbackModels/s' \
+        packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-timeout.ts
+      perl -pi -e 's/(      const result = prepareFallback\(sessionID, state, fallbackModels, config\))/$1\n      const stateSnapshot = snapshotFallbackState(state)/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-timeout.ts
+
+      # Upstream treats `anthropic/claude-opus-4-8` and
+      # `anthropic/claude-opus-4-8(max)` as different models, so every outgoing
+      # chat message resets the fallback state and the chain can never advance
+      # past the first fallback. Compare provider/model ignoring variant.
+      perl -0pi -e 's/import \{ createFallbackState, isModelInCooldown \} from "\.\/fallback-state"/import { createFallbackState, isModelInCooldown } from ".\/fallback-state"\nimport { parseModelString } from "\@oh-my-opencode\/model-core"/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
+      perl -0pi -e 's/export function createChatMessageHandler\(deps: HookDeps\) \{/function isSameModel(a: string, b: string): boolean {\n  const pa = parseModelString(a)\n  const pb = parseModelString(b)\n  if (!pa || !pb) return a.toLowerCase() === b.toLowerCase()\n  return pa.providerID.toLowerCase() === pb.providerID.toLowerCase() \&\& pa.modelID.toLowerCase() === pb.modelID.toLowerCase()\n}\n\nexport function createChatMessageHandler(deps: HookDeps) {/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
+      perl -0pi -e 's/if \(requestedModel && requestedModel !== state\.currentModel\)/if (requestedModel \&\& !isSameModel(requestedModel, state.currentModel))/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
+
+      # While a fallback is pending, OpenCode may revert the outgoing message
+      # model to the original one (e.g. after a failed dispatch). Don't treat
+      # that replay as a manual override, or the fallback chain resets.
+      perl -0pi -e 's/(      if \(state\.pendingFallbackModel \&\& state\.pendingFallbackModel === requestedModel\) \{\n        state\.pendingFallbackModel = undefined\n        state\.pendingFallbackPromptMayHaveBeenAccepted = false\n        return\n      \})/$1\n      if (state.pendingFallbackModel \&\& isSameModel(requestedModel, state.originalModel)) {\n        return\n      }/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
+
       # Upstream's root `build` script now chains npm-based sub-builds for three
       # non-bun-workspace packages — lsp-tools-mcp, lsp-daemon and the codex
       # plugin — each via `npm --prefix <dir> ci && ...`. `npm ci` needs network
@@ -79,6 +107,7 @@
       pkgs.autoPatchelfHook
       bun2nix.hook
       pkgs.nodejs
+      pkgs.perl
     ];
 
     buildInputs = [
