@@ -73,7 +73,7 @@ in {
     settings = {
       autoupdate = false;
       lsp = true;
-      model = "litellm/kimi-k2.7";
+      team_mode.enable = true;
       plugin =
         [
           "./plugins/caveman/plugin.js"
@@ -196,6 +196,7 @@ in {
     pkgs.python3Packages.markitdown
     pkgs.worktrunk
     pkgs.nodejs
+    pkgs.gh
     codegraph
   ];
 }

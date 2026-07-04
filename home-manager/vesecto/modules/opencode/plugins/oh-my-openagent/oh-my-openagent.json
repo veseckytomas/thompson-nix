@@ -14,9 +14,13 @@
   },
   "agents": {
     "sisyphus": {
-      "model": "anthropic/claude-fable-5",
+      "model": "anthropic/claude-opus-4-8",
       "variant": "max",
       "fallback_models": [
+        {
+          "model": "anthropic/claude-opus-4-7",
+          "variant": "max"
+        },
         {
           "model": "litellm/kimi-k2.7"
         },
@@ -35,14 +39,7 @@
     "hephaestus": {
       "model": "openai/gpt-5.5",
       "variant": "medium",
-      "fallback_models": [
-        {
-          "model": "litellm/deepseek-v4-pro"
-        },
-        {
-          "model": "litellm/deepseek-v4-pro-thinking"
-        }
-      ]
+      "fallback_models": []
     },
     "oracle": {
       "model": "openai/gpt-5.5",
@@ -51,6 +48,14 @@
         {
           "model": "google/gemini-3.1-pro-preview",
           "variant": "high"
+        },
+        {
+          "model": "anthropic/claude-opus-4-8",
+          "variant": "max"
+        },
+        {
+          "model": "anthropic/claude-opus-4-7",
+          "variant": "max"
         },
         {
           "model": "litellm/glm-5"
@@ -62,6 +67,12 @@
       "fallback_models": [
         {
           "model": "litellm/qwen3.5"
+        },
+        {
+          "model": "anthropic/claude-haiku-4-5"
+        },
+        {
+          "model": "openai/gpt-5-nano"
         }
       ]
     },
@@ -70,18 +81,38 @@
       "fallback_models": [
         {
           "model": "litellm/qwen3.5"
+        },
+        {
+          "model": "anthropic/claude-haiku-4-5"
+        },
+        {
+          "model": "openai/gpt-5-nano"
         }
       ]
     },
     "multimodal-looker": {
       "model": "openai/gpt-5.5",
       "variant": "medium",
-      "fallback_models": []
+      "fallback_models": [
+        {
+          "model": "litellm/kimi-k2.7"
+        },
+        {
+          "model": "litellm/glm-5"
+        },
+        {
+          "model": "openai/gpt-5-nano"
+        }
+      ]
     },
     "prometheus": {
-      "model": "anthropic/claude-fable-5",
+      "model": "anthropic/claude-opus-4-8",
       "variant": "max",
       "fallback_models": [
+        {
+          "model": "anthropic/claude-opus-4-7",
+          "variant": "max"
+        },
         {
           "model": "openai/gpt-5.5",
           "variant": "high"
@@ -90,13 +121,22 @@
           "model": "litellm/glm-5"
         },
         {
-          "model": "google/gemini-3.1-pro-preview"
+          "model": "google/gemini-3.1-pro-preview",
+          "variant": "high"
         }
       ]
     },
     "metis": {
       "model": "anthropic/claude-sonnet-4-6",
       "fallback_models": [
+        {
+          "model": "anthropic/claude-opus-4-8",
+          "variant": "max"
+        },
+        {
+          "model": "anthropic/claude-opus-4-7",
+          "variant": "max"
+        },
         {
           "model": "openai/gpt-5.5",
           "variant": "high"
@@ -114,14 +154,19 @@
       "variant": "xhigh",
       "fallback_models": [
         {
+          "model": "anthropic/claude-opus-4-8",
+          "variant": "max"
+        },
+        {
+          "model": "anthropic/claude-opus-4-7",
+          "variant": "max"
+        },
+        {
           "model": "google/gemini-3.1-pro-preview",
           "variant": "high"
         },
         {
           "model": "litellm/glm-5"
-        },
-        {
-          "model": "litellm/deepseek-v4-pro-thinking"
         }
       ]
     },
@@ -134,6 +179,9 @@
         {
           "model": "openai/gpt-5.5",
           "variant": "medium"
+        },
+        {
+          "model": "litellm/qwen3.5"
         },
         {
           "model": "opencode/big-pickle"
@@ -225,9 +273,13 @@
       ]
     },
     "unspecified-high": {
-      "model": "anthropic/claude-fable-5",
+      "model": "anthropic/claude-opus-4-8",
       "variant": "max",
       "fallback_models": [
+        {
+          "model": "anthropic/claude-opus-4-7",
+          "variant": "max"
+        },
         {
           "model": "openai/gpt-5.5",
           "variant": "high"
