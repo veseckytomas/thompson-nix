@@ -31,6 +31,9 @@
   services.pcscd.enable = true;
   environment.systemPackages = [pkgs.yubikey-manager];
 
+  # Desktop popup while the YubiKey blocks on a touch; needs a running notifier (swaync/dunst).
+  programs.yubikey-touch-detector.enable = true;
+
   security.polkit.enable = true;
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {

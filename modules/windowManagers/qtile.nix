@@ -45,6 +45,7 @@
     networkmanagerapplet
     flameshot
     autorandr
+    dunst
   ];
   imports = [
     ../common/i3lock.nix
