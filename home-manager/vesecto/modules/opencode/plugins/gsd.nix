@@ -32,6 +32,9 @@
       runHook preBuild
       export HOME=$TMPDIR
       node bin/install.js --opencode --global --config-dir $out --no-sdk
+      # gsd-tools surfaces capabilities from <root>/commands/gsd; the opencode installer drops it, so restore it or every skill-backed capability goes inactive.
+      mkdir -p "$out/commands"
+      cp -R "$src/commands/gsd" "$out/commands/gsd"
       runHook postBuild
     '';
 

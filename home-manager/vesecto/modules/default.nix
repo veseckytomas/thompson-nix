@@ -18,6 +18,7 @@
     ./btop.nix
     ./chromium.nix
     ./direnv.nix
+    ./dunst.nix
     ./clangd
     ./editorconfig.nix
     ./firefox.nix

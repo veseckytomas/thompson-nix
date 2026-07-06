@@ -12,6 +12,12 @@
     "cooldown_seconds": 30,
     "timeout_seconds": 45
   },
+  "team_mode": {
+    "enabled": true,
+    "max_parallel_members": 5,
+    "max_members": 8,
+    "tmux_visualization": true
+  },
   "agents": {
     "sisyphus": {
       "model": "anthropic/claude-opus-4-8",

@@ -73,7 +73,6 @@ in {
     settings = {
       autoupdate = false;
       lsp = true;
-      team_mode.enable = true;
       plugin =
         [
           "./plugins/caveman/plugin.js"
