@@ -76,6 +76,28 @@
       perl -0pi -e 's/(      if \(state\.pendingFallbackModel \&\& state\.pendingFallbackModel === requestedModel\) \{\n        state\.pendingFallbackModel = undefined\n        state\.pendingFallbackPromptMayHaveBeenAccepted = false\n        return\n      \})/$1\n      if (state.pendingFallbackModel \&\& isSameModel(requestedModel, state.originalModel)) {\n        return\n      }/' \
         packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
 
+      # Once a fallback model is active, keep using it for subsequent turns
+      # instead of resetting to the original model every time the user sends a
+      # new message. Without this, Anthropic rate limits cause a loop: fail -
+      # fallback to kimi - succeed - next user message resets to Anthropic -
+      # fail again.
+      perl -0pi -e 's/(      if \(state\.pendingFallbackModel \&\& isSameModel\(requestedModel, state\.originalModel\)\) \{\n        return\n      \})/$1\n      if (!isSameModel(state.currentModel, state.originalModel) \&\& isSameModel(requestedModel, state.originalModel)) {\n        return\n      }/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
+
+      # Runtime fallback cannot resolve fallback chains for subagents spawned
+      # under names like "general" or "gsd-plan-checker" because normalizeAgentName
+      # returns undefined for unknown agents. Preserve the lowercased name so
+      # oh-my-openagent.json can define fallback_models for any subagent.
+      perl -0pi -e 's/  const match = normalized\.match\(agentPattern\)\n  if \(match\) \{\n    return match\[1\]\.toLowerCase\(\)\n  \}\n  return undefined\n}/  const match = normalized.match(agentPattern)\n  if (match) {\n    return match[1].toLowerCase()\n  }\n  if (!normalized) return undefined\n  return normalized\n}/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/agent-resolver.ts
+
+      # Don't inherit the agent's variant when dispatching a fallback model.
+      # Fallback models should either specify their own variant or use the base
+      # model ID. Inheriting e.g. "max" produces invalid model IDs like
+      # anthropic/claude-opus-4-7(max) which the provider rejects.
+      sed -i 's/const variant = parsedModel\.variant ?? agentSettings?\.variant/const variant = parsedModel.variant/' \
+        packages/omo-opencode/src/hooks/runtime-fallback/retry-model-payload.ts
+
       # Upstream's root `build` script now chains npm-based sub-builds for three
       # non-bun-workspace packages — lsp-tools-mcp, lsp-daemon and the codex
       # plugin — each via `npm --prefix <dir> ci && ...`. `npm ci` needs network
