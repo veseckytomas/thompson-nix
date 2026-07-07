@@ -26,6 +26,11 @@
           ];
       };
     };
+    dunst = {
+      enable = true;
+      enableWayland = false;
+      enableX11 = true;
+    };
   };
   xdg.portal = {
     enable = true;
@@ -45,7 +50,6 @@
     networkmanagerapplet
     flameshot
     autorandr
-    dunst
   ];
   imports = [
     ../common/i3lock.nix
