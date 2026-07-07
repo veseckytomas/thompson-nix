@@ -33,7 +33,6 @@ systemctl --user import-environment \
 systemctl --user restart xdg-desktop-portal.service
 
 nm-applet &
-dunst &
 amixer set Master off
 xbindkeys &
 
