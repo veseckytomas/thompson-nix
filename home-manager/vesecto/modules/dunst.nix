@@ -9,6 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
+  services.dunst.enable = true;
   catppuccin.dunst = {
     enable = true;
     flavor = "mocha";
