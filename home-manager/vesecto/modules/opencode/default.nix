@@ -17,6 +17,10 @@
   # CodeGraph, rebuilt to run under nixpkgs Node instead of the broken prebuilt
   # bundle oh-my-openagent provisions into ~/.omo/codegraph. See ./codegraph.
   codegraph = pkgs.callPackage ./codegraph {};
+  # Google provider + its Antigravity OAuth plugin are kept together so enabling the models always enables the auth plugin.
+  googleProvider = import ./providers/google.nix;
+  # Anthropic provider models + the Claude-CLI OAuth bridge plugin are kept together.
+  anthropicProvider = import ./providers/anthropic.nix;
 in {
   opencodePlugins = {
     omo.enable = true;
@@ -49,8 +53,6 @@ in {
           improve-codebase-architecture = true;
           prototype = true;
           tdd = true;
-          to-issues = true;
-          to-prd = true;
         };
         misc = {
           enable = false;
@@ -81,38 +83,18 @@ in {
         ++ lib.optional config.opencodePlugins.superpowers.enable "./plugins/superpowers/plugin.js"
         ++ [
           "opencode-wakatime"
-          "opencode-claude-bridge"
-          "opencode-gemini-auth"
           "./plugins/claude-token-sync/plugin.js"
           "@slkiser/opencode-quota"
           "opencode-openai-multi-auth"
         ]
+        ++ [googleProvider.plugin]
+        ++ [anthropicProvider.plugin]
         ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js";
       provider = {
-        litellm = {
-          npm = "@ai-sdk/openai-compatible";
-          name = "LiteLLM";
-          options = {
-            baseURL = "https://llm.ai.e-infra.cz/v1";
-          };
-          models = {
-            deepseek-v4-pro = {
-              name = "deepseek-v4-pro";
-            };
-            deepseek-v4-pro-thinking = {
-              name = "deepseek-v4-pro-thinking";
-            };
-            glm-5 = {
-              name = "glm-5";
-            };
-            "kimi-k2.7" = {
-              name = "kimi-k2.7";
-            };
-            "qwen3.5" = {
-              name = "qwen3.5";
-            };
-          };
-        };
+        litellm = import ./providers/litellm.nix;
+        openai = import ./providers/openai.nix;
+        google = googleProvider.provider;
+        anthropic = anthropicProvider.provider;
       };
       permission = {
         external_directory = {
@@ -197,5 +179,7 @@ in {
     pkgs.nodejs
     pkgs.gh
     codegraph
+    pkgs.claude-code
+    pkgs.antigravity-cli
   ];
 }

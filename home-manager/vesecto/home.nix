@@ -19,6 +19,7 @@
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
     pointerCursor = {
+      enable = true;
       x11.enable = true;
       gtk.enable = true;
       size = 32;
