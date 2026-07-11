@@ -41,7 +41,7 @@
     pigz
     gcc
     wget
-    texlive.combined.scheme-full
+    texliveFull
     typst
 
     # Terminal emulator
@@ -123,12 +123,7 @@
     xournalpp
     motrix
     # super-productivity
-    codex
-    cursor-cli
-    claude-code
-    gemini-cli
     opencode
-    github-copilot-cli
     localsend
     anki-bin
     glab

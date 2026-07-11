@@ -14,7 +14,13 @@
   pkgs-stable,
   ...
 }: let
-  newBottles = pkgs.bottles.override {removeWarningPopup = true;};
+  # Patool tests fail on Python 3.14 (MIME/tool detection); disable them for Bottles.
+  gamingPkgs = pkgs.extend (final: prev: {
+    python3Packages = prev.python3Packages.overrideScope (pfinal: pyprev: {
+      patool = pyprev.patool.overridePythonAttrs (old: {doCheck = false;});
+    });
+  });
+  newBottles = gamingPkgs.bottles.override {removeWarningPopup = true;};
 in {
   # Enable polymc overlay
   # nixpkgs.overlays = [inputs.polymc.overlay];
