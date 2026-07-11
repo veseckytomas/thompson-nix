@@ -87,6 +87,7 @@
       };
       limit = {
         context = 262144;
+        output = 32768;
       };
       cost = {
         input = 0;
