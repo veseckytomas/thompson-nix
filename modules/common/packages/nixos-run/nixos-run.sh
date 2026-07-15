@@ -173,6 +173,8 @@ action_rebuild() {
   fi
   local gen
   gen=$(current_nixos_gen)
+  run git restore --staged :/
+  run git add --all
   run git restore --staged home-manager
   commit_if_changes "$(hostname): Gen ${gen}"
 
@@ -311,6 +313,8 @@ action_update() {
   run nix flake update
   hdr "Updating oh-my-openagent ..."
   run bash "@updateOhMyOpenagentScript@"
+  hdr "Updating opencode npm plugins ..."
+  run bash "@updateOpencodeNpmPluginsScript@"
   hdr "Updating LibreWolf ..."
   update_librewolf
   hdr "Updating CodeGraph ..."
@@ -330,6 +334,7 @@ action_update() {
   run git restore --staged :/
   run git add flake.lock
   run git add home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix
+  run git add home-manager/vesecto/modules/opencode/plugins/npm-plugins.json
   run git add modules/common/packages/librewolf-bin.json
   run git add home-manager/vesecto/modules/opencode/codegraph/codegraph.json
   commit_if_changes "Update lockfiles"
@@ -377,6 +382,7 @@ action_clean() {
     "Clean dev shells (.direnv)" \
     "Clean nix-store (gc + optimize)" \
     "Prune Nix fetcher cache (git/tarball)" \
+    "Prune opencode plugin cache (stale versions)" \
     "Prune docker cache" \
     "Empty trash" || true)
 
@@ -419,6 +425,10 @@ action_clean() {
     # the next build, so removing them is always safe.
     hdr "Pruning Nix fetcher cache (git mirrors + tarball downloads) ..."
     run rm -rf "$HOME/.cache/nix/gitv3" "$HOME/.cache/nix/tarball-cache" "$HOME/.cache/nix/tarball-cache-v2" || warn "Nix fetcher cache prune failed."
+  fi
+  if grep -qF "opencode plugin cache" <<<"$choices"; then
+    hdr "Pruning opencode plugin cache (stale plugin versions) ..."
+    run bash "@pruneOpencodeNpmPluginsScript@" || warn "opencode plugin cache prune failed."
   fi
   if grep -qF "docker cache" <<<"$choices"; then
     hdr "Pruning docker cache ..."

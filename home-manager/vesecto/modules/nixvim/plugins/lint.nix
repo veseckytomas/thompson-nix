@@ -67,6 +67,7 @@
     shellcheck
     sqlfluff
     vale
-    cpplint
+    # cpplint 2.0.2 self-tests fail on current python (codecs.open deprecation warning leaks to stderr); skip them
+    (cpplint.overridePythonAttrs (_: {doCheck = false;}))
   ];
 }

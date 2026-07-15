@@ -11,7 +11,7 @@
 {...}: {
   imports = [
     ./alpha.nix
-    ./avante.nix
+    # ./avante.nix
     # ./bufferline.nix
     ./bullets-vim.nix
     # ./ccc.nix
@@ -22,7 +22,7 @@
     ./cmp-path.nix
     # ./chatgpt.nix
     # ./codesnap.nix
-    ./colorizer.nix
+    # ./colorizer.nix
     ./comment.nix
     ./conform-nvim.nix
     # ./copilot-chat.nix

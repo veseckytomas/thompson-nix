@@ -1,6 +1,5 @@
 {
-  "enabledProviders": "auto",
-  "minIntervalMs": 1800000,
+  "enabledProviders": ["anthropic", "openai", "google-agy"],
   "enableToast": false,
   "formatStyle": "allWindows",
   "tuiSidebarPanel": {

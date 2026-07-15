@@ -9,8 +9,9 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 # Direct OpenAI provider models; auth handled by the opencode-openai-multi-auth plugin, so no bundled auth plugin here.
-{
+rec {
   npm = "@ai-sdk/openai";
+  whitelist = builtins.attrNames models;
   models = {
     "gpt-5.5" = {
       name = "GPT-5.5";

@@ -17,10 +17,12 @@
   # CodeGraph, rebuilt to run under nixpkgs Node instead of the broken prebuilt
   # bundle oh-my-openagent provisions into ~/.omo/codegraph. See ./codegraph.
   codegraph = pkgs.callPackage ./codegraph {};
-  # Google provider + its Antigravity OAuth plugin are kept together so enabling the models always enables the auth plugin.
+  # Google (Antigravity CLI) provider + its agy-auth plugin are kept together so the provider always ships with its auth plugin.
   googleProvider = import ./providers/google.nix;
   # Anthropic provider models + the Claude-CLI OAuth bridge plugin are kept together.
   anthropicProvider = import ./providers/anthropic.nix;
+  # Pinned npm plugin versions; bumped to npm-latest by nixos-run update (update-opencode-npm-plugins.sh).
+  npmPlugins = builtins.fromJSON (builtins.readFile ./plugins/npm-plugins.json);
 in {
   opencodePlugins = {
     omo.enable = true;
@@ -82,10 +84,10 @@ in {
         ++ lib.optional config.opencodePlugins.omo.enable "./node_modules/oh-my-openagent"
         ++ lib.optional config.opencodePlugins.superpowers.enable "./plugins/superpowers/plugin.js"
         ++ [
-          "opencode-wakatime"
+          "opencode-wakatime@${npmPlugins."opencode-wakatime"}"
           "./plugins/claude-token-sync/plugin.js"
-          "@slkiser/opencode-quota"
-          "opencode-openai-multi-auth"
+          "@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"
+          "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
         ]
         ++ [googleProvider.plugin]
         ++ [anthropicProvider.plugin]
@@ -93,7 +95,7 @@ in {
       provider = {
         litellm = import ./providers/litellm.nix;
         openai = import ./providers/openai.nix;
-        google = googleProvider.provider;
+        "google-agy" = googleProvider.provider;
         anthropic = anthropicProvider.provider;
       };
       permission = {
@@ -132,7 +134,7 @@ in {
     };
     tui = {
       theme = "catppuccin";
-      plugin = ["@slkiser/opencode-quota"];
+      plugin = ["@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"];
       keybinds = {
         leader = "ctrl+x";
         model_list = "<leader>m";
