@@ -20,6 +20,7 @@
         showDesktopNotification = false;
         showStartupLaunchMessage = false;
         startupLaunch = true;
+        useX11LegacyScreenshot = true;
       };
     };
   };
