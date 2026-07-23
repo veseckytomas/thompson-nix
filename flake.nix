@@ -314,8 +314,11 @@
       };
     };
 
-    packages.${system}.nixos-run = pkgs.callPackage ./modules/common/packages/nixos-run {
-      flakePath = "/home/${username}/Git/Personal/thompson-nix";
+    packages.${system} = {
+      nixos-run = pkgs.callPackage ./modules/common/packages/nixos-run {
+        flakePath = "/home/${username}/Git/Personal/thompson-nix";
+      };
+      ykman-run = pkgs.callPackage ./modules/common/packages/ykman-run {};
     };
   };
 }

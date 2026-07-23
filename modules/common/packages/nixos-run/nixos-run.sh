@@ -72,6 +72,43 @@ commit_if_changes() {
   run git commit -m "$1"
 }
 
+# ---------------------------------------------------------------------------
+# Git staging
+# ---------------------------------------------------------------------------
+# Files bumped only by Update; each gets its own commit and stays out of the NixOS commit.
+LOCKFILES=(
+  flake.lock
+  home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix
+  home-manager/vesecto/modules/opencode/plugins/npm-plugins.json
+  modules/common/packages/librewolf-bin.json
+  home-manager/vesecto/modules/opencode/codegraph/codegraph.json
+)
+
+# Stage everything (incl. new/untracked files) so the flake evaluator sees them before a build/switch.
+stage_all() { run git add --all; }
+
+unstage_all() { run git restore --staged :/; }
+
+# Stage the NixOS commit: everything except the home-manager dir and the update-only lockfiles.
+stage_nixos() {
+  unstage_all
+  run git add --all
+  run git restore --staged home-manager
+  run git restore --staged -- "${LOCKFILES[@]}"
+}
+
+# Stage the Home-Manager commit: the home-manager dir only.
+stage_home() {
+  unstage_all
+  run git add home-manager
+}
+
+# Stage the Update commit: the update-only lockfiles only.
+stage_lockfiles() {
+  unstage_all
+  run git add -- "${LOCKFILES[@]}"
+}
+
 print_help() {
   cat <<EOF
 nixos-run - TUI to control NixOS rebuilding
@@ -155,40 +192,38 @@ action_rebuild() {
   git_pull
 
   # --- unattended: stage everything so the flake sees new files, then build ---
-  run git add --all
+  stage_all
   nixos_build
   home_build
 
   if ! gate "Build complete. Proceed to switch + commit + push?"; then
-    run git restore --staged :/
+    unstage_all
     return 0
   fi
 
-  # --- attended end: NixOS switch + commit (commit excludes home-manager) ---
+  # --- attended end: NixOS switch + commit (excludes home-manager + lockfiles) ---
   warn "Switching NixOS (sudo) ..."
   if ! run nixos-rebuild switch --sudo --flake ".#" "${PERF_FLAGS[@]}"; then
     warn "NixOS switch failed."
-    run git restore --staged :/
+    unstage_all
     return 1
   fi
   local gen
   gen=$(current_nixos_gen)
-  run git restore --staged :/
-  run git add --all
-  run git restore --staged home-manager
+  stage_nixos
   commit_if_changes "$(hostname): Gen ${gen}"
 
-  # --- attended end: Home-Manager switch + commit ---
-  run git restore --staged :/
-  run git add home-manager
+  # --- attended end: Home-Manager switch (stage all) + commit (home-manager only) ---
+  stage_all
   warn "Switching Home-Manager ..."
   if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
     warn "Home-Manager switch failed."
-    run git restore --staged :/
+    unstage_all
     return 1
   fi
   local hgen
   hgen=$(current_home_gen)
+  stage_home
   commit_if_changes "Home-manager $(hostname): Gen ${hgen}"
 
   warn "Please touch the device. (Push)"
@@ -203,23 +238,23 @@ action_home() {
   choose_performance
   git_pull
 
-  run git restore --staged :/
-  run git add home-manager
+  stage_all
   home_build
 
   if ! gate "Build complete. Proceed to switch + commit + push?"; then
-    run git restore --staged :/
+    unstage_all
     return 0
   fi
 
   warn "Switching Home-Manager ..."
   if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
     warn "Home-Manager switch failed."
-    run git restore --staged :/
+    unstage_all
     return 1
   fi
   local hgen
   hgen=$(current_home_gen)
+  stage_home
   commit_if_changes "Home-manager $(hostname): Gen ${hgen}"
   warn "Please touch the device. (Push)"
   run git push
@@ -233,17 +268,17 @@ action_test() {
   choose_performance
   git_pull
 
-  run git add --all
+  stage_all
   nixos_build
 
   if ! gate "Build complete. Activate test configuration? (needs sudo)"; then
-    run git restore --staged :/
+    unstage_all
     return 0
   fi
 
   warn "Activating test configuration (sudo) ..."
   run nixos-rebuild test --sudo --flake ".#" "${PERF_FLAGS[@]}" || warn "Test activation failed."
-  run git restore --staged :/
+  unstage_all
   ok "Test complete (not persisted across reboot)."
 }
 
@@ -321,48 +356,43 @@ action_update() {
   update_codegraph
 
   # --- unattended: stage + build both ---
-  run git add --all
+  stage_all
   nixos_build
   home_build
 
   if ! gate "Build complete. Proceed to commit + switch + push?"; then
-    run git restore --staged :/
+    unstage_all
     return 0
   fi
 
   # --- attended end: commit lockfiles first (matches scripts/update.sh) ---
-  run git restore --staged :/
-  run git add flake.lock
-  run git add home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix
-  run git add home-manager/vesecto/modules/opencode/plugins/npm-plugins.json
-  run git add modules/common/packages/librewolf-bin.json
-  run git add home-manager/vesecto/modules/opencode/codegraph/codegraph.json
+  stage_lockfiles
   commit_if_changes "Update lockfiles"
 
-  # --- NixOS switch + commit ---
+  # --- NixOS switch (stage all) + commit (excludes home-manager + lockfiles) ---
+  stage_all
   warn "Switching NixOS (sudo) ..."
   if ! run nixos-rebuild switch --sudo --flake ".#" "${PERF_FLAGS[@]}"; then
     warn "NixOS switch failed."
-    run git restore --staged :/
+    unstage_all
     return 1
   fi
   local gen
   gen=$(current_nixos_gen)
-  run git add --all
-  run git restore --staged home-manager
+  stage_nixos
   commit_if_changes "$(hostname): Gen ${gen}"
 
-  # --- Home-Manager switch + commit ---
-  run git restore --staged :/
-  run git add home-manager
+  # --- Home-Manager switch (stage all) + commit (home-manager only) ---
+  stage_all
   warn "Switching Home-Manager ..."
   if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
     warn "Home-Manager switch failed."
-    run git restore --staged :/
+    unstage_all
     return 1
   fi
   local hgen
   hgen=$(current_home_gen)
+  stage_home
   commit_if_changes "Home-manager $(hostname): Gen ${hgen}"
 
   warn "Please touch the device. (Push)"
@@ -454,7 +484,7 @@ action_iso() {
   fi
 
   git_pull
-  run git add --all
+  stage_all
   run mkdir -p build
 
   if grep -qF "Rescue ISO" <<<"$choices"; then
@@ -466,7 +496,7 @@ action_iso() {
     run nix run nixpkgs#nixos-generators -- --format iso --flake ".#installIso" -o build/install || warn "Install ISO build failed."
   fi
 
-  run git restore --staged :/
+  unstage_all
   ok "ISO generation complete."
 }
 
