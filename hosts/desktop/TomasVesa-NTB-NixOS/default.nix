@@ -12,7 +12,7 @@
   imports = [
     ./configuration.nix
     ./hardware-configuration.nix
-    ./combine-headphones.nix
+    # ./combine-headphones.nix
     # ./media-server.nix
   ];
 }
