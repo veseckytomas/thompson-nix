@@ -260,8 +260,12 @@
       ]
     },
     "general": {
-      "model": "litellm/kimi-k2.7",
+      "model": "anthropic/claude-opus-4-8",
+      "variant": "max",
       "fallback_models": [
+        {
+          "model": "litellm/kimi-k2.7"
+        },
         {
           "model": "litellm/glm-5"
         },
@@ -274,8 +278,12 @@
       ]
     },
     "gsd-planner": {
-      "model": "litellm/kimi-k2.7",
+      "model": "anthropic/claude-opus-4-8",
+      "variant": "max",
       "fallback_models": [
+        {
+          "model": "litellm/kimi-k2.7"
+        },
         {
           "model": "litellm/glm-5"
         },
@@ -288,8 +296,12 @@
       ]
     },
     "gsd-plan-checker": {
-      "model": "litellm/kimi-k2.7",
+      "model": "anthropic/claude-opus-4-8",
+      "variant": "max",
       "fallback_models": [
+        {
+          "model": "litellm/kimi-k2.7"
+        },
         {
           "model": "litellm/glm-5"
         },

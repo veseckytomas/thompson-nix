@@ -14,6 +14,7 @@
     ./claude-token-sync
     ./local-skills
     ./oh-my-openagent
+    ./system-message-hoist
     ./gsd-sdk.nix
     ./gsd.nix
     ./caveman.nix

@@ -31,6 +31,7 @@ in {
     caveman.enable = true;
     claude-token-sync.enable = true;
     cache-control-cap.enable = true;
+    system-message-hoist.enable = true;
     superpowers = {
       enable = true;
       skills.enableAll = true;
@@ -91,7 +92,8 @@ in {
         ]
         ++ [googleProvider.plugin]
         ++ [anthropicProvider.plugin]
-        ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js";
+        ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js"
+        ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js";
       provider = {
         litellm = import ./providers/litellm.nix;
         openai = import ./providers/openai.nix;
@@ -148,6 +150,7 @@ in {
   };
   imports = [
     ./plugins
+    # ./server.nix
   ];
 
   # Local "living" skills (./skills) are deployed per-skill by the localSkills

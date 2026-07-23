@@ -1,0 +1,8 @@
+{
+  "name": "system-message-hoist-opencode-plugin",
+  "version": "0.1.0",
+  "description": "Merge all system-role messages into one leading system message on outbound e-infra LiteLLM /chat/completions requests so qwen3.5's strict vLLM chat template stops returning 'System message must be at the beginning' 400s on subagent calls",
+  "type": "module",
+  "main": "plugin.js",
+  "private": true
+}
