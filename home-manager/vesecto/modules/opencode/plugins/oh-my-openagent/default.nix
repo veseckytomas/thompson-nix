@@ -98,6 +98,19 @@
       sed -i 's/const variant = parsedModel\.variant ?? agentSettings?\.variant/const variant = parsedModel.variant/' \
         packages/omo-opencode/src/hooks/runtime-fallback/retry-model-payload.ts
 
+      # Agy (Google Antigravity) emits quota exhaustion as
+      # "Individual quota reached. Please upgrade your subscription..." instead of
+      # the "quota exceeded" phrasing the classifier expects. Without this signal
+      # the runtime-fallback hook never fires and agents get stuck on the dead model.
+      perl -pi -e 's|(  /limit\\s\+exhausted/i,)|$1\n  /quota\\s+reached/i,|' \
+        packages/model-core/src/runtime-fallback-error-classifier.ts
+      perl -pi -e 's#(    /limit\\s\+exhausted/i\.test\(message\) \|\|)#$1\n    /quota\\s+reached/i.test(message) ||#' \
+        packages/model-core/src/runtime-fallback-error-classifier.ts
+      perl -pi -e 's|(  /limit\\s\+exhausted/i,)|$1\n  /quota\\s+reached/i,|' \
+        packages/omo-opencode/src/hooks/runtime-fallback/constants.ts
+      perl -pi -e 's#(limit\\s\+reached\|)#$1quota\\s\+reached\|#g' \
+        packages/model-core/src/runtime-fallback-auto-retry-signal.ts
+
       # Upstream's root `build` script now chains npm-based sub-builds for three
       # non-bun-workspace packages — lsp-tools-mcp, lsp-daemon and the codex
       # plugin — each via `npm --prefix <dir> ci && ...`. `npm ci` needs network
