@@ -47,9 +47,6 @@
       ''
     ];
 
-    # Enable automatic monitor hotplugging
-    autorandr.enable = true;
-
     displayManager.sddm.autoNumlock = lib.mkForce false;
     # Numberpad config
     asus-numberpad-driver = {
@@ -57,29 +54,6 @@
       layout = "up5401ea";
       wayland = false;
       runtimeDir = "/run/user/1000";
-    };
-
-    # Symlink XAUTHORITY to a predictable location so autorandr service can find it
-    xserver.displayManager.sessionCommands = ''
-      ln -sfT "$XAUTHORITY" "$HOME/.Xauthority"
-      ${pkgs.autorandr}/bin/autorandr --change
-    '';
-  };
-
-  systemd.services.autorandr = {
-    # Module default of 1 start / 5s drops the udev event burst an MST hotplug emits
-    startLimitIntervalSec = lib.mkForce 30;
-    startLimitBurst = lib.mkForce 10;
-    serviceConfig = {
-      User = username;
-      # Reuse XAUTHORITY and DISPLAY from the session symlink
-      Environment = [
-        "DISPLAY=:0"
-        "XAUTHORITY=/home/${username}/.Xauthority"
-      ];
-      # Wait for X auth to be reachable, then let MST/hotplug outputs settle; coalesces the udev event burst into one run
-      ExecStartPre = "${pkgs.bash}/bin/bash -c 'for i in $(seq 1 30); do ${pkgs.xrandr}/bin/xrandr --query >/dev/null 2>&1 && break; ${pkgs.coreutils}/bin/sleep 1; done; ${pkgs.coreutils}/bin/sleep 2'";
-      ExecStart = lib.mkForce "${pkgs.autorandr}/bin/autorandr --change";
     };
   };
 

@@ -10,6 +10,7 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
+    ./autorandr.nix
     ./backups.nix
     ./common.nix
     ./flatpaks.nix
