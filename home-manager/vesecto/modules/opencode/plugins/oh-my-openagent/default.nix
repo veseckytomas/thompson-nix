@@ -98,6 +98,11 @@
       sed -i 's/const variant = parsedModel\.variant ?? agentSettings?\.variant/const variant = parsedModel.variant/' \
         packages/omo-opencode/src/hooks/runtime-fallback/retry-model-payload.ts
 
+      # Internal helper agents (title, compaction) use their own default model.
+      # When a runtime fallback is already active, keep them on the fallback
+      # model instead of resetting the session back to the exhausted primary.
+      patch -p1 < ${./chat-message-handler-internal-agents.patch}
+
       # Agy (Google Antigravity) emits quota exhaustion as
       # "Individual quota reached. Please upgrade your subscription..." instead of
       # the "quota exceeded" phrasing the classifier expects. Without this signal
