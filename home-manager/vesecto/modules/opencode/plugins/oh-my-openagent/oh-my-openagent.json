@@ -159,7 +159,7 @@
       ]
     },
     "metis": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         {
           "model": "anthropic/claude-opus-4-8",
@@ -218,7 +218,7 @@
       ]
     },
     "atlas": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         {
           "model": "litellm/kimi-k2.7",
@@ -241,7 +241,7 @@
       ]
     },
     "sisyphus-junior": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         {
           "model": "litellm/kimi-k2.7",
@@ -371,7 +371,7 @@
       ]
     },
     "unspecified-low": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         {
           "model": "openai/gpt-5.5",

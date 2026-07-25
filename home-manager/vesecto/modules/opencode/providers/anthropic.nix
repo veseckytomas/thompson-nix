@@ -118,9 +118,9 @@
           };
         };
       };
-      claude-sonnet-4-6 = {
-        name = "Claude Sonnet 4.6";
-        release_date = "2026-02-17";
+      claude-sonnet-5 = {
+        name = "Claude Sonnet 5";
+        release_date = "2026-07-25";
         reasoning = true;
         tool_call = true;
         attachment = true;
