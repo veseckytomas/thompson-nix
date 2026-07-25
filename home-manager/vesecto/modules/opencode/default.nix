@@ -150,7 +150,7 @@ in {
   };
   imports = [
     ./plugins
-    # ./server.nix
+    ./server.nix
   ];
 
   # Local "living" skills (./skills) are deployed per-skill by the localSkills
