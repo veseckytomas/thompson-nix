@@ -23,7 +23,7 @@
   # Google (Antigravity CLI) provider + its agy-auth plugin are kept together so the provider always ships with its auth plugin.
   googleProvider = import ./providers/google.nix;
   # Anthropic provider models + its claude-bridge plugin (native Claude OAuth dropped).
-  # anthropicProvider = import ./providers/anthropic.nix;
+  anthropicProvider = import ./providers/anthropic.nix;
   # Pinned npm plugin versions; bumped to npm-latest by nixos-run update (update-opencode-npm-plugins.sh).
   npmPlugins = builtins.fromJSON (builtins.readFile ./plugins/npm-plugins.json);
 in {
@@ -92,17 +92,17 @@ in {
           "opencode-wakatime@${npmPlugins."opencode-wakatime"}"
           "./plugins/claude-token-sync/plugin.js"
           "@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"
-          "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
+          # "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
         ]
-        ++ [googleProvider.plugin]
+        # ++ [googleProvider.plugin]
         # ++ [anthropicProvider.plugin]
         ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js"
         ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js"
         ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify/plugin.js";
       provider = {
         litellm = import ./providers/litellm.nix;
-        openai = import ./providers/openai.nix;
-        "google-agy" = googleProvider.provider;
+        # openai = import ./providers/openai.nix;
+        # "google-agy" = googleProvider.provider;
         # anthropic = anthropicProvider.provider;
       };
       permission = {
