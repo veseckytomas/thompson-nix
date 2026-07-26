@@ -22,8 +22,8 @@
   graphify = import ./graphify {inherit inputs pkgs;};
   # Google (Antigravity CLI) provider + its agy-auth plugin are kept together so the provider always ships with its auth plugin.
   googleProvider = import ./providers/google.nix;
-  # Anthropic provider models; authenticated via opencode's native OAuth token in auth.json.
-  anthropicProvider = import ./providers/anthropic.nix;
+  # Anthropic provider models + its claude-bridge plugin (native Claude OAuth dropped).
+  # anthropicProvider = import ./providers/anthropic.nix;
   # Pinned npm plugin versions; bumped to npm-latest by nixos-run update (update-opencode-npm-plugins.sh).
   npmPlugins = builtins.fromJSON (builtins.readFile ./plugins/npm-plugins.json);
 in {
@@ -95,6 +95,7 @@ in {
           "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
         ]
         ++ [googleProvider.plugin]
+        # ++ [anthropicProvider.plugin]
         ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js"
         ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js"
         ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify/plugin.js";
@@ -102,7 +103,7 @@ in {
         litellm = import ./providers/litellm.nix;
         openai = import ./providers/openai.nix;
         "google-agy" = googleProvider.provider;
-        anthropic = anthropicProvider.provider;
+        # anthropic = anthropicProvider.provider;
       };
       permission = {
         external_directory = {
@@ -170,18 +171,19 @@ in {
     "opencode/opencode-quota/quota-toast.json" = {
       source = ./plugins/opencode-quota.json;
     };
-    "opencode/AGENTS.md".text = ''
-      # GitLab issues
+    "opencode/AGENTS.md".text =
+      ''
+        # GitLab issues
 
-      `glab` is installed and authenticated. Read issue context via bash before
-      starting work tied to an issue number or a branch like `123-fix-foo`.
+        `glab` is installed and authenticated. Read issue context via bash before
+        starting work tied to an issue number or a branch like `123-fix-foo`.
 
-      - View one issue:        glab issue view <id> --comments
-      - Issues assigned to me: glab issue list --assignee=@me
-      - Search:                glab issue list --search "<text>"
-    ''
-    + "\n"
-    + builtins.readFile (inputs.graphify-src + "/graphify/always_on/agents-md.md");
+        - View one issue:        glab issue view <id> --comments
+        - Issues assigned to me: glab issue list --assignee=@me
+        - Search:                glab issue list --search "<text>"
+      ''
+      + "\n"
+      + builtins.readFile (inputs.graphify-src + "/graphify/always_on/agents-md.md");
   };
 
   # oh-my-openagent resolves the codegraph MCP command from $OMO_CODEGRAPH_BIN
