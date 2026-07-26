@@ -12,14 +12,17 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }: let
   # CodeGraph, rebuilt to run under nixpkgs Node instead of the broken prebuilt
   # bundle oh-my-openagent provisions into ~/.omo/codegraph. See ./codegraph.
   codegraph = pkgs.callPackage ./codegraph {};
+  # graphify + graphify-mcp CLIs, built from the pinned uv workspace (uv2nix). See ./graphify.
+  graphify = import ./graphify {inherit inputs pkgs;};
   # Google (Antigravity CLI) provider + its agy-auth plugin are kept together so the provider always ships with its auth plugin.
   googleProvider = import ./providers/google.nix;
-  # Anthropic provider models + the Claude-CLI OAuth bridge plugin are kept together.
+  # Anthropic provider models; authenticated via opencode's native OAuth token in auth.json.
   anthropicProvider = import ./providers/anthropic.nix;
   # Pinned npm plugin versions; bumped to npm-latest by nixos-run update (update-opencode-npm-plugins.sh).
   npmPlugins = builtins.fromJSON (builtins.readFile ./plugins/npm-plugins.json);
@@ -32,6 +35,7 @@ in {
     claude-token-sync.enable = true;
     cache-control-cap.enable = true;
     system-message-hoist.enable = true;
+    graphify.enable = true;
     superpowers = {
       enable = true;
       skills.enableAll = true;
@@ -91,9 +95,9 @@ in {
           "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
         ]
         ++ [googleProvider.plugin]
-        ++ [anthropicProvider.plugin]
         ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js"
-        ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js";
+        ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js"
+        ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify/plugin.js";
       provider = {
         litellm = import ./providers/litellm.nix;
         openai = import ./providers/openai.nix;
@@ -112,7 +116,7 @@ in {
         auto = true;
         prune = false;
         tail_turns = 2;
-        preserve_recent_tokens = 0;
+        preserve_recent_tokens = 8000;
         reserved = 0;
       };
       mcp = {
@@ -120,6 +124,12 @@ in {
           type = "local";
           command = ["${pkgs.markitdown-mcp}/bin/markitdown-mcp"];
           enabled = true;
+        };
+        # Per-project graph server; graphify-mcp loads graphify-out/graph.json lazily, so it is safe with no graph.
+        graphify = {
+          type = "local";
+          command = ["${graphify}/bin/graphify-mcp" "graphify-out/graph.json"];
+          enabled = config.opencodePlugins.graphify.enable && config.opencodePlugins.graphify.mcp.enable;
         };
       };
       command = {
@@ -149,6 +159,7 @@ in {
     };
   };
   imports = [
+    ./maintenance.nix
     ./plugins
     ./server.nix
   ];
@@ -168,7 +179,9 @@ in {
       - View one issue:        glab issue view <id> --comments
       - Issues assigned to me: glab issue list --assignee=@me
       - Search:                glab issue list --search "<text>"
-    '';
+    ''
+    + "\n"
+    + builtins.readFile (inputs.graphify-src + "/graphify/always_on/agents-md.md");
   };
 
   # oh-my-openagent resolves the codegraph MCP command from $OMO_CODEGRAPH_BIN
@@ -184,6 +197,7 @@ in {
     pkgs.nodejs
     pkgs.gh
     codegraph
+    graphify
     pkgs.claude-code
     pkgs.antigravity-cli
   ];

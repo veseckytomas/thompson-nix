@@ -12,6 +12,7 @@
   imports = [
     ./cache-control-cap
     ./claude-token-sync
+    ./graphify
     ./local-skills
     ./oh-my-openagent
     ./system-message-hoist

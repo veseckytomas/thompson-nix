@@ -8,9 +8,8 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-# Direct Anthropic provider models, authenticated via opencode-claude-bridge using Claude CLI OAuth.
+# Direct Anthropic provider models; authenticated via opencode's native OAuth token in auth.json.
 {
-  plugin = "opencode-claude-bridge";
   provider = rec {
     whitelist = builtins.attrNames models;
     models = {
