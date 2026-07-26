@@ -91,7 +91,7 @@ in {
         ++ [
           "opencode-wakatime@${npmPlugins."opencode-wakatime"}"
           "./plugins/claude-token-sync/plugin.js"
-          "@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"
+          # "@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"
           # "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
         ]
         # ++ [googleProvider.plugin]
@@ -147,7 +147,7 @@ in {
     };
     tui = {
       theme = "catppuccin";
-      plugin = ["@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"];
+      # plugin = ["@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"];
       keybinds = {
         leader = "ctrl+x";
         model_list = "<leader>m";
