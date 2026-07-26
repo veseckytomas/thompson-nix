@@ -183,6 +183,33 @@
       url = "github:nix-community/bun2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs = {
+        pyproject-nix.follows = "pyproject-nix";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs = {
+        pyproject-nix.follows = "pyproject-nix";
+        uv2nix.follows = "uv2nix";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+    graphify-src = {
+      type = "github";
+      owner = "Graphify-Labs";
+      repo = "graphify";
+      # rev = tag v0.9.26; source + uv.lock consumed by the uv2nix leaf.
+      rev = "66d8110a534b52df3d660b5fda5aa5461a6b667a";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
@@ -319,6 +346,9 @@
         flakePath = "/home/${username}/Git/Personal/thompson-nix";
       };
       ykman-run = pkgs.callPackage ./modules/common/packages/ykman-run {};
+      graphify = import ./home-manager/vesecto/modules/opencode/graphify {
+        inherit inputs pkgs;
+      };
     };
   };
 }
