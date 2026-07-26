@@ -2,15 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "auto_update": false,
   "runtime_fallback": {
-    "enabled": true,
-    "retry_on_errors": [
-      429,
-      503,
-      529
-    ],
-    "max_fallback_attempts": 10,
-    "cooldown_seconds": 30,
-    "timeout_seconds": 45
+    "enabled": false
   },
   "team_mode": {
     "enabled": true,
@@ -20,407 +12,108 @@
   },
   "agents": {
     "sisyphus": {
-      "model": "anthropic/claude-opus-4-8",
-      "variant": "max",
-      "fallback_models": [
-        {
-          "model": "anthropic/claude-opus-4-7",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "litellm/kimi-k2.7",
-          "variant": ""
-        },
-        {
-          "model": "openai/gpt-5.5",
-          "variant": "medium"
-        },
-        {
-          "model": "litellm/glm-5",
-          "variant": ""
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
-      ]
+      "model": "litellm/kimi-k2.7",
+      "variant": "",
+      "fallback_models": []
     },
     "hephaestus": {
-      "model": "openai/gpt-5.5",
-      "variant": "medium",
+      "model": "litellm/kimi-k2.7",
+      "variant": "",
       "fallback_models": []
     },
     "oracle": {
-      "model": "openai/gpt-5.5",
-      "variant": "high",
-      "fallback_models": [
-        {
-          "model": "google-agy/gemini-3.1-pro",
-          "variant": "high"
-        },
-        {
-          "model": "anthropic/claude-opus-4-8",
-          "variant": "max"
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "anthropic/claude-opus-4-7",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "litellm/glm-5",
-          "variant": ""
-        }
-      ]
+      "model": "litellm/qwen3.5",
+      "variant": [],
+      "fallback_models": []
     },
     "librarian": {
-      "model": "openai/gpt-5.4-mini-fast",
-      "fallback_models": [
-        {
-          "model": "litellm/qwen3.5",
-          "variant": ""
-        },
-        {
-          "model": "anthropic/claude-haiku-4-5"
-        },
-        {
-          "model": "google-agy/claude-sonnet-4-6"
-        },
-        {
-          "model": "openai/gpt-5-nano"
-        }
-      ]
+      "model": "litellm/qwen3.5",
+      "fallback_models": []
     },
     "explore": {
-      "model": "openai/gpt-5.4-mini-fast",
-      "fallback_models": [
-        {
-          "model": "litellm/qwen3.5",
-          "variant": ""
-        },
-        {
-          "model": "anthropic/claude-haiku-4-5"
-        },
-        {
-          "model": "google-agy/claude-sonnet-4-6"
-        },
-        {
-          "model": "openai/gpt-5-nano"
-        }
-      ]
+      "model": "litellm/qwen3.5",
+      "fallback_models": []
     },
     "multimodal-looker": {
-      "model": "openai/gpt-5.5",
-      "variant": "medium",
-      "fallback_models": [
-        {
-          "model": "litellm/kimi-k2.7",
-          "variant": ""
-        },
-        {
-          "model": "litellm/glm-5",
-          "variant": ""
-        },
-        {
-          "model": "openai/gpt-5-nano"
-        }
-      ]
+      "model": "litellm/kimi-k2.7",
+      "variant": "",
+      "fallback_models": []
     },
     "prometheus": {
-      "model": "anthropic/claude-opus-4-8",
-      "variant": "max",
-      "fallback_models": [
-        {
-          "model": "anthropic/claude-opus-4-7",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "openai/gpt-5.5",
-          "variant": "high"
-        },
-        {
-          "model": "litellm/glm-5",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/gemini-3.1-pro",
-          "variant": "high"
-        }
-      ]
+      "model": "litellm/glm-5",
+      "variant": "",
+      "fallback_models": []
     },
     "metis": {
-      "model": "anthropic/claude-sonnet-5",
-      "fallback_models": [
-        {
-          "model": "anthropic/claude-opus-4-8",
-          "variant": "max"
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "anthropic/claude-opus-4-7",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "openai/gpt-5.5",
-          "variant": "high"
-        },
-        {
-          "model": "litellm/glm-5",
-          "variant": ""
-        },
-        {
-          "model": "litellm/kimi-k2.7",
-          "variant": ""
-        }
-      ]
+      "model": "litellm/glm-5",
+      "fallback_models": []
     },
     "momus": {
-      "model": "openai/gpt-5.5",
-      "variant": "xhigh",
-      "fallback_models": [
-        {
-          "model": "anthropic/claude-opus-4-8",
-          "variant": "max"
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "anthropic/claude-opus-4-7",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "google-agy/gemini-3.1-pro",
-          "variant": "high"
-        },
-        {
-          "model": "litellm/glm-5",
-          "variant": ""
-        }
-      ]
+      "model": "litellm/glm-5",
+      "variant": "",
+      "fallback_models": []
     },
     "atlas": {
-      "model": "anthropic/claude-sonnet-5",
-      "fallback_models": [
-        {
-          "model": "litellm/kimi-k2.7",
-          "variant": ""
-        },
-        {
-          "model": "openai/gpt-5.5",
-          "variant": "medium"
-        },
-        {
-          "model": "litellm/qwen3.5",
-          "variant": ""
-        },
-        {
-          "model": "opencode/big-pickle"
-        },
-        {
-          "model": "google-agy/claude-sonnet-4-6"
-        }
-      ]
+      "model": "litellm/kimi-k2.7",
+      "fallback_models": []
     },
     "sisyphus-junior": {
-      "model": "anthropic/claude-sonnet-5",
-      "fallback_models": [
-        {
-          "model": "litellm/kimi-k2.7",
-          "variant": ""
-        },
-        {
-          "model": "openai/gpt-5.5",
-          "variant": "medium"
-        },
-        {
-          "model": "opencode/big-pickle"
-        },
-        {
-          "model": "google-agy/claude-sonnet-4-6"
-        }
-      ]
+      "model": "litellm/kimi-k2.7",
+      "fallback_models": []
     },
     "general": {
-      "model": "anthropic/claude-opus-4-8",
+      "model": "litellm/kimi-k2.7",
       "variant": "max",
-      "fallback_models": [
-        {
-          "model": "litellm/kimi-k2.7"
-        },
-        {
-          "model": "litellm/glm-5"
-        },
-        {
-          "model": "litellm/qwen3.5"
-        },
-        {
-          "model": "litellm/deepseek-v4-pro"
-        }
-      ]
+      "fallback_models": []
     },
     "gsd-planner": {
-      "model": "anthropic/claude-opus-4-8",
+      "model": "litellm/kimi-k2.7",
       "variant": "max",
-      "fallback_models": [
-        {
-          "model": "litellm/kimi-k2.7"
-        },
-        {
-          "model": "litellm/glm-5"
-        },
-        {
-          "model": "litellm/qwen3.5"
-        },
-        {
-          "model": "litellm/deepseek-v4-pro"
-        }
-      ]
+      "fallback_models": []
     },
     "gsd-plan-checker": {
-      "model": "anthropic/claude-opus-4-8",
+      "model": "litellm/kimi-k2.7",
       "variant": "max",
-      "fallback_models": [
-        {
-          "model": "litellm/kimi-k2.7"
-        },
-        {
-          "model": "litellm/glm-5"
-        },
-        {
-          "model": "litellm/qwen3.5"
-        },
-        {
-          "model": "litellm/deepseek-v4-pro"
-        }
-      ]
+      "fallback_models": []
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "google-agy/gemini-3.1-pro",
-      "variant": "high",
-      "fallback_models": [
-        {
-          "model": "litellm/qwen3.5",
-          "variant": ""
-        }
-      ]
+      "model": "litellm/qwen3.5",
+      "variant": "",
+      "fallback_models": []
     },
     "ultrabrain": {
-      "model": "openai/gpt-5.5",
-      "variant": "xhigh",
-      "fallback_models": [
-        {
-          "model": "google-agy/gemini-3.1-pro",
-          "variant": "high"
-        },
-        {
-          "model": "litellm/deepseek-v4-pro-thinking",
-          "variant": ""
-        }
-      ]
+      "model": "litellm/deepseek-v4-pro-thinking",
+      "variant": "",
+      "fallback_models": []
     },
     "deep": {
-      "model": "openai/gpt-5.5",
-      "variant": "medium",
-      "fallback_models": [
-        {
-          "model": "litellm/deepseek-v4-pro",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/gemini-3.1-pro",
-          "variant": "high"
-        }
-      ]
+      "model": "litellm/deepseek-v4-pro",
+      "variant": "",
+      "fallback_models": []
     },
     "artistry": {
       "model": "google-agy/gemini-3.1-pro",
       "variant": "high",
-      "fallback_models": [
-        {
-          "model": "openai/gpt-5.5"
-        }
-      ]
+      "fallback_models": []
     },
     "quick": {
-      "model": "openai/gpt-5.4-mini",
-      "fallback_models": [
-        {
-          "model": "google-agy/gemini-3.5-flash"
-        }
-      ]
+      "model": "google-agy/gemini-3.5-flash",
+      "fallback_models": []
     },
     "unspecified-low": {
-      "model": "anthropic/claude-sonnet-5",
-      "fallback_models": [
-        {
-          "model": "openai/gpt-5.5",
-          "variant": "medium"
-        },
-        {
-          "model": "litellm/kimi-k2.7",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/gemini-3.5-flash"
-        },
-        {
-          "model": "google-agy/claude-sonnet-4-6"
-        }
-      ]
+      "model": "litellm/kimi-k2.7",
+      "fallback_models": []
     },
     "unspecified-high": {
-      "model": "anthropic/claude-opus-4-8",
-      "variant": "max",
-      "fallback_models": [
-        {
-          "model": "anthropic/claude-opus-4-7",
-          "variant": ""
-        },
-        {
-          "model": "google-agy/claude-opus-4-6-thinking"
-        },
-        {
-          "model": "openai/gpt-5.5",
-          "variant": "high"
-        },
-        {
-          "model": "litellm/kimi-k2.7",
-          "variant": ""
-        },
-        {
-          "model": "litellm/glm-5",
-          "variant": ""
-        }
-      ]
+      "model": "litellm/kimi-k2.7",
+      "variant": "",
+      "fallback_models": []
     },
     "writing": {
       "model": "litellm/kimi-k2.7",
-      "fallback_models": [
-        {
-          "model": "google-agy/gemini-3.5-flash"
-        }
-      ]
+      "fallback_models": []
     }
   }
 }
