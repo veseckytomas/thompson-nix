@@ -32,6 +32,8 @@
       runHook preBuild
       export HOME=$TMPDIR
       node bin/install.js --opencode --global --config-dir $out --no-sdk
+      # v1.8.0 installer omits hooks/*.js guards for --opencode; overlay full source tree.
+      cp -R hooks/. $out/hooks/
       runHook postBuild
     '';
 

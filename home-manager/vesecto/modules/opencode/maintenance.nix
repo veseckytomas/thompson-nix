@@ -28,7 +28,7 @@
 
       # OPENCODE_DB_MAINT_NO_SERVICE=1 skips the client guard + server stop (used by the copy-test).
       if [ -z "''${OPENCODE_DB_MAINT_NO_SERVICE:-}" ]; then
-        if pgrep -f 'opencode (attach|tui|run|-s)' >/dev/null 2>&1; then
+        if pgrep -f '^opencode( (attach|run)( .*)?)?$' >/dev/null 2>&1; then
           echo "opencode-db-maint: interactive client active, skipping"
           exit 0
         fi

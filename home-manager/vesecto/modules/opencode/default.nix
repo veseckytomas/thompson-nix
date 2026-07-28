@@ -159,10 +159,13 @@ in {
       };
     };
   };
+  # Overridden by server.nix's oc() when the server module is imported.
+  programs.zsh.shellAliases.oc = "opencode";
+
   imports = [
     ./maintenance.nix
     ./plugins
-    ./server.nix
+    # ./server.nix
   ];
 
   # Local "living" skills (./skills) are deployed per-skill by the localSkills

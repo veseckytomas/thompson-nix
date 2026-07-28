@@ -45,6 +45,7 @@ in {
 
   # `oc`: start the shared backend on first use (idempotent), wait until it is listening, then attach a client scoped to $PWD.
   programs.zsh.initContent = lib.mkAfter ''
+    unalias oc 2>/dev/null
     function oc() {
       systemctl --user start opencode-server.service || return 1
       local i
