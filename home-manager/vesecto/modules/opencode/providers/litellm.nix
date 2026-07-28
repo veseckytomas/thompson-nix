@@ -74,7 +74,7 @@
         output = 0;
       };
     };
-    # Kimi K2.7 (Moonshot, 1T MoE, modified MIT). Thinking always-on; native vision. Max output unpublished, so limit.output is left to the client default.
+    # Kimi K2.7 (Moonshot, 1T MoE, modified MIT). Thinking always-on; native vision. Context lowered so input+output < vLLM 262144 hard cap (opencode sends context as input budget; server adds max_tokens on top).
     "kimi-k2.7" = {
       name = "kimi-k2.7";
       release_date = "2026-06-12";
@@ -86,8 +86,8 @@
         output = ["text"];
       };
       limit = {
-        context = 262144;
-        output = 8192;
+        context = 192000;
+        output = 65536;
       };
       cost = {
         input = 0;
