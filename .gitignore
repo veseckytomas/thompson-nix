@@ -16,3 +16,4 @@ eduroam.py
 *.qcow2
 .omo/
 docs/
+graphify-out/
