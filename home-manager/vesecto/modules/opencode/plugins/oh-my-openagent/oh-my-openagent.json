@@ -12,107 +12,93 @@
   },
   "agents": {
     "sisyphus": {
-      "model": "litellm/kimi-k2.7",
-      "variant": "",
+      "model": "omniroute/sisyphus-chain",
       "fallback_models": []
     },
     "hephaestus": {
-      "model": "litellm/kimi-k2.7",
-      "variant": "",
+      "model": "omniroute/hephaestus-chain",
       "fallback_models": []
     },
     "oracle": {
-      "model": "litellm/qwen3.5",
-      "variant": [],
+      "model": "omniroute/oracle-chain",
       "fallback_models": []
     },
     "librarian": {
-      "model": "litellm/qwen3.5",
+      "model": "omniroute/librarian-chain",
       "fallback_models": []
     },
     "explore": {
-      "model": "litellm/qwen3.5",
+      "model": "omniroute/explore-chain",
       "fallback_models": []
     },
     "multimodal-looker": {
-      "model": "litellm/kimi-k2.7",
-      "variant": "",
+      "model": "omniroute/multimodal-looker-chain",
       "fallback_models": []
     },
     "prometheus": {
-      "model": "litellm/glm-5",
-      "variant": "",
+      "model": "omniroute/prometheus-chain",
       "fallback_models": []
     },
     "metis": {
-      "model": "litellm/glm-5",
+      "model": "omniroute/metis-chain",
       "fallback_models": []
     },
     "momus": {
-      "model": "litellm/glm-5",
-      "variant": "",
+      "model": "omniroute/momus-chain",
       "fallback_models": []
     },
     "atlas": {
-      "model": "litellm/kimi-k2.7",
+      "model": "omniroute/atlas-chain",
       "fallback_models": []
     },
     "sisyphus-junior": {
-      "model": "litellm/kimi-k2.7",
+      "model": "omniroute/sisyphus-junior-chain",
       "fallback_models": []
     },
     "general": {
-      "model": "litellm/kimi-k2.7",
-      "variant": "max",
+      "model": "omniroute/general-chain",
       "fallback_models": []
     },
     "gsd-planner": {
-      "model": "litellm/kimi-k2.7",
-      "variant": "max",
+      "model": "omniroute/gsd-planner-chain",
       "fallback_models": []
     },
     "gsd-plan-checker": {
-      "model": "litellm/kimi-k2.7",
-      "variant": "max",
+      "model": "omniroute/gsd-plan-checker-chain",
       "fallback_models": []
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "litellm/qwen3.5",
-      "variant": "",
+      "model": "omniroute/visual-engineering-chain",
       "fallback_models": []
     },
     "ultrabrain": {
-      "model": "litellm/deepseek-v4-pro-thinking",
-      "variant": "",
+      "model": "omniroute/ultrabrain-chain",
       "fallback_models": []
     },
     "deep": {
-      "model": "litellm/deepseek-v4-pro",
-      "variant": "",
+      "model": "omniroute/deep-chain",
       "fallback_models": []
     },
     "artistry": {
-      "model": "google-agy/gemini-3.1-pro",
-      "variant": "high",
+      "model": "omniroute/artistry-chain",
       "fallback_models": []
     },
     "quick": {
-      "model": "google-agy/gemini-3.5-flash",
+      "model": "omniroute/quick-chain",
       "fallback_models": []
     },
     "unspecified-low": {
-      "model": "litellm/kimi-k2.7",
+      "model": "omniroute/unspecified-low-chain",
       "fallback_models": []
     },
     "unspecified-high": {
-      "model": "litellm/kimi-k2.7",
-      "variant": "",
+      "model": "omniroute/unspecified-high-chain",
       "fallback_models": []
     },
     "writing": {
-      "model": "litellm/kimi-k2.7",
+      "model": "omniroute/writing-chain",
       "fallback_models": []
     }
   }

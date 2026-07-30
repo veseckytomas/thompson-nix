@@ -14,27 +14,20 @@
   ...
 }: let
   dbPath = "${config.xdg.dataHome}/opencode/opencode-stable.db";
-  # Rolling retention in days; 0 disables age-pruning (VACUUM still reclaims freelist).
-  ageDays = 30;
+  # Rolling session retention in days.
+  ageDays = 7;
   # Delete sessions whose stored parts exceed this many MB (the giants that slow session loads).
   sizeMb = 12;
+  # Skip size-prune for sessions touched within this window (protects live sessions without process detection).
+  activeHours = 1;
   maint = pkgs.writeShellApplication {
     name = "opencode-db-maint";
-    runtimeInputs = [pkgs.sqlite pkgs.coreutils pkgs.procps pkgs.systemd];
+    runtimeInputs = [pkgs.sqlite pkgs.coreutils];
     text = ''
       db="''${OPENCODE_DB_PATH:-${dbPath}}"
       age_days="''${AGE_DAYS:-${toString ageDays}}"
       size_mb="''${SIZE_MB:-${toString sizeMb}}"
-
-      # OPENCODE_DB_MAINT_NO_SERVICE=1 skips the client guard + server stop (used by the copy-test).
-      if [ -z "''${OPENCODE_DB_MAINT_NO_SERVICE:-}" ]; then
-        if pgrep -f '^opencode( (attach|run)( .*)?)?$' >/dev/null 2>&1; then
-          echo "opencode-db-maint: interactive client active, skipping"
-          exit 0
-        fi
-        systemctl --user stop opencode-server.service 2>/dev/null || true
-        sleep 1
-      fi
+      active_hours="''${ACTIVE_HOURS:-${toString activeHours}}"
 
       if [ ! -f "$db" ]; then
         echo "opencode-db-maint: no database at $db"
@@ -48,22 +41,25 @@
 
       before=$(stat -c%s "$db")
 
-      age_delete=""
-      if [ "$age_days" -gt 0 ]; then
-        age_delete="DELETE FROM session WHERE time_updated IS NOT NULL AND time_updated < (strftime('%s','now') - $age_days * 86400) * 1000;"
-      fi
-
+      # No server stop: runs alongside a live opencode-server or with the unit absent.
       sqlite3 "$db" "PRAGMA busy_timeout=30000;
       PRAGMA foreign_keys=ON;
-      PRAGMA wal_checkpoint(TRUNCATE);
-      $age_delete
+      DELETE FROM session WHERE time_updated IS NOT NULL AND time_updated < (strftime('%s','now') - $age_days * 86400) * 1000;
       DELETE FROM session WHERE id IN (
-        SELECT m.session_id FROM part p JOIN message m ON p.message_id = m.id
+        SELECT m.session_id FROM part p
+        JOIN message m ON p.message_id = m.id
+        JOIN session s ON s.id = m.session_id
+        WHERE s.time_updated < (strftime('%s','now') - $active_hours * 3600) * 1000
         GROUP BY m.session_id HAVING sum(length(CAST(p.data AS BLOB))) > $size_mb * 1048576
-      );
-      PRAGMA auto_vacuum=INCREMENTAL;
-      VACUUM;
-      ANALYZE;"
+      );"
+
+      # VACUUM needs exclusive access; fall back to a WAL checkpoint when a live server holds the lock.
+      if ! sqlite3 "$db" "PRAGMA busy_timeout=30000; VACUUM;" 2>/dev/null; then
+        sqlite3 "$db" "PRAGMA busy_timeout=30000; PRAGMA wal_checkpoint(TRUNCATE);" 2>/dev/null || true
+        echo "opencode-db-maint: VACUUM skipped (db busy), wal_checkpoint attempted" >&2
+      fi
+
+      sqlite3 "$db" "PRAGMA busy_timeout=30000; ANALYZE;" 2>/dev/null || true
 
       if [ -n "$(sqlite3 "$db" 'PRAGMA foreign_key_check;')" ]; then
         echo "opencode-db-maint: foreign_key_check found orphans" >&2
@@ -80,7 +76,7 @@
   };
 in {
   systemd.user.services.opencode-db-maint = {
-    Unit.Description = "Compact and prune the opencode SQLite session store (offline)";
+    Unit.Description = "Compact and prune the opencode SQLite session store (concurrent-safe)";
     Service = {
       Type = "oneshot";
       ExecStart = "${maint}/bin/opencode-db-maint";

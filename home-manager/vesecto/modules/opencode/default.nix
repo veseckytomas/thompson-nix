@@ -29,6 +29,7 @@
 in {
   opencodePlugins = {
     omo.enable = true;
+    omniroute.enable = true;
     gsd-sdk.enable = true;
     gsd.enable = true;
     caveman.enable = true;
@@ -76,6 +77,14 @@ in {
     };
   };
 
+  opencodeProviders = {
+    litellm.enable = false;
+    omniroute.enable = true;
+    openai.enable = false;
+    "google-agy".enable = false;
+    anthropic.enable = false;
+  };
+
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
@@ -92,19 +101,19 @@ in {
           "opencode-wakatime@${npmPlugins."opencode-wakatime"}"
           "./plugins/claude-token-sync/plugin.js"
           # "@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"
-          # "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
         ]
-        # ++ [googleProvider.plugin]
-        # ++ [anthropicProvider.plugin]
+        ++ lib.optional config.opencodeProviders.openai.enable "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
+        ++ lib.optional config.opencodeProviders."google-agy".enable googleProvider.plugin
+        ++ lib.optional config.opencodeProviders.anthropic.enable anthropicProvider.plugin
         ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js"
         ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js"
         ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify/plugin.js";
-      provider = {
-        litellm = import ./providers/litellm.nix;
-        # openai = import ./providers/openai.nix;
-        # "google-agy" = googleProvider.provider;
-        # anthropic = anthropicProvider.provider;
-      };
+      provider =
+        lib.optionalAttrs config.opencodeProviders.litellm.enable {litellm = import ./providers/litellm.nix;}
+        // lib.optionalAttrs config.opencodeProviders.omniroute.enable {omniroute = import ./providers/omniroute.nix;}
+        // lib.optionalAttrs config.opencodeProviders.openai.enable {openai = import ./providers/openai.nix;}
+        // lib.optionalAttrs config.opencodeProviders."google-agy".enable {"google-agy" = googleProvider.provider;}
+        // lib.optionalAttrs config.opencodeProviders.anthropic.enable {anthropic = anthropicProvider.provider;};
       permission = {
         external_directory = {
           "/tmp/**" = "allow";
@@ -165,6 +174,7 @@ in {
   imports = [
     ./maintenance.nix
     ./plugins
+    ./providers/options.nix
     # ./server.nix
   ];
 

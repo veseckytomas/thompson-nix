@@ -15,6 +15,7 @@
     ./graphify
     ./local-skills
     ./oh-my-openagent
+    ./omniroute
     ./system-message-hoist
     ./gsd-sdk.nix
     ./gsd.nix
