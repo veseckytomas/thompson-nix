@@ -30,6 +30,12 @@
     runtimeInputs = [pkgs.curl pkgs.jq];
     text = builtins.readFile ./provision-combos.sh;
   };
+
+  # Admin API token, GPG-encrypted, lives OUTSIDE the repo (manually placed per
+  # machine — each machine's local omniroute instance has its own token). Decrypted
+  # at service start to a tmpfs env file; Yubikey touch prompted once per session.
+  tokenGpg = "${config.xdg.configHome}/api_keys/omniroute_token.gpg";
+  tokenEnvFile = "%t/omniroute-token.env";
 in {
   options.opencodePlugins.omniroute.enable = lib.mkEnableOption "OmniRoute gateway + combo provisioning";
 
@@ -98,7 +104,11 @@ in {
         };
         Service = {
           Type = "oneshot";
+          # Decrypt the admin API token to a tmpfs env file (gpg-agent + Yubikey).
+          ExecStartPre = "${pkgs.bash}/bin/bash -c '${pkgs.gnupg}/bin/gpg --decrypt -q ${tokenGpg} > ${tokenEnvFile}'";
+          EnvironmentFile = "-${tokenEnvFile}";
           ExecStart = "${provisionScript}/bin/omniroute-provision-combos ${./chains.json}";
+          ExecStopPost = "${pkgs.coreutils}/bin/rm -f ${tokenEnvFile}";
           RemainAfterExit = true;
         };
         Install.WantedBy = ["omniroute.service"];

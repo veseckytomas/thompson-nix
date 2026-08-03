@@ -74,10 +74,10 @@
         output = 0;
       };
     };
-    # Kimi K2.7 (Moonshot, 1T MoE, modified MIT). Thinking always-on; native vision. Context lowered so input+output < vLLM 262144 hard cap (opencode sends context as input budget; server adds max_tokens on top).
-    "kimi-k2.7" = {
-      name = "kimi-k2.7";
-      release_date = "2026-06-12";
+    # Kimi K3 (Moonshot). Thinking always-on; native vision. Context lowered so input+output < vLLM 262144 hard cap (opencode sends context as input budget; server adds max_tokens on top).
+    "kimi-k3" = {
+      name = "kimi-k3";
+      release_date = "2026-08-03";
       open_weights = true;
       reasoning = true;
       tool_call = true;

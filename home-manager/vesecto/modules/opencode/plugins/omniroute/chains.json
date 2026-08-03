@@ -2,112 +2,112 @@
   "combos": [
     {
       "name": "sisyphus-chain",
-      "models": ["anthropic/claude-opus-4-8", "google-agy/claude-opus-4-6-thinking", "litellm/kimi-k2.7", "openai/gpt-5.5"],
+      "models": ["cc/claude-opus-4-8", "agy/claude-opus-4-6-thinking", "litellm/kimi-k3", "cx/gpt-5.5"],
       "strategy": "priority"
     },
     {
       "name": "hephaestus-chain",
-      "models": ["openai/gpt-5.5"],
+      "models": ["cx/gpt-5.5"],
       "strategy": "priority"
     },
     {
       "name": "oracle-chain",
-      "models": ["openai/gpt-5.5", "google-agy/gemini-3.1-pro", "anthropic/claude-opus-4-8", "google-agy/claude-opus-4-6-thinking", "litellm/glm-5"],
+      "models": ["cx/gpt-5.5", "agy/gemini-3.1-pro", "cc/claude-opus-4-8", "agy/claude-opus-4-6-thinking", "litellm/glm-5"],
       "strategy": "priority"
     },
     {
       "name": "librarian-chain",
-      "models": ["openai/gpt-5.4-mini-fast", "litellm/qwen3.5", "anthropic/claude-haiku-4-5", "google-agy/claude-sonnet-4-6"],
+      "models": ["cx/gpt-5.4-mini-fast", "litellm/qwen3.5", "cc/claude-haiku-4-5", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
       "name": "explore-chain",
-      "models": ["openai/gpt-5.4-mini-fast", "litellm/qwen3.5", "anthropic/claude-haiku-4-5", "google-agy/claude-sonnet-4-6"],
+      "models": ["cx/gpt-5.4-mini-fast", "litellm/qwen3.5", "cc/claude-haiku-4-5", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
       "name": "multimodal-looker-chain",
-      "models": ["openai/gpt-5.5", "litellm/kimi-k2.7"],
+      "models": ["cx/gpt-5.5", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "prometheus-chain",
-      "models": ["anthropic/claude-opus-4-8", "google-agy/claude-opus-4-6-thinking", "openai/gpt-5.5", "litellm/glm-5", "google-agy/gemini-3.1-pro"],
+      "models": ["cc/claude-opus-4-8", "agy/claude-opus-4-6-thinking", "cx/gpt-5.5", "litellm/glm-5", "agy/gemini-3.1-pro"],
       "strategy": "priority"
     },
     {
       "name": "metis-chain",
-      "models": ["anthropic/claude-sonnet-5", "google-agy/claude-opus-4-6-thinking", "openai/gpt-5.5", "litellm/glm-5"],
+      "models": ["cc/claude-sonnet-5", "agy/claude-opus-4-6-thinking", "cx/gpt-5.5", "litellm/glm-5"],
       "strategy": "priority"
     },
     {
       "name": "momus-chain",
-      "models": ["openai/gpt-5.5", "anthropic/claude-opus-4-8", "google-agy/claude-opus-4-6-thinking", "google-agy/gemini-3.1-pro", "litellm/glm-5"],
+      "models": ["cx/gpt-5.5", "cc/claude-opus-4-8", "agy/claude-opus-4-6-thinking", "agy/gemini-3.1-pro", "litellm/glm-5"],
       "strategy": "priority"
     },
     {
       "name": "atlas-chain",
-      "models": ["anthropic/claude-sonnet-5", "litellm/kimi-k2.7", "openai/gpt-5.5", "google-agy/claude-sonnet-4-6"],
+      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "cx/gpt-5.5", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
       "name": "sisyphus-junior-chain",
-      "models": ["anthropic/claude-sonnet-5", "litellm/kimi-k2.7", "openai/gpt-5.5", "google-agy/claude-sonnet-4-6"],
+      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "cx/gpt-5.5", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
       "name": "general-chain",
-      "models": ["anthropic/claude-opus-4-8", "litellm/kimi-k2.7"],
+      "models": ["cc/claude-opus-4-8", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "gsd-planner-chain",
-      "models": ["anthropic/claude-opus-4-8", "litellm/kimi-k2.7"],
+      "models": ["cc/claude-opus-4-8", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "gsd-plan-checker-chain",
-      "models": ["anthropic/claude-opus-4-8", "litellm/kimi-k2.7"],
+      "models": ["cc/claude-opus-4-8", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "visual-engineering-chain",
-      "models": ["google-agy/gemini-3.1-pro", "litellm/qwen3.5"],
+      "models": ["agy/gemini-3.1-pro", "litellm/qwen3.5"],
       "strategy": "priority"
     },
     {
       "name": "ultrabrain-chain",
-      "models": ["openai/gpt-5.5", "google-agy/gemini-3.1-pro", "litellm/deepseek-v4-pro-thinking"],
+      "models": ["cx/gpt-5.5", "agy/gemini-3.1-pro", "litellm/deepseek-v4-pro-thinking"],
       "strategy": "priority"
     },
     {
       "name": "deep-chain",
-      "models": ["openai/gpt-5.5", "litellm/deepseek-v4-pro", "google-agy/gemini-3.1-pro"],
+      "models": ["cx/gpt-5.5", "litellm/deepseek-v4-pro", "agy/gemini-3.1-pro"],
       "strategy": "priority"
     },
     {
       "name": "artistry-chain",
-      "models": ["google-agy/gemini-3.1-pro", "openai/gpt-5.5"],
+      "models": ["agy/gemini-3.1-pro", "cx/gpt-5.5"],
       "strategy": "priority"
     },
     {
       "name": "quick-chain",
-      "models": ["openai/gpt-5.4-mini", "google-agy/gemini-3.5-flash"],
+      "models": ["cx/gpt-5.4-mini", "agy/gemini-3.5-flash"],
       "strategy": "priority"
     },
     {
       "name": "unspecified-low-chain",
-      "models": ["anthropic/claude-sonnet-5", "openai/gpt-5.5", "litellm/kimi-k2.7", "google-agy/gemini-3.5-flash", "google-agy/claude-sonnet-4-6"],
+      "models": ["cc/claude-sonnet-5", "cx/gpt-5.5", "litellm/kimi-k3", "agy/gemini-3.5-flash", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
       "name": "unspecified-high-chain",
-      "models": ["anthropic/claude-opus-4-8", "google-agy/claude-opus-4-6-thinking", "openai/gpt-5.5", "litellm/kimi-k2.7"],
+      "models": ["cc/claude-opus-4-8", "agy/claude-opus-4-6-thinking", "cx/gpt-5.5", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "writing-chain",
-      "models": ["litellm/kimi-k2.7", "google-agy/gemini-3.5-flash"],
+      "models": ["litellm/kimi-k3", "agy/gemini-3.5-flash"],
       "strategy": "priority"
     }
   ]
