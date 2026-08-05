@@ -9,6 +9,10 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
+  imports = [
+    ./omniroute-proxy.nix
+  ];
+
   # Enable networking
   networking.networkmanager = {
     enable = true;
