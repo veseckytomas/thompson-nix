@@ -78,7 +78,7 @@ in {
   };
 
   opencodeProviders = {
-    litellm.enable = true;
+    litellm.enable = false;
     omniroute.enable = true;
     openai.enable = false;
     "google-agy".enable = false;
