@@ -49,7 +49,7 @@
     ./themes
     ./taskwarrior
     ./tmux.nix
-    ./vlc
+    # ./vlc
     ./xournalpp
     ./yazi.nix
     ./zoxide.nix
