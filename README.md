@@ -50,10 +50,10 @@ If `setupComplete` is false, open the UI (step 6) and finish the first-run setup
 
 Open the UI, go to **Providers**, and connect each. The provider id must match the model prefix used in `chains.json`.
 
-| Prefix in chains | Provider (catalog id) | Auth |
-| ---------------- | --------------------- | ---- |
-| `cc/`            | Claude Code (`claude`) | OAuth — sign in with the Anthropic Claude subscription |
-| `cx/`            | OpenAI Codex (`codex`) | OAuth — sign in with the OpenAI/ChatGPT subscription |
+| Prefix in chains | Provider (catalog id)   | Auth                                                                          |
+| ---------------- | ----------------------- | ----------------------------------------------------------------------------- |
+| `cc/`            | Claude Code (`claude`)  | OAuth — sign in with the Anthropic Claude subscription                        |
+| `cx/`            | OpenAI Codex (`codex`)  | OAuth — sign in with the OpenAI/ChatGPT subscription                          |
 | `agy/`           | Antigravity CLI (`agy`) | Import the `agy` CLI token, auto-detect a local login, or sign in with Google |
 
 For LiteLLM (`litellm/` prefix) — register a **custom OpenAI-compatible provider**:
@@ -75,7 +75,7 @@ UI → **Admin → API Keys → Create** → set scope to `manage` → copy the 
 The token lives outside git, decrypted at service start. One file per machine (each machine's OmniRoute instance issues its own key):
 
 ```bash
-echo -n "OMNIROUTE_TOKEN=<paste-token>" | gpg --encrypt --recipient vesecky@proton.me --output ~/.config/api_keys/omniroute_token.gpg
+echo -n "OMNIROUTE_TOKEN=<paste-token>" | gpg --encrypt --recipient <gpg-key> --output ~/.config/api_keys/omniroute_token.gpg
 gpg --decrypt -q ~/.config/api_keys/omniroute_token.gpg   # verify → OMNIROUTE_TOKEN=<token>
 ```
 
