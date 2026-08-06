@@ -74,7 +74,7 @@
         output = 0;
       };
     };
-    # Kimi K3 (Moonshot). Thinking always-on; native vision. Context lowered so input+output < vLLM 262144 hard cap (opencode sends context as input budget; server adds max_tokens on top).
+    # Kimi K3 (Moonshot, 2.8T MoE). Thinking always-on; native vision; 1M-token context.
     "kimi-k3" = {
       name = "kimi-k3";
       release_date = "2026-08-03";
@@ -86,8 +86,8 @@
         output = ["text"];
       };
       limit = {
-        context = 192000;
-        output = 65536;
+        context = 1048576;
+        output = 131072;
       };
       cost = {
         input = 0;

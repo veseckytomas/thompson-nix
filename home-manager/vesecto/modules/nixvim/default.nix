@@ -16,7 +16,10 @@
   programs.nixvim = {
     enable = true;
 
-    nixpkgs.source = pkgs.path;
+    nixpkgs = {
+      source = pkgs.path;
+      config.allowUnfree = true;
+    };
 
     # Set default editor
     defaultEditor = true;

@@ -49,23 +49,16 @@ in {
       skills = {
         enableAll = false;
         deprecated.enable = false;
-        in-progress.enable = false;
-        personal.enable = false;
-        productivity.enable = true;
         engineering = {
-          enable = false;
-          codebase-design = true;
-          diagnosing-bugs = true;
-          domain-modeling = true;
-          grill-with-docs = true;
-          improve-codebase-architecture = true;
-          prototype = true;
-          tdd = true;
+          enable = true;
+          triage = false;
         };
+        in-progress.enable = false;
         misc = {
           enable = false;
           git-guardrails-claude-code = true;
         };
+        productivity.enable = true;
       };
     };
     localSkills = {

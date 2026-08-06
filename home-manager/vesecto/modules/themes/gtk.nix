@@ -11,8 +11,14 @@
 {
   pkgs,
   config,
+  inputs,
   ...
-}: {
+}: let
+  dracula-gtk-theme = pkgs.runCommandLocal "dracula-gtk-theme" {} ''
+    mkdir -p $out/share/themes/Dracula
+    cp -a ${inputs.dracula-gtk}/{gtk-2.0,gtk-3.0,gtk-3.20,gtk-4.0,assets,index.theme,metacity-1,gnome-shell} $out/share/themes/Dracula/
+  '';
+in {
   gtk = {
     enable = true;
     iconTheme = {
@@ -20,7 +26,7 @@
       package = pkgs.dracula-icon-theme;
     };
     theme = {
-      package = pkgs.dracula-theme;
+      package = dracula-gtk-theme;
       name = "Dracula";
     };
     gtk4.theme = config.gtk.theme;

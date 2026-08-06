@@ -8,14 +8,17 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   qt = {
     enable = true;
     platformTheme.name = "gtk3";
   };
 
   home.packages = with pkgs; [
-    dracula-theme
     libsForQt5.qtstyleplugin-kvantum
     qt6Packages.qtstyleplugin-kvantum
   ];
@@ -24,8 +27,14 @@
     QT_STYLE_OVERRIDE = "kvantum";
   };
 
-  xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
-    [General]
-    theme=Dracula
-  '';
+  xdg.configFile = {
+    "Kvantum/kvantum.kvconfig".text = ''
+      [General]
+      theme=Dracula
+    '';
+    "Kvantum/Dracula" = {
+      source = "${inputs.dracula-gtk}/kde/kvantum/Dracula";
+      recursive = true;
+    };
+  };
 }
