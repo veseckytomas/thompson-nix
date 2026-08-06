@@ -123,10 +123,10 @@
     #   repo = "avante.nvim";
     #   flake = false;
     # };
-    dracula-qt5 = {
+    dracula-gtk = {
       type = "github";
       owner = "dracula";
-      repo = "qt5";
+      repo = "gtk";
       flake = false;
     };
     ratbagd = {
