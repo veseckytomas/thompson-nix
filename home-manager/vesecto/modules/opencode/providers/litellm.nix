@@ -15,9 +15,9 @@
     baseURL = "https://llm.ai.e-infra.cz/v1";
   };
   models = {
-    # DeepSeek V4 Pro (1.6T MoE, MIT). Two endpoints share the model; plain = non-think, -thinking = think mode.
-    deepseek-v4-pro = {
-      name = "deepseek-v4-pro";
+    # DeepSeek V4 (1.6T MoE, MIT). Two endpoints share the model; plain = non-think, -thinking = think mode.
+    deepseek = {
+      name = "deepseek";
       release_date = "2026-04-24";
       open_weights = true;
       reasoning = false;
@@ -35,8 +35,8 @@
         output = 0;
       };
     };
-    deepseek-v4-pro-thinking = {
-      name = "deepseek-v4-pro-thinking";
+    deepseek-thinking = {
+      name = "deepseek-thinking";
       release_date = "2026-04-24";
       open_weights = true;
       reasoning = true;

@@ -7,7 +7,7 @@
     },
     {
       "name": "hephaestus-chain",
-      "models": ["cx/gpt-5.5"],
+      "models": ["cx/gpt-5.5", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
@@ -77,27 +77,27 @@
     },
     {
       "name": "ultrabrain-chain",
-      "models": ["cx/gpt-5.5", "agy/gemini-3.1-pro", "litellm/deepseek-v4-pro-thinking"],
+      "models": ["cx/gpt-5.5", "agy/gemini-3.1-pro", "litellm/deepseek-thinking"],
       "strategy": "priority"
     },
     {
       "name": "deep-chain",
-      "models": ["cx/gpt-5.5", "litellm/deepseek-v4-pro", "agy/gemini-3.1-pro"],
+      "models": ["cx/gpt-5.5", "litellm/deepseek", "agy/gemini-3.1-pro"],
       "strategy": "priority"
     },
     {
       "name": "artistry-chain",
-      "models": ["agy/gemini-3.1-pro", "cx/gpt-5.5"],
+      "models": ["agy/gemini-3.1-pro", "cx/gpt-5.5", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "quick-chain",
-      "models": ["cx/gpt-5.4-mini", "agy/gemini-3.5-flash"],
+      "models": ["cx/gpt-5.4-mini", "agy/gemini-3.5-flash-low", "litellm/mini"],
       "strategy": "priority"
     },
     {
       "name": "unspecified-low-chain",
-      "models": ["cc/claude-sonnet-5", "cx/gpt-5.5", "litellm/kimi-k3", "agy/gemini-3.5-flash", "agy/claude-sonnet-4-6"],
+      "models": ["cc/claude-sonnet-5", "cx/gpt-5.5", "litellm/kimi-k3", "agy/gemini-3.5-flash-low", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
@@ -107,7 +107,7 @@
     },
     {
       "name": "writing-chain",
-      "models": ["litellm/kimi-k3", "agy/gemini-3.5-flash"],
+      "models": ["litellm/kimi-k3", "agy/gemini-3.5-flash-low"],
       "strategy": "priority"
     }
   ]
