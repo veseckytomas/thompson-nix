@@ -13,17 +13,16 @@
 #
 # Interaction model:
 #   - All user input happens UP FRONT (option selection + git pull touch)
-#     or at the VERY END (switch / commit / push / yubikey).
-#   - The heavy build runs UNATTENDED in between.
-#   - A no-timeout confirmation gate separates the unattended build from the
-#     system-changing activation, so an AFK build finishing never times out.
+#     or at the VERY END (nh's changes-tree confirm / commit / push / yubikey).
+#   - The heavy build runs UNATTENDED, then nh shows the changes tree and asks
+#     y/n before any system-changing activation; commit + push follow.
 
 FLAKE_DIR="${NIXOS_RUN_FLAKE:-@flakePath@}"
 DRY_RUN="${NIXOS_RUN_DRY_RUN:-0}"
 
 # Build performance flags (--max-jobs / --cores), chosen per run by
-# choose_performance and applied to every nixos-rebuild / home-manager build and
-# switch in the selected action. Empty = let Nix use its configured defaults.
+# choose_performance and passed through `nh ... -- ` to nix build in the selected
+# action. Empty = let Nix use its configured defaults.
 PERF_FLAGS=()
 
 # ---------------------------------------------------------------------------
@@ -149,8 +148,7 @@ git_pull() {
 }
 
 # Up-front step: pick how much CPU the unattended build may use. Sets the global
-# PERF_FLAGS array, applied to every nixos-rebuild / home-manager build + switch
-# in the chosen action.
+# PERF_FLAGS array, passed through nh to nix build + switch in the chosen action.
 #   - Light: one job, one core   -> machine stays responsive during the build.
 #   - Full:  all jobs, all cores -> build finishes as fast as possible.
 # A cancelled prompt defaults to Light (the safe, non-hogging choice).
@@ -166,14 +164,21 @@ choose_performance() {
   info "Build performance: ${PERF_FLAGS[*]}"
 }
 
-nixos_build() {
-  hdr "Building NixOS configuration (.#$(hostname)) ..."
-  run nixos-rebuild build --flake ".#" "${PERF_FLAGS[@]}"
+# Cache sudo up front so nh's activation escalation doesn't stall mid-build.
+cache_sudo() {
+  warn "Caching sudo credentials (may need password/touch) ..."
+  run sudo -v || warn "sudo cache failed; nh may prompt during activation."
 }
 
-home_build() {
-  hdr "Building Home-Manager configuration (.#$(whoami)) ..."
-  run home-manager build --flake ".#$(whoami)" "${PERF_FLAGS[@]}"
+# nh --ask is the gate: build -> changes tree -> y/n -> activate, atomically.
+nh_os() {
+  hdr "NixOS ($(hostname)): build + changes tree + confirm + activate ..."
+  run nh os "$1" --hostname "$(hostname)" --ask --diff always -- "${PERF_FLAGS[@]}"
+}
+
+nh_home() {
+  hdr "Home-Manager ($(whoami)): build + changes tree + confirm + activate ..."
+  run nh home switch --configuration "$(whoami)" --ask --diff always -- "${PERF_FLAGS[@]}"
 }
 
 current_nixos_gen() {
@@ -189,22 +194,14 @@ current_home_gen() {
 # ---------------------------------------------------------------------------
 action_rebuild() {
   choose_performance
+  cache_sudo
   git_pull
 
-  # --- unattended: stage everything so the flake sees new files, then build ---
   stage_all
-  nixos_build
-  home_build
 
-  if ! gate "Build complete. Proceed to switch + commit + push?"; then
-    unstage_all
-    return 0
-  fi
-
-  # --- attended end: NixOS switch + commit (excludes home-manager + lockfiles) ---
-  warn "Switching NixOS (sudo) ..."
-  if ! run nixos-rebuild switch --sudo --flake ".#" "${PERF_FLAGS[@]}"; then
-    warn "NixOS switch failed."
+  # Non-zero (decline or failure) = nothing activated: unstage, don't commit.
+  if ! nh_os switch; then
+    warn "NixOS switch not completed; nothing committed."
     unstage_all
     return 1
   fi
@@ -213,11 +210,9 @@ action_rebuild() {
   stage_nixos
   commit_if_changes "$(hostname): Gen ${gen}"
 
-  # --- attended end: Home-Manager switch (stage all) + commit (home-manager only) ---
   stage_all
-  warn "Switching Home-Manager ..."
-  if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
-    warn "Home-Manager switch failed."
+  if ! nh_home; then
+    warn "Home-Manager switch not completed; nothing committed."
     unstage_all
     return 1
   fi
@@ -239,16 +234,8 @@ action_home() {
   git_pull
 
   stage_all
-  home_build
-
-  if ! gate "Build complete. Proceed to switch + commit + push?"; then
-    unstage_all
-    return 0
-  fi
-
-  warn "Switching Home-Manager ..."
-  if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
-    warn "Home-Manager switch failed."
+  if ! nh_home; then
+    warn "Home-Manager switch not completed; nothing committed."
     unstage_all
     return 1
   fi
@@ -266,18 +253,11 @@ action_home() {
 # ---------------------------------------------------------------------------
 action_test() {
   choose_performance
+  cache_sudo
   git_pull
 
   stage_all
-  nixos_build
-
-  if ! gate "Build complete. Activate test configuration? (needs sudo)"; then
-    unstage_all
-    return 0
-  fi
-
-  warn "Activating test configuration (sudo) ..."
-  run nixos-rebuild test --sudo --flake ".#" "${PERF_FLAGS[@]}" || warn "Test activation failed."
+  nh_os test || warn "Test activation not completed."
   unstage_all
   ok "Test complete (not persisted across reboot)."
 }
@@ -342,6 +322,7 @@ update_codegraph() {
 
 action_update() {
   choose_performance
+  cache_sudo
   git_pull
 
   hdr "Updating flake inputs ..."
@@ -355,38 +336,23 @@ action_update() {
   hdr "Updating CodeGraph ..."
   update_codegraph
 
-  # --- unattended: stage + build both ---
   stage_all
-  nixos_build
-  home_build
-
-  if ! gate "Build complete. Proceed to commit + switch + push?"; then
-    unstage_all
-    return 0
-  fi
-
-  # --- attended end: commit lockfiles first (matches scripts/update.sh) ---
-  stage_lockfiles
-  commit_if_changes "Update lockfiles"
-
-  # --- NixOS switch (stage all) + commit (excludes home-manager + lockfiles) ---
-  stage_all
-  warn "Switching NixOS (sudo) ..."
-  if ! run nixos-rebuild switch --sudo --flake ".#" "${PERF_FLAGS[@]}"; then
-    warn "NixOS switch failed."
+  if ! nh_os switch; then
+    warn "NixOS switch not completed; nothing committed."
     unstage_all
     return 1
   fi
+  # Commit lockfiles first (matches scripts/update.sh), only after activation.
+  stage_lockfiles
+  commit_if_changes "Update lockfiles"
   local gen
   gen=$(current_nixos_gen)
   stage_nixos
   commit_if_changes "$(hostname): Gen ${gen}"
 
-  # --- Home-Manager switch (stage all) + commit (home-manager only) ---
   stage_all
-  warn "Switching Home-Manager ..."
-  if ! run home-manager switch --flake ".#$(whoami)" "${PERF_FLAGS[@]}"; then
-    warn "Home-Manager switch failed."
+  if ! nh_home; then
+    warn "Home-Manager switch not completed; nothing committed."
     unstage_all
     return 1
   fi

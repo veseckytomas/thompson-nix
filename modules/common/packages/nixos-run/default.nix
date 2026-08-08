@@ -16,6 +16,7 @@
 {
   writeShellApplication,
   gum,
+  nh,
   git,
   jq,
   fd,
@@ -34,6 +35,7 @@ in
     name = "nixos-run";
     runtimeInputs = [
       gum'
+      nh
       git
       jq
       fd

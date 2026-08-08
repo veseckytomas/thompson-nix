@@ -52,9 +52,11 @@ Open the UI, go to **Providers**, and connect each. The provider id must match t
 
 | Prefix in chains | Provider (catalog id)   | Auth                                                                          |
 | ---------------- | ----------------------- | ----------------------------------------------------------------------------- |
-| `cc/`            | Claude Code (`claude`)  | OAuth — sign in with the Anthropic Claude subscription                        |
-| `cx/`            | OpenAI Codex (`codex`)  | OAuth — sign in with the OpenAI/ChatGPT subscription                          |
-| `agy/`           | Antigravity CLI (`agy`) | Import the `agy` CLI token, auto-detect a local login, or sign in with Google |
+| `cc/`            | Claude Code (`claude`)        | OAuth — sign in with the Anthropic Claude subscription                        |
+| `cx/`            | OpenAI Codex (`codex`)        | OAuth — sign in with the OpenAI/ChatGPT subscription                          |
+| `agy/`           | Antigravity CLI (`antigravity`) | Import the `agy` CLI token, auto-detect a local login, or sign in with Google |
+
+> `agy/` is only the model-prefix **alias**; the resolver reads the canonical provider id `antigravity`. The dashboard persists the connection under `agy`, so the `omniroute-normalize-providers` service rewrites it to `antigravity` on every gateway start (idempotent, token-free) — otherwise every `agy/*` model returns `404 No active credentials for provider: antigravity` and any chain that only falls through to `agy` (e.g. `quick-chain`) collapses to `503 ALL_ACCOUNTS_INACTIVE`.
 
 For LiteLLM (`litellm/` prefix) — register a **custom OpenAI-compatible provider**:
 
@@ -111,6 +113,7 @@ network.trr.excluded-domains = omniroute
 omniroute logs --lines 30 --filter error        # recent errors
 omniroute providers test-all                    # test every connection
 omniroute health                                 # circuit breakers, lockouts
+journalctl --user -u omniroute-normalize-providers.service   # agy→antigravity key normalization
 sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
   "SELECT timestamp, provider, status, error_summary FROM call_logs WHERE status >= 400 ORDER BY timestamp DESC LIMIT 10;"
 ```
