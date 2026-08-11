@@ -88,7 +88,8 @@ in {
             "HOST=127.0.0.1"
             "REQUIRE_API_KEY=false"
             "DATA_DIR=${dataDir}/data"
-            "OMNIROUTE_CHAT_MAX_HEAVY_IN_FLIGHT=2"
+            # 3.8.49 rejects over-cap heavy requests instantly (no queue); 4 fits the 2240 MB V8 heap.
+            "OMNIROUTE_CHAT_MAX_HEAVY_IN_FLIGHT=4"
           ];
           Restart = "on-failure";
           RestartSec = "10s";
