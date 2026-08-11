@@ -22,13 +22,34 @@
     };
     Service = {
       Type = "simple";
-      # Ensure the mountpoint exists, then clear any stale FUSE mount left over
-      # from an unclean exit (sleep/resume, network drop). Without this cleanup a
-      # stale endpoint keeps the path registered as a mountpoint, every restart
-      # fails its pre-check, and the unit crash-loops forever (ENOTCONN / err 107).
-      ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive; ${pkgs.fuse}/bin/fusermount -uz %h/mnt/Onedrive 2>/dev/null || true'";
+      # Clear any stale FUSE mount left over from an unclean exit (sleep/resume, network drop) before
+      # mkdir, which itself fails with ENOTCONN on a stale endpoint. Without this cleanup the path stays
+      # registered as a mountpoint, every restart fails its pre-check, and the unit crash-loops (err 107).
+      # Must be the setuid wrapper, and fuse3 — the store-path fuse2 binary cannot unmount rclone's fuse3 mount.
+      ExecStartPre = "/bin/sh -c '/run/wrappers/bin/fusermount3 -uz %h/mnt/Onedrive 2>/dev/null || true; ${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive'";
       ExecStart = "${pkgs.rclone}/bin/rclone mount eOnedrive: %h/mnt/Onedrive --vfs-cache-mode writes --dir-cache-time 1000h --poll-interval 15s --timeout 1h --umask 002";
-      ExecStop = "${pkgs.fuse}/bin/fusermount -uz %h/mnt/Onedrive";
+      ExecStop = "/run/wrappers/bin/fusermount3 -uz %h/mnt/Onedrive";
+      Restart = "on-failure";
+      RestartSec = "10s";
+    };
+  };
+
+  systemd.user.services.rclone-protondrive = {
+    Unit = {
+      Description = "rclone mount ProtonDrive";
+      After = ["network-online.target"];
+      Wants = ["network-online.target"];
+    };
+    Install = {
+      WantedBy = ["default.target"];
+    };
+    Service = {
+      Type = "notify";
+      # Unmount before mkdir: a stale endpoint makes mkdir fail with ENOTCONN. Must be the setuid wrapper, and fuse3 — the store-path fuse2 binary cannot unmount rclone's fuse3 mount unprivileged.
+      ExecStartPre = "/bin/sh -c '/run/wrappers/bin/fusermount3 -uz %h/mnt/ProtonDrive 2>/dev/null || true; ${pkgs.coreutils}/bin/mkdir -p %h/mnt/ProtonDrive'";
+      # protondrive has no ChangeNotify and its backend cache never invalidates under VFS, so caching is off and dir-cache is short instead of 1000h.
+      ExecStart = "${pkgs.rclone}/bin/rclone mount ProtonDrive: %h/mnt/ProtonDrive --protondrive-enable-caching=false --protondrive-replace-existing-draft=true --vfs-cache-mode writes --dir-cache-time 5m --timeout 1h --umask 002";
+      ExecStop = "/run/wrappers/bin/fusermount3 -uz %h/mnt/ProtonDrive";
       Restart = "on-failure";
       RestartSec = "10s";
     };
