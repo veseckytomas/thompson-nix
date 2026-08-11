@@ -27,7 +27,7 @@ This repository contains these configurations:
 
 1. Add ssh, gpg keys, certificates.
 2. Set thunderbird email accounts and add certificates.
-3. Add rclone remote configs
+3. Add rclone remote configs (`onedrive`, `eOnedrive`, `Dropbox`, `ProtonDrive` — see [ProtonDrive rclone setup](#protondrive-rclone-setup) below).
 4. Connect opencode providers (OpenAI, Anthropic, LiteLLM) — see [OmniRoute setup](#omniroute-setup) below.
 5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
@@ -117,6 +117,81 @@ journalctl --user -u omniroute-normalize-providers.service   # agy→antigravity
 sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
   "SELECT timestamp, provider, status, error_summary FROM call_logs WHERE status >= 400 ORDER BY timestamp DESC LIMIT 10;"
 ```
+
+## ProtonDrive rclone setup
+
+`home-manager/vesecto/modules/rclone.nix` declares the `rclone-protondrive` user service that mounts `ProtonDrive:` at `~/mnt/ProtonDrive`. The remote itself is **manual** — credentials never live in this repo.
+
+Unlike `eOnedrive` (an rclone `crypt` remote layered over `onedrive:share`), ProtonDrive is mounted **directly**: Proton is already end-to-end encrypted, and a crypt layer would make the files unreadable in Proton's own web and mobile apps.
+
+### 1. Create the remote
+
+```bash
+rclone config
+```
+
+- `n` → new remote, name it **`ProtonDrive`** (capitalised — must match the service's mount command exactly)
+- storage → `protondrive` (the backend type is lowercase, unlike the remote name)
+- `username` → the Proton account email
+- `password` → choose `y) Yes type in my own password` and type it at the hidden prompt; rclone obscures it automatically
+
+Never pass `password=` on the command line — it lands in shell history.
+
+### 2. Handle 2FA (advanced config)
+
+Answer `y` to `Edit advanced config?`, then either:
+
+- **Recommended (unattended):** set `otp_secret_key` to the TOTP *seed* (the base32 string behind the QR code, Proton → Account → Security → 2FA). rclone can then regenerate codes itself if the cached session ever fully expires.
+- **Minimum secret at rest:** leave `otp_secret_key` empty and type the current 6-digit code when prompted at first authentication.
+
+Leave `mailbox_password` empty unless a separate mailbox password is in use, and leave `enable_caching` at its default — the mount overrides it on the command line.
+
+Do not leave a `2fa = <6 digits>` line in the config; a one-shot code is stale within 30 seconds and breaks later re-auth. Clear it if the wizard wrote one:
+
+```bash
+rclone config update ProtonDrive 2fa ""
+```
+
+`rclone config update` does **not** obscure values — only the interactive wizard does. Any field the docs mark "must be obscured" (`password`, `otp_secret_key`, `mailbox_password`) has to be wrapped explicitly, or auth fails with `422 .../auth/v4/2fa Incorrect login credentials`:
+
+```bash
+rclone config update ProtonDrive otp_secret_key "$(rclone obscure '<TOTP-seed>')"
+```
+
+Check the round-trip before spending an auth attempt — reveal must return the original base32 seed:
+
+```bash
+rclone reveal "$(awk '/^\[ProtonDrive\]/{f=1;next} /^\[/{f=0} f' ~/.config/rclone/rclone.conf | awk -F'= *' '/^otp_secret_key/{print $2}')" \
+  | grep -qE '^[A-Z2-7]+=*$' && echo "valid base32 seed" || echo "wrong - not obscured, or not a seed"
+```
+
+### 3. Verify before rebuilding
+
+```bash
+rclone about ProtonDrive:                                   # exits 0 and prints quota (works even on an empty drive)
+awk '/^\[ProtonDrive\]/{f=1;next} /^\[/{f=0} f' ~/.config/rclone/rclone.conf | grep -c '^client_'
+```
+
+`rclone lsd ProtonDrive:` printing nothing is not an error — it means the drive has no top-level folders yet. Use `rclone about` to prove authentication.
+
+The second command must print **`4`**. Those cached keys (`client_uid`, `client_access_token`, `client_refresh_token`, `client_salted_key_pass`) are written back by rclone after a successful login and are what let the service start on every boot **without** a TOTP prompt. If it prints `0`, the mount will fail at boot — re-run `rclone lsd ProtonDrive:` and confirm `rclone.conf` is writable.
+
+### 4. Activate and check
+
+```bash
+nixos-run                                                   # home-only rebuild
+systemctl --user status rclone-protondrive.service          # active (running)
+findmnt -T ~/mnt/ProtonDrive -o TARGET,FSTYPE --noheadings  # fuse.rclone
+```
+
+### Diagnostics
+
+```bash
+journalctl --user -u rclone-protondrive.service -n 30
+systemctl --user restart rclone-protondrive.service   # ExecStartPre clears a stale FUSE endpoint
+```
+
+The mount omits `--poll-interval` because the protondrive backend has no ChangeNotify/event system, and it passes `--protondrive-enable-caching=false` because that backend cache never invalidates under VFS. Changes made from Proton's web or mobile app therefore appear within `--dir-cache-time` (5m), not instantly. `--allow-other` must **not** be added — `user_allow_other` is disabled in `/etc/fuse.conf`, so it would fail the mount at startup.
 
 ## Neovim initial setup
 
