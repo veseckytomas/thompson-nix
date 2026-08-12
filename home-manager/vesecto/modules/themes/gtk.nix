@@ -21,6 +21,8 @@
 in {
   gtk = {
     enable = true;
+    # Drives dconf's org.gnome.desktop.interface color-scheme, which xdg-desktop-portal-gtk exports as org.freedesktop.appearance for portal-aware apps.
+    colorScheme = "dark";
     iconTheme = {
       name = "Dracula";
       package = pkgs.dracula-icon-theme;

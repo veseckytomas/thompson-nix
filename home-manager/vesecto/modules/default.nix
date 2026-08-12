@@ -48,6 +48,7 @@
     ./stylua
     ./themes
     ./taskwarrior
+    ./thunderbird.nix
     ./tmux.nix
     # ./vlc
     ./xournalpp
