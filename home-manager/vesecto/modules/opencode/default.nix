@@ -115,12 +115,13 @@ in {
           "glab *" = "allow";
         };
       };
+      # reserved leaves headroom to compact before a chain's real floor (min 128k).
       compaction = {
         auto = true;
-        prune = false;
+        prune = true;
         tail_turns = 2;
         preserve_recent_tokens = 8000;
-        reserved = 0;
+        reserved = 32000;
       };
       mcp = {
         markitdown = {

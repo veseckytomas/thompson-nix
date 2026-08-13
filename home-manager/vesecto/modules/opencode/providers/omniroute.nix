@@ -12,6 +12,24 @@
 # REQUIRE_API_KEY=false on the gateway; the SDK still needs a dummy key.
 let
   chains = builtins.fromJSON (builtins.readFile ../plugins/omniroute/chains.json);
+  modelLimits = (builtins.fromJSON (builtins.readFile ../plugins/omniroute/model-limits.json)).models;
+  # A priority chain can land on ANY member, so its honest window is the weakest one.
+  fallback = {
+    context = 128000;
+    output = 32768;
+  };
+  limitsOf = m: modelLimits.${m} or fallback;
+  floorOf = c: field: let
+    vals = map (m: (limitsOf m).${field}) c.models;
+  in
+    if vals == []
+    then fallback.${field}
+    else
+      builtins.foldl' (a: b:
+        if a < b
+        then a
+        else b) (builtins.head vals)
+      vals;
   comboModels = builtins.listToAttrs (map (c: {
       inherit (c) name;
       value = {
@@ -24,8 +42,8 @@ let
           output = ["text"];
         };
         limit = {
-          context = 1000000;
-          output = 128000;
+          context = floorOf c "context";
+          output = floorOf c "output";
         };
         cost = {
           input = 0;

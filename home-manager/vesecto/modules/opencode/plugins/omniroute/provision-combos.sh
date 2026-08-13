@@ -41,6 +41,24 @@ fi
 # Fetch existing combos once; response is {combos:[...]} or a bare array.
 existing_raw="$(curl -sf --max-time 5 "${auth_args[@]}" "$OMNIROUTE_BASE/api/combos" 2>/dev/null || echo '[]')"
 
+# The combos API accepts unknown model ids, so a typo only surfaces later as a
+# request-time 404. Diff chain members against the live catalog and warn here.
+# The `agy/` prefix is an alias; the catalog lists those under `antigravity/`.
+catalog_raw="$(curl -sf --max-time 10 "$OMNIROUTE_BASE/v1/models" 2>/dev/null || echo '')"
+if [ -n "$catalog_raw" ]; then
+  missing="$(jq -r --argjson cat "$(jq -c '[.data[].id]' <<<"$catalog_raw")" '
+    [ $cat[] ] as $ids
+    | [ .combos[] | .name as $c | .models[] | {chain:$c, model:.} ]
+    | map(select((.model | sub("^agy/";"antigravity/")) as $m | ($ids | index($m)) == null))
+    | .[] | "  \(.chain): \(.model)"
+  ' "$CHAINS_FILE" 2>/dev/null || true)"
+  if [ -n "$missing" ]; then
+    echo "omniroute-provision: WARNING - model ids absent from the live catalog:" >&2
+    echo "$missing" >&2
+    echo "omniroute-provision: those chain positions will 404 at request time." >&2
+  fi
+fi
+
 provisioned=0
 failed=0
 

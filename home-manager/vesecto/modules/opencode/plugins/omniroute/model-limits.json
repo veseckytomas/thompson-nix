@@ -1,0 +1,65 @@
+{
+  "_comment": "Generated from OmniRoute /v1/models; regenerate with nixos-run after changing chains.json. null max_output_tokens defaults to 32768.",
+  "models": {
+    "agy/claude-opus-4-6-thinking": {
+      "context": 1048576,
+      "output": 65536
+    },
+    "agy/claude-sonnet-4-6": {
+      "context": 1048576,
+      "output": 65536
+    },
+    "agy/gemini-3.1-pro-low": {
+      "context": 1048576,
+      "output": 65535
+    },
+    "agy/gemini-3.6-flash-low": {
+      "context": 1048576,
+      "output": 65536
+    },
+    "cc/claude-haiku-4-5-20251001": {
+      "context": 200000,
+      "output": 64000
+    },
+    "cc/claude-opus-5": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cc/claude-sonnet-5": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cx/gpt-5.6-luna-low": {
+      "context": 272000,
+      "output": 128000
+    },
+    "cx/gpt-5.6-sol": {
+      "context": 272000,
+      "output": 128000
+    },
+    "litellm/deepseek": {
+      "context": 128000,
+      "output": 32768
+    },
+    "litellm/deepseek-thinking": {
+      "context": 128000,
+      "output": 32768
+    },
+    "litellm/glm-5.2": {
+      "context": 1000000,
+      "output": 131072
+    },
+    "litellm/kimi-k3": {
+      "context": 1048576,
+      "output": 1048576
+    },
+    "litellm/mini": {
+      "context": 128000,
+      "output": 32768
+    },
+    "litellm/qwen3.5": {
+      "context": 128000,
+      "output": 32768
+    }
+  }
+}
