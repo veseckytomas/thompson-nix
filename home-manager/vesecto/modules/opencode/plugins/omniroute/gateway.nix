@@ -84,6 +84,7 @@ in {
           ExecStart = "${pkgs.nodejs}/bin/node ${omnirouteMjs}";
           Environment = [
             "PATH=${pkgs.nodejs}/bin"
+            "TZ=Europe/Prague"
             "PORT=20128"
             "HOST=127.0.0.1"
             "REQUIRE_API_KEY=false"

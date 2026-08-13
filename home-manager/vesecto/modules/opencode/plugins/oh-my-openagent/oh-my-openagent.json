@@ -4,6 +4,12 @@
   "runtime_fallback": {
     "enabled": false
   },
+  "codegraph": {
+    "enabled": true,
+    "auto_init": false,
+    "auto_provision": true,
+    "daemon": true
+  },
   "team_mode": {
     "enabled": true,
     "max_parallel_members": 5,

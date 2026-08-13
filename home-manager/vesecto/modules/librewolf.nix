@@ -25,6 +25,8 @@
       "browser.safebrowsing.provider.google.updateURL" = "https://safebrowsing.google.com/safebrowsing/downloads?client=SAFEBROWSING_ID&appver=%MAJOR_VERSION%&pver=2.2&key=%GOOGLE_SAFEBROWSING_API_KEY%";
       "browser.safebrowsing.downloads.enabled" = true;
       "privacy.resistFingerprinting.letterboxing" = true;
+      # RFP spoofs the JS timezone to UTC; exempt the local dashboard so it renders in Europe/Prague.
+      "privacy.resistFingerprinting.exemptedDomains" = "omniroute";
       "webgl.disabled" = true;
       "privacy.clearOnShutdown.history" = false;
       "privacy.clearOnShutdown.downloads" = false;
