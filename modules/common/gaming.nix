@@ -74,6 +74,9 @@ in {
     bastet # Tetris
     nsnake # Snake
     benhsm-minesweeper # Minesweeper
+
+    # Retro Games
+    sdlpop # Prince of Persia (DOS, 1990); bundles original game data
   ];
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
   environment.variables = {
