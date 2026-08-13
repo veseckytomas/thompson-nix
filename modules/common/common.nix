@@ -25,8 +25,15 @@
   # Set hostname
   networking.hostName = "${hostname}";
 
-  # Set kernel
-  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+  boot = {
+    # Set kernel
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
+    tmp.cleanOnBoot = true;
+  };
+
+  # Bun re-extracts a ~14MB native addon into /tmp per launch and never unlinks it; the 10d default let it reach 125G.
+  systemd.tmpfiles.rules = ["q /tmp 1777 root root 1d"];
 
   services = {
     # Enable Gnome keyring
