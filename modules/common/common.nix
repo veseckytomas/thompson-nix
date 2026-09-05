@@ -35,6 +35,9 @@
   # Bun re-extracts a ~14MB native addon into /tmp per launch and never unlinks it; the 10d default let it reach 125G.
   systemd.tmpfiles.rules = ["q /tmp 1777 root root 1d"];
 
+  # nixpkgs#554650: ProtectSystem=strict blocks avahi's own stale-pidfile cleanup, so one unclean stop breaks every later start (and fails resolvconf via its kill -HUP hook); "+" runs this unsandboxed.
+  systemd.services.avahi-daemon.serviceConfig.ExecStartPre = "+${pkgs.coreutils}/bin/rm -f /run/avahi-daemon/pid";
+
   services = {
     # Enable Gnome keyring
     gnome.gnome-keyring.enable = true;

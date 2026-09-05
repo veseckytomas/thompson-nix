@@ -173,7 +173,7 @@
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      pinentryPackage = inputs.nixpkgs.lib.mkForce pkgs.pinentry-gtk2;
+      pinentryPackage = inputs.nixpkgs.lib.mkForce pkgs.pinentry-gnome3;
     };
 
     nano.enable = false;
