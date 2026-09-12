@@ -50,6 +50,7 @@
     ./taskwarrior
     ./thunderbird.nix
     ./tmux.nix
+    ./tock
     # ./vlc
     ./xournalpp
     ./yazi.nix

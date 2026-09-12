@@ -164,7 +164,7 @@ in {
       "fzf" = "fzf --preview \"bat --color=always --style=header,grid --line-range :500 {}\"";
       "latexmk" = "latexmk -lualatex";
       "rsync" = "rsync -r --info=progress2";
-      "asus-num" = "systemctl restart asus-numberpad-driver.service";
+      "asus-num" = "systemctl --user restart asus-numberpad-driver.service";
       "wts" = "wt switch";
       "wtr" = "wt remove";
     };
