@@ -81,31 +81,64 @@ LOCKFILES=(
   home-manager/vesecto/modules/opencode/plugins/npm-plugins.json
   modules/common/packages/librewolf-bin.json
   home-manager/vesecto/modules/opencode/codegraph/codegraph.json
+  home-manager/vesecto/modules/tock/tock.json
 )
+
+# Register untracked files in the index WITHOUT staging content: the flake evaluator skips
+# files git does not know, while an intent-to-add entry stays invisible to commit_if_changes.
+track_new() {
+  local files=()
+  mapfile -d '' -t files < <(git ls-files --others --exclude-standard -z)
+  if [ "${#files[@]}" -eq 0 ]; then return 0; fi
+  run git add --intent-to-add -- "${files[@]}"
+}
+
+# Restore only the lockfiles git already knows: `git restore --staged` errors out on a path
+# absent from both index and HEAD, which would abort the run on a never-committed lockfile.
+unstage_lockfiles() {
+  local known=()
+  mapfile -d '' -t known < <(git ls-files -z -- "${LOCKFILES[@]}")
+  if [ "${#known[@]}" -eq 0 ]; then return 0; fi
+  run git restore --staged -- "${known[@]}"
+}
 
 # Stage everything (incl. new/untracked files) so the flake evaluator sees them before a build/switch.
 stage_all() { run git add --all; }
 
-unstage_all() { run git restore --staged :/; }
+# A bare restore drops new files back to untracked, which re-breaks the evaluator mid-run.
+unstage_all() {
+  run git restore --staged :/
+  track_new
+}
 
 # Stage the NixOS commit: everything except the home-manager dir and the update-only lockfiles.
 stage_nixos() {
   unstage_all
   run git add --all
   run git restore --staged home-manager
-  run git restore --staged -- "${LOCKFILES[@]}"
+  unstage_lockfiles
+  track_new
 }
 
 # Stage the Home-Manager commit: the home-manager dir only.
 stage_home() {
   unstage_all
   run git add home-manager
+  track_new
 }
 
 # Stage the Update commit: the update-only lockfiles only.
+# Only the ones present on disk: `git add` aborts the run on a lockfile a failed
+# generator never wrote, which would strand the repo half-staged mid-Update.
 stage_lockfiles() {
+  local present=()
+  local f
+  for f in "${LOCKFILES[@]}"; do
+    if [ -e "$f" ]; then present+=("$f"); fi
+  done
   unstage_all
-  run git add -- "${LOCKFILES[@]}"
+  if [ "${#present[@]}" -gt 0 ]; then run git add -- "${present[@]}"; fi
+  track_new
 }
 
 print_help() {
@@ -320,10 +353,60 @@ update_codegraph() {
   fi
 }
 
+# tock's source is pinned by flake.lock, but its Go dep hash cannot be: vendorHash
+# lives in ./tock.json. Recompute it only when the locked rev moved, by building
+# the goModules FOD against a fake hash and reading the real one off the mismatch.
+update_tock() {
+  local json="home-manager/vesecto/modules/tock/tock.json"
+  local locked pinned hash out
+  locked=$(jq -r '.nodes.tock.locked.rev' flake.lock 2>/dev/null || true)
+  pinned=$(jq -r '.rev' "$json" 2>/dev/null || true)
+  if [ -z "$locked" ] || [ "$locked" = "null" ]; then
+    warn "tock: no tock input in flake.lock, keeping ${pinned:0:7}."
+    return 0
+  fi
+  if [ "$locked" = "$pinned" ]; then
+    info "tock: vendorHash already up-to-date (${pinned:0:7})"
+    return 0
+  fi
+  # Probe a bare buildGoModule instead of package.nix: the latter reads tock.json, so
+  # using it here would deadlock whenever that file is missing or holds a stale hash.
+  out=$(nix --extra-experimental-features 'nix-command flakes' build --impure --no-link --expr "
+    let f = builtins.getFlake \"$PWD\";
+        p = f.inputs.nixpkgs.legacyPackages.x86_64-linux;
+    in (p.buildGoModule {
+      pname = \"tock\";
+      version = \"probe\";
+      src = f.inputs.tock;
+      vendorHash = p.lib.fakeHash;
+      subPackages = [\"cmd/tock\"];
+    }).goModules" 2>&1 || true)
+  hash=$(sed -n 's/.*got: *\(sha256-[A-Za-z0-9+/=]*\).*/\1/p' <<<"$out" | head -1)
+  if [ -z "$hash" ]; then
+    # With no tock.json to fall back on there is nothing to keep, and every later phase
+    # that evaluates the flake would fail on the missing import.
+    if [ ! -e "$json" ]; then
+      warn "tock: could not compute vendorHash for ${locked:0:7} and ${json} is missing."
+      printf '%s\n' "$out" | tail -20
+      return 1
+    fi
+    warn "tock: could not compute vendorHash for ${locked:0:7}, keeping ${pinned:0:7}."
+    return 0
+  fi
+  if [ "$DRY_RUN" = 1 ]; then
+    info "[dry-run] would write ${json}: ${locked:0:7} / ${hash}"
+  else
+    printf '{\n  "rev": "%s",\n  "vendorHash": "%s"\n}\n' "$locked" "$hash" >"$json"
+  fi
+  info "tock: ${pinned:0:7} -> ${locked:0:7}"
+}
+
 action_update() {
   choose_performance
   cache_sudo
   git_pull
+
+  track_new
 
   hdr "Updating flake inputs ..."
   run nix flake update
@@ -335,6 +418,8 @@ action_update() {
   update_librewolf
   hdr "Updating CodeGraph ..."
   update_codegraph
+  hdr "Updating tock ..."
+  update_tock
 
   stage_all
   if ! nh_os switch; then
@@ -517,6 +602,7 @@ action_setup() {
   if grep -qF "Install eduroam" <<<"$opts"; then eduroam=yes; else eduroam=no; fi
 
   git_pull
+  track_new
 
   # --- unattended build ---
   hdr "Building NixOS configuration (.#${hostname_in}) ..."

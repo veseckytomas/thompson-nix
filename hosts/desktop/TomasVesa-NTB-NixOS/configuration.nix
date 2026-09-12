@@ -9,32 +9,18 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
-  pkgs,
   username,
   lib,
   ...
 }: {
   boot.initrd.luks.devices."luks-75e7b65c-68bb-4801-b9ec-49403d21ede5".device = "/dev/disk/by-uuid/75e7b65c-68bb-4801-b9ec-49403d21ede5";
 
-  systemd.services.asus-numberpad-driver = {
+  systemd.user.services.asus-numberpad-driver = {
     serviceConfig = {
       Restart = lib.mkForce "always";
       RestartSec = lib.mkForce "1s";
     };
   };
-
-  # Allow restarting the service without password
-  security.sudo.extraRules = [
-    {
-      users = ["${username}"];
-      commands = [
-        {
-          command = "${pkgs.systemd}/bin/systemctl restart asus-numberpad-driver";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
 
   # MX Vertical settings
   services = {
@@ -48,13 +34,14 @@
     ];
 
     displayManager.sddm.autoNumlock = lib.mkForce false;
-    # Numberpad config
-    asus-numberpad-driver = {
-      enable = true;
-      layout = "up5401ea";
-      wayland = false;
-      runtimeDir = "/run/user/1000";
-    };
+  };
+
+  # Numberpad config
+  hardware.asus-numberpad-driver = {
+    enable = true;
+    layout = "up5401ea";
+    wayland = false;
+    runtimeDir = "/run/user/1000";
   };
 
   users.users.${username}.extraGroups = ["input"];

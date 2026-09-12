@@ -179,6 +179,10 @@
       url = "github:kdheepak/taskwarrior-tui";
       flake = false;
     };
+    tock = {
+      url = "github:kriuchkov/tock";
+      flake = false;
+    };
     bun2nix = {
       url = "github:nix-community/bun2nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -243,6 +247,8 @@
         };
         modules = [
           inputs.asus-numberpad-driver.nixosModules.default
+          # The module resolves its package via mkPackageOption, so its overlay must be applied too.
+          {nixpkgs.overlays = [inputs.asus-numberpad-driver.overlays.default];}
           ./hosts/desktop/TomasVesa-NTB-NixOS
           ./modules/common/notebook.nix
           ./modules/common/gaming.nix
