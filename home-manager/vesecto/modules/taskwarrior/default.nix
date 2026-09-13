@@ -14,10 +14,8 @@
     package = pkgs.taskwarrior3;
     colorTheme = "~/.config/task/themes/catppuccin";
   };
-  home = {
-    file."task/themes/catppuccin.theme".source = ./catppuccin.theme;
-    packages = [
-      pkgs.taskwarrior-tui
-    ];
-  };
+  xdg.configFile."task/themes/catppuccin.theme".source = ./catppuccin.theme;
+  home.packages = [
+    pkgs.taskwarrior-tui
+  ];
 }

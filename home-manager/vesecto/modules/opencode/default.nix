@@ -180,6 +180,12 @@ in {
     };
     "opencode/AGENTS.md".text =
       ''
+        # Background tasks
+
+        While any background task is running, end every message with a sentence stating
+        how many are currently running (e.g. "2 background tasks running."). Omit it
+        when none are running.
+
         # GitLab issues
 
         `glab` is installed and authenticated. Read issue context via bash before
