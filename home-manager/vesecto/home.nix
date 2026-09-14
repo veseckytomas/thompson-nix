@@ -36,7 +36,6 @@
         "image/jpeg" = ["org.nomacs.ImageLounge.desktop"];
         "text/plain" = ["nvim.desktop"];
         "video/mp4" = ["vlc.desktop"];
-        "x-scheme-handler/msteams" = ["teams-for-linux.desktop"];
         "text/html" = ["librewolf.desktop"];
         "x-scheme-handler/http" = ["librewolf.desktop"];
         "x-scheme-handler/https" = ["librewolf.desktop"];
@@ -49,7 +48,6 @@
         "image/jpeg" = ["org.nomacs.ImageLounge.desktop"];
         "text/plain" = ["nvim.desktop"];
         "video/mp4" = ["vlc.desktop"];
-        "x-scheme-handler/msteams" = ["teams-for-linux.desktop"];
         "text/html" = ["librewolf.desktop"];
         "x-scheme-handler/http" = ["librewolf.desktop"];
         "x-scheme-handler/https" = ["librewolf.desktop"];
