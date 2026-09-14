@@ -121,7 +121,6 @@
     karere
     alsa-utils
     pavucontrol
-    teams-for-linux
     xournalpp
     motrix
     # super-productivity
