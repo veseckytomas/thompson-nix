@@ -111,8 +111,51 @@ in {
         external_directory = {
           "/tmp/**" = "allow";
         };
-        bash = {
+        # Matcher is regex, not glob: `*` crosses `/`, so a `**/` prefix never matches a top-level file.
+        read = {
+          "*.env" = "deny";
+          "*.env.*" = "deny";
+          "*.env.example" = "allow";
+          "*.env.sample" = "allow";
+          "*.gpg" = "deny";
+          "*.jks" = "deny";
+          "*.key" = "deny";
+          "*.keystore" = "deny";
+          "*.netrc" = "deny";
+          "*.npmrc" = "deny";
+          "*.p12" = "deny";
+          "*.p8" = "deny";
+          "*.pem" = "deny";
+          "*.pfx" = "deny";
+          "*credentials.json" = "deny";
+          "*id_dsa" = "deny";
+          "*id_dsa.pub" = "deny";
+          "*id_ecdsa" = "deny";
+          "*id_ecdsa.pub" = "deny";
+          "*id_ed25519" = "deny";
+          "*id_ed25519.pub" = "deny";
+          "*id_rsa" = "deny";
+          "*id_rsa.pub" = "deny";
+        };
+        bash = let
+          # Last match wins, so the denies must render after the glab/gsd allows.
+          afterAllows = lib.hm.dag.entryAfter ["glab *" "*gsd-tools*" "*gsd_run*"];
+        in {
           "glab *" = "allow";
+          "*.env*" = afterAllows "deny";
+          "*.gpg*" = afterAllows "deny";
+          # Trailing " *" compiles to an optional arg group, keeping `jq '.key' x.json` allowed.
+          "*.key *" = afterAllows "deny";
+          "*.netrc*" = afterAllows "deny";
+          "*.npmrc*" = afterAllows "deny";
+          "*.p12*" = afterAllows "deny";
+          "*.pem *" = afterAllows "deny";
+          "*.pfx*" = afterAllows "deny";
+          "*credentials.json*" = afterAllows "deny";
+          "*id_dsa*" = afterAllows "deny";
+          "*id_ecdsa*" = afterAllows "deny";
+          "*id_ed25519*" = afterAllows "deny";
+          "*id_rsa*" = afterAllows "deny";
         };
       };
       # reserved leaves headroom to compact before a chain's real floor (min 128k).
