@@ -13,6 +13,10 @@
   inputs,
   ...
 }: {
+  imports = [
+    ./clock-iso8601.nix
+  ];
+
   services = {
     xserver = {
       enable = true;

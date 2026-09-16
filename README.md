@@ -29,7 +29,48 @@ This repository contains these configurations:
 2. Set thunderbird email accounts and add certificates.
 3. Add rclone remote configs (`onedrive`, `eOnedrive`, `Dropbox`, `ProtonDrive` — see [ProtonDrive rclone setup](#protondrive-rclone-setup) below).
 4. Connect opencode providers (OpenAI, Anthropic, LiteLLM) — see [OmniRoute setup](#omniroute-setup) below.
-5. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+5. Add the FIT VPN CA certificate — see [VPN setup](#vpn-setup) below.
+6. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+
+## VPN setup
+
+`modules/networking/vpn.nix` declares all three CTU profiles through
+`networking.networkmanager.ensureProfiles`, so they appear in nm-applet after a rebuild with no
+manual import.
+
+**Passwords are saved on the machine, never in this repo.** The profiles carry only non-secret
+fields (gateway, realm, CTU login). The password itself goes to **gnome-keyring** via nm-applet the
+first time you connect and tick *Save password*; it is stored under `~/.local/share/keyrings/`,
+unlocked by the login keyring, and never touches git or the Nix store.
+
+This is driven by NetworkManager's per-secret flags (`man 5 nm-settings`, `NMSettingSecretFlags`):
+
+| Flag value | Name          | Meaning                             | Used for                        |
+| ---------- | ------------- | ----------------------------------- | ------------------------------- |
+| `1`        | `agent-owned` | secret agent stores it (keyring)    | `fit-vpn` password              |
+| `2`        | `not-saved`   | prompt every time, never persisted  | one-shot cookies, OTP challenge |
+
+For the openconnect profiles (`cvut-vpn`, `vic-vpn`) the equivalent switch is `save_passwords=yes`,
+which tells the auth dialog to push the password into the keyring. Their `*-flags=2` entries are
+session cookies and cert confirmations — correctly never stored.
+
+| Profile    | Protocol            | Gateway            | Notes                              |
+| ---------- | ------------------- | ------------------ | ---------------------------------- |
+| `cvut-vpn` | openconnect         | `vpn.cvut.cz`      | legacy; CTU migrated to FortiGate  |
+| `vic-vpn`  | openconnect         | `vpn.is.cvut.cz`   |                                    |
+| `fit-vpn`  | openvpn             | `vpn.fit.cvut.cz`  | needs the CA certificate below     |
+
+The only manual step is the FIT CA certificate, which is not in this repo:
+
+```bash
+mkdir -p ~/.cert/nm-openvpn
+# copy fit-vpn-ca.pem there, then:
+chmod 600 ~/.cert/nm-openvpn/fit-vpn-ca.pem
+```
+
+CTU's main VPN moved to FortiGate with SAML SSO, which the NetworkManager openconnect plugin cannot
+do. That one is handled outside NetworkManager by `modules/networking/fortivpn.nix` — run
+`cvut-vpn up`, click the qtile bar widget, or press `mod+v` for the rofi menu.
 
 ## OmniRoute setup
 

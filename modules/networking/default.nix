@@ -10,7 +10,10 @@
 # GitLab: vesecky.tomas
 {pkgs, ...}: {
   imports = [
+    ./eduroam.nix
+    ./fortivpn.nix
     ./omniroute-proxy.nix
+    ./vpn.nix
   ];
 
   # Enable networking
@@ -27,25 +30,5 @@
     allowedTCPPorts = [53317];
     allowedUDPPorts = [53317];
   };
-  environment = {
-    # Packages
-    systemPackages = with pkgs; [
-      networkmanagerapplet
-    ];
-    # VPN config
-    etc = {
-      "NetworkManager/system-connections/cvut-vpn.nmconnection" = {
-        source = ./cvut-vpn.nmconnection;
-        mode = "0600";
-      };
-      "NetworkManager/system-connections/vic-vpn.nmconnection" = {
-        source = ./vic-vpn.nmconnection;
-        mode = "0600";
-      };
-      # "NetworkManager/system-connections/fit-vpn.nmconnection" = {
-      #   source = ./fit-vpn.nmconnection;
-      #   mode = "0600";
-      # };
-    };
-  };
+  environment.systemPackages = [pkgs.networkmanagerapplet];
 }
