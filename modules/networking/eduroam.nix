@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{username, ...}: let
+{
+  pkgs,
+  username,
+  ...
+}: let
   # CTU login, not the system user.
   ctuLogin = "vesecto1";
 
@@ -34,8 +38,8 @@ in {
         eap = "peap;";
         phase2-auth = "mschapv2";
         identity = "${ctuLogin}@cvut.cz";
-        # RADIUS chain is public PKI, so no cert file; avoids a $HOME path ProtectHome blocks.
-        system-ca-certs = true;
+        # Pinned: RADIUS sends a cross-signed Sectigo R46 that no bundle can chain, so only this root resolves.
+        ca-cert = "${pkgs.cacert.unbundled}/etc/ssl/certs/USERTrust_RSA_Certification_Authority:1fd6d30fca3ca51a81bbc640e35032d.crt";
         domain-suffix-match = "radius.cvut.cz";
         password-flags = agentOwned;
       };
