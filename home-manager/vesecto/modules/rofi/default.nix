@@ -16,6 +16,7 @@ in {
       "${config_dir}/bin/launcher".source = ./bin/launcher;
       "${config_dir}/bin/powermenu".source = ./bin/powermenu;
       "${config_dir}/bin/screenshot".source = ./bin/screenshot;
+      "${config_dir}/bin/vpn".source = ./bin/vpn;
       "${config_dir}/bin/window".source = ./bin/window;
       "${config_dir}/config/colors.rasi".source = ./config/colors.rasi;
       "${config_dir}/config/font.rasi".source = ./config/font.rasi;
