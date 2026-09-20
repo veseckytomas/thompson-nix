@@ -34,7 +34,7 @@ This repository contains these configurations:
 
 ## VPN setup
 
-`modules/networking/vpn.nix` declares all three CTU profiles through
+`modules/networking/vpn.nix` declares two CTU profiles (`vic-vpn`, `fit-vpn`) through
 `networking.networkmanager.ensureProfiles`, so they appear in nm-applet after a rebuild with no
 manual import.
 
@@ -50,13 +50,12 @@ This is driven by NetworkManager's per-secret flags (`man 5 nm-settings`, `NMSet
 | `1`        | `agent-owned` | secret agent stores it (keyring)    | `fit-vpn` password              |
 | `2`        | `not-saved`   | prompt every time, never persisted  | one-shot cookies, OTP challenge |
 
-For the openconnect profiles (`cvut-vpn`, `vic-vpn`) the equivalent switch is `save_passwords=yes`,
-which tells the auth dialog to push the password into the keyring. Their `*-flags=2` entries are
+For the openconnect profile (`vic-vpn`) the equivalent switch is `save_passwords=yes`,
+which tells the auth dialog to push the password into the keyring. Its `*-flags=2` entries are
 session cookies and cert confirmations — correctly never stored.
 
 | Profile    | Protocol            | Gateway            | Notes                              |
 | ---------- | ------------------- | ------------------ | ---------------------------------- |
-| `cvut-vpn` | openconnect         | `vpn.cvut.cz`      | legacy; CTU migrated to FortiGate  |
 | `vic-vpn`  | openconnect         | `vpn.is.cvut.cz`   |                                    |
 | `fit-vpn`  | openvpn             | `vpn.fit.cvut.cz`  | needs the CA certificate below     |
 
@@ -68,9 +67,67 @@ mkdir -p ~/.cert/nm-openvpn
 chmod 600 ~/.cert/nm-openvpn/fit-vpn-ca.pem
 ```
 
-CTU's main VPN moved to FortiGate with SAML SSO, which the NetworkManager openconnect plugin cannot
-do. That one is handled outside NetworkManager by `modules/networking/fortivpn.nix` — run
-`cvut-vpn up`, click the qtile bar widget, or press `mod+v` for the rofi menu.
+### CVUT FortiGate VPN (SAML SSO)
+
+CTU's main VPN is FortiGate with Entra ID SAML SSO, which the NetworkManager openconnect plugin
+cannot do, so it lives outside NetworkManager in `modules/networking/fortivpn.nix`. This is the
+external-browser SSO flow that CTU's own manual prescribes:
+https://ist.cvut.cz/en/support/user-manuals/vpn-fortinet-linux/
+
+Usage:
+
+- `cvut-vpn up | down | toggle | status`; `status` prints exactly one of `connected`,
+  `connecting`, `disconnected`.
+- `mod+v` opens the rofi menu; the CVUT row shows live status and toggles on select, same as the
+  VIC and FIT rows. The qtile bar VPN widget has been removed; rofi is the only control surface.
+
+How it works: the root `cvut-vpn.service` runs `openfortivpn vpn.net.cvut.cz:443 --saml-login=8020`.
+`cvut-vpn up` starts the unit, waits for the loopback listener on `127.0.0.1:8020`, then
+`xdg-open`s `https://vpn.net.cvut.cz:443/remote/saml/start?redirect=1` in the default browser
+(LibreWolf). After Entra ID SSO + MFA the gateway redirects back to
+`http://127.0.0.1:8020/?id=<session-id>`; openfortivpn exchanges that id at
+`/remote/saml/auth_id` for the `SVPNCOOKIE` and brings up `ppp0`. No cookie ever touches disk,
+argv, or the journal. openfortivpn never opens a browser itself (its `print_url()` only logs the
+URL), which is why the wrapper calls `xdg-open`.
+
+Why openfortivpn is patched: upstream `src/http_server.c` hardcodes `int max_tries = 5;` with a
+10-second `select()` timeout, a 50-second ceiling exposed by no CLI flag or config key and still
+unfixed on master. Interactive Entra MFA routinely exceeds it, producing `ERROR: Finally failed to
+retrieve SAML authentication token`. The module raises it to `max_tries = 60` (~10 minutes) via
+`pkgs.openfortivpn.overrideAttrs` + `substituteInPlace --replace-fail`, so the build fails loudly
+if upstream ever moves that literal.
+
+Why not proprietary FortiClient: CTU's download directory (`download.cvut.cz/forticlient/`) is
+SSO-login-gated, so there is no reproducible `fetchurl`. The only community NixOS flake has a
+single commit, was tested only on NixOS 24.05 (this machine runs 26.11/unstable), pins a `.deb`
+its own README says Fortinet will rotate to a 404, and needs `nix-ld` + `/opt/forticlient` + a
+root daemon + an autostart GUI tray to broker the SAML deep link.
+
+One-time manual cleanup. **Warning: destructive. Run only AFTER the new flow is verified
+working.** `ensureProfiles` is additive and can never remove a profile, so stale ones must be
+deleted by hand:
+
+```bash
+nmcli -f NAME,UUID,TYPE connection show      # inspect before deleting
+nmcli connection delete uuid bfea377e-63f4-4224-a1a9-1a19bc2003ed   # stale legacy cvut-vpn (openconnect, vpn.cvut.cz)
+nmcli connection delete uuid 64f618ba-b11f-4a15-b686-5474e7564316   # stale duplicate fit-vpn
+```
+
+The surviving fit-vpn must be uuid `8963a4d6-2a94-450c-95dc-c8ac6024d8f6` (the one declared in
+`vpn.nix`).
+
+Diagnostics:
+
+```bash
+cvut-vpn status                                  # connected | connecting | disconnected
+journalctl -u cvut-vpn.service -n 50 --no-pager
+ip -brief link show ppp0
+ss -ltn 'sport = :8020'                          # listener present while SSO is pending
+nc -zv -w5 ldap.cvut.cz 636                      # internal-only; must succeed only while connected
+```
+
+A cancelled SSO leaves the unit waiting up to 10 minutes; run `cvut-vpn down` (or toggle in rofi)
+to stop it immediately.
 
 ## OmniRoute setup
 

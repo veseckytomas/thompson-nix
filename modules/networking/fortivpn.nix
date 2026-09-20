@@ -16,20 +16,21 @@
   gateway = "vpn.net.cvut.cz:443";
   samlPort = 8020;
   unit = "cvut-vpn.service";
+  samlUrl = "https://${gateway}/remote/saml/start?redirect=1";
 
-  # The portal serves /remote/hostcheck_install (403) to unknown agents; this UA gets 200.
-  userAgent = "FortiSSLVPN (Windows NT; SV1 [SV{v=02.01; f=07;}])";
+  # Upstream hardcodes a 50 s SAML deadline (5 tries x 10 s); Entra MFA routinely needs longer.
+  openfortivpn-patched = pkgs.openfortivpn.overrideAttrs (old: {
+    postPatch =
+      (old.postPatch or "")
+      + ''
+        substituteInPlace src/http_server.c \
+          --replace-fail 'int max_tries = 5;' 'int max_tries = 60;'
+      '';
+  });
 
-  # user-agent/hostcheck are config-file-only keys; openfortivpn rejects them as CLI flags.
-  vpnConfig = pkgs.writeText "openfortivpn-cvut.conf" ''
-    user-agent = ${userAgent}
-    hostcheck = 1000
-  '';
-
-  # openfortivpn prints the SAML URL but never opens it; we tail the journal and launch the browser.
   cvut-vpn = pkgs.writeShellApplication {
     name = "cvut-vpn";
-    runtimeInputs = with pkgs; [systemd iproute2 gnugrep gnused coreutils libnotify];
+    runtimeInputs = with pkgs; [systemd iproute2 gnugrep coreutils libnotify xdg-utils];
     text = ''
       unit="${unit}"
 
@@ -51,31 +52,40 @@
         fi
       }
 
-      # The URL only appears once, so watch the journal from now and open the first match.
-      open_browser() {
-        local url
-        url=$(timeout 60 journalctl --unit="$unit" --since=now --follow --output=cat 2>/dev/null \
-          | grep --line-buffered --max-count=1 -oE 'https://[^ ]*/remote/saml/start[^ ]*') || true
-        if [ -n "$url" ]; then
-          xdg-open "$url" >/dev/null 2>&1 || notify "Open this URL to log in" "$url"
-        else
-          notify "No SAML URL found" "Check: journalctl -u $unit"
-        fi
-      }
-
       up() {
         if is_up; then
           notify "Already connected"
           return 0
         fi
-        systemctl start --no-block "$unit"
-        notify "Connecting…" "Finish SSO in the browser"
-        open_browser
+        if systemctl is-active --quiet "$unit"; then
+          notify "SSO already in progress"
+          return 0
+        fi
+        systemctl start "$unit"
+        i=0
+        while [ "$i" -lt 30 ]; do
+          # Probe with ss, never a TCP connect: a connect is accepted and burns one of the 60 SAML tries.
+          if ss -H -ltn "sport = :${toString samlPort}" | grep -q .; then
+            break
+          fi
+          sleep 0.5
+          i=$((i + 1))
+        done
+        if ! ss -H -ltn "sport = :${toString samlPort}" | grep -q .; then
+          notify "VPN service failed to start"
+          return 1
+        fi
+        xdg-open "${samlUrl}" 2>/dev/null || true
+        notify "Complete the SSO in your browser"
       }
 
       down() {
-        systemctl stop "$unit"
-        notify "Disconnected"
+        if systemctl stop "$unit"; then
+          notify "Disconnected"
+        else
+          notify "Failed to disconnect"
+          return 1
+        fi
       }
 
       case "''${1-toggle}" in
@@ -93,14 +103,14 @@
     '';
   };
 in {
-  environment.systemPackages = [cvut-vpn pkgs.openfortivpn];
+  environment.systemPackages = [cvut-vpn openfortivpn-patched];
 
   systemd.services.cvut-vpn = {
     description = "CVUT FortiGate VPN (SAML SSO)";
     # Never autostart: SSO needs an interactive browser session.
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.openfortivpn}/bin/openfortivpn ${gateway} -c ${vpnConfig} --saml-login=${toString samlPort} --persistent=10";
+      ExecStart = "${openfortivpn-patched}/bin/openfortivpn ${gateway} --saml-login=${toString samlPort}";
       Restart = "no";
       KillMode = "mixed";
       TimeoutStopSec = 15;

@@ -22,46 +22,6 @@
   notSaved = "2";
 in {
   networking.networkmanager.ensureProfiles.profiles = {
-    cvut-vpn = {
-      connection = {
-        id = "cvut-vpn";
-        type = "vpn";
-        uuid = "bfea377e-63f4-4224-a1a9-1a19bc2003ed";
-        autoconnect = false;
-      };
-      vpn = {
-        service-type = "org.freedesktop.NetworkManager.openconnect";
-        protocol = "anyconnect";
-        gateway = "vpn.cvut.cz";
-        authtype = "password";
-        autoconnect-flags = "0";
-        certsigs-flags = "0";
-        cookie-flags = notSaved;
-        gateway-flags = notSaved;
-        gwcert-flags = notSaved;
-        resolve-flags = notSaved;
-        lasthost-flags = "0";
-        xmlconfig-flags = "0";
-        disable_udp = "no";
-        enable_csd_trojan = "no";
-        pem_passphrase_fsid = "no";
-        prevent_invalid_cert = "no";
-        stoken_source = "disabled";
-      };
-      # Form pre-fills, not secrets; save_passwords sends the password to gnome-keyring.
-      vpn-secrets = {
-        "form:main:group_list" = "vpncvut";
-        "form:main:username" = ctuLogin;
-        lasthost = "vpn.cvut.cz";
-        save_passwords = "yes";
-      };
-      ipv4.method = "auto";
-      ipv6 = {
-        method = "auto";
-        addr-gen-mode = "default";
-      };
-    };
-
     vic-vpn = {
       connection = {
         id = "vic-vpn";
