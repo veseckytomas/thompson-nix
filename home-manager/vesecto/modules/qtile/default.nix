@@ -8,7 +8,7 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{...}: let
+{lib, ...}: let
   config_dir = ".config/qtile";
 in {
   imports = [
@@ -31,4 +31,9 @@ in {
       "${config_dir}/setup.sh".source = ./setup.sh;
     };
   };
+
+  # Store files all carry mtime=1, so Python keeps stale .pyc across generations.
+  home.activation.dropQtilePycache = lib.hm.dag.entryAfter ["linkGeneration"] ''
+    run rm -rf "$HOME/${config_dir}/__pycache__"
+  '';
 }

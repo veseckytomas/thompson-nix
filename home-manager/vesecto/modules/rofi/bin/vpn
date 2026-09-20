@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#   ________
+#  /_  __/ /_  ____  ____ ___  ____  _________  ____
+#   / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+#  / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+# /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+#                          /_/
+# Tomáš Vesecký
+# Email: vesecky@proton.me
+# GitHub: veseckytomas
+# GitLab: vesecky.tomas
+
+set -uo pipefail
+
+rofi_command="rofi -theme $HOME/.config/rofi/config/vpn.rasi"
+
+up_icon="󰖂"
+down_icon="󰖪"
+logs_icon="󰅺"
+
+# cvut is FortiGate/SAML and lives outside NetworkManager; the rest are NM profiles.
+nm_is_up() {
+	nmcli -t -f NAME,TYPE connection show --active 2>/dev/null |
+		awk -F: -v n="$1" '$2 == "vpn" && $1 == n { found = 1 } END { exit !found }'
+}
+
+cvut_is_up() {
+	[ "$(cvut-vpn status 2>/dev/null)" = "connected" ]
+}
+
+icon() {
+	if "$@"; then echo "$up_icon"; else echo "$down_icon"; fi
+}
+
+cvut="$(icon cvut_is_up)  CVUT"
+vic="$(icon nm_is_up vic-vpn)  VIC"
+fit="$(icon nm_is_up fit-vpn)  FIT"
+logs="$logs_icon  Logs"
+
+options="$cvut\n$vic\n$fit\n$logs"
+
+chosen="$(echo -e "$options" | $rofi_command -p "VPN" -dmenu -selected-row 0)"
+[ -n "$chosen" ] || exit 0
+
+# Toggle an NM profile: down if active, up otherwise.
+nm_toggle() {
+	if nm_is_up "$1"; then
+		nmcli connection down "$1"
+	else
+		nmcli connection up "$1"
+	fi
+}
+
+case "$chosen" in
+"$cvut")
+	cvut-vpn toggle
+	;;
+"$vic")
+	nm_toggle vic-vpn
+	;;
+"$fit")
+	nm_toggle fit-vpn
+	;;
+"$logs")
+	kitty --hold journalctl -u cvut-vpn.service -n 50 --no-pager
+	;;
+esac

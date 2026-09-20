@@ -23,6 +23,7 @@ in {
       "${config_dir}/config/launcher.rasi".source = ./config/launcher.rasi;
       "${config_dir}/config/powermenu.rasi".source = ./config/powermenu.rasi;
       "${config_dir}/config/screenshot.rasi".source = ./config/screenshot.rasi;
+      "${config_dir}/config/vpn.rasi".source = ./config/vpn.rasi;
       "${config_dir}/config/window.rasi".source = ./config/window.rasi;
     };
     packages = with pkgs; [
