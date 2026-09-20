@@ -17,6 +17,15 @@
   samlPort = 8020;
   unit = "cvut-vpn.service";
 
+  # The portal serves /remote/hostcheck_install (403) to unknown agents; this UA gets 200.
+  userAgent = "FortiSSLVPN (Windows NT; SV1 [SV{v=02.01; f=07;}])";
+
+  # user-agent/hostcheck are config-file-only keys; openfortivpn rejects them as CLI flags.
+  vpnConfig = pkgs.writeText "openfortivpn-cvut.conf" ''
+    user-agent = ${userAgent}
+    hostcheck = 1000
+  '';
+
   # openfortivpn prints the SAML URL but never opens it; we tail the journal and launch the browser.
   cvut-vpn = pkgs.writeShellApplication {
     name = "cvut-vpn";
@@ -91,7 +100,7 @@ in {
     # Never autostart: SSO needs an interactive browser session.
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.openfortivpn}/bin/openfortivpn ${gateway} --saml-login=${toString samlPort} --persistent=10";
+      ExecStart = "${pkgs.openfortivpn}/bin/openfortivpn ${gateway} -c ${vpnConfig} --saml-login=${toString samlPort} --persistent=10";
       Restart = "no";
       KillMode = "mixed";
       TimeoutStopSec = 15;
