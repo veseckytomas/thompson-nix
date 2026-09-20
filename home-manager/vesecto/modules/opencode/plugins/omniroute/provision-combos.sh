@@ -44,7 +44,11 @@ existing_raw="$(curl -sf --max-time 5 "${auth_args[@]}" "$OMNIROUTE_BASE/api/com
 # The combos API accepts unknown model ids, so a typo only surfaces later as a
 # request-time 404. Diff chain members against the live catalog and warn here.
 # The `agy/` prefix is an alias; the catalog lists those under `antigravity/`.
-catalog_raw="$(curl -sf --max-time 10 "$OMNIROUTE_BASE/v1/models" 2>/dev/null || echo '')"
+# /v1/models is authenticated; without the token this 401s and the check self-disables.
+catalog_raw="$(curl -sf --max-time 10 "${auth_args[@]}" "$OMNIROUTE_BASE/v1/models" 2>/dev/null || echo '')"
+if [ -z "$catalog_raw" ]; then
+  echo "omniroute-provision: WARNING - could not read the model catalog, skipping the id check." >&2
+fi
 if [ -n "$catalog_raw" ]; then
   missing="$(jq -r --argjson cat "$(jq -c '[.data[].id]' <<<"$catalog_raw")" '
     [ $cat[] ] as $ids

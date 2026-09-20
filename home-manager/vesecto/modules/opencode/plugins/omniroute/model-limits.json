@@ -1,5 +1,5 @@
 {
-  "_comment": "Generated from OmniRoute /v1/models; regenerate with nixos-run after changing chains.json. null max_output_tokens defaults to 32768.",
+  "_comment": "Hand-maintained: every model id in chains.json must have an entry here or the nix eval fails.",
   "models": {
     "agy/claude-opus-4-6-thinking": {
       "context": 1048576,
@@ -33,7 +33,7 @@
       "context": 272000,
       "output": 128000
     },
-    "cx/gpt-5.6-sol": {
+    "cx/gpt-5.6-terra": {
       "context": 272000,
       "output": 128000
     },

@@ -2,17 +2,17 @@
   "combos": [
     {
       "name": "sisyphus-chain",
-      "models": ["cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "litellm/kimi-k3", "cx/gpt-5.6-sol"],
+      "models": ["cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "hephaestus-chain",
-      "models": ["cx/gpt-5.6-sol", "litellm/kimi-k3"],
+      "models": ["cx/gpt-5.6-terra", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "oracle-chain",
-      "models": ["cx/gpt-5.6-sol", "agy/gemini-3.1-pro-low", "cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "litellm/glm-5.2"],
+      "models": ["cx/gpt-5.6-terra", "agy/gemini-3.1-pro-low", "cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "litellm/glm-5.2"],
       "strategy": "priority"
     },
     {
@@ -27,32 +27,32 @@
     },
     {
       "name": "multimodal-looker-chain",
-      "models": ["cx/gpt-5.6-sol", "litellm/kimi-k3"],
+      "models": ["cx/gpt-5.6-terra", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
       "name": "prometheus-chain",
-      "models": ["cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "cx/gpt-5.6-sol", "litellm/glm-5.2", "agy/gemini-3.1-pro-low"],
+      "models": ["cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "litellm/glm-5.2", "agy/gemini-3.1-pro-low"],
       "strategy": "priority"
     },
     {
       "name": "metis-chain",
-      "models": ["cc/claude-sonnet-5", "agy/claude-opus-4-6-thinking", "cx/gpt-5.6-sol", "litellm/glm-5.2"],
+      "models": ["cc/claude-sonnet-5", "agy/claude-opus-4-6-thinking", "litellm/glm-5.2"],
       "strategy": "priority"
     },
     {
       "name": "momus-chain",
-      "models": ["cx/gpt-5.6-sol", "cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "agy/gemini-3.1-pro-low", "litellm/glm-5.2"],
+      "models": ["cx/gpt-5.6-terra", "cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "agy/gemini-3.1-pro-low", "litellm/glm-5.2"],
       "strategy": "priority"
     },
     {
       "name": "atlas-chain",
-      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "cx/gpt-5.6-sol", "agy/claude-sonnet-4-6"],
+      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
       "name": "sisyphus-junior-chain",
-      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "cx/gpt-5.6-sol", "agy/claude-sonnet-4-6"],
+      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "agy/claude-sonnet-4-6"],
       "strategy": "priority"
     },
     {
@@ -77,17 +77,17 @@
     },
     {
       "name": "ultrabrain-chain",
-      "models": ["cx/gpt-5.6-sol", "agy/gemini-3.1-pro-low", "litellm/deepseek-thinking"],
+      "models": ["cx/gpt-5.6-terra", "agy/gemini-3.1-pro-low", "litellm/deepseek-thinking"],
       "strategy": "priority"
     },
     {
       "name": "deep-chain",
-      "models": ["cx/gpt-5.6-sol", "litellm/deepseek", "agy/gemini-3.1-pro-low"],
+      "models": ["cx/gpt-5.6-terra", "litellm/deepseek", "agy/gemini-3.1-pro-low"],
       "strategy": "priority"
     },
     {
       "name": "artistry-chain",
-      "models": ["agy/gemini-3.1-pro-low", "cx/gpt-5.6-sol", "litellm/kimi-k3"],
+      "models": ["agy/gemini-3.1-pro-low", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {
@@ -97,12 +97,12 @@
     },
     {
       "name": "unspecified-low-chain",
-      "models": ["litellm/kimi-k3", "agy/claude-sonnet-4-6", "cc/claude-sonnet-5", "cx/gpt-5.6-sol"],
+      "models": ["litellm/kimi-k3", "agy/claude-sonnet-4-6", "cc/claude-sonnet-5"],
       "strategy": "priority"
     },
     {
       "name": "unspecified-high-chain",
-      "models": ["cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "cx/gpt-5.6-sol", "litellm/kimi-k3"],
+      "models": ["cc/claude-opus-5", "agy/claude-opus-4-6-thinking", "litellm/kimi-k3"],
       "strategy": "priority"
     },
     {

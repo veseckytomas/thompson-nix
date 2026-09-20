@@ -18,7 +18,10 @@ let
     context = 128000;
     output = 32768;
   };
-  limitsOf = m: modelLimits.${m} or fallback;
+  # Fail loudly: a silent fallback would advertise a wrong window for a typo'd id.
+  limitsOf = m:
+    modelLimits.${m}
+    or (throw "omniroute: '${m}' is in chains.json but missing from model-limits.json");
   floorOf = c: field: let
     vals = map (m: (limitsOf m).${field}) c.models;
   in

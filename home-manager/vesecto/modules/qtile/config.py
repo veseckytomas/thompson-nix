@@ -64,7 +64,6 @@ music_player = "spotify"
 bluetooth = "blueman-manager"
 sound = "pavucontrol"
 calculator = "qalculate-gtk"
-vpn = "cvut-vpn"
 
 # Get the backlight name
 backlightdir = os.listdir("/sys/class/backlight")
@@ -368,20 +367,6 @@ def bar_scale(height):
     return max(1.0, height / REFERENCE_HEIGHT)
 
 
-VPN_ICONS = {"connected": "󰖂", "connecting": "󱛏", "disconnected": "󰖂"}
-
-
-def vpn_status():
-    """Bar text for the CVUT VPN; click toggles it."""
-    try:
-        state = subprocess.check_output(
-            [vpn, "status"], text=True, stderr=subprocess.DEVNULL, timeout=5
-        ).strip()
-    except Exception:
-        return ""
-    return f"{VPN_ICONS.get(state, '󰖂')} Vpn: {state}"
-
-
 def init_widgets_list(scale=1.0):
     def s(value):
         return round(value * scale)
@@ -521,20 +506,6 @@ def init_widgets_list(scale=1.0):
             ],
         ),
         widget.Spacer(length=s(8)),
-        widget.GenPollText(
-            fontsize=s(12),
-            foreground=colors[4],
-            update_interval=5,
-            func=vpn_status,
-            mouse_callbacks={"Button1": lambda: qtile.spawn(vpn + " toggle")},
-            decorations=[
-                BorderDecoration(
-                    colour=colors[4],
-                    border_width=[0, 0, s(2), 0],
-                )
-            ],
-        ),
-        widget.Spacer(length=s(8)),
         widget.Clock(
             fontsize=s(12),
             foreground=colors[8],
@@ -563,7 +534,7 @@ def init_widgets_screen1(scale=1.0):
 # All other monitors' bars will display everything but the systray and its spacer.
 def init_widgets_screen2(scale=1.0):
     ws2 = init_widgets_list(scale)
-    del ws2[23:25]
+    del ws2[21:23]
     if "desktop" in str(chassis.stdout):
         del ws2[15:19]
     return ws2
