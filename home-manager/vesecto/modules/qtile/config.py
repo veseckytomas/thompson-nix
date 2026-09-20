@@ -523,13 +523,13 @@ def init_widgets_list(scale=1.0):
         widget.Spacer(length=s(8)),
         widget.GenPollText(
             fontsize=s(12),
-            foreground=colors[2],
+            foreground=colors[9],
             update_interval=5,
             func=vpn_status,
             mouse_callbacks={"Button1": lambda: qtile.spawn(vpn + " toggle")},
             decorations=[
                 BorderDecoration(
-                    colour=colors[2],
+                    colour=colors[9],
                     border_width=[0, 0, s(2), 0],
                 )
             ],
