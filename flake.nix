@@ -236,6 +236,7 @@
         };
         modules = [
           ./hosts/desktop/TomasVesa-PC-NixOS
+          ./modules/common/gaming-mouse.nix
           ./modules
         ];
       };
@@ -252,6 +253,7 @@
           ./hosts/desktop/TomasVesa-NTB-NixOS
           ./modules/common/notebook.nix
           ./modules/common/gaming.nix
+          ./modules/common/gaming-mouse.nix
           ./modules
         ];
       };
