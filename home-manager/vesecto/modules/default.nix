@@ -52,6 +52,7 @@
     ./tmux.nix
     ./tock
     # ./vlc
+    ./wacom.nix
     ./xournalpp
     ./yazi.nix
     ./zoxide.nix

@@ -16,22 +16,6 @@
   programs.autorandr = {
     enable = true;
     hooks.postswitch = {
-      "10_wacom-setup" = ''
-        wacom_device="Wacom Intuos BT M Pen Pen (0x47803692)"
-        wacom_pad="Wacom Intuos BT M Pad"
-
-        # Set button map
-        if ${pkgs.xinput}/bin/xinput list | grep -q "$wacom_pad"; then
-          ${pkgs.xinput}/bin/xinput set-button-map "$wacom_pad" 17 18 19 4 5 6 7 20
-        fi
-
-        # Map to primary output
-        PRIMARY_OUTPUT=$(${pkgs.xrandr}/bin/xrandr | ${pkgs.gnugrep}/bin/grep " primary" | ${pkgs.gawk}/bin/awk '{print $1}')
-        if [ -n "$PRIMARY_OUTPUT" ]; then
-          ${pkgs.xinput}/bin/xinput map-to-output "$wacom_device" "$PRIMARY_OUTPUT" 2>/dev/null || true
-        fi
-      '';
-
       "20_qtile-reload" = ''
         # Reload qtile to update screens and bars
         if ${pkgs.procps}/bin/pgrep -x qtile > /dev/null; then
