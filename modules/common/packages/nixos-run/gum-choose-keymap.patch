@@ -13,7 +13,7 @@
  		Toggle: key.NewBinding(
 -			key.WithKeys(" ", "tab", "x", "ctrl+@"),
 -			key.WithHelp("x", "toggle"),
-+			key.WithKeys(" ", "tab", "ctrl+@"),
++			key.WithKeys("space", "tab", "ctrl+@"),
 +			key.WithHelp("space", "toggle"),
  			key.WithDisabled(),
  		),
