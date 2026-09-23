@@ -29,11 +29,12 @@
     # Set kernel
     kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
-    tmp.cleanOnBoot = true;
+    # Its "D! /tmp" rule collides with the aging rule below and loses silently; both are merged there instead.
+    tmp.cleanOnBoot = false;
   };
 
-  # Bun re-extracts a ~14MB native addon into /tmp per launch and never unlinks it; the 10d default let it reach 125G.
-  systemd.tmpfiles.rules = ["q /tmp 1777 root root 1d"];
+  # Bun <1.4 re-extracts a ~14MB native addon into /tmp per Worker and never unlinks it (oven-sh/bun#29585); one rule, since systemd-tmpfiles honours only one per path: D! wipes at boot, 1d ages the rest.
+  systemd.tmpfiles.rules = ["D! /tmp 1777 root root 1d"];
 
   # nixpkgs#554650: ProtectSystem=strict blocks avahi's own stale-pidfile cleanup, so one unclean stop breaks every later start (and fails resolvconf via its kill -HUP hook); "+" runs this unsandboxed.
   systemd.services.avahi-daemon.serviceConfig.ExecStartPre = "+${pkgs.coreutils}/bin/rm -f /run/avahi-daemon/pid";
