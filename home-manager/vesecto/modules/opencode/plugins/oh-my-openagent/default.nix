@@ -19,9 +19,18 @@
   inherit (pkgs.stdenv.hostPlatform) system;
   bun2nix = inputs.bun2nix.packages.${system}.default;
 
-  bunDeps = bun2nix.fetchBunDeps {
-    bunNix = ./oh-my-openagent-bun.nix;
-  };
+  # fetchBunDeps callPackages bunNix with a fixed attrset, so the workspace source
+  # is forwarded through this wrapper instead of being refetched by a pinned rev.
+  bunNix = {
+    copyPathToStore,
+    fetchFromGitHub,
+    fetchgit,
+    fetchurl,
+    ...
+  } @ args:
+    import ./oh-my-openagent-bun.nix (args // {ohMyOpenagentSrc = inputs.oh-my-openagent;});
+
+  bunDeps = bun2nix.fetchBunDeps {inherit bunNix;};
 
   oh-my-openagent = pkgs.stdenv.mkDerivation {
     pname = "oh-my-openagent";
@@ -29,118 +38,48 @@
 
     src = inputs.oh-my-openagent;
 
-    patchPhase = ''
-      runHook prePatch
+    # Every edit below must fail the build if upstream moves its anchor: silent
+    # no-ops previously dropped a fix for months without any build signal.
+    patches = [
+      ./skills-loader-accept-symlinked-skills.patch
+      ./fallback-retry-dispatcher-snapshot-order.patch
+      ./auto-retry-timeout-snapshot-order.patch
+      ./agent-resolver-preserve-subagent-name.patch
+      # Defines isSameModel, which chat-message-handler-internal-agents.patch calls.
+      ./chat-message-handler-variant-aware-model.patch
+      ./chat-message-handler-internal-agents.patch
+      ./error-classifier-quota-reached.patch
+      ./constants-quota-reached.patch
+      ./auto-retry-signal-quota-reached.patch
+    ];
 
-      # Fix isMarkdownFile to accept symlinks. Home-manager installs
-      # xdg.configFile entries as symlinks, and Node.js fs.Dirent.isFile()
-      # returns false for symlinks, causing agents/commands/skills to be
-      # silently skipped by oh-my-openagent's loaders.
-      sed -i 's/isFile: () => boolean })/isFile: () => boolean; isSymbolicLink?: () => boolean })/' packages/utils/src/file-utils.ts
-      sed -i 's/entry.isFile()/(entry.isFile() || (entry.isSymbolicLink ? entry.isSymbolicLink() : false))/' packages/utils/src/file-utils.ts
+    postPatch = ''
+      # isMarkdownFile drops Home Manager's symlinked agents/commands/skills,
+      # because Node's fs.Dirent.isFile() is false for a symlink.
+      substituteInPlace packages/utils/src/file-utils.ts \
+        --replace-fail 'isFile: () => boolean })' 'isFile: () => boolean; isSymbolicLink?: () => boolean })' \
+        --replace-fail 'entry.isFile()' '(entry.isFile() || (entry.isSymbolicLink ? entry.isSymbolicLink() : false))'
 
-      # Fix skill directory loader to not exclude symlinks explicitly
-      sed -i '/!entry.isSymbolicLink() &&/d' packages/omo-opencode/src/features/opencode-skill-loader/skill-directory-loader.ts
+      # A failed/hung provider leaves an incomplete assistant turn, so the promptAsync
+      # gate rejects the fallback retry that is supposed to rescue it.
+      substituteInPlace packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-dispatch.ts \
+        --replace-fail 'mode: "async",' 'mode: "async", checkStatus: false, checkToolState: false,'
 
-      # Runtime fallback retries are wrongly rejected by the promptAsync gate
-      # because a failed/hung provider leaves an incomplete assistant turn. Bypass
-      # both the session-active and tool-state checks for fallback auto-retries so
-      # the retry can dispatch even while the original turn is still being torn down.
-      sed -i 's/mode: "async",/mode: "async", checkStatus: false, checkToolState: false,/g' packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-dispatch.ts
+      # Inheriting the agent's variant yields invalid ids like anthropic/claude-opus-4-7(max).
+      substituteInPlace packages/omo-opencode/src/hooks/runtime-fallback/retry-model-payload.ts \
+        --replace-fail 'const variant = parsedModel.variant ?? agentSettings?.variant' 'const variant = parsedModel.variant'
 
-      # Upstream snapshots fallback state *before* prepareFallback. When a retry
-      # fails to dispatch, restore rewinds failedModels/fallbackIndex/attemptCount,
-      # causing the same first fallback model to be retried forever. Snapshot after
-      # prepareFallback so the chain advances to the next model.
-      perl -0pi -e 's/  const snapshot = snapshotFallbackState\(options\.state\)\n  const result = prepareFallback\(\n    options\.sessionID,\n    options\.state,\n    options\.fallbackModels,\n    deps\.config,\n  \)/  const result = prepareFallback(\n    options.sessionID,\n    options.state,\n    options.fallbackModels,\n    deps.config,\n  )\n  const snapshot = snapshotFallbackState(options.state)/s' \
-        packages/omo-opencode/src/hooks/runtime-fallback/fallback-retry-dispatcher.ts
-      perl -0pi -e 's/      const stateSnapshot = snapshotFallbackState\(state\)\n\n      const fallbackModels/      const fallbackModels/s' \
-        packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-timeout.ts
-      perl -pi -e 's/(      const result = prepareFallback\(sessionID, state, fallbackModels, config\))/$1\n      const stateSnapshot = snapshotFallbackState(state)/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-timeout.ts
+      # `npm ci` needs network and dies in the offline sandbox; the two LSP packages are
+      # rebuilt in buildPhase below and the codex plugin is unused by the opencode runtime.
+      substituteInPlace package.json \
+        --replace-fail 'bun run build:lsp-tools-mcp && ' "" \
+        --replace-fail 'bun run build:lsp-daemon && ' "" \
+        --replace-fail 'bun run build:codex-plugin && ' ""
 
-      # Upstream treats `anthropic/claude-opus-4-8` and
-      # `anthropic/claude-opus-4-8(max)` as different models, so every outgoing
-      # chat message resets the fallback state and the chain can never advance
-      # past the first fallback. Compare provider/model ignoring variant.
-      perl -0pi -e 's/import \{ createFallbackState, isModelInCooldown \} from "\.\/fallback-state"/import { createFallbackState, isModelInCooldown } from ".\/fallback-state"\nimport { parseModelString } from "\@oh-my-opencode\/model-core"/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
-      perl -0pi -e 's/export function createChatMessageHandler\(deps: HookDeps\) \{/function isSameModel(a: string, b: string): boolean {\n  const pa = parseModelString(a)\n  const pb = parseModelString(b)\n  if (!pa || !pb) return a.toLowerCase() === b.toLowerCase()\n  return pa.providerID.toLowerCase() === pb.providerID.toLowerCase() \&\& pa.modelID.toLowerCase() === pb.modelID.toLowerCase()\n}\n\nexport function createChatMessageHandler(deps: HookDeps) {/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
-      perl -0pi -e 's/if \(requestedModel && requestedModel !== state\.currentModel\)/if (requestedModel \&\& !isSameModel(requestedModel, state.currentModel))/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
-
-      # While a fallback is pending, OpenCode may revert the outgoing message
-      # model to the original one (e.g. after a failed dispatch). Don't treat
-      # that replay as a manual override, or the fallback chain resets.
-      perl -0pi -e 's/(      if \(state\.pendingFallbackModel \&\& state\.pendingFallbackModel === requestedModel\) \{\n        state\.pendingFallbackModel = undefined\n        state\.pendingFallbackPromptMayHaveBeenAccepted = false\n        return\n      \})/$1\n      if (state.pendingFallbackModel \&\& isSameModel(requestedModel, state.originalModel)) {\n        return\n      }/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
-
-      # Once a fallback model is active, keep using it for subsequent turns
-      # instead of resetting to the original model every time the user sends a
-      # new message. Without this, Anthropic rate limits cause a loop: fail -
-      # fallback to kimi - succeed - next user message resets to Anthropic -
-      # fail again.
-      perl -0pi -e 's/(      if \(state\.pendingFallbackModel \&\& isSameModel\(requestedModel, state\.originalModel\)\) \{\n        return\n      \})/$1\n      if (!isSameModel(state.currentModel, state.originalModel) \&\& isSameModel(requestedModel, state.originalModel)) {\n        return\n      }/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
-
-      # Runtime fallback cannot resolve fallback chains for subagents spawned
-      # under names like "general" or "gsd-plan-checker" because normalizeAgentName
-      # returns undefined for unknown agents. Preserve the lowercased name so
-      # oh-my-openagent.json can define fallback_models for any subagent.
-      perl -0pi -e 's/  const match = normalized\.match\(agentPattern\)\n  if \(match\) \{\n    return match\[1\]\.toLowerCase\(\)\n  \}\n  return undefined\n}/  const match = normalized.match(agentPattern)\n  if (match) {\n    return match[1].toLowerCase()\n  }\n  if (!normalized) return undefined\n  return normalized\n}/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/agent-resolver.ts
-
-      # Don't inherit the agent's variant when dispatching a fallback model.
-      # Fallback models should either specify their own variant or use the base
-      # model ID. Inheriting e.g. "max" produces invalid model IDs like
-      # anthropic/claude-opus-4-7(max) which the provider rejects.
-      sed -i 's/const variant = parsedModel\.variant ?? agentSettings?\.variant/const variant = parsedModel.variant/' \
-        packages/omo-opencode/src/hooks/runtime-fallback/retry-model-payload.ts
-
-      # Internal helper agents (title, compaction) use their own default model.
-      # When a runtime fallback is already active, keep them on the fallback
-      # model instead of resetting the session back to the exhausted primary.
-      patch -p1 < ${./chat-message-handler-internal-agents.patch}
-
-      # Agy (Google Antigravity) emits quota exhaustion as
-      # "Individual quota reached. Please upgrade your subscription..." instead of
-      # the "quota exceeded" phrasing the classifier expects. Without this signal
-      # the runtime-fallback hook never fires and agents get stuck on the dead model.
-      perl -pi -e 's|(  /limit\\s\+exhausted/i,)|$1\n  /quota\\s+reached/i,|' \
-        packages/model-core/src/runtime-fallback-error-classifier.ts
-      perl -pi -e 's#(    /limit\\s\+exhausted/i\.test\(message\) \|\|)#$1\n    /quota\\s+reached/i.test(message) ||#' \
-        packages/model-core/src/runtime-fallback-error-classifier.ts
-      perl -pi -e 's|(  /limit\\s\+exhausted/i,)|$1\n  /quota\\s+reached/i,|' \
-        packages/omo-opencode/src/hooks/runtime-fallback/constants.ts
-      perl -pi -e 's#(limit\\s\+reached\|)#$1quota\\s\+reached\|#g' \
-        packages/model-core/src/runtime-fallback-auto-retry-signal.ts
-
-      # Upstream's root `build` script now chains npm-based sub-builds for three
-      # non-bun-workspace packages — lsp-tools-mcp, lsp-daemon and the codex
-      # plugin — each via `npm --prefix <dir> ci && ...`. `npm ci` needs network
-      # and dies in the offline Nix sandbox with npm's "Exit handler never
-      # called!" crash, which aborts the whole build during the `prepare`
-      # lifecycle script. Drop those sub-builds from the `build` chain; we
-      # recompile the two LSP packages offline in buildPhase below, and the
-      # codex plugin is unused by the opencode runtime.
-      sed -i \
-        -e 's/bun run build:lsp-tools-mcp && //g' \
-        -e 's/bun run build:lsp-daemon && //g' \
-        -e 's/bun run build:codex-plugin && //g' \
-        package.json
-
-      # `build:shared-skills-assets` runs materialize-shared-upstreams.mjs, which
-      # shells out to `git submodule update --init` to refresh three shared-skills
-      # upstreams. Our flake input already fetches them (submodules = true), and
-      # the Nix sandbox has neither `git` nor a `.git` dir, so the refresh dies
-      # with `spawnSync git ENOENT` under --strict. Short-circuit initSubmodules:
-      # the submodule content is already present, so the downstream materialize
-      # step succeeds without a git refresh.
-      sed -i 's/function initSubmodules({ strict }) {/function initSubmodules({ strict }) { return true;/' \
-        packages/omo-codex/plugin/scripts/materialize-shared-upstreams.mjs
-
-      runHook postPatch
+      # materialize-shared-upstreams shells out to `git submodule update --init`, but the
+      # sandbox has no git and no .git dir; the flake input already carries the submodules.
+      substituteInPlace packages/omo-codex/plugin/scripts/materialize-shared-upstreams.mjs \
+        --replace-fail 'function initSubmodules({ strict }) {' 'function initSubmodules({ strict }) { return true;'
     '';
 
     nativeBuildInputs = [

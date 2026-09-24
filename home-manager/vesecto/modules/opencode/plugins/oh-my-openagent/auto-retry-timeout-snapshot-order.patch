@@ -1,0 +1,22 @@
+Same snapshot-ordering bug as fallback-retry-dispatcher-snapshot-order.patch,
+on the session-timeout path.
+
+--- a/packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-timeout.ts
++++ b/packages/omo-opencode/src/hooks/runtime-fallback/auto-retry-timeout.ts
+@@ -65,8 +65,6 @@
+         state.pendingFallbackModel = undefined
+       }
+       state.pendingFallbackPromptMayHaveBeenAccepted = false
+-      const stateSnapshot = snapshotFallbackState(state)
+-
+       const fallbackModels = getFallbackModelsForSession(sessionID, resolvedAgent, pluginConfig)
+       if (fallbackModels.length === 0) return
+ 
+@@ -77,6 +75,7 @@
+       })
+ 
+       const result = prepareFallback(sessionID, state, fallbackModels, config)
++      const stateSnapshot = snapshotFallbackState(state)
+       if (result.success && result.newModel) {
+         const dispatchOutcome = await autoRetryWithFallback(sessionID, result.newModel, resolvedAgent, "session.timeout")
+         if (!dispatchOutcome.accepted) {

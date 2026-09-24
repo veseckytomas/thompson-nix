@@ -19,19 +19,6 @@
     nixpkgs = {
       source = pkgs.path;
       config.allowUnfree = true;
-      # Upstream force-moved the copilot.lua v3.0.4 tag, so nixpkgs' pinned hash no longer matches.
-      # vimPlugins is a makeScope fixpoint, so extend it instead of replacing the attrset.
-      overlays = [
-        (_: prev: {
-          vimPlugins = prev.vimPlugins.extend (_: vprev: {
-            copilot-lua = vprev.copilot-lua.overrideAttrs (old: {
-              src = old.src.overrideAttrs (_: {
-                outputHash = "sha256-kDQOm7/N6T7wOw1JlkcxNMnQrDE4oTRyGCZkvT8HZQw=";
-              });
-            });
-          });
-        })
-      ];
     };
 
     # Set default editor

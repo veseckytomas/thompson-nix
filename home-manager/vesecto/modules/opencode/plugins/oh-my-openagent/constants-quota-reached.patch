@@ -1,0 +1,13 @@
+Same Agy "quota reached" phrasing as error-classifier-quota-reached.patch, for
+the runtime-fallback retryable pattern list.
+
+--- a/packages/omo-opencode/src/hooks/runtime-fallback/constants.ts
++++ b/packages/omo-opencode/src/hooks/runtime-fallback/constants.ts
+@@ -32,6 +32,7 @@
+   /usage\s*quota/i,
+   /exhausted\s+your\s+capacity/i,
+   /limit\s+exhausted/i,
++  /quota\s+reached/i,
+   /all\s+credentials\s+for\s+model/i,
+   /cool(?:ing)?\s+down/i,
+   /model.{0,20}?not.{0,10}?supported/i,

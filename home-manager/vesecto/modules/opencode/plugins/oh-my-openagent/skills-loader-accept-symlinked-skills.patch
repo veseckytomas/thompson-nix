@@ -1,0 +1,19 @@
+Home Manager installs skills as symlinks, but this filter drops every symlinked
+entry before isMarkdownFile ever sees it, so symlinked SKILL.md files are
+silently skipped. Removing the isSymbolicLink guard lets them load;
+loadSkillFromPath already resolves the target.
+
+Retargeted from packages/omo-opencode/src/features/opencode-skill-loader/, which
+upstream reduced to a one-line re-export when the loader moved into
+skills-loader-core. The old sed matched nothing there and had become a no-op.
+
+--- a/packages/skills-loader-core/src/features/opencode-skill-loader/skill-directory-loader.ts
++++ b/packages/skills-loader-core/src/features/opencode-skill-loader/skill-directory-loader.ts
+@@ -49,7 +49,6 @@
+     (entry) =>
+       !entry.name.startsWith(".") &&
+       !entry.isDirectory() &&
+-      !entry.isSymbolicLink() &&
+       isMarkdownFile(entry)
+   )
+ 

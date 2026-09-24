@@ -1,0 +1,22 @@
+Upstream snapshots fallback state before prepareFallback. When a retry fails to
+dispatch, restore rewinds failedModels/fallbackIndex/attemptCount, so the same
+first fallback model is retried forever. Snapshot after prepareFallback so the
+chain advances to the next model.
+
+--- a/packages/omo-opencode/src/hooks/runtime-fallback/fallback-retry-dispatcher.ts
++++ b/packages/omo-opencode/src/hooks/runtime-fallback/fallback-retry-dispatcher.ts
+@@ -25,13 +25,13 @@
+   helpers: AutoRetryHelpers,
+   options: DispatchFallbackRetryOptions,
+ ): Promise<void> {
+-  const snapshot = snapshotFallbackState(options.state)
+   const result = prepareFallback(
+     options.sessionID,
+     options.state,
+     options.fallbackModels,
+     deps.config,
+   )
++  const snapshot = snapshotFallbackState(options.state)
+ 
+   if (result.success && result.newModel) {
+     const rawDispatchOutcome = await helpers.autoRetryWithFallback(

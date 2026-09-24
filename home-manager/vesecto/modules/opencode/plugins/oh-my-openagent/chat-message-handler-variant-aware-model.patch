@@ -1,0 +1,46 @@
+Upstream treats anthropic/claude-opus-4-8 and anthropic/claude-opus-4-8(max) as
+different models, so every outgoing chat message resets the fallback state and
+the chain never advances past the first fallback. Compare provider/model while
+ignoring the variant, and do not treat a replay of the original model as a
+manual override while a fallback is pending or already active.
+
+Must apply before chat-message-handler-internal-agents.patch, which calls
+isSameModel.
+
+--- a/packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
++++ b/packages/omo-opencode/src/hooks/runtime-fallback/chat-message-handler.ts
+@@ -2,6 +2,14 @@
+ import { HOOK_NAME } from "./constants"
+ import { log } from "../../shared/logger"
+ import { createFallbackState, isModelInCooldown } from "./fallback-state"
++import { parseModelString } from "@oh-my-opencode/model-core"
++
++function isSameModel(a: string, b: string): boolean {
++  const pa = parseModelString(a)
++  const pb = parseModelString(b)
++  if (!pa || !pb) return a.toLowerCase() === b.toLowerCase()
++  return pa.providerID.toLowerCase() === pb.providerID.toLowerCase() && pa.modelID.toLowerCase() === pb.modelID.toLowerCase()
++}
+ 
+ export function createChatMessageHandler(deps: HookDeps) {
+   const { config, sessionStates, sessionLastAccess } = deps
+@@ -23,12 +31,18 @@
+       ? `${input.model.providerID}/${input.model.modelID}`
+       : undefined
+ 
+-    if (requestedModel && requestedModel !== state.currentModel) {
++    if (requestedModel && !isSameModel(requestedModel, state.currentModel)) {
+       if (state.pendingFallbackModel && state.pendingFallbackModel === requestedModel) {
+         state.pendingFallbackModel = undefined
+         state.pendingFallbackPromptMayHaveBeenAccepted = false
+         return
+       }
++      if (state.pendingFallbackModel && isSameModel(requestedModel, state.originalModel)) {
++        return
++      }
++      if (!isSameModel(state.currentModel, state.originalModel) && isSameModel(requestedModel, state.originalModel)) {
++        return
++      }
+ 
+       log(`[${HOOK_NAME}] Detected manual model change, resetting fallback state`, {
+         sessionID,

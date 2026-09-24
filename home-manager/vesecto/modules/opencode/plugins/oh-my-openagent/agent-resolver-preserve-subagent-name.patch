@@ -1,0 +1,17 @@
+normalizeAgentName returns undefined for any agent that does not match the
+built-in pattern (general, gsd-plan-checker, ...), so runtime fallback cannot
+resolve a chain for them. Preserve the lowercased name so oh-my-openagent.json
+can define fallback_models for any subagent.
+
+--- a/packages/omo-opencode/src/hooks/runtime-fallback/agent-resolver.ts
++++ b/packages/omo-opencode/src/hooks/runtime-fallback/agent-resolver.ts
+@@ -42,7 +42,8 @@
+   if (match) {
+     return match[1].toLowerCase()
+   }
+-  return undefined
++  if (!normalized) return undefined
++  return normalized
+ }
+ 
+ export function resolveAgentForSession(sessionID: string, eventAgent?: string): string | undefined {
