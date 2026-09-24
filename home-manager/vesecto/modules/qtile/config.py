@@ -637,7 +637,9 @@ floating_layout = layout.Floating(
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
-reconfigure_screens = True
+# screens is built from xrandr at config-eval time, so qtile's in-process
+# reconfigure would rebuild it from a stale list; autorandr drives reloads instead.
+reconfigure_screens = False
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?

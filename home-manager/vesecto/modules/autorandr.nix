@@ -17,12 +17,23 @@
     enable = true;
     hooks.postswitch = {
       "20_qtile-reload" = ''
-        # Reload qtile to update screens and bars
-        if ${pkgs.procps}/bin/pgrep -x qtile > /dev/null; then
-           # Using DISPLAY and XAUTHORITY from our earlier symlink fix
-           export DISPLAY=:0
-           export XAUTHORITY=$HOME/.Xauthority
-           ${pkgs-stable.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f reload_config
+        # Using DISPLAY and XAUTHORITY from our earlier symlink fix
+        export DISPLAY=:0
+        export XAUTHORITY=$HOME/.Xauthority
+        # Nix runs qtile as .qtile-wrapped, so `pgrep -x qtile` never matched; ask the running instance instead
+        if ${pkgs-stable.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f status > /dev/null 2>&1; then
+           # The system autorandr unit has no session env, so point at the user bus ourselves
+           export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
+           export DBUS_SESSION_BUS_ADDRESS="''${DBUS_SESSION_BUS_ADDRESS:-unix:path=$XDG_RUNTIME_DIR/bus}"
+           # restart, not reload_config: reload leaves a queued bar draw holding finalized widgets, which crashes in Bar._resize
+           qtile_restart="${pkgs-stable.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f restart"
+           # systemd-run refuses a live unit name, so drop the pending timer first to make autorandr's double-fire latest-wins
+           ${pkgs.systemd}/bin/systemctl --user stop qtile-screen-restart.timer 2>/dev/null
+           ${pkgs.systemd}/bin/systemd-run --user --quiet --collect \
+             --unit=qtile-screen-restart --on-active=3 \
+             --setenv=DISPLAY=:0 --setenv=XAUTHORITY=$XAUTHORITY \
+             $qtile_restart \
+           || { ${pkgs.coreutils}/bin/sleep 3; $qtile_restart; }
         fi
       '';
     };
