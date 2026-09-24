@@ -13,7 +13,31 @@
   lib,
   username,
   ...
-}: {
+}: let
+  # An MST hub enumerates its outputs over several seconds, so the first udev event
+  # reports a half-built topology; wait for xrandr to stop changing before switching.
+  settle = pkgs.writeShellScript "autorandr-settle" ''
+    PATH=${lib.makeBinPath [pkgs.xrandr pkgs.coreutils pkgs.gnugrep]}
+    for _ in $(seq 1 30); do
+      xrandr --query >/dev/null 2>&1 && break
+      sleep 1
+    done
+    prev=""
+    stable=0
+    for _ in $(seq 1 30); do
+      cur=$(xrandr --query 2>/dev/null | grep -E " connected| disconnected")
+      if [ "$cur" = "$prev" ]; then
+        stable=$((stable + 1))
+        [ "$stable" -ge 3 ] && exit 0
+      else
+        stable=0
+      fi
+      prev=$cur
+      sleep 1
+    done
+    exit 0
+  '';
+in {
   services = {
     # Enable automatic monitor hotplugging
     autorandr.enable = true;
@@ -36,8 +60,7 @@
         "DISPLAY=:0"
         "XAUTHORITY=/home/${username}/.Xauthority"
       ];
-      # Wait for X auth to be reachable, then let MST/hotplug outputs settle; coalesces the udev event burst into one run
-      ExecStartPre = "${pkgs.bash}/bin/bash -c 'for i in $(seq 1 30); do ${pkgs.xrandr}/bin/xrandr --query >/dev/null 2>&1 && break; ${pkgs.coreutils}/bin/sleep 1; done; ${pkgs.coreutils}/bin/sleep 2'";
+      ExecStartPre = settle;
       ExecStart = lib.mkForce "${pkgs.autorandr}/bin/autorandr --change";
     };
   };
