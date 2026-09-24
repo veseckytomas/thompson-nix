@@ -69,6 +69,8 @@ After editing `.nix` files, verify with a **build** (`nixos-rebuild build` / `ho
 
 ## Gotchas
 
-- **Version-pinned inputs move in lockstep:** the `oh-my-openagent` flake `rev` (in `flake.nix`) and its `*-bun.nix` deps must be bumped together. `librewolf-bin.json` and `codegraph.json` carry pinned version+hash, bumped by `nixos-run`'s update action — do not hand-edit.
+- **Pinned inputs are bumped by `nixos-run`'s update action, not by hand:** `oh-my-openagent`'s `rev` (in `flake.nix`), `librewolf-bin.json`, `codegraph.json` and `tock.json` all carry pins the update action moves for you.
+- **`oh-my-openagent` bumps are build-gated:** the update action moves the pin to the `dev` tip, regenerates `*-bun.nix`, and keeps the result only if the package builds; on failure it restores `flake.nix`, `flake.lock` and `*-bun.nix` and leaves the old pin in place, so the rest of the update still lands. A rejected bump means upstream moved code a patch is anchored to — reconcile the patches in `home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/`.
+- **`oh-my-openagent` patches must fail loudly:** every upstream edit is a `.patch` in the `patches` list or a `substituteInPlace --replace-fail` in `postPatch`. Never use bare `sed`/`perl` there — a drifted anchor would silently no-op and quietly drop the fix (this already happened once to the symlinked-skills loader).
 - Secrets are GPG-encrypted (`modules/api_keys/*.gpg`) / git-crypt; SSH/GPG keys and rclone/thunderbird configs are added manually post-install (see `README.md`).
 - `.omo/`, `build/`, `result`, `__pycache__` are git-ignored.

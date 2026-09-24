@@ -25,6 +25,7 @@
   curl,
   gnugrep,
   coreutils,
+  python3,
   flakePath ? "/home/vesecto/Git/Personal/thompson-nix",
 }: let
   gum' = gum.overrideAttrs (old: {
@@ -44,6 +45,7 @@ in
       curl
       gnugrep
       coreutils
+      python3
     ];
     text =
       builtins.replaceStrings

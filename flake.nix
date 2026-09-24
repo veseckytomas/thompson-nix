@@ -149,12 +149,9 @@
       type = "git";
       url = "https://github.com/code-yeongyu/oh-my-openagent";
       ref = "dev";
-      # Pinned to match the rev hard-coded in
-      # home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix.
-      # `src` (this input) and the bun2nix-generated deps MUST move together,
-      # so bump this rev and regenerate the *-bun.nix in lockstep — do NOT let
-      # `nix flake update` drift the `dev` tip out of sync (that desyncs the
-      # source from the locked bun deps and breaks `bun install` + sed patches).
+      # Bumped to the `dev` tip by nixos-run's update action, which keeps the new rev
+      # only if the package still builds; a rejected bump is restored to this one.
+      # The rev pins `dev` against mid-update drift, so do not hand-edit it.
       rev = "ff4e13418e43fb78408cce5f04f243a0bc0ab459";
       # Shallow fetch: this repo pulls the ~1.7 GB `open-design` submodule, and
       # full history is never needed for a flake=false source tree. shallow does

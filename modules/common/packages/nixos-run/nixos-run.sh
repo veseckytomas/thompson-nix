@@ -411,7 +411,8 @@ action_update() {
   hdr "Updating flake inputs ..."
   run nix flake update
   hdr "Updating oh-my-openagent ..."
-  run bash "@updateOhMyOpenagentScript@"
+  # A rejected upstream bump must not sink the rest of the update.
+  run bash "@updateOhMyOpenagentScript@" || warn "oh-my-openagent update failed; keeping the current pin."
   hdr "Updating opencode npm plugins ..."
   run bash "@updateOpencodeNpmPluginsScript@"
   hdr "Updating LibreWolf ..."

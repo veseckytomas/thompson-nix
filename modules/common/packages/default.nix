@@ -9,6 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {
+  lib,
   pkgs,
   pkgs-stable,
   inputs,
@@ -22,46 +23,23 @@
 
   # Global overlays
   nixpkgs.overlays = [
-    (final: prev: {
+    (_: prev: {
       openldap = prev.openldap.overrideAttrs (old: {
         doCheck = false;
       });
       swt = pkgs-stable.swt.overrideAttrs (old: {
         NIX_CFLAGS_COMPILE = toString (old.env.NIX_CFLAGS_COMPILE or "") + " -Wno-error";
       });
-      # oven-sh/bun#29587 (Bun 1.4.0) makes compiled binaries reuse one content-hashed extraction of embedded native addons instead of leaking a fresh copy per Worker; drop once nixpkgs' bun is >=1.4.
-      bun_1_4 = let
-        version = "1.4.2";
-        # stable's bun uses `mkDerivation rec`, so its `src` binds to the rec scope and ignores an overridden passthru.sources; setting src directly works on both channels.
-        sources = {
-          "x86_64-linux" = {
-            file = "bun-linux-x64-baseline.zip";
-            hash = "sha256-xngEDxT+BEDrg503y9DOTAUaMtpygGrJfeamqra/co8=";
-          };
-          "aarch64-linux" = {
-            file = "bun-linux-aarch64.zip";
-            hash = "sha256-VDKLvC2cjgyfiSxUTWbFeoO4QTnjSQnl7oF1jxrI/ac=";
-          };
-          "aarch64-darwin" = {
-            file = "bun-darwin-aarch64.zip";
-            hash = "sha256-kJh6OhbX21VtiGrD1VHnttPt8KHPQ6yu1iLoZ2vh0S8=";
-          };
-        };
-        inherit (prev.stdenv.hostPlatform) system;
-        source =
-          sources.${system}
-          or (throw "bun_1_4: unsupported system ${system}");
-      in
-        prev.bun.overrideAttrs (_old: {
-          inherit version;
-          src = prev.fetchurl {
-            url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/${source.file}";
-            inherit (source) hash;
-          };
-        });
-      # nixpkgs builds opencode from source, so compiling it with the fixed Bun stops the /tmp libopentui.so leak without waiting for opencode v2.
-      opencode = prev.opencode.override {bun = final.bun_1_4;};
     })
+  ];
+
+  # Guards the dropped bun_1_4 overlay: below 1.4, opencode leaks a libopentui.so copy
+  # per Worker into /tmp (oven-sh/bun#29587), which that overlay existed to prevent.
+  assertions = [
+    {
+      assertion = lib.versionAtLeast pkgs.bun.version "1.4";
+      message = "nixpkgs' bun is ${pkgs.bun.version}, below the 1.4 that fixes oven-sh/bun#29587; restore a bun >=1.4 overlay for opencode.";
+    }
   ];
 
   # List of packages
