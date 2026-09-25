@@ -51,6 +51,7 @@
     ./thunderbird.nix
     ./tmux.nix
     ./tock
+    ./todoist.nix
     # ./vlc
     ./wacom.nix
     ./xournalpp

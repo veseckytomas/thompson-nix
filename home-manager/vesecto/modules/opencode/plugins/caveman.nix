@@ -33,9 +33,11 @@
   #   1. `tools: [Read, Edit, Write, Grep, Glob]` — a JSON-style array that
   #      opencode's YAML parser (js-yaml in JSON_SCHEMA mode) crashes on.
   #   2. `description: >` folded block scalars which opencode silently drops.
+  #   3. `model: haiku` — a bare alias that resolves outside omniroute, so the
+  #      agent silently bypasses the gateway; oh-my-openagent.json binds it.
   # GSD agents use single-line descriptions and include `mode: subagent`.
-  # We strip `tools:`, flatten `description: >` to a single line, and inject
-  # `mode: subagent`.
+  # We strip `tools:` and `model:`, flatten `description: >` to a single line,
+  # and inject `mode: subagent`.
   cavemanAgents = pkgs.runCommand "caveman-opencode-agents" {} ''
     mkdir -p $out
     for src in ${inputs.caveman}/agents/cavecrew-builder.md \
@@ -44,6 +46,7 @@
       dst="$out/$(basename "$src")"
       awk 'BEGIN { in_desc=0; desc=""; seen_name=0 }
            /^tools:/ { next }
+           /^model:/ { next }
            in_desc && /^[^ \t]/ { print "description: " desc; in_desc=0 }
            in_desc { sub(/^[ \t]+/,""); if (length>0) { if (desc=="") desc=$0; else desc=desc" "$0 }; next }
            /^description: >/ { in_desc=1; desc=""; next }

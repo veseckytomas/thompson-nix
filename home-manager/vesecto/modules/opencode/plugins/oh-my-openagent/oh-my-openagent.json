@@ -72,6 +72,150 @@
     "gsd-plan-checker": {
       "model": "omniroute/gsd-plan-checker-chain",
       "fallback_models": []
+    },
+    "gsd-eval-planner": {
+      "model": "omniroute/gsd-planner-chain",
+      "fallback_models": []
+    },
+    "gsd-assumptions-analyzer": {
+      "model": "omniroute/gsd-reasoning-chain",
+      "fallback_models": []
+    },
+    "gsd-framework-selector": {
+      "model": "omniroute/gsd-reasoning-chain",
+      "fallback_models": []
+    },
+    "gsd-roadmapper": {
+      "model": "omniroute/gsd-reasoning-chain",
+      "fallback_models": []
+    },
+    "gsd-code-reviewer": {
+      "model": "omniroute/gsd-audit-chain",
+      "fallback_models": []
+    },
+    "gsd-eval-auditor": {
+      "model": "omniroute/gsd-audit-chain",
+      "fallback_models": []
+    },
+    "gsd-verifier": {
+      "model": "omniroute/gsd-audit-chain",
+      "fallback_models": []
+    },
+    "gsd-integration-checker": {
+      "model": "omniroute/gsd-audit-chain",
+      "fallback_models": []
+    },
+    "gsd-nyquist-auditor": {
+      "model": "omniroute/gsd-audit-chain",
+      "fallback_models": []
+    },
+    "gsd-advisor-researcher": {
+      "model": "omniroute/gsd-research-chain",
+      "fallback_models": []
+    },
+    "gsd-ai-researcher": {
+      "model": "omniroute/gsd-research-chain",
+      "fallback_models": []
+    },
+    "gsd-domain-researcher": {
+      "model": "omniroute/gsd-research-chain",
+      "fallback_models": []
+    },
+    "gsd-phase-researcher": {
+      "model": "omniroute/gsd-research-chain",
+      "fallback_models": []
+    },
+    "gsd-project-researcher": {
+      "model": "omniroute/gsd-research-chain",
+      "fallback_models": []
+    },
+    "gsd-codebase-mapper": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-doc-synthesizer": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-doc-verifier": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-intel-updater": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-mempalace-curator": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-pattern-mapper": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-research-synthesizer": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-user-profiler": {
+      "model": "omniroute/gsd-background-chain",
+      "fallback_models": []
+    },
+    "gsd-security-auditor": {
+      "model": "omniroute/oracle-chain",
+      "fallback_models": []
+    },
+    "gsd-debugger": {
+      "model": "omniroute/deep-chain",
+      "fallback_models": []
+    },
+    "gsd-debug-session-manager": {
+      "model": "omniroute/unspecified-high-chain",
+      "fallback_models": []
+    },
+    "gsd-executor": {
+      "model": "omniroute/sisyphus-junior-chain",
+      "fallback_models": []
+    },
+    "gsd-code-fixer": {
+      "model": "omniroute/sisyphus-junior-chain",
+      "fallback_models": []
+    },
+    "gsd-doc-writer": {
+      "model": "omniroute/writing-chain",
+      "fallback_models": []
+    },
+    "gsd-doc-classifier": {
+      "model": "omniroute/quick-chain",
+      "fallback_models": []
+    },
+    "gsd-ui-researcher": {
+      "model": "omniroute/visual-engineering-chain",
+      "fallback_models": []
+    },
+    "gsd-ui-auditor": {
+      "model": "omniroute/visual-engineering-chain",
+      "fallback_models": []
+    },
+    "gsd-ui-checker": {
+      "model": "omniroute/visual-engineering-chain",
+      "fallback_models": []
+    },
+    "gsd-dom-verifier": {
+      "model": "omniroute/visual-engineering-chain",
+      "fallback_models": []
+    },
+    "cavecrew-investigator": {
+      "model": "omniroute/explore-chain",
+      "fallback_models": []
+    },
+    "cavecrew-reviewer": {
+      "model": "omniroute/gsd-audit-chain",
+      "fallback_models": []
+    },
+    "cavecrew-builder": {
+      "model": "omniroute/sisyphus-junior-chain",
+      "fallback_models": []
     }
   },
   "categories": {

@@ -1,19 +1,27 @@
 {
   "_comment": "Hand-maintained: every model id in chains.json must have an entry here or the nix eval fails.",
   "models": {
-    "agy/claude-opus-4-6-thinking": {
-      "context": 1048576,
-      "output": 65536
+    "antigravity/claude-opus-4-6-thinking": {
+      "context": 1000000,
+      "output": 128000
     },
-    "agy/claude-sonnet-4-6": {
-      "context": 1048576,
-      "output": 65536
+    "antigravity/claude-sonnet-4-6": {
+      "context": 1000000,
+      "output": 64000
     },
-    "agy/gemini-3.1-pro-low": {
+    "antigravity/gemini-3.1-pro-high": {
       "context": 1048576,
       "output": 65535
     },
-    "agy/gemini-3.6-flash-low": {
+    "antigravity/gemini-3.1-pro-low": {
+      "context": 1048576,
+      "output": 65535
+    },
+    "antigravity/gemini-3.7-flash-low": {
+      "context": 1048576,
+      "output": 65536
+    },
+    "antigravity/gemini-3.7-flash-tiered": {
       "context": 1048576,
       "output": 65536
     },
@@ -45,7 +53,15 @@
       "context": 128000,
       "output": 32768
     },
+    "litellm/deepseek-v4-flash": {
+      "context": 1000000,
+      "output": 384000
+    },
     "litellm/glm-5.2": {
+      "context": 1000000,
+      "output": 131072
+    },
+    "litellm/glm-5.3": {
       "context": 1000000,
       "output": 131072
     },
