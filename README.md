@@ -152,9 +152,9 @@ Open the UI, go to **Providers**, and connect each. The provider id must match t
 | ---------------- | ----------------------- | ----------------------------------------------------------------------------- |
 | `cc/`            | Claude Code (`claude`)        | OAuth — sign in with the Anthropic Claude subscription                        |
 | `cx/`            | OpenAI Codex (`codex`)        | OAuth — sign in with the OpenAI/ChatGPT subscription                          |
-| `agy/`           | Antigravity CLI (`antigravity`) | Import the `agy` CLI token, auto-detect a local login, or sign in with Google |
+| `antigravity/`   | Antigravity CLI (`antigravity`) | Import the `agy` CLI token, auto-detect a local login, or sign in with Google |
 
-> `agy/` is only the model-prefix **alias**; the resolver reads the canonical provider id `antigravity`. The dashboard persists the connection under `agy`, so the `omniroute-normalize-providers` service rewrites it to `antigravity` on every gateway start (idempotent, token-free) — otherwise every `agy/*` model returns `404 No active credentials for provider: antigravity` and any chain that only falls through to `agy` (e.g. `quick-chain`) collapses to `503 ALL_ACCOUNTS_INACTIVE`.
+> `chains.json` uses the canonical provider id `antigravity/`, which is what the resolver reads. `agy` is only a legacy model-prefix alias; the dashboard may still persist the connection under it, so the `omniroute-normalize-providers` service rewrites `agy`→`antigravity` on every gateway start (idempotent, token-free) — otherwise every Antigravity model returns `404 No active credentials for provider: antigravity` and any chain that only falls through to it collapses to `503 ALL_ACCOUNTS_INACTIVE`.
 
 For LiteLLM (`litellm/` prefix) — register a **custom OpenAI-compatible provider**:
 
@@ -184,7 +184,7 @@ gpg --decrypt -q ~/.config/api_keys/omniroute_token.gpg   # verify → OMNIROUTE
 ```bash
 nixos-run                                       # home-only rebuild
 systemctl --user restart omniroute.service      # provision runs after the gateway (Yubikey touch to decrypt)
-journalctl --user -u omniroute-provision.service -f   # expect "22 provisioned, 0 failed"
+journalctl --user -u omniroute-provision.service -f   # expect "26 provisioned, 0 failed"
 ```
 
 Verify combos and available models:
@@ -192,7 +192,7 @@ Verify combos and available models:
 ```bash
 TOKEN=$(gpg --decrypt -q ~/.config/api_keys/omniroute_token.gpg | cut -d= -f2)
 curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/api/combos | jq -r '.combos[].name' | sort
-curl -s http://localhost:20128/v1/models | jq -r '.data[].id' | grep -E '^(cc|cx|agy|litellm)/' | sort
+curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq -r '.data[].id' | grep -E '^(cc|cx|antigravity|litellm)/' | sort
 ```
 
 ### 6. Open the web UI at `http://omniroute`

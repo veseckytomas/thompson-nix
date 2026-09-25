@@ -13,10 +13,16 @@
   lib,
   ...
 }: {
-  systemd.user.services.blueman-applet.serviceConfig.ExecStart = lib.mkForce [
-    ""
-    "${pkgs.blueman}/bin/blueman-applet"
-  ];
+  # Upstream ships no [Install], so without this there is no pairing agent and BlueZ rejects device-initiated HID reconnects.
+  systemd.user.services.blueman-applet = {
+    serviceConfig.ExecStart = lib.mkForce [
+      ""
+      "${pkgs.blueman}/bin/blueman-applet"
+    ];
+    after = ["graphical-session.target"];
+    partOf = ["graphical-session.target"];
+    wantedBy = ["graphical-session.target"];
+  };
 
   services = {
     blueman.enable = true;
