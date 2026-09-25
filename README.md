@@ -30,7 +30,8 @@ This repository contains these configurations:
 3. Add rclone remote configs (`onedrive`, `eOnedrive`, `Dropbox`, `ProtonDrive` — see [ProtonDrive rclone setup](#protondrive-rclone-setup) below).
 4. Connect opencode providers (OpenAI, Anthropic, LiteLLM) — see [OmniRoute setup](#omniroute-setup) below.
 5. Add the FIT VPN CA certificate — see [VPN setup](#vpn-setup) below.
-6. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
+6. Authenticate Todoist (CLI token + desktop app sign-in) — see [Todoist setup](#todoist-setup) below.
+7. Any subsequent rebuild for both nixos and home-manager can be rebuilt with helper script `nixos-run`.
 
 ## VPN setup
 
@@ -290,6 +291,46 @@ systemctl --user restart rclone-protondrive.service   # ExecStartPre clears a st
 ```
 
 The mount omits `--poll-interval` because the protondrive backend has no ChangeNotify/event system, and it passes `--protondrive-enable-caching=false` because that backend cache never invalidates under VFS. Changes made from Proton's web or mobile app therefore appear within `--dir-cache-time` (5m), not instantly. `--allow-other` must **not** be added — `user_allow_other` is disabled in `/etc/fuse.conf`, so it would fail the mount at startup.
+
+## Todoist setup
+
+`home-manager/vesecto/modules/todoist.nix` installs both the `todoist` CLI and the `todoist-electron`
+desktop app, but neither is declaratively configurable — each stores its own credentials outside the
+Nix store, so both need a **manual sign-in on every new machine**.
+
+### CLI (`todoist`)
+
+The first command run prompts for the API token (Todoist → Settings → Integrations → Developer:
+https://todoist.com/app/settings/integrations/developer) and writes it to
+`~/.config/todoist/config.json` (mode `600`):
+
+```bash
+todoist sync          # prompts for the token, then caches to ~/.cache/todoist/cache.json
+todoist list          # verify — prints tasks instead of the token prompt
+```
+
+The prompt appears on stderr and the command still exits `0` on an empty token, so an unattended run
+silently writes `{"token": ""}`. Verify explicitly rather than trusting the exit code:
+
+```bash
+jq -r '.token' ~/.config/todoist/config.json    # must be non-empty
+```
+
+To provision without the prompt, write the file directly (the heredoc keeps the token off the
+command line, but zsh still records the whole line — `hist_ignore_space` is not enabled here):
+
+```bash
+install -Dm600 /dev/stdin ~/.config/todoist/config.json <<<'{"token":"<api-token>"}'
+```
+
+The token is a full-access API key — unscoped, non-expiring, and equivalent to the account. Never
+commit it and revoke it in the Developer settings if a machine is retired.
+
+### Desktop app (`todoist-electron`)
+
+Log in through the app window; the session lives in the Electron profile at `~/.config/Todoist/`
+(cookies + local storage), independent of the CLI token. It is not covered by the CLI step and is not
+synced between machines.
 
 ## Neovim initial setup
 
