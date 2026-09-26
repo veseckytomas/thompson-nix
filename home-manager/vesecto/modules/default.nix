@@ -48,6 +48,7 @@
     ./stylua
     ./themes
     ./taskwarrior
+    ./thunar.nix
     ./thunderbird.nix
     ./tmux.nix
     ./tock
