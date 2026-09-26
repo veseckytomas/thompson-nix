@@ -12,60 +12,7 @@
   pkgs,
   lib,
   ...
-}: let
-  # intel_pstate HWP scales the silicon; the ASUS EC platform_profile sets the thermal envelope it scales within.
-  powerProfile = pkgs.writeShellScript "power-profile-auto" ''
-    PATH=${lib.makeBinPath [pkgs.coreutils]}
-    profile=/sys/firmware/acpi/platform_profile
-    [ -w "$profile" ] || exit 0
-
-    online=0
-    for ac in /sys/class/power_supply/A{C,DP}*/online; do
-      [ -r "$ac" ] && [ "$(cat "$ac")" = "1" ] && online=1
-    done
-
-    capacity=100
-    [ -r /sys/class/power_supply/BAT0/capacity ] && capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-
-    current=$(cat "$profile")
-    if [ "$online" = "1" ]; then
-      want=performance
-      epp=performance
-      boost=1
-    elif [ "$capacity" -lt 50 ]; then
-      want=quiet
-      epp=power
-      boost=0
-    elif [ "$current" = "quiet" ] && [ "$capacity" -lt 55 ]; then
-      # Hysteresis band keeps an integer capacity hovering at 50 from flapping the EC.
-      want=quiet
-      epp=power
-      boost=0
-    else
-      want=balanced
-      epp=balance_power
-      boost=0
-    fi
-
-    [ "$current" = "$want" ] || echo "$want" > "$profile"
-
-    # EPP rejects writes unless the governor is powersave, which is the intel_pstate HWP default.
-    for c in /sys/devices/system/cpu/cpu*/cpufreq; do
-      [ "$(cat "$c"/scaling_governor 2>/dev/null)" = "powersave" ] || continue
-      pref=$c/energy_performance_preference
-      [ -w "$pref" ] && [ "$(cat "$pref" 2>/dev/null)" != "$epp" ] && echo "$epp" > "$pref"
-    done
-
-    hwp=/sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-    [ -w "$hwp" ] && [ "$(cat "$hwp" 2>/dev/null)" != "$boost" ] && echo "$boost" > "$hwp"
-
-    # auto-cpufreq used to park this at 1 on AC; assert it so turbo is never left disabled.
-    turbo=/sys/devices/system/cpu/intel_pstate/no_turbo
-    [ -w "$turbo" ] && [ "$(cat "$turbo" 2>/dev/null)" != "0" ] && echo 0 > "$turbo"
-
-    exit 0
-  '';
-in {
+}: {
   # Upstream ships no [Install], so without this there is no pairing agent and BlueZ rejects device-initiated HID reconnects.
   systemd.user.services.blueman-applet = {
     serviceConfig.ExecStart = lib.mkForce [
@@ -77,35 +24,14 @@ in {
     wantedBy = ["graphical-session.target"];
   };
 
+  # Hosts that own their power policy set it themselves; these only keep other daemons from claiming it.
   services = {
     blueman.enable = true;
     power-profiles-daemon.enable = false;
     libinput.enable = true;
     tlp.enable = false;
-    # Match only the mains and internal battery; HID and USB-C PD supplies emit unrelated uevents.
-    udev.extraRules = ''
-      SUBSYSTEM=="power_supply", KERNEL=="AC*|BAT*", RUN+="${pkgs.systemd}/bin/systemctl --no-block start power-profile-auto.service"
-    '';
   };
 
-  systemd = {
-    services.power-profile-auto = {
-      description = "Set ASUS EC platform profile from power source and battery level";
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = powerProfile;
-      };
-      wantedBy = ["multi-user.target"];
-    };
-    # A discharging battery crosses 50% with no uevent guaranteed, so poll as a backstop.
-    timers.power-profile-auto = {
-      timerConfig = {
-        OnBootSec = "1min";
-        OnUnitActiveSec = "2min";
-      };
-      wantedBy = ["timers.target"];
-    };
-  };
   hardware = {
     acpilight.enable = true;
     bluetooth = {

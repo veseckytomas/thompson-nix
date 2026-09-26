@@ -9,6 +9,4 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {...}: {
-  # System version
-  system.stateVersion = "24.05";
 }

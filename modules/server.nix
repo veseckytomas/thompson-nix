@@ -44,14 +44,17 @@
     };
   };
 
+  # inputs.self.outPath freezes the store path at build time, so the server would rebuild its own closure forever.
   system.autoUpgrade = {
     enable = true;
-    flake = inputs.self.outPath;
+    flake = "git+https://gitlab.com/vesecky.tomas/thompson-nix.git?ref=master";
     flags = [
-      "--no-write-lock-file"
+      "--refresh"
       "-L"
     ];
-    dates = "*:0/10:00";
+    dates = "03:00";
+    randomizedDelaySec = "45min";
+    persistent = true;
   };
 
   # Networking

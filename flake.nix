@@ -14,7 +14,7 @@
   inputs = {
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-25.11";
+    nixpkgs-stable.url = "nixpkgs/nixos-26.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,8 +23,8 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
-    nixvim-stable.url = "github:nix-community/nixvim/nixos-25.11";
+    home-manager-stable.url = "github:nix-community/home-manager/release-26.05";
+    nixvim-stable.url = "github:nix-community/nixvim/nixos-26.05";
     nix-flatpak.url = "github:gmodena/nix-flatpak/";
     polymc.url = "github:PolyMC/PolyMC";
     yazi.url = "github:sxyazi/yazi";

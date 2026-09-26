@@ -28,6 +28,15 @@
     extraModulePackages = [];
     kernelParams = ["i915.force_probe=7d55"];
     resumeDevice = "/dev/dm-0";
+    # zstd zram returns 3.76x, so paging anonymous memory there beats evicting page cache the working set still needs.
+    kernel.sysctl = {
+      "vm.swappiness" = 150;
+      "vm.vfs_cache_pressure" = 50;
+      # zram is random-access, so reading neighbour pages on a fault is wasted decompression.
+      "vm.page-cluster" = 0;
+      "vm.watermark_boost_factor" = 0;
+      "vm.watermark_scale_factor" = 125;
+    };
   };
 
   fileSystems = {

@@ -27,9 +27,8 @@
       openldap = prev.openldap.overrideAttrs (old: {
         doCheck = false;
       });
-      swt = pkgs-stable.swt.overrideAttrs (old: {
-        NIX_CFLAGS_COMPILE = toString (old.env.NIX_CFLAGS_COMPILE or "") + " -Wno-error";
-      });
+      # swt 4.34 strips -Werror in its own postPatch, so the -Wno-error override this overlay used to carry is gone.
+      inherit (pkgs-stable) swt;
     })
   ];
 
