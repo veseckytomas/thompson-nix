@@ -8,11 +8,10 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs,
-  pkgs-stable,
-  ...
-}: {
+{pkgs, ...}: let
+  # Must be the same derivation the NixOS qtile module runs, or cmd-obj talks to a different build than the live session.
+  qtile = "${pkgs.python3Packages.qtile}/bin/qtile";
+in {
   programs.autorandr = {
     enable = true;
     hooks.postswitch = {
@@ -21,12 +20,12 @@
         export DISPLAY=:0
         export XAUTHORITY=$HOME/.Xauthority
         # Nix runs qtile as .qtile-wrapped, so `pgrep -x qtile` never matched; ask the running instance instead
-        if ${pkgs-stable.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f status > /dev/null 2>&1; then
+        if ${qtile} cmd-obj -o cmd -f status > /dev/null 2>&1; then
            # The system autorandr unit has no session env, so point at the user bus ourselves
            export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
            export DBUS_SESSION_BUS_ADDRESS="''${DBUS_SESSION_BUS_ADDRESS:-unix:path=$XDG_RUNTIME_DIR/bus}"
            # restart, not reload_config: reload leaves a queued bar draw holding finalized widgets, which crashes in Bar._resize
-           qtile_restart="${pkgs-stable.python3.pkgs.qtile}/bin/qtile cmd-obj -o cmd -f restart"
+           qtile_restart="${qtile} cmd-obj -o cmd -f restart"
            # systemd-run refuses a live unit name, so drop the pending timer first to make autorandr's double-fire latest-wins
            ${pkgs.systemd}/bin/systemctl --user stop qtile-screen-restart.timer 2>/dev/null
            ${pkgs.systemd}/bin/systemd-run --user --quiet --collect \

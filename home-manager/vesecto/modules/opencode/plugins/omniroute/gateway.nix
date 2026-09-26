@@ -89,8 +89,14 @@ in {
             "HOST=127.0.0.1"
             "REQUIRE_API_KEY=false"
             "DATA_DIR=${dataDir}/data"
-            # 3.8.49 rejects over-cap heavy requests instantly (no queue); 4 fits the 2240 MB V8 heap.
-            "OMNIROUTE_CHAT_MAX_HEAVY_IN_FLIGHT=4"
+            # Heavy-request cap: agent fan-out routinely exceeds 4; 16 x ~2 MB body still dwarfed by the 2240 MB V8 heap.
+            "OMNIROUTE_CHAT_MAX_HEAVY_IN_FLIGHT=16"
+            # Park bursts instead of 503-ing them; the 2 s default is shorter than one agent turn.
+            "OMNIROUTE_CHAT_ADMISSION_QUEUE_MS=20000"
+            # Waiters are charged their buffered body, so the 4 MiB default sheds after ~5 parked opencode requests.
+            "OMNIROUTE_CHAT_ADMISSION_MAX_QUEUED_BYTES=67108864"
+            # Only bodies past this count as heavy; 256 KiB default catches nearly every agent request.
+            "OMNIROUTE_CHAT_LARGE_BODY_BYTES=1048576"
           ];
           Restart = "on-failure";
           RestartSec = "10s";
