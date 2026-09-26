@@ -61,7 +61,16 @@ in {
     programs.opencode.settings = {
       permission = {
         read."~/.config/opencode/gsd-core/*" = "allow";
-        external_directory."~/.config/opencode/gsd-core/*" = "allow";
+        # Matcher compiles `*` to regex `.*` (dotall), so one star per tree spans any depth.
+        external_directory = {
+          "~/.config/opencode/gsd-core/*" = "allow";
+          "~/.config/opencode/agents/*" = "allow";
+          "~/.config/opencode/commands/*" = "allow";
+          "~/.config/opencode/hooks/*" = "allow";
+          "~/.config/opencode/scripts/*" = "allow";
+          # Linux never realpaths before the check, so this only catches callers passing a resolved path.
+          "/nix/store/*gsd*" = "allow";
+        };
         # Match the stable gsd-tools/gsd_run tokens, not the hash-bearing store path.
         bash = {
           "*gsd-tools*" = "allow";
