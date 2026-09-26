@@ -13,9 +13,10 @@
     name = "wacom-map";
     runtimeInputs = with pkgs; [xinput xrandr gawk];
     text = ''
-      primary=$(xrandr --query | awk '/ connected primary/ {print $1; exit}')
+      # Never `exit` out of awk here: it SIGPIPEs xrandr, and pipefail+errexit then abort the script.
+      primary=$(xrandr --query | awk '/ connected primary/ && !seen {print $1; seen=1}')
       if [ -z "$primary" ]; then
-        primary=$(xrandr --query | awk '/ connected/ {print $1; exit}')
+        primary=$(xrandr --query | awk '/ connected/ && !seen {print $1; seen=1}')
       fi
       if [ -z "$primary" ]; then
         echo "wacom-map: no connected output" >&2
