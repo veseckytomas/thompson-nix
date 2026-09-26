@@ -8,13 +8,8 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   services = {
-    auto-cpufreq.enable = lib.mkForce false;
     xserver = {
       desktopManager.gnome.enable = true;
     };
