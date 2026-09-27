@@ -9,7 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}: let
-  # Must be the same derivation the NixOS qtile module runs, or cmd-obj talks to a different build than the live session.
+  # Only needs to match the running qtile's version: cmd-obj finds the session by socket path, not store path.
   qtile = "${pkgs.python3Packages.qtile}/bin/qtile";
 in {
   programs.autorandr = {
