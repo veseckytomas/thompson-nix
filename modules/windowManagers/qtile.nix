@@ -15,7 +15,14 @@
     xserver = {
       windowManager.qtile = {
         enable = true;
-        package = pkgs.python3Packages.qtile;
+        # Upstream ships both sessions as qtile.desktop, so SDDM's defaultSession basename match picks Wayland; keep X11 only.
+        package = pkgs.python3Packages.qtile.overrideAttrs (_: {
+          postInstall = ''
+            install -Dm644 resources/qtile-generic.desktop $out/share/xsessions/qtile.desktop
+            substituteInPlace $out/share/xsessions/qtile.desktop \
+              --replace-fail 'Exec=qtile start' 'Exec=qtile start -b x11'
+          '';
+        });
         extraPackages = _:
           with pkgs.python3Packages; [
             qtile-extras
