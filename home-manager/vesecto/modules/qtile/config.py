@@ -35,6 +35,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import math
 import os
 import platform
 import re
@@ -367,6 +368,19 @@ def bar_scale(height):
     return max(1.0, height / REFERENCE_HEIGHT)
 
 
+class FlooredDF(widget.DF):
+    """DF that floors free space, so the bar never claims more room than exists."""
+
+    @property
+    def user_free(self):
+        return self._user_free
+
+    @user_free.setter
+    def user_free(self, value):
+        # Flooring in the setter keeps upstream's poll()/draw() logic untouched.
+        self._user_free = math.floor(value)
+
+
 def init_widgets_list(scale=1.0):
     def s(value):
         return round(value * scale)
@@ -433,13 +447,15 @@ def init_widgets_list(scale=1.0):
             ],
         ),
         widget.Spacer(length=s(8)),
-        widget.DF(
+        FlooredDF(
+            # Keep upstream's widget name so `qtile cmd-obj ... widget df` still resolves.
+            name="df",
             fontsize=s(12),
             update_interval=60,
             foreground=colors[5],
             mouse_callbacks={"Button1": lambda: qtile.spawn(terminal + " -e df -h")},
             partition="/root",
-            format="{uf}{m} free",
+            format="{uf:.0f}{m} free",
             fmt="󱊞 Disk: {}",
             visible_on_warn=False,
             decorations=[
@@ -477,6 +493,8 @@ def init_widgets_list(scale=1.0):
         widget.Battery(
             fontsize=s(12),
             foreground=colors[3],
+            # Auto-detect picks any power supply exposing "capacity" - incl. the mouse.
+            battery="BAT0",
             charge_char="󰁾󰉁",
             discharge_char="󰁿",
             full_char="󰁹",

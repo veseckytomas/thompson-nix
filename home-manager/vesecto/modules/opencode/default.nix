@@ -26,6 +26,100 @@
   anthropicProvider = import ./providers/anthropic.nix;
   # Pinned npm plugin versions; bumped to npm-latest by nixos-run update (update-opencode-npm-plugins.sh).
   npmPlugins = builtins.fromJSON (builtins.readFile ./plugins/npm-plugins.json);
+  context7Recipient = "98E1DB9E7A724AC5FC137B1568989091534ED547";
+  context7KeyPath = "${config.home.homeDirectory}/.config/api_keys/context7_api_key.gpg";
+  # --pinentry-mode error is a tripwire: fail loudly if this key ever moves to the Yubikey.
+  context7Decrypt = "${pkgs.gnupg}/bin/gpg --batch --no-tty --pinentry-mode error --decrypt -q";
+  # An unset var renders the header as a bare "Bearer", which Context7 rejects outright -
+  # unlike sending no header at all, so a missing key BREAKS the server, it does not degrade it.
+  context7Prelude = ''
+    if [ -r "${context7KeyPath}" ]; then
+      __c7="$(${context7Decrypt} "${context7KeyPath}" 2>/dev/null | ${pkgs.coreutils}/bin/tr -d '\r\n' || true)"
+      if [ -n "$__c7" ]; then
+        export CONTEXT7_API_KEY="$__c7"
+      else
+        echo "opencode: context7 key failed to decrypt - the context7 MCP server will reject every call" >&2
+      fi
+      unset __c7
+    else
+      echo "opencode: context7 key not readable - the context7 MCP server will reject every call" >&2
+    fi
+  '';
+  # Must stay pkgs.opencode; config.programs.opencode.package would recurse infinitely.
+  opencodeBase = pkgs.opencode;
+  opencodeMainProgram = opencodeBase.meta.mainProgram or "opencode";
+  # symlinkJoin drops meta/passthru, which the upstream module dereferences for extraPackages.
+  opencodeWithContext7 = pkgs.symlinkJoin {
+    name = "opencode-context7";
+    paths = [opencodeBase];
+    preferLocalBuild = true;
+    nativeBuildInputs = [pkgs.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/${opencodeMainProgram} --run ${lib.escapeShellArg context7Prelude}
+    '';
+    passthru = opencodeBase.passthru or {};
+    meta = opencodeBase.meta // {mainProgram = opencodeMainProgram;};
+  };
+  context7KeyCheck = pkgs.writeShellApplication {
+    name = "context7-key-check";
+    runtimeInputs = [pkgs.gnupg pkgs.curl pkgs.coreutils];
+    text = ''
+      endpoint="https://mcp.context7.com/mcp"
+      body='{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"resolve-library-id","arguments":{"query":"react hooks","libraryName":"react"}}}'
+      probe() {
+        if [ "$#" -eq 1 ]; then
+          curl -sS -X POST "$endpoint" \
+            -H 'Accept: application/json, text/event-stream' \
+            -H 'Content-Type: application/json' \
+            -H "Authorization: Bearer $1" \
+            --data "$body"
+        else
+          curl -sS -X POST "$endpoint" \
+            -H 'Accept: application/json, text/event-stream' \
+            -H 'Content-Type: application/json' \
+            --data "$body"
+        fi
+      }
+      fail=0
+      case "$(probe)" in
+        *"/reactjs/react.dev"*) echo "ok   anonymous: endpoint live, returns library data" ;;
+        *)
+          echo "FAIL anonymous: no library data - endpoint or contract changed"
+          fail=1
+          ;;
+      esac
+      case "$(probe ctx7sk-00000000-0000-0000-0000-000000000000)" in
+        *"Invalid API key"*) echo "ok   bogus key: rejected - the auth oracle is live" ;;
+        *)
+          echo "FAIL bogus key: expected 'Invalid API key' body"
+          fail=1
+          ;;
+      esac
+      key="$(${context7Decrypt} "${context7KeyPath}" | tr -d '\r\n')"
+      if [ "''${#key}" -lt 20 ]; then
+        echo "FAIL local key: decrypted value missing or implausibly short"
+        exit 1
+      fi
+      real="$(probe "$key")"
+      unset key
+      case "$real" in
+        *"Invalid API key"*)
+          echo "FAIL real key: server rejected it"
+          fail=1
+          ;;
+        *"/reactjs/react.dev"*) echo "ok   real key: accepted, library data returned" ;;
+        *)
+          echo "FAIL real key: no library data in response"
+          fail=1
+          ;;
+      esac
+      case "$(probe "")" in
+        *"Invalid API key"*) echo "note empty bearer REJECTED: an unset CONTEXT7_API_KEY would BREAK context7, not degrade it" ;;
+        *) echo "note empty bearer tolerated: an unset CONTEXT7_API_KEY degrades to anonymous" ;;
+      esac
+      exit "$fail"
+    '';
+  };
 in {
   opencodePlugins = {
     omo.enable = true;
@@ -80,6 +174,7 @@ in {
 
   programs.opencode = {
     enable = true;
+    package = opencodeWithContext7;
     enableMcpIntegration = true;
     settings = {
       autoupdate = false;
@@ -167,6 +262,15 @@ in {
         reserved = 32000;
       };
       mcp = {
+        # Remote transport keeps the key out of argv and avoids an impure npx fetch.
+        context7 = {
+          type = "remote";
+          url = "https://mcp.context7.com/mcp";
+          enabled = true;
+          headers = {
+            Authorization = "Bearer {env:CONTEXT7_API_KEY}";
+          };
+        };
         markitdown = {
           type = "local";
           command = ["${pkgs.markitdown-mcp}/bin/markitdown-mcp"];
@@ -242,21 +346,38 @@ in {
       + builtins.readFile (inputs.graphify-src + "/graphify/always_on/agents-md.md");
   };
 
-  # oh-my-openagent resolves the codegraph MCP command from $OMO_CODEGRAPH_BIN
-  # before anything else, so this overrides the broken prebuilt bundle in
-  # ~/.omo/codegraph (whose vendored Node can't run on NixOS) and fixes the
-  # `codegraph MCP error -32000: Connection close` error.
-  home.sessionVariables.OMO_CODEGRAPH_BIN = lib.getExe codegraph;
+  home = {
+    # oh-my-openagent resolves the codegraph MCP command from $OMO_CODEGRAPH_BIN
+    # before anything else, so this overrides the broken prebuilt bundle in
+    # ~/.omo/codegraph (whose vendored Node can't run on NixOS) and fixes the
+    # `codegraph MCP error -32000: Connection close` error.
+    sessionVariables.OMO_CODEGRAPH_BIN = lib.getExe codegraph;
 
-  home.packages = [
-    pkgs.wakatime-cli
-    pkgs.python3Packages.markitdown
-    pkgs.worktrunk
-    pkgs.nodejs
-    pkgs.gh
-    codegraph
-    graphify
-    pkgs.claude-code
-    pkgs.antigravity-cli
-  ];
+    # Keyring-gated so a fresh machine can still activate before the secret key is imported.
+    activation.context7KeyAssertion = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if ${pkgs.gnupg}/bin/gpg --batch --list-secret-keys ${context7Recipient} >/dev/null 2>&1; then
+        c7key="$(${context7Decrypt} "${context7KeyPath}" 2>/dev/null | ${pkgs.coreutils}/bin/tr -d '\r\n' || true)"
+        if [ "''${#c7key}" -lt 20 ]; then
+          echo "context7: key at ${context7KeyPath} is missing, empty or corrupt" >&2
+          exit 1
+        fi
+        unset c7key
+      else
+        echo "context7: secret key absent from this keyring - skipping key assertion" >&2
+      fi
+    '';
+
+    packages = [
+      pkgs.wakatime-cli
+      pkgs.python3Packages.markitdown
+      pkgs.worktrunk
+      pkgs.nodejs
+      pkgs.gh
+      codegraph
+      graphify
+      pkgs.claude-code
+      pkgs.antigravity-cli
+      context7KeyCheck
+    ];
+  };
 }

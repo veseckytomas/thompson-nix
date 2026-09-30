@@ -31,16 +31,17 @@
         show_hidden = true;
       };
       opener = {
+        # yazi 26.x substitutes %s into the run string; it passes no shell positional args.
         edit = [
           {
-            run = "$EDITOR \"$@\"";
+            run = "\${EDITOR:-vi} %s";
             desc = "Edit";
             block = true;
           }
         ];
         open = [
           {
-            run = "xdg-open \"$@\"";
+            run = "xdg-open %s1";
             desc = "Open";
           }
         ];

@@ -18,6 +18,8 @@ let
     context = 128000;
     output = 32768;
   };
+  # Capped below every member's real window: attention degrades long before 1M.
+  contextCeiling = 250000;
   # Fail loudly: a silent fallback would advertise a wrong window for a typo'd id.
   limitsOf = m:
     modelLimits.${m}
@@ -45,7 +47,12 @@ let
           output = ["text"];
         };
         limit = {
-          context = floorOf c "context";
+          context = let
+            f = floorOf c "context";
+          in
+            if f < contextCeiling
+            then f
+            else contextCeiling;
           output = floorOf c "output";
         };
         cost = {

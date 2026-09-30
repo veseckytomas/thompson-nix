@@ -86,7 +86,8 @@ in {
             "PATH=${pkgs.nodejs}/bin"
             "TZ=Europe/Prague"
             "PORT=20128"
-            "HOST=127.0.0.1"
+            # HOST is ignored by the gateway; only OMNIROUTE_SERVER_HOST binds the listener.
+            "OMNIROUTE_SERVER_HOST=127.0.0.1"
             "REQUIRE_API_KEY=false"
             "DATA_DIR=${dataDir}/data"
             # Heavy-request cap: agent fan-out routinely exceeds 4; 16 x ~2 MB body still dwarfed by the 2240 MB V8 heap.

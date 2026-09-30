@@ -11,6 +11,7 @@
 {...}: {
   imports = [
     # ./alacritty.nix
+    ./api_keys
     ./asus-numberpad.nix
     ./atuin.nix
     ./autorandr.nix

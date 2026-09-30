@@ -27,7 +27,8 @@ in {
            # restart, not reload_config: reload leaves a queued bar draw holding finalized widgets, which crashes in Bar._resize
            qtile_restart="${qtile} cmd-obj -o cmd -f restart"
            # systemd-run refuses a live unit name, so drop the pending timer first to make autorandr's double-fire latest-wins
-           ${pkgs.systemd}/bin/systemctl --user stop qtile-screen-restart.timer 2>/dev/null
+           # The service must go too: once the timer has fired it stays loaded and still blocks the name.
+           ${pkgs.systemd}/bin/systemctl --user stop qtile-screen-restart.timer qtile-screen-restart.service 2>/dev/null
            ${pkgs.systemd}/bin/systemd-run --user --quiet --collect \
              --unit=qtile-screen-restart --on-active=3 \
              --setenv=DISPLAY=:0 --setenv=XAUTHORITY=$XAUTHORITY \

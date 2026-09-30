@@ -1,133 +1,134 @@
 {
+  "_comment": "Every chain ends with ctu/vic/GLM-5.3-Flash: strategy is priority, so last = unmetered self-hosted last resort. Each member also needs a model-limits.json entry or the nix eval throws.",
   "combos": [
     {
       "name": "sisyphus-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3"],
+      "models": ["gh/claude-opus-5.5", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "hephaestus-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3"],
+      "models": ["gh/gpt-6-sol", "cx/gpt-5.6-sol-ultra", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "oracle-chain",
-      "models": ["cc/claude-opus-5", "antigravity/gemini-3.1-pro-high", "antigravity/claude-opus-4-6-thinking", "litellm/glm-5.3"],
+      "models": ["gh/gpt-6-sol", "cx/gpt-5.6-sol-ultra", "cc/claude-opus-5", "antigravity/gemini-3.1-pro-high", "antigravity/claude-opus-4-6-thinking", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "librarian-chain",
-      "models": ["litellm/kimi-k3", "antigravity/gemini-3.1-pro-high", "cc/claude-sonnet-5"],
+      "models": ["gh/gemini-3.8-flash", "antigravity/gemini-3.1-pro-high", "cc/claude-sonnet-5", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "explore-chain",
-      "models": ["litellm/kimi-k3", "antigravity/gemini-3.7-flash-low", "cc/claude-sonnet-5"],
+      "models": ["gh/gemini-3.8-flash", "antigravity/gemini-3.8-flash-low", "cc/claude-sonnet-5", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "multimodal-looker-chain",
-      "models": ["antigravity/gemini-3.1-pro-high", "litellm/kimi-k3"],
+      "models": ["gh/gemini-3.8-flash", "antigravity/gemini-3.1-pro-high", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "prometheus-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/glm-5.3", "antigravity/gemini-3.1-pro-high"],
+      "models": ["gh/claude-fable-5.1", "cc/claude-fable-5", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "antigravity/gemini-3.1-pro-high", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "metis-chain",
-      "models": ["cc/claude-sonnet-5", "antigravity/claude-opus-4-6-thinking", "litellm/glm-5.3"],
+      "models": ["gh/claude-fable-5.1", "cc/claude-fable-5", "cc/claude-sonnet-5", "antigravity/claude-opus-4-6-thinking", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "momus-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "antigravity/gemini-3.1-pro-high", "litellm/glm-5.3"],
+      "models": ["gh/gpt-6-astra", "cx/gpt-5.6-sol-ultra", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "antigravity/gemini-3.1-pro-high", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "atlas-chain",
-      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "antigravity/claude-sonnet-4-6"],
+      "models": ["gh/claude-sonnet-5.5", "cc/claude-sonnet-5", "antigravity/claude-sonnet-4-6", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "sisyphus-junior-chain",
-      "models": ["cc/claude-sonnet-5", "litellm/kimi-k3", "antigravity/claude-sonnet-4-6"],
+      "models": ["gh/claude-sonnet-5.5", "cc/claude-sonnet-5", "antigravity/claude-sonnet-4-6", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "general-chain",
-      "models": ["cc/claude-opus-5", "litellm/kimi-k3"],
+      "models": ["gh/claude-opus-5.5", "cc/claude-opus-5", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "gsd-planner-chain",
-      "models": ["cc/claude-opus-5", "litellm/kimi-k3"],
+      "models": ["gh/claude-opus-5.5", "cc/claude-opus-5", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "gsd-plan-checker-chain",
-      "models": ["cc/claude-opus-5", "litellm/kimi-k3"],
+      "models": ["gh/claude-opus-5.5", "cc/claude-opus-5", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "gsd-reasoning-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/deepseek-v4-flash", "litellm/glm-5.3"],
+      "models": ["gh/gpt-6-astra", "cx/gpt-5.6-sol-ultra", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/deepseek-v4.1-flash", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "gsd-audit-chain",
-      "models": ["cc/claude-opus-5", "antigravity/gemini-3.1-pro-high", "antigravity/claude-opus-4-6-thinking", "litellm/deepseek-v4-flash", "litellm/glm-5.3"],
+      "models": ["gh/gpt-6-astra", "cx/gpt-5.6-sol-ultra", "cc/claude-opus-5", "antigravity/gemini-3.1-pro-high", "antigravity/claude-opus-4-6-thinking", "litellm/deepseek-v4.1-flash", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "gsd-research-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3"],
+      "models": ["gh/claude-opus-5.5", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "gsd-background-chain",
-      "models": ["cc/claude-sonnet-5", "antigravity/claude-sonnet-4-6", "litellm/kimi-k3"],
+      "models": ["gh/claude-sonnet-5.5", "cc/claude-sonnet-5", "antigravity/claude-sonnet-4-6", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "visual-engineering-chain",
-      "models": ["antigravity/gemini-3.1-pro-high", "cc/claude-opus-5", "litellm/kimi-k3"],
+      "models": ["gh/claude-fable-5.1", "cc/claude-fable-5", "antigravity/gemini-3.1-pro-high", "cc/claude-opus-5", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "ultrabrain-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "antigravity/gemini-3.1-pro-high", "litellm/deepseek-v4-flash", "litellm/glm-5.3"],
+      "models": ["gh/gpt-6-astra", "cx/gpt-5.6-sol-ultra", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "antigravity/gemini-3.1-pro-high", "litellm/deepseek-v4.1-flash", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "deep-chain",
-      "models": ["cc/claude-opus-5", "antigravity/gemini-3.1-pro-high", "litellm/deepseek-v4-flash", "litellm/glm-5.3"],
+      "models": ["gh/gpt-6-astra", "cx/gpt-5.6-sol-ultra", "cc/claude-opus-5", "antigravity/gemini-3.1-pro-high", "litellm/deepseek-v4.1-flash", "litellm/glm-5.3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "artistry-chain",
-      "models": ["antigravity/gemini-3.1-pro-high", "litellm/kimi-k3"],
+      "models": ["gh/claude-fable-5.1", "cc/claude-fable-5", "antigravity/gemini-3.1-pro-high", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "quick-chain",
-      "models": ["litellm/mini", "antigravity/gemini-3.7-flash-low", "cx/gpt-5.6-luna-low"],
+      "models": ["gh/gemini-3.8-flash", "gh/gpt-6-luna", "antigravity/gemini-3.8-flash-low", "cx/gpt-5.6-luna-low", "litellm/mini", "ctu/vic/Qwen3.8-27B", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "unspecified-low-chain",
-      "models": ["litellm/kimi-k3", "antigravity/claude-sonnet-4-6", "cc/claude-sonnet-5"],
+      "models": ["gh/grok-4.7", "cx/gpt-5.6-terra-high", "antigravity/claude-sonnet-4-6", "cc/claude-sonnet-5", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "unspecified-high-chain",
-      "models": ["cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3"],
+      "models": ["gh/claude-opus-5.5", "cc/claude-opus-5", "antigravity/claude-opus-4-6-thinking", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     },
     {
       "name": "writing-chain",
-      "models": ["litellm/kimi-k3", "antigravity/gemini-3.7-flash-low"],
+      "models": ["gh/claude-opus-5.5", "antigravity/gemini-3.8-flash-low", "litellm/kimi-k3", "ctu/vic/GLM-5.3-Flash"],
       "strategy": "priority"
     }
   ]
