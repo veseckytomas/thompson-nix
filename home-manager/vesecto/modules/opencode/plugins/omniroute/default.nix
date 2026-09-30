@@ -12,5 +12,6 @@
   imports = [
     ./gateway.nix
     ./normalize-providers.nix
+    ./resilience-defaults.nix
   ];
 }

@@ -100,6 +100,14 @@ in {
             "OMNIROUTE_CHAT_ADMISSION_MAX_QUEUED_BYTES=67108864"
             # Only bodies past this count as heavy; 256 KiB default catches nearly every agent request.
             "OMNIROUTE_CHAT_LARGE_BODY_BYTES=1048576"
+            # Bounds one upstream attempt, not the cooldown wait, which is awaited between fetches.
+            "FETCH_TIMEOUT_MS=600000"
+            # Parks queued requests far past the 300 s cooldown; 0 would drop the deadline entirely.
+            "RATE_LIMIT_MAX_WAIT_MS=600000"
+            # Real source of the observed 504; the 600 s default expires waits we now allow.
+            "RATE_LIMIT_EXECUTION_MAX_WAIT_MS=3600000"
+            # Explicitly unbounded; any non-zero value turns on the queue_full fast-reject.
+            "RATE_LIMIT_MAX_QUEUE_DEPTH=0"
           ];
           Restart = "on-failure";
           RestartSec = "10s";

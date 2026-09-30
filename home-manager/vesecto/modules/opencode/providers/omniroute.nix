@@ -68,6 +68,9 @@ in {
   options = {
     baseURL = "http://localhost:20128/v1";
     apiKey = "omniroute";
+    # Both default to 300 s, exactly the gateway's hold, so a park would race the client abort.
+    chunkTimeout = 600000;
+    headerTimeout = 600000;
   };
   models = comboModels;
 }
