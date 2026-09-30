@@ -15,6 +15,7 @@
     ./common.nix
     ./flatpaks.nix
     # ./gaming.nix
+    ./journald.nix
     ./kanata.nix
     ./locale.nix
     # ./notebook.nix

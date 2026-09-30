@@ -57,6 +57,9 @@ in {
 
   # MX Vertical settings
   services = {
+    # LVFS query/apply path for a Micron 2550 firmware fix (drive on V3MA101); drop once resolved.
+    fwupd.enable = true;
+
     xserver.inputClassSections = [
       ''
         Identifier "MX Vertical"

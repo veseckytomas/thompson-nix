@@ -12,6 +12,7 @@
   imports = [
     ./eduroam.nix
     ./fortivpn.nix
+    ./networkmanager-recover.nix
     ./omniroute-proxy.nix
     ./vpn.nix
   ];

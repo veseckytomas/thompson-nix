@@ -35,7 +35,8 @@ in {
   programs = {
     steam = {
       enable = true;
-      gamescopeSession.enable = true;
+      # Off to keep the SDDM session list to qtile and hyprland; gamescope still works in-game.
+      gamescopeSession.enable = false;
       protontricks.enable = true;
     };
     gamemode.enable = true;

@@ -153,6 +153,7 @@ Open the UI, go to **Providers**, and connect each. The provider id must match t
 | ---------------- | ----------------------- | ----------------------------------------------------------------------------- |
 | `cc/`            | Claude Code (`claude`)        | OAuth — sign in with the Anthropic Claude subscription                        |
 | `cx/`            | OpenAI Codex (`codex`)        | OAuth — sign in with the OpenAI/ChatGPT subscription                          |
+| `gh/`            | GitHub Copilot (`github`)     | OAuth — sign in with the GitHub Copilot subscription                          |
 | `antigravity/`   | Antigravity CLI (`antigravity`) | Import the `agy` CLI token, auto-detect a local login, or sign in with Google |
 
 > `chains.json` uses the canonical provider id `antigravity/`, which is what the resolver reads. `agy` is only a legacy model-prefix alias; the dashboard may still persist the connection under it, so the `omniroute-normalize-providers` service rewrites `agy`→`antigravity` on every gateway start (idempotent, token-free) — otherwise every Antigravity model returns `404 No active credentials for provider: antigravity` and any chain that only falls through to it collapses to `503 ALL_ACCOUNTS_INACTIVE`.
@@ -163,7 +164,12 @@ For LiteLLM (`litellm/` prefix) — register a **custom OpenAI-compatible provid
 - Base URL: `https://llm.ai.e-infra.cz/v1`
 - API key: the e-infra LiteLLM key
 
-Models are discovered automatically after each connection is added (OAuth providers ship a built-in catalog; LiteLLM resolves models live from its `/models` endpoint).
+The self-hosted CTU endpoint (`ctu/` prefix, models under `ctu/vic/…`) is a second custom OpenAI-compatible provider registered the same way: name `ctu`, plus its base URL and key. It is the **last member of every chain** (see [Chain shape](#chain-shape-fallback-tail-and-context-cap) below), so it is what answers when every metered provider ahead of it is rate-limited or down.
+
+> Base URL, available models, and access details for the `ctu` endpoint are **not** in this repo — they live in the internal wiki (VPN-only, internal CA):
+> <https://gitlab.dev1/ppsr-26/ai-coding/lokalni-ai/-/wikis/home>
+
+Models are discovered automatically after each connection is added (OAuth providers ship a built-in catalog; LiteLLM and `ctu` resolve models live from their `/models` endpoint).
 
 ### 3. Create a management API key
 
@@ -193,7 +199,30 @@ Verify combos and available models:
 ```bash
 TOKEN=$(gpg --decrypt -q ~/.config/api_keys/omniroute_token.gpg | cut -d= -f2)
 curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/api/combos | jq -r '.combos[].name' | sort
-curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq -r '.data[].id' | grep -E '^(cc|cx|antigravity|litellm)/' | sort
+curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq -r '.data[].id' | grep -E '^(cc|cx|gh|antigravity|litellm|ctu)/' | sort
+```
+
+### Chain shape: fallback tail and context cap
+
+Two invariants hold across all 26 chains in `chains.json`, both enforced in Nix rather than by hand.
+
+**Every chain ends with `ctu/vic/GLM-5.3-Flash`.** `strategy` is `priority`, so members are tried in array order and the last one is the last resort — the self-hosted CTU endpoint, unmetered, reached only when every provider ahead of it fails. Keep it last in any chain you add or edit; putting it earlier would route ordinary traffic there and starve the better models.
+
+**Every chain advertises at most 250k context**, via `contextCeiling` in `providers/omniroute.nix`. Long-context attention degrades well before a model's nominal 1M window (context rot), so the ceiling is a deliberate quality choice, not a provider limit. Verify after a rebuild:
+
+```bash
+jq '.provider.omniroute.models | to_entries
+    | map({chain:.key, ctx:.value.limit.context, out:.value.limit.output})
+    | group_by(.ctx) | map({ctx:.[0].ctx, out:.[0].out, chains:length})' \
+  ~/.config/opencode/opencode.json
+```
+
+Expect 25 chains at 250000 and `quick-chain` at 128000. That outlier is correct: `limit.context` is `min(floor across members, 250000)` and `quick-chain` contains `litellm/mini`, whose real 128k window is *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
+
+Adding a model to a chain therefore needs **two** edits, in `chains.json` and `model-limits.json`. The latter is not optional: `providers/omniroute.nix` throws on a member id with no limits entry, deliberately, so that a typo fails the build instead of silently advertising a wrong window. A new id must also exist in the gateway's live catalog — `provision-combos.sh` only *warns* about an unknown id, and the chain position then 404s at request time:
+
+```bash
+curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq -r '.data[].id' | grep ctu/
 ```
 
 ### 6. Open the web UI at `http://omniroute`
@@ -216,6 +245,88 @@ journalctl --user -u omniroute-normalize-providers.service   # agy→antigravity
 sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
   "SELECT timestamp, provider, status, error_summary FROM call_logs WHERE status >= 400 ORDER BY timestamp DESC LIMIT 10;"
 ```
+
+### Gotchas
+
+- **Failover lives in the gateway chains, not in `oh-my-openagent.json`'s `fallback_models`.** Those arrays are all `[]` and are **inert**: oh-my-openagent's reactive runtime fallback is gated on `runtime_fallback.enabled`, which is `false` here (and upstream's default) — the hook returns early. Populating them changes nothing unless that flag is flipped.
+- **A gateway member id can never go in `fallback_models` anyway.** Entries there must be `provider/model` ids **opencode** exposes, and opencode only ever sees `omniroute/<chain-name>`. Prefixes like `ctu/` and `gh/` are gateway-internal member ids that exist only inside OmniRoute, so `ctu/vic/GLM-5.3-Flash` is not addressable from opencode. Last-resort routing belongs at the tail of a chain.
+- Enabling `runtime_fallback` on top of the chains would stack two failover layers — the gateway walks its chain, then oh-my-openagent switches chains and re-enters the gateway. Intentional double-retry only; don't turn it on by accident.
+- `compaction.reserved` (32000, in `opencode/default.nix`) must stay below the smallest chain window — currently `quick-chain`'s 128k floor — or compaction can never trigger before the real limit.
+- The `ctu` provider exists only as a connection in the OmniRoute database, never in this repo: no base URL, no key, no nix file. A fresh machine needs it registered in the UI — per the [internal wiki](https://gitlab.dev1/ppsr-26/ai-coding/lokalni-ai/-/wikis/home) — or every chain's last position 404s.
+
+## Context7 setup
+
+The `context7` MCP server in opencode is a remote server (`https://mcp.context7.com/mcp`) authenticated with
+an API key that raises the docs rate limit. Unlike every other secret documented here, this blob **is
+committed to the repo** as ciphertext, alongside the four nixvim keys in
+`home-manager/vesecto/modules/api_keys/`.
+
+### 1. Seal the key
+
+Get a key from https://context7.com/dashboard, then:
+
+```bash
+read -rs KEY
+printf '%s' "$KEY" | gpg --encrypt --recipient 98E1DB9E7A724AC5FC137B1568989091534ED547 \
+  --output home-manager/vesecto/modules/api_keys/context7_api_key.gpg
+unset KEY
+git add home-manager/vesecto/modules/api_keys/context7_api_key.gpg
+```
+
+`read -rs` keeps the key out of shell history. **`printf '%s'`, never `echo`** — a trailing newline
+survives encrypt/decrypt and would land inside the HTTP `Authorization` header. The consumers also strip
+`\r\n` defensively, so a key pasted through a web UI cannot corrupt the header either.
+
+`git add` is required before any rebuild: `home.file`'s source is a path literal, so Nix reads it from the
+git index and **evaluation fails** while the blob is unstaged. That is deliberate — the key cannot go
+missing silently.
+
+### 2. Activate and verify
+
+```bash
+nixos-run                  # home-only rebuild
+context7-key-check         # three-way auth differential
+```
+
+`context7-key-check` must print three `ok` lines and exit 0:
+
+```
+ok   anonymous: endpoint live, returns library data
+ok   bogus key: rejected - the auth oracle is live
+ok   real key: accepted, library data returned
+```
+
+Context7 publishes no quota or tier endpoint and sends no `x-ratelimit-*` headers, so the numeric limit
+cannot be read back. The differential is the available proof: a deliberately wrong key is rejected while
+the real one is accepted, which shows the key is parsed and honoured. Every response is HTTP 200 — the
+signal is in the body, never the status — and `WWW-Authenticate` appears even on anonymous calls, so it is
+OAuth discovery, not an auth failure.
+
+**Restart opencode fully after switching.** The key enters the environment via a wrapper around the
+binary, so instances started before the rebuild keep the old environment and will still fail.
+
+### 3. Rotation
+
+Re-run step 1 with the new key and rebuild. Old ciphertext stays in git history forever and is harmless
+only because the credential it holds was rotated; deletion is impractical, rotation is the mitigation.
+
+### Gotchas
+
+- **A missing key breaks Context7 outright — it does not fall back to anonymous.** An unset
+  `CONTEXT7_API_KEY` renders the header as a bare `Authorization: Bearer`, which the server rejects with
+  `Invalid API key`, whereas sending no header at all is accepted. This is why the home-manager activation
+  **hard-fails** on a missing or corrupt blob instead of warning, and why the launch wrapper's warning says
+  the server will reject every call.
+- Activation skips that assertion when the secret key is absent from the keyring, so a fresh machine can
+  still complete its first `switch` before GPG keys are imported.
+- Decryption uses `--pinentry-mode error` as a tripwire: this key is the passphrase-less on-disk one, so if
+  it ever migrates to the Yubikey the decrypt fails fast and legibly instead of hanging on a PIN prompt.
+- **The agent can read `$CONTEXT7_API_KEY` from opencode's own environment**, which partially bypasses the
+  `*.gpg` read/bash permission denials in `home-manager/vesecto/modules/opencode/default.nix`. Accepted
+  here because this is a docs rate-limit key with no billing or account blast radius. **Do not reuse this
+  pattern for a high-value credential** — route those through a per-server decrypt instead.
+- Every blob in `api_keys/` has a single recipient, so losing that key loses all of them with no recovery
+  path.
 
 ## ProtonDrive rclone setup
 

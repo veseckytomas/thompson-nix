@@ -26,7 +26,8 @@
     };
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
-    kernelParams = ["i915.force_probe=7d55"];
+    # Micron 2550 behind VMD stalls 30-60s on I/O wake (BIOS 311 made it boot-blocking); APST off keeps it out of deep sleep, the long retry window lets residual stalls self-heal.
+    kernelParams = ["i915.force_probe=7d55" "nvme_core.default_ps_max_latency_us=0" "nvme_core.io_timeout=255" "nvme_core.max_retries=10"];
     resumeDevice = "/dev/dm-0";
     # zstd zram returns 3.76x, so paging anonymous memory there beats evicting page cache the working set still needs.
     kernel.sysctl = {

@@ -17,13 +17,22 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    # The uwsm session ships unconditionally but withUWSM is off, so it would launch a uwsm that is not installed.
+    package = pkgs.hyprland.overrideAttrs (old: {
+      postInstall =
+        (old.postInstall or "")
+        + ''
+          rm -f $out/share/wayland-sessions/hyprland-uwsm.desktop
+        '';
+      passthru = old.passthru // {providedSessions = ["hyprland"];};
+    });
   };
   xdg.portal = {
     enable = true;
     wlr.enable = true;
     xdgOpenUsePortal = true;
+    # The hyprland module already adds its own portal built against our package; listing it again collides on the unit name.
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };
