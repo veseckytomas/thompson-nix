@@ -31,6 +31,8 @@
     text = builtins.readFile ./provision-combos.sh;
   };
 
+  gnupgTools = pkgs.callPackage ../../../gnupg/tools.nix {};
+
   # Admin API token, GPG-encrypted, lives OUTSIDE the repo (manually placed per
   # machine — each machine's local omniroute instance has its own token). Decrypted
   # at service start to a tmpfs env file; Yubikey touch prompted once per session.
@@ -114,12 +116,14 @@ in {
         };
         Service = {
           Type = "oneshot";
-          # Decrypt the admin API token to a tmpfs env file (gpg-agent + Yubikey).
-          ExecStartPre = "${pkgs.bash}/bin/bash -c '${pkgs.gnupg}/bin/gpg --decrypt -q ${tokenGpg} > ${tokenEnvFile}'";
+          # Decrypt the admin API token to a tmpfs env file; `ask` because it is Yubikey-gated.
+          ExecStartPre = "${pkgs.bash}/bin/bash -c '${gnupgTools.gpg-decrypt-hardened}/bin/gpg-decrypt-hardened --pinentry ask ${tokenGpg} > ${tokenEnvFile}'";
           EnvironmentFile = "-${tokenEnvFile}";
           ExecStart = "${provisionScript}/bin/omniroute-provision-combos ${./chains.json}";
           ExecStopPost = "${pkgs.coreutils}/bin/rm -f ${tokenEnvFile}";
           RemainAfterExit = true;
+          # Headroom over the wrapper's bounded retry (~47s worst case) vs systemd's 90s default.
+          TimeoutStartSec = "120";
         };
         Install.WantedBy = ["omniroute.service"];
       };

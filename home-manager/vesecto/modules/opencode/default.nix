@@ -26,10 +26,11 @@
   anthropicProvider = import ./providers/anthropic.nix;
   # Pinned npm plugin versions; bumped to npm-latest by nixos-run update (update-opencode-npm-plugins.sh).
   npmPlugins = builtins.fromJSON (builtins.readFile ./plugins/npm-plugins.json);
+  gnupgTools = pkgs.callPackage ../gnupg/tools.nix {};
   context7Recipient = "98E1DB9E7A724AC5FC137B1568989091534ED547";
   context7KeyPath = "${config.home.homeDirectory}/.config/api_keys/context7_api_key.gpg";
-  # --pinentry-mode error is a tripwire: fail loudly if this key ever moves to the Yubikey.
-  context7Decrypt = "${pkgs.gnupg}/bin/gpg --batch --no-tty --pinentry-mode error --decrypt -q";
+  # `error` is a tripwire: fail loudly if this key ever moves to the Yubikey.
+  context7Decrypt = "${gnupgTools.gpg-decrypt-hardened}/bin/gpg-decrypt-hardened --pinentry error";
   # An unset var renders the header as a bare "Bearer", which Context7 rejects outright -
   # unlike sending no header at all, so a missing key BREAKS the server, it does not degrade it.
   context7Prelude = ''
