@@ -328,6 +328,74 @@ only because the credential it holds was rotated; deletion is impractical, rotat
 - Every blob in `api_keys/` has a single recipient, so losing that key loses all of them with no recovery
   path.
 
+## GnuPG keyboxd and the hardened decrypt
+
+This machine runs GnuPG with **keyboxd** enabled (`~/.gnupg/common.conf` contains `use-keyboxd`, now
+managed by `home-manager/vesecto/modules/gnupg/common-conf.nix`). All public keys live **only** in
+`~/.gnupg/public-keys.d/pubring.db` — there is no `pubring.kbx`, so `use-keyboxd` must not be removed:
+GnuPG has no down-migration tool, and dropping it would present an empty keyring and break Yubikey-signed
+commits.
+
+### Why keyboxd needs a systemd unit
+
+keyboxd takes a dotlock on `pubring.db` at first database use and holds it for its whole lifetime. It
+registers an `atexit` handler, so a **graceful** SIGTERM releases the lock — but an autostarted keyboxd is
+an orphan inside a transient session scope and dies by cgroup **SIGKILL**, which cannot run that handler.
+The lock then survives as a `pubring.db.lock` hardlinked to a stamp naming the dead PID.
+
+GnuPG clears a stale lock only when the recorded PID is **dead** and the hostname matches. Once the kernel
+recycles that PID to an unrelated process (this happened with `containerd`), the lock looks live forever:
+every decrypt waits out the hard-coded 10s timeout (`kbx/backend-sqlite.c`, no tunable exists) and then
+fails with the misleading `No secret key` — the Yubikey is never even consulted.
+
+`gnupg/keyboxd.nix` therefore runs keyboxd as a socket-activated user unit so it receives SIGTERM on
+logout, with `keybox-sweep` as `ExecStopPost` for the SIGKILL-after-timeout case.
+
+### Remedies
+
+```bash
+gpgconf --unlock pubring.db     # upstream stale-lock removal (2.4.4+); only when the DB is NOT in use
+gpgconf --kill keyboxd          # surgical daemon reset; never --kill all, which drops gpg-agent's PIN cache
+keybox-sweep                    # remove stale locks + orphan stamps (liveness-checked, always exits 0)
+keybox-lock-harness             # reproducible RED/GREEN proof; --decrypt-cmd gpg for the failing control
+```
+
+`--lock-never`, `--lock-once` and `--lock-multiple` **do nothing here** — they govern legacy keyring
+locking, not keyboxd's daemon-side dotlock. Don't reach for them.
+
+Link count is **not** a liveness test: the lock that broke boot was a `links=2` pair whose holder was
+already gone. `keybox-lock.sh` classifies by PID liveness plus `/proc/<pid>/comm != keyboxd`, which is
+exactly the recycled-PID case GnuPG's own check misses.
+
+### Migration runbook
+
+Run once, in order. Steps 3 and 5 are mandatory: home-manager refuses to clobber the unmanaged
+`common.conf`, and the pre-existing non-unit keyboxd still owns `S.keyboxd`.
+
+```bash
+cp -a ~/.gnupg ~/.gnupg.bak-$(date +%Y%m%d-%H%M%S)   # 1. backup; record the path
+gpg --list-keys | grep -c '^pub'                      # 2. baseline -> 3
+mv ~/.gnupg/common.conf ~/.gnupg/common.conf.pre-hm   # 3. let home-manager take it over
+nixos-run                                             # 4. home-only rebuild
+gpgconf --kill keyboxd                                # 5. retire the orphan daemon
+systemctl --user daemon-reload && systemctl --user restart keyboxd.socket
+gpg --list-keys | grep -c '^pub'                      # 6. -> 3; keyboxd.service becomes active on demand
+systemctl --user restart omniroute.service            # 7. journal -> "26 provisioned, 0 failed"
+keybox-sweep && keybox-lock-harness                   # 8. -> 0 removed, then GREEN
+ls ~/.gnupg/public-keys.d/.\#lk* 2>/dev/null | wc -l  # 9. after a logout/login -> 0 (the real proof)
+```
+
+Only once step 9 has passed **twice** should the backups be deleted:
+
+```bash
+rm -rf ~/.gnupg/public-keys.d.bak-* ~/.gnupg.bak-*    # 10. destructive; gated on step 9
+```
+
+Rollback: `mv ~/.gnupg/common.conf.pre-hm ~/.gnupg/common.conf` (removing the home-manager symlink
+first), `systemctl --user stop keyboxd.socket keyboxd.service && gpgconf --launch keyboxd` to return to
+the autostart behaviour, then activate the previous generation from
+`/nix/var/nix/profiles/per-user/vesecto/`.
+
 ## ProtonDrive rclone setup
 
 `home-manager/vesecto/modules/rclone.nix` declares the `rclone-protondrive` user service that mounts `ProtonDrive:` at `~/mnt/ProtonDrive`. The remote itself is **manual** — credentials never live in this repo.

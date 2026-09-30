@@ -57,6 +57,46 @@ pause() {
   gum input --placeholder "$1 (press Enter)" >/dev/null 2>&1 || true
 }
 
+# A keyboxd killed without SIGTERM leaks its pubring.db dotlock, and gpg then blocks 10s on a
+# dead holder and fails the signature with ETIMEDOUT -- aborting the run after activation but
+# before commit + push. keyboxd.service sweeps its own leaks; this covers locks it never owned.
+KEYBOX_DIR="${GNUPGHOME:-$HOME/.gnupg}/public-keys.d"
+
+# Only a live keyboxd on THIS host makes a lock real: a recycled PID passes `kill -0` while
+# owning nothing, which is the case that actually wedged signing.
+keybox_lock_is_stale() {
+  local file="$1" pid host comm
+  [ -e "$file" ] || return 1
+
+  pid="$(sed -n '1s/[^0-9]//gp' "$file" 2>/dev/null | head -1)"
+  [ -n "$pid" ] || return 0
+
+  host="$(sed -n '2p' "$file" 2>/dev/null)"
+  [ -n "$host" ] && [ "$host" != "$(uname -n)" ] && return 0
+
+  kill -0 "$pid" 2>/dev/null || return 0
+
+  comm="$(cat "/proc/$pid/comm" 2>/dev/null || true)"
+  [ "$comm" = "keyboxd" ] || return 0
+
+  return 1
+}
+
+# Returns 0 only when a stale lock was actually cleared, so the caller retries just once.
+clear_stale_keybox_lock() {
+  local lock="$KEYBOX_DIR/pubring.db.lock"
+  keybox_lock_is_stale "$lock" || return 1
+
+  info "Stale keybox lock detected; clearing and retrying."
+  # gpgconf reports "invalid pid" and still exits 0 on locks it does clear, so ignore it and
+  # verify the file is gone instead.
+  gpgconf --unlock pubring.db >/dev/null 2>&1 || true
+  [ -e "$lock" ] && rm -f -- "$lock"
+  [ -e "$lock" ] && return 1
+
+  return 0
+}
+
 # Commit staged changes, prompting for a Yubikey touch ONLY when something is
 # actually staged. Without this guard an empty `git commit` returns non-zero,
 # and `set -e` (added by writeShellApplication) aborts the whole script before
@@ -68,6 +108,13 @@ commit_if_changes() {
     return 0
   fi
   warn "Please touch the device. (Sign commit)"
+  if run git commit -m "$1"; then
+    return 0
+  fi
+
+  # Retry only a stale lock: a declined touch, wrong PIN or expired key must stay fatal.
+  clear_stale_keybox_lock || return 1
+  warn "Please touch the device. (Sign commit, retry)"
   run git commit -m "$1"
 }
 
