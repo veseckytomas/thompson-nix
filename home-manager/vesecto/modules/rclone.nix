@@ -27,7 +27,7 @@
       # registered as a mountpoint, every restart fails its pre-check, and the unit crash-loops (err 107).
       # Must be the setuid wrapper, and fuse3 — the store-path fuse2 binary cannot unmount rclone's fuse3 mount.
       ExecStartPre = "/bin/sh -c '/run/wrappers/bin/fusermount3 -uz %h/mnt/Onedrive 2>/dev/null || true; ${pkgs.coreutils}/bin/mkdir -p %h/mnt/Onedrive'";
-      ExecStart = "${pkgs.rclone}/bin/rclone mount eOnedrive: %h/mnt/Onedrive --vfs-cache-mode writes --dir-cache-time 1000h --poll-interval 15s --timeout 1h --umask 002 --exclude '.omo/**'";
+      ExecStart = "${pkgs.rclone}/bin/rclone mount eOnedrive2: %h/mnt/Onedrive --vfs-cache-mode writes --dir-cache-time 1000h --poll-interval 15s --timeout 1h --umask 002 --exclude '.omo/**'";
       ExecStop = "/run/wrappers/bin/fusermount3 -uz %h/mnt/Onedrive";
       Restart = "on-failure";
       RestartSec = "10s";
