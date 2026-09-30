@@ -1,6 +1,6 @@
 {
-  "opencode-wakatime": "1.3.9",
-  "@slkiser/opencode-quota": "4.10.2",
+  "opencode-wakatime": "1.4.0",
+  "@slkiser/opencode-quota": "5.0.0",
   "opencode-openai-multi-auth": "5.0.6",
-  "omniroute": "3.8.50"
+  "omniroute": "3.8.51"
 }
