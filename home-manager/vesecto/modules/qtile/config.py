@@ -121,12 +121,12 @@ def maximize_by_switching_layout(qtile):
 
 
 # Per-host monitor navigation direction.
-# Qtile cycles monitors in screen-index order (the order outputs are detected),
-# which varies per machine. On some hosts that order runs opposite to the
-# physical left-to-right arrangement, so super+. / super+, feel swapped. List
-# those hosts here to flip next/prev for them only; every other host keeps
-# qtile's default order.
-REVERSED_MONITOR_NAV_HOSTS = {"TomasVesa-PC-NixOS"}
+# Qtile cycles monitors in RRGetMonitors order, which puts the PRIMARY output
+# first, so the cycle direction depends on which output autorandr marks primary
+# -- not on the physical arrangement. Where that runs opposite to the physical
+# left-to-right order, super+. / super+, feel swapped. List those hosts here to
+# flip next/prev for them only; every other host keeps qtile's default order.
+REVERSED_MONITOR_NAV_HOSTS = {"TomasVesa-PC-NixOS", "TomasVesa-NTB-NixOS"}
 
 if platform.node() in REVERSED_MONITOR_NAV_HOSTS:
     next_monitor, prev_monitor = lazy.prev_screen(), lazy.next_screen()
