@@ -23,33 +23,48 @@ desired='{
   "waitForCooldown": {"enabled": true, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000}
 }'
 
+# Every call needs the busy timeout: the gateway's PRAGMA journal_mode=WAL on each open briefly locks exclusively.
+sq() {
+  sqlite3 -cmd ".timeout 30000" "$db" "$@"
+}
+
+# json_type() errors on malformed input, so json_valid() must short-circuit ahead of it.
+object_guard="json_valid(value) AND json_type(value) = 'object'"
+
 if [ ! -f "$db" ]; then
   echo "omniroute-resilience: no database at $db (gateway not initialized yet)"
   exit 0
 fi
 
-if [ "$(sqlite3 "$db" 'PRAGMA quick_check;')" != "ok" ]; then
-  echo "omniroute-resilience: quick_check failed, aborting before write" >&2
+# Exit 75 (EX_TEMPFAIL) so Restart=on-failure retries instead of marking an unwritten row "done".
+if [ "$(sq "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='key_value';")" != "1" ]; then
+  echo "omniroute-resilience: key_value table absent (gateway not migrated yet)" >&2
+  exit 75
+fi
+
+# quote() keeps '' and NULL distinguishable from "no malformed row".
+malformed="$(sq "SELECT quote(value) FROM key_value WHERE namespace='settings' AND key='resilienceSettings' AND NOT ($object_guard);")"
+
+if [ -n "$malformed" ]; then
+  echo "omniroute-resilience: stored value is not a JSON object, refusing to overwrite: $malformed" >&2
   exit 1
 fi
 
-# .timeout sets the busy timeout silently; -cmd "PRAGMA ..." would emit it as a result row.
-current="$(sqlite3 -cmd ".timeout 30000" "$db" "SELECT value FROM key_value WHERE namespace='settings' AND key='resilienceSettings';")"
-[ -n "$current" ] || current='{}'
+desired_c="$(printf '%s' "$desired" | jq -c .)"
+escaped="${desired_c//\'/\'\'}"
 
-# Shallow merge keeps any sibling sub-objects a future omniroute version adds.
-next="$(printf '%s' "$current" | jq -c --argjson d "$desired" '. * $d')"
-
-if [ "$next" = "$(printf '%s' "$current" | jq -c '.')" ]; then
-  echo "omniroute-resilience: no-op (already provisioned)"
-  exit 0
-fi
-
-escaped="${next//\'/\'\'}"
-
-sqlite3 -cmd ".timeout 30000" "$db" "
+# Merging inside the UPDATE keeps a concurrent gateway write instead of clobbering it with a stale read.
+changed="$(sq "
 INSERT INTO key_value (namespace, key, value)
 VALUES ('settings', 'resilienceSettings', '$escaped')
-ON CONFLICT(namespace, key) DO UPDATE SET value = excluded.value;" >/dev/null
+ON CONFLICT(namespace, key) DO UPDATE SET value = json_patch(
+  CASE WHEN $object_guard THEN value ELSE '{}' END, excluded.value)
+WHERE value <> json_patch(
+  CASE WHEN $object_guard THEN value ELSE '{}' END, excluded.value);
+SELECT changes();")"
 
-echo "omniroute-resilience: provisioned 300s cooldown wait bounds"
+if [ "$changed" = "0" ]; then
+  echo "omniroute-resilience: no-op (already provisioned)"
+else
+  echo "omniroute-resilience: provisioned 300s cooldown wait bounds"
+fi

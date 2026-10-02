@@ -20,6 +20,30 @@
   codegraph = pkgs.callPackage ./codegraph {};
   # graphify + graphify-mcp CLIs, built from the pinned uv workspace (uv2nix). See ./graphify.
   graphify = import ./graphify {inherit inputs pkgs;};
+  upstreamGraphifyAgentsMd = inputs.graphify-src + "/graphify/always_on/agents-md.md";
+  # Hash guard: a graphify-src bump fails eval loudly instead of silently keeping our divergent copy.
+  upstreamGraphifyAgentsMdSha256 = "6a4a2e13159f2d89a9ab83351766e72ab94de06929d80767ac50913e4350e3a5";
+  # Replaces upstream's block, which leads with `query` - the costliest scoped command.
+  # `query` is a depth-3 BFS that spends its whole token budget: ~6.4KB even for an
+  # exact node (AGENTS.md 174 nodes, flake.nix 49), while `explain` is bounded by real
+  # degree (237-837B) and `path` costs ~86B. Cost tracks start-node fanout, not phrasing.
+  graphifyAgentsMd = ''
+    ## graphify
+
+    If `graphify-out/graph.json` exists, start codebase questions with Graphify.
+
+    - `/graphify`: load the `graphify` skill first.
+    - Prefer the `graphify` MCP server over the CLI, and pick the narrowest tool:
+      known target -> `GetNode`/`GetNeighbors`; two nodes -> `ShortestPath`;
+      orientation -> `GraphStats`/`GodNodes`/`GetCommunity`; only genuinely
+      open-ended exploration -> `QueryGraph`.
+    - Name the exact indexed label. Matching is lexical, not semantic, so a prose
+      question can land on an unrelated same-named node and return its whole fanout.
+    - On broad or truncated output, narrow the label/depth/`context_filter` before
+      raising `token_budget` - the budget caps output, it cannot fix a wrong start node.
+    - Reserve `GRAPH_REPORT.md` for whole-repo review. Use the CLI only if MCP is down.
+    - A git-dirty `graphify-out/` is still usable. After code changes: `graphify update .`
+  '';
   # Google (Antigravity CLI) provider + its agy-auth plugin are kept together so the provider always ships with its auth plugin.
   googleProvider = import ./providers/google.nix;
   # Anthropic provider models + its claude-bridge plugin (native Claude OAuth dropped).
@@ -55,8 +79,11 @@
     paths = [opencodeBase];
     preferLocalBuild = true;
     nativeBuildInputs = [pkgs.makeWrapper];
+    # Wrap the upstream path, never the joined symlink: wrapProgram would rename it to .opencode-wrapped_, and `exec -a` cannot mask that from argv[0] because upstream's bin/opencode is a shebang script.
     postBuild = ''
-      wrapProgram $out/bin/${opencodeMainProgram} --run ${lib.escapeShellArg context7Prelude}
+      rm $out/bin/${opencodeMainProgram}
+      makeWrapper ${opencodeBase}/bin/${opencodeMainProgram} $out/bin/${opencodeMainProgram} \
+        --run ${lib.escapeShellArg context7Prelude}
     '';
     passthru = opencodeBase.passthru or {};
     meta = opencodeBase.meta // {mainProgram = opencodeMainProgram;};
@@ -298,7 +325,11 @@ in {
     };
     tui = {
       theme = "catppuccin";
-      # plugin = ["@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"];
+      # TUI plugins render into sidebar slots; `settings.plugin` has no render hook.
+      plugin =
+        lib.optional config.opencodePlugins.omo.enable
+        "${config.home.homeDirectory}/.config/opencode/node_modules/oh-my-openagent/dist/tui.js";
+
       keybinds = {
         leader = "ctrl+x";
         model_list = "<leader>m";
@@ -330,9 +361,33 @@ in {
       ''
         # Background tasks
 
-        While any background task is running, end every message with a sentence stating
-        how many are currently running (e.g. "2 background tasks running."). Omit it
-        when none are running.
+        Before asserting a task is done, correct, or verified, account for every
+        background task you launched. Silence is not proof of life: a stalled task, one
+        you cancelled, and one killed out from under you by a session interrupt all look
+        identical from here - none of them will ever send a completion notification. "I
+        never cancelled it, so it must still be running" is not sound, least of all after
+        an interrupt, an error, or a resumed session, which kill in-flight tasks wholesale
+        without telling you.
+
+        Settle it with `background_output(block=false, full_session=true)`, reading
+        `Status` against the message timestamps:
+
+        - `completed` - collect the result and let it confirm or overturn the claim.
+        - `running` with timestamps advancing - genuinely working; wait for the
+          notification.
+        - Anything else - frozen timestamps, a terminal status, an id that no longer
+          resolves - is dead. Relaunch it, or drop the claim it was meant to support.
+
+        Re-probe every outstanding task after any interrupt or resumption, and name the
+        surviving ids explicitly: a task you have merely stopped thinking about is the one
+        most likely to be silently dead. This is a liveness check, not a poll for results
+        - reach for it when you are about to assert completion, when a task has gone quiet
+        implausibly long, or after an interrupt; otherwise let the notification arrive.
+
+        End every message with a one-line count, zero included: "2 background tasks
+        running." or "No background tasks running." The zero line is the one that
+        carries information - it reports that you checked and found none, where silence
+        is ambiguous between that and forgetting to look.
 
         # GitLab issues
 
@@ -344,7 +399,16 @@ in {
         - Search:                glab issue list --search "<text>"
       ''
       + "\n"
-      + builtins.readFile (inputs.graphify-src + "/graphify/always_on/agents-md.md");
+      + (
+        # Inlined, not a let-binding: an unreferenced guard is never forced and no-ops silently.
+        if builtins.hashFile "sha256" upstreamGraphifyAgentsMd == upstreamGraphifyAgentsMdSha256
+        then graphifyAgentsMd
+        else
+          throw ''
+            graphify: upstream always_on/agents-md.md changed (now ${builtins.hashFile "sha256" upstreamGraphifyAgentsMd}).
+            Reconcile graphifyAgentsMd in ${toString ./default.nix} with the new upstream text, then update upstreamGraphifyAgentsMdSha256.
+          ''
+      );
   };
 
   home = {

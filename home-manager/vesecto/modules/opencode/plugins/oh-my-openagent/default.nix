@@ -51,6 +51,10 @@
       ./error-classifier-quota-reached.patch
       ./constants-quota-reached.patch
       ./auto-retry-signal-quota-reached.patch
+      # An empty fallback_models is an explicit opt-out, not "no opinion".
+      ./fallback-chain-honour-empty-optout.patch
+      # Reachability was provider-only, so it emitted pairs like opencode/gpt-5.5 that no provider serves.
+      ./fallback-model-aware-resolver.patch
     ];
 
     postPatch = ''

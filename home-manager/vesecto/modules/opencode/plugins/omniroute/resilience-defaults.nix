@@ -23,19 +23,24 @@
     text = builtins.readFile ./resilience-defaults.sh;
   };
 in {
-  # Token-free like normalize-providers; the 5s settings TTL means no gateway restart.
+  # Token-free like normalize-providers; the gateway reads this row as an override, so no restart is needed.
   config = lib.mkIf cfg.enable {
     systemd.user.services.omniroute-resilience-defaults = {
+      # Before=, not After=: the gateway's PRAGMA journal_mode=WAL on startup takes a brief exclusive lock.
       Unit = {
         Description = "Provision OmniRoute resilience cooldown defaults";
-        After = ["omniroute.service"];
+        Before = ["omniroute.service"];
         PartOf = ["omniroute.service"];
+        StartLimitIntervalSec = 60;
+        StartLimitBurst = 3;
       };
       Service = {
         Type = "oneshot";
         Environment = ["OMNIROUTE_DB=${dbPath}"];
         ExecStart = "${resilienceScript}/bin/omniroute-resilience-defaults";
         RemainAfterExit = true;
+        Restart = "on-failure";
+        RestartSec = 2;
       };
       Install.WantedBy = ["omniroute.service"];
     };

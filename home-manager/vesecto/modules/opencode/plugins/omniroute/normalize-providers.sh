@@ -21,12 +21,18 @@ if [ ! -f "$db" ]; then
   exit 0
 fi
 
-if [ "$(sqlite3 "$db" 'PRAGMA quick_check;')" != "ok" ]; then
-  echo "omniroute-normalize: quick_check failed, aborting before write" >&2
-  exit 1
+# Every call needs the busy timeout: the gateway's PRAGMA journal_mode=WAL on each open briefly locks exclusively.
+sq() {
+  sqlite3 -cmd ".timeout 30000" "$db" "$@"
+}
+
+# Exit 75 (EX_TEMPFAIL) so Restart=on-failure retries instead of reporting success without normalizing.
+if [ "$(sq "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='provider_connections';")" != "1" ]; then
+  echo "omniroute-normalize: provider_connections table absent (gateway not migrated yet)" >&2
+  exit 75
 fi
 
-count="$(sqlite3 "$db" "SELECT count(*) FROM provider_connections WHERE provider='agy';")"
+count="$(sq "SELECT count(*) FROM provider_connections WHERE provider='agy';")"
 
 if [ "${count:-0}" -eq 0 ]; then
   echo "omniroute-normalize: no-op (no agy rows)"
@@ -34,6 +40,6 @@ if [ "${count:-0}" -eq 0 ]; then
 fi
 
 # provider is non-unique (round-robin accounts) so a plain rename is collision-safe.
-sqlite3 "$db" "PRAGMA busy_timeout=30000; UPDATE provider_connections SET provider='antigravity' WHERE provider='agy';" >/dev/null
+sq "UPDATE provider_connections SET provider='antigravity' WHERE provider='agy';" >/dev/null
 
 echo "omniroute-normalize: normalized $count agy->antigravity row(s)"

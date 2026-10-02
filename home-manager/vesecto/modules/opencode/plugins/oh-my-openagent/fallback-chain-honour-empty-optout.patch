@@ -1,0 +1,167 @@
+--- a/packages/model-core/src/fallback-chain-from-models.ts
++++ b/packages/model-core/src/fallback-chain-from-models.ts
+@@ -112,7 +112,9 @@
+   defaultProviderID = "opencode",
+ ): FallbackEntry[] | undefined {
+   const normalized = normalizeFallbackModels(fallbackModels)
+-  if (!normalized || normalized.length === 0) return undefined
++  if (!normalized) return undefined
++  // [] is an explicit opt-out; undefined means "no opinion".
++  if (normalized.length === 0) return []
+ 
+   const parsed = normalized
+     .map((entry) => {
+--- a/packages/model-core/src/fallback-chain-empty-optout.test.ts
++++ b/packages/model-core/src/fallback-chain-empty-optout.test.ts
+@@ -0,0 +1,31 @@
++import { describe, expect, test } from "bun:test"
++
++import { buildFallbackChainFromModels } from "./fallback-chain-from-models"
++
++describe("buildFallbackChainFromModels empty opt-out", () => {
++  test("#given the user explicitly configures no fallbacks #when building #then it returns an empty chain", () => {
++    const result = buildFallbackChainFromModels([], "omniroute")
++
++    expect(result).toEqual([])
++  })
++
++  test("#given the key is absent #when building #then it returns undefined so the agent default still applies", () => {
++    const result = buildFallbackChainFromModels(undefined, "omniroute")
++
++    expect(result).toBeUndefined()
++  })
++
++  test("#given a non-empty override #when building #then the configured entries win", () => {
++    const result = buildFallbackChainFromModels(["omniroute/foo-chain"], "omniroute")
++
++    expect(result).toHaveLength(1)
++    expect(result?.[0]?.providers).toContain("omniroute")
++  })
++
++  // Only an empty input array is the opt-out; unparseable input keeps the existing undefined bail.
++  test("#given a non-empty but unparseable list #when building #then it still returns undefined", () => {
++    const result = buildFallbackChainFromModels(["   "], "omniroute")
++
++    expect(result).toBeUndefined()
++  })
++})
+--- a/packages/omo-opencode/src/plugin/event-model-fallback-state.ts
++++ b/packages/omo-opencode/src/plugin/event-model-fallback-state.ts
+@@ -44,11 +44,11 @@
+ ): void {
+   const agentKey = getAgentConfigKey(agentName);
+   const rawFallbackModels = getRawFallbackModels(sessionID, agentKey, pluginConfig);
+-  if (!rawFallbackModels || rawFallbackModels.length === 0) return;
++  if (!rawFallbackModels) return;
+ 
+   const fallbackChain = buildFallbackChainFromModels(rawFallbackModels, currentProviderID);
+ 
+-  if (fallbackChain && fallbackChain.length > 0 && modelFallback) {
++  if (fallbackChain && modelFallback) {
+     setSessionFallbackChain(modelFallback, sessionID, fallbackChain);
+   }
+ }
+--- a/packages/omo-opencode/src/shared/fallback-chain-from-models.test.ts
++++ b/packages/omo-opencode/src/shared/fallback-chain-from-models.test.ts
+@@ -255,9 +255,12 @@
+     ])
+   })
+ 
+-  it("returns undefined for empty/undefined input", () => {
++  it("returns undefined for undefined input", () => {
+     expect(buildFallbackChainFromModels(undefined, undefined)).toBeUndefined()
+-    expect(buildFallbackChainFromModels([], undefined)).toBeUndefined()
++  })
++
++  it("returns an empty chain for empty input, honouring the explicit opt-out", () => {
++    expect(buildFallbackChainFromModels([], undefined)).toEqual([])
+   })
+ 
+   it("filters out invalid entries", () => {
+--- a/packages/omo-opencode/src/features/background-agent/fallback-retry-empty-optout.test.ts
++++ b/packages/omo-opencode/src/features/background-agent/fallback-retry-empty-optout.test.ts
+@@ -0,0 +1,84 @@
++import { afterAll, describe, expect, mock, test } from "bun:test"
++
++import { buildFallbackChainFromModels } from "../../shared/fallback-chain-from-models"
++import type { FallbackEntry } from "../../shared/model-requirements"
++import type { ProviderModelsCache } from "../../shared/connected-providers-cache"
++import { tryFallbackRetry, type FallbackRetryHandlerDeps } from "./fallback-retry-handler"
++import type { BackgroundTask } from "./types"
++import type { ConcurrencyManager } from "./concurrency"
++import type { OpencodeClient, QueueItem } from "./constants"
++
++const hardcodedLadder: FallbackEntry[] = [
++  { model: "gpt-5.5", providers: ["openai", "github-copilot", "opencode", "vercel"], variant: "high" },
++]
++
++const retryHandlerDeps: Partial<FallbackRetryHandlerDeps> = {
++  log: mock(() => {}),
++  readConnectedProvidersCache: mock(() => null),
++  readProviderModelsCache: mock((): ProviderModelsCache | null => null),
++  shouldRetryError: mock(() => true),
++  getNextFallback: mock((chain: FallbackEntry[], attempt: number) => chain[attempt]),
++  hasMoreFallbacks: mock((chain: FallbackEntry[], attempt: number) => attempt < chain.length),
++  selectFallbackProvider: mock((providers: string[]) => providers[0]),
++  transformModelForProvider: mock((_provider: string, model: string) => model),
++}
++
++function createArgs(fallbackChain: FallbackEntry[] | undefined) {
++  const task: BackgroundTask = {
++    id: "test-task-1",
++    description: "test task",
++    prompt: "test prompt",
++    agent: "oracle",
++    status: "error",
++    parentSessionId: "parent-session-1",
++    parentMessageId: "parent-message-1",
++    fallbackChain,
++    attemptCount: 0,
++    concurrencyKey: "omniroute/oracle-chain",
++    model: { providerID: "omniroute", modelID: "oracle-chain" },
++  }
++
++  return {
++    task,
++    errorInfo: { name: "OverloadedError", message: "model overloaded" },
++    source: "polling",
++    concurrencyManager: {
++      release: mock(() => {}),
++      acquire: mock(async () => {}),
++      getConcurrencyKey: mock((model: string) => model),
++      getQueueLength: mock(() => 0),
++      getActiveCount: mock(() => 0),
++    } as never as ConcurrencyManager,
++    client: { session: { abort: mock(async () => ({})) } } as never as OpencodeClient,
++    idleDeferralTimers: new Map<string, ReturnType<typeof setTimeout>>(),
++    queuesByKey: new Map<string, QueueItem[]>(),
++    processKey: mock(() => {}),
++    deps: retryHandlerDeps,
++  }
++}
++
++describe("tryFallbackRetry with an explicit empty opt-out", () => {
++  afterAll(() => {
++    mock.restore()
++  })
++
++  // Pre-fix, [] collapsed to undefined and `?? ladder` reinstated the hardcoded chain.
++  test("#given fallback_models is [] #when a retryable error arrives #then it does not retry", async () => {
++    const configuredChain = buildFallbackChainFromModels([], "omniroute")
++    const args = createArgs(configuredChain ?? hardcodedLadder)
++
++    const result = await tryFallbackRetry(args)
++
++    expect(result).toBe(false)
++  })
++
++  test("#given fallback_models is [] #when a retryable error arrives #then the task model is unchanged", async () => {
++    const configuredChain = buildFallbackChainFromModels([], "omniroute")
++    const args = createArgs(configuredChain ?? hardcodedLadder)
++
++    await tryFallbackRetry(args)
++
++    expect(args.task.model?.providerID).toBe("omniroute")
++    expect(args.task.model?.modelID).toBe("oracle-chain")
++  })
++})

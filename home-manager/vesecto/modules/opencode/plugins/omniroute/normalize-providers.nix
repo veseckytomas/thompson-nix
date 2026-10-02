@@ -26,16 +26,21 @@ in {
   # Token-free DB fix, kept out of omniroute-provision so it never waits on the Yubikey-gated admin token.
   config = lib.mkIf cfg.enable {
     systemd.user.services.omniroute-normalize-providers = {
+      # Before=, not After=: the gateway's PRAGMA journal_mode=WAL on startup takes a brief exclusive lock.
       Unit = {
         Description = "Normalize OmniRoute Antigravity provider key (agy → antigravity)";
-        After = ["omniroute.service"];
+        Before = ["omniroute.service"];
         PartOf = ["omniroute.service"];
+        StartLimitIntervalSec = 60;
+        StartLimitBurst = 3;
       };
       Service = {
         Type = "oneshot";
         Environment = ["OMNIROUTE_DB=${dbPath}"];
         ExecStart = "${normalizeScript}/bin/omniroute-normalize-providers";
         RemainAfterExit = true;
+        Restart = "on-failure";
+        RestartSec = 2;
       };
       Install.WantedBy = ["omniroute.service"];
     };
