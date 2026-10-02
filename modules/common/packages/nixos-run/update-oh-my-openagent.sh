@@ -11,8 +11,8 @@
 # GitLab: vesecky.tomas
 #
 # Bumps the oh-my-openagent pin to the current `dev` tip, regenerates its bun2nix
-# deps, and keeps the bump only if the package still builds. A rejected bump is
-# not an error: the pin is restored and the surrounding update continues.
+# deps, and keeps the bump only if the package still builds. A rejected bump does
+# not sink the surrounding update, but it exits 2 so the caller can report it.
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
@@ -21,6 +21,11 @@ target="$plugin_dir/oh-my-openagent-bun.nix"
 flake_nix="$repo_root/flake.nix"
 flake_lock="$repo_root/flake.lock"
 tmpdir="$(mktemp -d)"
+
+# Outlives tmpdir's cleanup trap, so a rejected bump stays diagnosable after the run.
+log_dir="${XDG_STATE_HOME:-$HOME/.local/state}/nixos-run"
+build_log="$log_dir/oh-my-openagent-update.log"
+mkdir -p "$log_dir"
 
 omo_url="https://github.com/code-yeongyu/oh-my-openagent"
 omo_ref="dev"
@@ -133,7 +138,9 @@ validate_build() {
     echo "oh-my-openagent package not found in the home configuration" >&2
     return 1
   fi
-  nix build --no-link "$drv^out"
+  # Tee'd rather than swallowed: the patch-drift message is the whole diagnostic.
+  nix build --no-link "$drv^out" 2>&1 | tee "$build_log"
+  return "${PIPESTATUS[0]}"
 }
 
 pinned_rev="$(read_pinned_rev)"
@@ -164,8 +171,17 @@ attempt_bump() {
 if ! attempt_bump; then
   restore
   printf 'oh-my-openagent: %s failed to build; staying on %s\n' "${latest_rev:0:7}" "${pinned_rev:0:7}" >&2
-  printf 'oh-my-openagent: rerun after reconciling the patches in %s\n' "$plugin_dir" >&2
-  exit 0
+  printf 'oh-my-openagent: reconcile the patches in %s\n' "$plugin_dir" >&2
+  printf 'oh-my-openagent: build log kept at %s\n' "$build_log" >&2
+  # nixpkgs' --replace-fail error says "doesn't match anything", never "replace-fail".
+  drift_re="Hunk #.* FAILED|hunks? FAILED|patching file|can't find file|doesn't match anything|substituteInPlace.*ERROR"
+  if grep -qE "$drift_re" "$build_log" 2>/dev/null; then
+    printf 'oh-my-openagent: drifted anchors:\n' >&2
+    grep -nE "$drift_re" "$build_log" | head -20 | sed 's/^/  /' >&2
+  fi
+  # Exit 2, not 0: the caller distinguishes a rejected bump from a clean run and
+  # reports it after the switch, where a mid-run stderr line would scroll away.
+  exit 2
 fi
 
 printf 'Updated flake.lock and %s to %s\n' "$target" "${latest_rev:0:7}"

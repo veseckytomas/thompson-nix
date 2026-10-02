@@ -121,6 +121,9 @@
     # TUI to manage YubiKey OpenPGP touch policies. Run: `ykman-run`
     (callPackage ./ykman-run {})
     usbutils
+    # smartd already monitors the NVMe through VMD, but without these the health it sees is unreadable by hand.
+    smartmontools
+    nvme-cli
     udiskie
     udisks
     # plex-desktop

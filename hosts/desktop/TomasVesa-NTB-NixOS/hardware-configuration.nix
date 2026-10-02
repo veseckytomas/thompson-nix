@@ -26,8 +26,8 @@
     };
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
-    # Micron 2550 behind VMD stalls 30-60s on I/O wake (BIOS 311 made it boot-blocking); APST off keeps it out of deep sleep, the long retry window lets residual stalls self-heal.
-    kernelParams = ["i915.force_probe=7d55" "nvme_core.default_ps_max_latency_us=0" "nvme_core.io_timeout=255" "nvme_core.max_retries=10"];
+    # Intel erratum MTL016 strands an NVMe completion behind VMD, and io_timeout is how long the kernel waits before polling it out, so it is recovery latency rather than grace for the drive.
+    kernelParams = ["i915.force_probe=7d55" "nvme_core.default_ps_max_latency_us=0" "nvme_core.io_timeout=10"];
     resumeDevice = "/dev/dm-0";
     # zstd zram returns 3.76x, so paging anonymous memory there beats evicting page cache the working set still needs.
     kernel.sysctl = {
@@ -44,6 +44,8 @@
     "/" = {
       device = "/dev/disk/by-uuid/b821fa08-0d79-4aa9-8b57-9f5629cdae51";
       fsType = "ext4";
+      # systemd fails a mount job after 90s and never retries it, so the ceiling must outlast a burst of MTL016 strandings.
+      options = ["x-systemd.mount-timeout=300"];
     };
     "/boot" = {
       device = "/dev/disk/by-uuid/A2B7-BAB7";

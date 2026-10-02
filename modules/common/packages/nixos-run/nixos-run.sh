@@ -458,8 +458,10 @@ action_update() {
   hdr "Updating flake inputs ..."
   run nix flake update
   hdr "Updating oh-my-openagent ..."
-  # A rejected upstream bump must not sink the rest of the update.
-  run bash "@updateOhMyOpenagentScript@" || warn "oh-my-openagent update failed; keeping the current pin."
+  # A rejected upstream bump must not sink the rest of the update, but exit 2 is a
+  # drifted patch set and is re-reported after the switch, where it cannot scroll away.
+  local omo_rejected=0
+  run bash "@updateOhMyOpenagentScript@" || omo_rejected=$?
   hdr "Updating opencode npm plugins ..."
   run bash "@updateOpencodeNpmPluginsScript@"
   hdr "Updating LibreWolf ..."
@@ -496,6 +498,14 @@ action_update() {
 
   warn "Please touch the device. (Push)"
   run git push
+
+  if [ "$omo_rejected" -ne 0 ]; then
+    warn "oh-my-openagent: STILL ON THE OLD PIN - patch set drifted."
+    warn "  Reconcile: home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/"
+    warn "  Build log: ${XDG_STATE_HOME:-$HOME/.local/state}/nixos-run/oh-my-openagent-update.log"
+    ok "Update complete (oh-my-openagent pin unchanged)."
+    return 0
+  fi
   ok "Update complete."
 }
 

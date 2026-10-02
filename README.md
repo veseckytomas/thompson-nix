@@ -191,7 +191,7 @@ gpg --decrypt -q ~/.config/api_keys/omniroute_token.gpg   # verify → OMNIROUTE
 ```bash
 nixos-run                                       # home-only rebuild
 systemctl --user restart omniroute.service      # provision runs after the gateway (Yubikey touch to decrypt)
-journalctl --user -u omniroute-provision.service -f   # expect "26 provisioned, 0 failed"
+journalctl --user -u omniroute-provision.service -f   # expect "27 provisioned, 0 failed"
 ```
 
 Verify combos and available models:
@@ -204,7 +204,7 @@ curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq 
 
 ### Chain shape: fallback tail and context cap
 
-Two invariants hold across all 26 chains in `chains.json`, both enforced in Nix rather than by hand.
+Two invariants hold across all 27 chains in `chains.json`, both enforced in Nix rather than by hand.
 
 **Every chain ends with `ctu/vic/GLM-5.3-Flash`.** `strategy` is `priority`, so members are tried in array order and the last one is the last resort — the self-hosted CTU endpoint, unmetered, reached only when every provider ahead of it fails. Keep it last in any chain you add or edit; putting it earlier would route ordinary traffic there and starve the better models.
 
@@ -217,7 +217,7 @@ jq '.provider.omniroute.models | to_entries
   ~/.config/opencode/opencode.json
 ```
 
-Expect 25 chains at 250000 and `quick-chain` at 128000. That outlier is correct: `limit.context` is `min(floor across members, 250000)` and `quick-chain` contains `litellm/mini`, whose real 128k window is *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
+Expect 26 chains at 250000 and `quick-chain` at 128000. That outlier is correct: `limit.context` is `min(floor across members, 250000)` and `quick-chain` contains `litellm/mini`, whose real 128k window is *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
 
 Adding a model to a chain therefore needs **two** edits, in `chains.json` and `model-limits.json`. The latter is not optional: `providers/omniroute.nix` throws on a member id with no limits entry, deliberately, so that a typo fails the build instead of silently advertising a wrong window. A new id must also exist in the gateway's live catalog — `provision-combos.sh` only *warns* about an unknown id, and the chain position then 404s at request time:
 
@@ -380,7 +380,7 @@ nixos-run                                             # 4. home-only rebuild
 gpgconf --kill keyboxd                                # 5. retire the orphan daemon
 systemctl --user daemon-reload && systemctl --user restart keyboxd.socket
 gpg --list-keys | grep -c '^pub'                      # 6. -> 3; keyboxd.service becomes active on demand
-systemctl --user restart omniroute.service            # 7. journal -> "26 provisioned, 0 failed"
+systemctl --user restart omniroute.service            # 7. journal -> "27 provisioned, 0 failed"
 keybox-sweep && keybox-lock-harness                   # 8. -> 0 removed, then GREEN
 ls ~/.gnupg/public-keys.d/.\#lk* 2>/dev/null | wc -l  # 9. after a logout/login -> 0 (the real proof)
 ```
