@@ -125,6 +125,7 @@ commit_if_changes() {
 LOCKFILES=(
   flake.lock
   home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix
+  home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.lock
   home-manager/vesecto/modules/opencode/plugins/npm-plugins.json
   modules/common/packages/librewolf-bin.json
   home-manager/vesecto/modules/opencode/codegraph/codegraph.json
@@ -456,12 +457,24 @@ action_update() {
   track_new
 
   hdr "Updating flake inputs ..."
-  run nix flake update
+  local bulk=()
+  # The two gated inputs move only behind their own build gates.
+  mapfile -t bulk < <(nix flake metadata --json --no-write-lock-file . \
+    | jq -er '.locks as $l | $l.nodes[$l.root].inputs | keys[]
+              | select(. != "oh-my-openagent" and . != "graphify-src")')
+  if [ "${#bulk[@]}" -eq 0 ]; then
+    warn "Flake inputs: could not compute update allowlist; skipping bulk update."
+  else
+    run nix flake update "${bulk[@]}"
+  fi
   hdr "Updating oh-my-openagent ..."
   # A rejected upstream bump must not sink the rest of the update, but exit 2 is a
   # drifted patch set and is re-reported after the switch, where it cannot scroll away.
   local omo_rejected=0
   run bash "@updateOhMyOpenagentScript@" || omo_rejected=$?
+  hdr "Updating graphify ..."
+  local graphify_rejected=0
+  run bash "@updateGraphifyScript@" || graphify_rejected=$?
   hdr "Updating opencode npm plugins ..."
   run bash "@updateOpencodeNpmPluginsScript@"
   hdr "Updating LibreWolf ..."
@@ -499,14 +512,24 @@ action_update() {
   warn "Please touch the device. (Push)"
   run git push
 
+  local unchanged=()
   if [ "$omo_rejected" -ne 0 ]; then
     warn "oh-my-openagent: STILL ON THE OLD PIN - patch set drifted."
     warn "  Reconcile: home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/"
     warn "  Build log: ${XDG_STATE_HOME:-$HOME/.local/state}/nixos-run/oh-my-openagent-update.log"
-    ok "Update complete (oh-my-openagent pin unchanged)."
-    return 0
+    unchanged+=("oh-my-openagent")
   fi
-  ok "Update complete."
+  if [ "$graphify_rejected" -ne 0 ]; then
+    warn "graphify: STILL ON THE OLD PIN - gate failed."
+    warn "  Reconcile: home-manager/vesecto/modules/opencode/default.nix (upstreamGraphifyAgentsMdSha256) or uv2nix workspace layout"
+    warn "  Build log: ${XDG_STATE_HOME:-$HOME/.local/state}/nixos-run/graphify-update.log"
+    unchanged+=("graphify")
+  fi
+  if [ "${#unchanged[@]}" -gt 0 ]; then
+    ok "Update complete (${unchanged[*]} pin(s) unchanged)."
+  else
+    ok "Update complete."
+  fi
 }
 
 # ---------------------------------------------------------------------------

@@ -37,7 +37,8 @@
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
     };
-    "2048" = {
+    # Not "2048": nix rejects an all-digit input name as a flake input attribute path element.
+    game-2048 = {
       type = "github";
       owner = "mevdschee";
       repo = "2048.c";
@@ -148,11 +149,8 @@
     oh-my-openagent = {
       type = "git";
       url = "https://github.com/code-yeongyu/oh-my-openagent";
+      # flake.lock pins the source; updates resolve the `dev` tip behind a build gate.
       ref = "dev";
-      # Bumped to the `dev` tip by nixos-run's update action, which keeps the new rev
-      # only if the package still builds; a rejected bump is restored to this one.
-      # The rev pins `dev` against mid-update drift, so do not hand-edit it.
-      rev = "ff4e13418e43fb78408cce5f04f243a0bc0ab459";
       # Shallow fetch: this repo pulls the ~1.7 GB `open-design` submodule, and
       # full history is never needed for a flake=false source tree. shallow does
       # not change the exported tree, so the narHash (and the build) is unchanged.
@@ -207,8 +205,6 @@
       type = "github";
       owner = "Graphify-Labs";
       repo = "graphify";
-      # rev = tag v0.9.26; source + uv.lock consumed by the uv2nix leaf.
-      rev = "66d8110a534b52df3d660b5fda5aa5461a6b667a";
       flake = false;
     };
   };

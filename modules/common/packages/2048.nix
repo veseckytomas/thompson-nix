@@ -15,7 +15,7 @@
 }:
 pkgs.stdenv.mkDerivation {
   name = "2048";
-  src = inputs."2048";
+  src = inputs.game-2048;
   buildInputs = with pkgs; [gcc];
   buildPhase = ''
     gcc -o 2048 2048.c

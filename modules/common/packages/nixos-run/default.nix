@@ -53,7 +53,7 @@ in
     ];
     text =
       builtins.replaceStrings
-      ["@flakePath@" "@updateOhMyOpenagentScript@" "@updateOpencodeNpmPluginsScript@" "@pruneOpencodeNpmPluginsScript@"]
-      [flakePath "${./update-oh-my-openagent.sh}" "${./update-opencode-npm-plugins.sh}" "${./prune-opencode-npm-plugins.sh}"]
+      ["@flakePath@" "@updateOhMyOpenagentScript@" "@updateGraphifyScript@" "@updateOpencodeNpmPluginsScript@" "@pruneOpencodeNpmPluginsScript@"]
+      [flakePath "${./update-oh-my-openagent.sh}" "${./update-graphify.sh}" "${./update-opencode-npm-plugins.sh}" "${./prune-opencode-npm-plugins.sh}"]
       (builtins.readFile ./nixos-run.sh);
   }
