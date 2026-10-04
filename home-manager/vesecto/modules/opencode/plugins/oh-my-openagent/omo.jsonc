@@ -1,21 +1,12 @@
 {
-  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
-  "auto_update": false,
-  "runtime_fallback": {
-    "enabled": false
-  },
-  "codegraph": {
-    "enabled": true,
-    "auto_init": false,
-    "auto_provision": true,
-    "daemon": true
-  },
-  "team_mode": {
-    "enabled": true,
-    "max_parallel_members": 5,
-    "max_members": 8,
-    "tmux_visualization": true
-  },
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/omo.schema.json",
+  "_migrations": [
+    "2026-07-opencode-config-unification",
+    "2026-08-reasoning-unification",
+    "2026-09-category-deep-split",
+    "2026-09-harness-native-rename",
+    "2026-09-subscription-provider-rename"
+  ],
   "agents": {
     "sisyphus": {
       "model": "omniroute/sisyphus-chain",
@@ -227,7 +218,11 @@
       "model": "omniroute/ultrabrain-chain",
       "fallback_models": []
     },
-    "deep": {
+    "deep-low": {
+      "model": "omniroute/deep-chain",
+      "fallback_models": []
+    },
+    "deep-high": {
       "model": "omniroute/deep-chain",
       "fallback_models": []
     },
@@ -250,6 +245,18 @@
     "writing": {
       "model": "omniroute/writing-chain",
       "fallback_models": []
+    }
+  },
+  "[opencode]": {
+    "auto_update": false,
+    "runtime_fallback": {
+      "enabled": false
+    },
+    "team_mode": {
+      "enabled": true,
+      "max_parallel_members": 5,
+      "max_members": 8,
+      "tmux_visualization": true
     }
   }
 }

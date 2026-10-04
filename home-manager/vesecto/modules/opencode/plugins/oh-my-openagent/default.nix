@@ -153,10 +153,12 @@ in {
   options.opencodePlugins.omo.enable = lib.mkEnableOption "Oh My OpenAgent opencode plugin";
 
   config = lib.mkIf cfg.enable {
-    home.packages = [oh-my-openagent];
+    home = {
+      packages = [oh-my-openagent];
 
-    xdg.configFile = {
-      "opencode/oh-my-openagent.json".source = ./oh-my-openagent.json;
+      # The loader reads only ~/.omo/omo.jsonc now; its `_migrations` list must name every
+      # upstream migration id, or a `replace-target` one rewrites this read-only store symlink.
+      file.".omo/omo.jsonc".source = ./omo.jsonc;
     };
 
     # oh-my-openagent bundles a full node_modules (~16.8k files). Symlinking it

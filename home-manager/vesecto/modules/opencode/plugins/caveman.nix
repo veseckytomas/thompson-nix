@@ -34,7 +34,7 @@
   #      opencode's YAML parser (js-yaml in JSON_SCHEMA mode) crashes on.
   #   2. `description: >` folded block scalars which opencode silently drops.
   #   3. `model: haiku` — a bare alias that resolves outside omniroute, so the
-  #      agent silently bypasses the gateway; oh-my-openagent.json binds it.
+  #      agent silently bypasses the gateway; omo.jsonc binds it.
   # GSD agents use single-line descriptions and include `mode: subagent`.
   # We strip `tools:` and `model:`, flatten `description: >` to a single line,
   # and inject `mode: subagent`.
