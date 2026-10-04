@@ -248,7 +248,7 @@ sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
 
 ### Gotchas
 
-- **Failover lives in the gateway chains, not in `oh-my-openagent.json`'s `fallback_models`.** Those arrays are all `[]` and are **inert**: oh-my-openagent's reactive runtime fallback is gated on `runtime_fallback.enabled`, which is `false` here (and upstream's default) — the hook returns early. Populating them changes nothing unless that flag is flipped.
+- **Failover lives in the gateway chains, not in `omo.jsonc`'s `fallback_models`.** Those arrays are all `[]` and are **inert**: oh-my-openagent's reactive runtime fallback is gated on `[opencode].runtime_fallback.enabled`, which is `false` here (and upstream's default) — the hook returns early. Populating them changes nothing unless that flag is flipped.
 - **A gateway member id can never go in `fallback_models` anyway.** Entries there must be `provider/model` ids **opencode** exposes, and opencode only ever sees `omniroute/<chain-name>`. Prefixes like `ctu/` and `gh/` are gateway-internal member ids that exist only inside OmniRoute, so `ctu/vic/GLM-5.3-Flash` is not addressable from opencode. Last-resort routing belongs at the tail of a chain.
 - Enabling `runtime_fallback` on top of the chains would stack two failover layers — the gateway walks its chain, then oh-my-openagent switches chains and re-enters the gateway. Intentional double-retry only; don't turn it on by accident.
 - `compaction.reserved` (32000, in `opencode/default.nix`) must stay below the smallest chain window — currently `quick-chain`'s 128k floor — or compaction can never trigger before the real limit.
