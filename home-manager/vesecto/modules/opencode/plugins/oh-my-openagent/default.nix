@@ -38,23 +38,19 @@
 
     src = inputs.oh-my-openagent;
 
+    # Default fuzz 2 lets a hunk apply against drifted context and still succeed.
+    # An offset is not fuzz, so suppressing its .orig backup keeps -F0 strict.
+    patchFlags = ["-p1" "-F0" "--no-backup-if-mismatch"];
+
     # Every edit below must fail the build if upstream moves its anchor: silent
     # no-ops previously dropped a fix for months without any build signal.
     patches = [
+      # 99 skill .md files arrive as symlinks from home-manager; upstream accepts only symlinked dirs.
       ./skills-loader-accept-symlinked-skills.patch
-      ./fallback-retry-dispatcher-snapshot-order.patch
-      ./auto-retry-timeout-snapshot-order.patch
-      ./agent-resolver-preserve-subagent-name.patch
-      # Defines isSameModel, which chat-message-handler-internal-agents.patch calls.
-      ./chat-message-handler-variant-aware-model.patch
-      ./chat-message-handler-internal-agents.patch
-      ./error-classifier-quota-reached.patch
-      ./constants-quota-reached.patch
-      ./auto-retry-signal-quota-reached.patch
-      # An empty fallback_models is an explicit opt-out, not "no opinion".
+      # Live via delegate-task/category-resolver, which is behind no fallback gate.
       ./fallback-chain-honour-empty-optout.patch
-      # Reachability was provider-only, so it emitted pairs like opencode/gpt-5.5 that no provider serves.
-      ./fallback-model-aware-resolver.patch
+      # Two of upstream's 16 build nodes reach `npm ci`, which the sandbox has no network for.
+      ./build-nodes-nix-profile.patch
     ];
 
     postPatch = ''
@@ -71,19 +67,23 @@
 
       # Inheriting the agent's variant yields invalid ids like anthropic/claude-opus-4-7(max).
       substituteInPlace packages/omo-opencode/src/hooks/runtime-fallback/retry-model-payload.ts \
-        --replace-fail 'const variant = parsedModel.variant ?? agentSettings?.variant' 'const variant = parsedModel.variant'
+        --replace-fail 'const variant = parsedModel.variant ?? agentSettings?.variant ?? loweredReasoning.variant' 'const variant = parsedModel.variant'
 
-      # `npm ci` needs network and dies in the offline sandbox; the two LSP packages are
-      # rebuilt in buildPhase below and the codex plugin is unused by the opencode runtime.
+      # `npm ci` needs network; each package's own `npm run build` is offline-capable.
       substituteInPlace package.json \
-        --replace-fail 'bun run build:lsp-tools-mcp && ' "" \
-        --replace-fail 'bun run build:lsp-daemon && ' "" \
-        --replace-fail 'bun run build:codex-plugin && ' ""
+        --replace-fail 'npm --prefix packages/lsp-tools-mcp ci && ' "" \
+        --replace-fail 'npm --prefix packages/lsp-daemon ci && ' ""
 
       # materialize-shared-upstreams shells out to `git submodule update --init`, but the
       # sandbox has no git and no .git dir; the flake input already carries the submodules.
       substituteInPlace packages/omo-codex/plugin/scripts/materialize-shared-upstreams.mjs \
         --replace-fail 'function initSubmodules({ strict }) {' 'function initSubmodules({ strict }) { return true;'
+
+      # Counted and fail-loud, so it can never silently no-op the way a bare sed would.
+      python3 ${./strip-senpi.py} .
+
+      # Upstream's lock resolves senpi, whose packuments the tarball-only offline cache lacks; this one is regenerated against the stripped manifests by the updater.
+      cp --no-preserve=mode ${./oh-my-openagent-bun.lock} bun.lock
     '';
 
     nativeBuildInputs = [
@@ -91,10 +91,13 @@
       bun2nix.hook
       pkgs.nodejs
       pkgs.perl
+      pkgs.python3
     ];
 
     buildInputs = [
       pkgs.stdenv.cc.cc.lib
+      # pi-tui's x11 prebuild arrived with this bump and is the only consumer.
+      pkgs.libxcb
     ];
 
     autoPatchelfIgnoreMissingDeps = ["libc.musl-x86_64.so.1"];
@@ -103,38 +106,20 @@
 
     bunInstallFlags = ["--linker=hoisted"];
 
+    # bun2nix's lifecycle phase runs the root `prepare` (`bun run build`) before buildPhase, so the profile must be derivation-wide or that run takes the full 16-node graph into `npm ci`.
+    OMO_BUILD_PROFILE = "nix";
+
     buildPhase = ''
       runHook preBuild
+
+      # The two LSP packages are not bun workspace members, so their own `npm run
+      # build` finds neither tsc nor bun in a local node_modules/.bin.
+      export PATH="$PWD/node_modules/.bin:$PATH"
+
+      # Building the LSP dists here rather than at first launch: the lazy build
+      # cannot write dist/ under the read-only store, which made opencode's first
+      # `lsp` connection die with `-32000: Connection closed` after every switch.
       bun run build
-
-      # Pre-build the LSP daemon + tools MCP (the `lsp` MCP server, a.k.a.
-      # omo-lsp). Upstream's root `build` now builds these via `npm ci && npm
-      # run build` (stripped from the chain in patchPhase above, since npm ci
-      # cannot run offline). We recompile them here against the already
-      # installed hoisted node_modules, mirroring each package's own `build`
-      # script but driving tsc/bun directly (no npm ci): the workspace deps
-      # (@oh-my-opencode/lsp-core, mcp-stdio-core) resolve from the root
-      # node_modules. Pre-building also avoids the lazy first-launch build that
-      # cannot write its dist/ under the read-only Nix store — which otherwise
-      # made opencode's first `lsp` connection die with `-32000: Connection
-      # closed` after every `home-manager switch`.
-      echo "Pre-building @code-yeongyu/lsp-tools-mcp ..."
-      ( cd packages/lsp-tools-mcp \
-          && node scripts/ensure-core-links.mjs \
-          && rm -rf dist \
-          && ../../node_modules/.bin/tsc -p tsconfig.build.json --emitDeclarationOnly \
-          && bun build src/cli.ts src/mcp.ts src/tools.ts src/request-context.ts src/lsp/manager.ts --outdir dist --target node --format esm )
-
-      # lsp-daemon resolves lsp-tools-mcp via `file:../lsp-tools-mcp`; provide
-      # that link explicitly since these packages are not bun workspace members.
-      mkdir -p packages/lsp-daemon/node_modules/@code-yeongyu
-      ln -sfn ../../../lsp-tools-mcp packages/lsp-daemon/node_modules/@code-yeongyu/lsp-tools-mcp
-
-      echo "Pre-building @code-yeongyu/lsp-daemon ..."
-      ( cd packages/lsp-daemon \
-          && ../../node_modules/.bin/tsc -p tsconfig.build.json \
-          && bun build src/cli.ts src/index.ts --outdir dist --target node --format esm \
-          && node scripts/stamp-dist-version.mjs )
 
       runHook postBuild
     '';
@@ -145,6 +130,8 @@
       mkdir -p $out/bin
       cp package.json postinstall.mjs $out/
       cp -R dist bin node_modules .opencode .agents packages $out/
+
+      python3 ${./relink-build-symlinks.py} $out
 
       chmod +x $out/bin/oh-my-opencode.js
       ln -s oh-my-opencode.js $out/bin/oh-my-openagent

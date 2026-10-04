@@ -124,11 +124,30 @@ def maximize_by_switching_layout(qtile):
 # Qtile cycles monitors in RRGetMonitors order, which puts the PRIMARY output
 # first, so the cycle direction depends on which output autorandr marks primary
 # -- not on the physical arrangement. Where that runs opposite to the physical
-# left-to-right order, super+. / super+, feel swapped. List those hosts here to
-# flip next/prev for them only; every other host keeps qtile's default order.
-REVERSED_MONITOR_NAV_HOSTS = {"TomasVesa-PC-NixOS", "TomasVesa-NTB-NixOS"}
+# left-to-right order, super+. / super+, feel swapped. List those hosts, or the
+# autorandr profiles where it happens, here; everything else keeps qtile's order.
+REVERSED_MONITOR_NAV_HOSTS = {"TomasVesa-PC-NixOS"}
+REVERSED_MONITOR_NAV_PROFILES = {"ntb_office"}
 
-if platform.node() in REVERSED_MONITOR_NAV_HOSTS:
+
+def current_autorandr_profiles():
+    """Return the autorandr profiles matching the live outputs, or an empty set."""
+    try:
+        out = subprocess.check_output(
+            ["autorandr", "--current"],
+            text=True,
+            timeout=5,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        return set()
+    return {line.strip() for line in out.splitlines() if line.strip()}
+
+
+# An empty set on any failure keeps nav non-reversed rather than raising at config eval.
+if platform.node() in REVERSED_MONITOR_NAV_HOSTS or (
+    current_autorandr_profiles() & REVERSED_MONITOR_NAV_PROFILES
+):
     next_monitor, prev_monitor = lazy.prev_screen(), lazy.next_screen()
 else:
     next_monitor, prev_monitor = lazy.next_screen(), lazy.prev_screen()

@@ -154,10 +154,10 @@ in {
     omniroute.enable = true;
     gsd-sdk.enable = true;
     gsd.enable = true;
-    caveman.enable = true;
-    claude-token-sync.enable = true;
-    cache-control-cap.enable = true;
-    system-message-hoist.enable = true;
+    caveman.enable = false;
+    claude-token-sync.enable = false;
+    cache-control-cap.enable = false;
+    system-message-hoist.enable = false;
     graphify.enable = true;
     superpowers = {
       enable = true;
@@ -215,7 +215,7 @@ in {
         ++ lib.optional config.opencodePlugins.superpowers.enable "./plugins/superpowers/plugin.js"
         ++ [
           "opencode-wakatime@${npmPlugins."opencode-wakatime"}"
-          "./plugins/claude-token-sync/plugin.js"
+          # "./plugins/claude-token-sync/plugin.js"
           # "@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"
         ]
         ++ lib.optional config.opencodeProviders.openai.enable "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
