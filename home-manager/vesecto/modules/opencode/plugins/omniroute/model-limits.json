@@ -41,7 +41,27 @@
       "context": 1000000,
       "output": 128000
     },
+    "cc/claude-opus-5-low": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cc/claude-opus-5-medium": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cc/claude-opus-5-xhigh": {
+      "context": 1000000,
+      "output": 128000
+    },
     "cc/claude-sonnet-5": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cc/claude-sonnet-5-high": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cc/claude-sonnet-5-low": {
       "context": 1000000,
       "output": 128000
     },
@@ -61,7 +81,19 @@
       "context": 272000,
       "output": 128000
     },
+    "cx/gpt-5.6-sol-low": {
+      "context": 872000,
+      "output": 128000
+    },
+    "cx/gpt-5.6-sol-medium": {
+      "context": 872000,
+      "output": 128000
+    },
     "cx/gpt-5.6-sol-ultra": {
+      "context": 872000,
+      "output": 128000
+    },
+    "cx/gpt-5.6-sol-xhigh": {
       "context": 872000,
       "output": 128000
     },
@@ -73,7 +105,31 @@
       "context": 872000,
       "output": 128000
     },
+    "cx/gpt-6-astra-high": {
+      "context": 272000,
+      "output": 128000
+    },
+    "cx/gpt-6-astra-max": {
+      "context": 272000,
+      "output": 128000
+    },
+    "cx/gpt-6-astra-xhigh": {
+      "context": 272000,
+      "output": 128000
+    },
+    "cx/gpt-6-luna-low": {
+      "context": 272000,
+      "output": 128000
+    },
+    "cx/gpt-6-sol-medium": {
+      "context": 272000,
+      "output": 128000
+    },
     "gh/claude-fable-5.1": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "gh/claude-fable-5.1-xhigh": {
       "context": 1000000,
       "output": 128000
     },
@@ -81,7 +137,31 @@
       "context": 1000000,
       "output": 128000
     },
+    "gh/claude-opus-5.5-low": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "gh/claude-opus-5.5-medium": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "gh/claude-opus-5.5-xhigh": {
+      "context": 1000000,
+      "output": 128000
+    },
     "gh/claude-sonnet-5.5": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "gh/claude-sonnet-5.5-high": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "gh/claude-sonnet-5.5-low": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "gh/claude-sonnet-5.5-medium": {
       "context": 1000000,
       "output": 128000
     },

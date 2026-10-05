@@ -9,242 +9,301 @@
   ],
   "agents": {
     "sisyphus": {
-      "model": "omniroute/sisyphus-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/sisyphus-chain"
+      ]
     },
     "hephaestus": {
-      "model": "omniroute/hephaestus-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/hephaestus-chain"
+      ]
     },
     "oracle": {
-      "model": "omniroute/oracle-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/oracle-chain"
+      ]
     },
     "librarian": {
-      "model": "omniroute/librarian-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/librarian-chain"
+      ]
     },
     "explore": {
-      "model": "omniroute/explore-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/explore-chain"
+      ]
     },
     "multimodal-looker": {
-      "model": "omniroute/multimodal-looker-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/multimodal-looker-chain"
+      ]
     },
     "prometheus": {
-      "model": "omniroute/prometheus-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/prometheus-chain"
+      ]
     },
     "metis": {
-      "model": "omniroute/metis-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/metis-chain"
+      ]
     },
     "momus": {
-      "model": "omniroute/momus-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/momus-chain"
+      ]
     },
     "atlas": {
-      "model": "omniroute/atlas-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/atlas-chain"
+      ]
     },
     "sisyphus-junior": {
-      "model": "omniroute/sisyphus-junior-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/sisyphus-junior-chain"
+      ]
     },
     "general": {
-      "model": "omniroute/general-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/general-chain"
+      ]
     },
     "gsd-planner": {
-      "model": "omniroute/gsd-planner-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-planner-chain"
+      ]
     },
     "gsd-plan-checker": {
-      "model": "omniroute/gsd-plan-checker-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-plan-checker-chain"
+      ]
     },
     "gsd-eval-planner": {
-      "model": "omniroute/gsd-planner-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-planner-chain"
+      ]
     },
     "gsd-assumptions-analyzer": {
-      "model": "omniroute/gsd-reasoning-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-reasoning-chain"
+      ]
     },
     "gsd-framework-selector": {
-      "model": "omniroute/gsd-reasoning-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-reasoning-chain"
+      ]
     },
     "gsd-roadmapper": {
-      "model": "omniroute/gsd-reasoning-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-reasoning-chain"
+      ]
     },
     "gsd-code-reviewer": {
-      "model": "omniroute/gsd-audit-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-audit-chain"
+      ]
     },
     "gsd-eval-auditor": {
-      "model": "omniroute/gsd-audit-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-audit-chain"
+      ]
     },
     "gsd-verifier": {
-      "model": "omniroute/gsd-audit-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-audit-chain"
+      ]
     },
     "gsd-integration-checker": {
-      "model": "omniroute/gsd-audit-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-audit-chain"
+      ]
     },
     "gsd-nyquist-auditor": {
-      "model": "omniroute/gsd-audit-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-audit-chain"
+      ]
     },
     "gsd-advisor-researcher": {
-      "model": "omniroute/gsd-research-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-research-chain"
+      ]
     },
     "gsd-ai-researcher": {
-      "model": "omniroute/gsd-research-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-research-chain"
+      ]
     },
     "gsd-domain-researcher": {
-      "model": "omniroute/gsd-research-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-research-chain"
+      ]
     },
     "gsd-phase-researcher": {
-      "model": "omniroute/gsd-research-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-research-chain"
+      ]
     },
     "gsd-project-researcher": {
-      "model": "omniroute/gsd-research-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-research-chain"
+      ]
     },
     "gsd-codebase-mapper": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-doc-synthesizer": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-doc-verifier": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-intel-updater": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-mempalace-curator": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-pattern-mapper": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-research-synthesizer": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-user-profiler": {
-      "model": "omniroute/gsd-background-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-background-chain"
+      ]
     },
     "gsd-security-auditor": {
-      "model": "omniroute/oracle-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/oracle-chain"
+      ]
     },
     "gsd-debugger": {
-      "model": "omniroute/deep-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/deep-chain"
+      ]
     },
     "gsd-debug-session-manager": {
-      "model": "omniroute/unspecified-high-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/unspecified-high-chain"
+      ]
     },
     "gsd-executor": {
-      "model": "omniroute/sisyphus-junior-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/sisyphus-junior-chain"
+      ]
     },
     "gsd-code-fixer": {
-      "model": "omniroute/sisyphus-junior-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/sisyphus-junior-chain"
+      ]
     },
     "gsd-doc-writer": {
-      "model": "omniroute/writing-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/writing-chain"
+      ]
     },
     "gsd-doc-classifier": {
-      "model": "omniroute/quick-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/quick-chain"
+      ]
     },
     "gsd-ui-researcher": {
-      "model": "omniroute/visual-engineering-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/visual-engineering-chain"
+      ]
     },
     "gsd-ui-auditor": {
-      "model": "omniroute/visual-engineering-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/visual-engineering-chain"
+      ]
     },
     "gsd-ui-checker": {
-      "model": "omniroute/visual-engineering-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/visual-engineering-chain"
+      ]
     },
     "gsd-dom-verifier": {
-      "model": "omniroute/visual-engineering-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/visual-engineering-chain"
+      ]
     },
     "cavecrew-investigator": {
-      "model": "omniroute/explore-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/explore-chain"
+      ]
     },
     "cavecrew-reviewer": {
-      "model": "omniroute/gsd-audit-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/gsd-audit-chain"
+      ]
     },
     "cavecrew-builder": {
-      "model": "omniroute/sisyphus-junior-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/sisyphus-junior-chain"
+      ]
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "omniroute/visual-engineering-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/visual-engineering-chain"
+      ]
     },
     "ultrabrain": {
-      "model": "omniroute/ultrabrain-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/ultrabrain-chain"
+      ]
     },
     "deep-low": {
-      "model": "omniroute/deep-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/deep-chain"
+      ]
     },
     "deep-high": {
-      "model": "omniroute/deep-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/deep-high-chain"
+      ]
     },
     "artistry": {
-      "model": "omniroute/artistry-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/artistry-chain"
+      ]
     },
     "quick": {
-      "model": "omniroute/quick-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/quick-chain"
+      ]
     },
     "unspecified-low": {
-      "model": "omniroute/unspecified-low-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/unspecified-low-chain"
+      ]
     },
     "unspecified-high": {
-      "model": "omniroute/unspecified-high-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/unspecified-high-chain"
+      ]
     },
     "writing": {
-      "model": "omniroute/writing-chain",
-      "fallback_models": []
+      "models": [
+        "omniroute/writing-chain"
+      ]
     }
   },
   "[opencode]": {
