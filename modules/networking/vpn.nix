@@ -42,7 +42,8 @@ in {
         resolve-flags = notSaved;
         lasthost-flags = "0";
         xmlconfig-flags = "0";
-        disable_udp = "no";
+        # TCP-only: silent UDP blackholes otherwise leave the tunnel up-but-dead.
+        disable_udp = "yes";
         enable_csd_trojan = "no";
         pem_passphrase_fsid = "no";
         prevent_invalid_cert = "no";

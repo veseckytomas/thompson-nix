@@ -14,6 +14,7 @@
     ./fortivpn.nix
     ./networkmanager-recover.nix
     ./omniroute-proxy.nix
+    ./vic-vpn-watchdog.nix
     ./vpn.nix
   ];
 

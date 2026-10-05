@@ -204,7 +204,7 @@ curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq 
 
 ### Chain shape: fallback tail and context cap
 
-Two invariants hold across all 27 chains in `chains.json`, both enforced in Nix rather than by hand.
+Two invariants hold across all 28 chains in `chains.json`, both enforced in Nix rather than by hand.
 
 **Every chain ends with `ctu/vic/GLM-5.3-Flash`.** `strategy` is `priority`, so members are tried in array order and the last one is the last resort — the self-hosted CTU endpoint, unmetered, reached only when every provider ahead of it fails. Keep it last in any chain you add or edit; putting it earlier would route ordinary traffic there and starve the better models.
 
@@ -217,7 +217,7 @@ jq '.provider.omniroute.models | to_entries
   ~/.config/opencode/opencode.json
 ```
 
-Expect 26 chains at 250000 and `quick-chain` at 128000. That outlier is correct: `limit.context` is `min(floor across members, 250000)` and `quick-chain` contains `litellm/mini`, whose real 128k window is *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
+Expect 24 chains at 250000 and 4 chains at 128000: `quick-chain`, `librarian-chain`, `explore-chain` and `gsd-plan-checker-chain`. Those outliers are correct: `limit.context` is `min(floor across members, 250000)` and those chains contain 128k-window members (`litellm/mini`, `litellm/qwen3.5`, `litellm/deepseek*`), whose real windows are *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
 
 Adding a model to a chain therefore needs **two** edits, in `chains.json` and `model-limits.json`. The latter is not optional: `providers/omniroute.nix` throws on a member id with no limits entry, deliberately, so that a typo fails the build instead of silently advertising a wrong window. A new id must also exist in the gateway's live catalog — `provision-combos.sh` only *warns* about an unknown id, and the chain position then 404s at request time:
 
@@ -248,8 +248,8 @@ sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
 
 ### Gotchas
 
-- **Failover lives in the gateway chains, not in `omo.jsonc`'s `fallback_models`.** Those arrays are all `[]` and are **inert**: oh-my-openagent's reactive runtime fallback is gated on `[opencode].runtime_fallback.enabled`, which is `false` here (and upstream's default) — the hook returns early. Populating them changes nothing unless that flag is flipped.
-- **A gateway member id can never go in `fallback_models` anyway.** Entries there must be `provider/model` ids **opencode** exposes, and opencode only ever sees `omniroute/<chain-name>`. Prefixes like `ctu/` and `gh/` are gateway-internal member ids that exist only inside OmniRoute, so `ctu/vic/GLM-5.3-Flash` is not addressable from opencode. Last-resort routing belongs at the tail of a chain.
+- **Failover lives in the gateway chains, not in `omo.jsonc`'s `models` arrays.** Each agent/category has exactly one entry there (`models[0]` is the primary; upstream migrated `model`+`fallback_models` into `models`); oh-my-openagent's reactive runtime fallback is gated on `[opencode].runtime_fallback.enabled`, which is `false` here (and upstream's default) — the hook returns early. Extra entries beyond `models[0]` change nothing unless that flag is flipped.
+- **A gateway member id can never go in `models` anyway.** Entries there must be `provider/model` ids **opencode** exposes, and opencode only ever sees `omniroute/<chain-name>`. Prefixes like `ctu/` and `gh/` are gateway-internal member ids that exist only inside OmniRoute, so `ctu/vic/GLM-5.3-Flash` is not addressable from opencode. Last-resort routing belongs at the tail of a chain.
 - Enabling `runtime_fallback` on top of the chains would stack two failover layers — the gateway walks its chain, then oh-my-openagent switches chains and re-enters the gateway. Intentional double-retry only; don't turn it on by accident.
 - `compaction.reserved` (32000, in `opencode/default.nix`) must stay below the smallest chain window — currently `quick-chain`'s 128k floor — or compaction can never trigger before the real limit.
 - The `ctu` provider exists only as a connection in the OmniRoute database, never in this repo: no base URL, no key, no nix file. A fresh machine needs it registered in the UI — per the [internal wiki](https://gitlab.dev1/ppsr-26/ai-coding/lokalni-ai/-/wikis/home) — or every chain's last position 404s.
