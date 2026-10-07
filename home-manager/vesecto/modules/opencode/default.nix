@@ -441,6 +441,8 @@ in {
       codegraph
       graphify
       pkgs.claude-code
+      pkgs.codex
+      pkgs.github-copilot-cli
       pkgs.antigravity-cli
       context7KeyCheck
     ];
