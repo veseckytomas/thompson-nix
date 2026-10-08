@@ -37,31 +37,15 @@
       "context": 200000,
       "output": 64000
     },
+    "cc/claude-fable-5-1-medium": {
+      "context": 1000000,
+      "output": 128000
+    },
     "cc/claude-opus-5": {
       "context": 1000000,
       "output": 128000
     },
-    "cc/claude-opus-5-low": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "cc/claude-opus-5-medium": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "cc/claude-opus-5-xhigh": {
-      "context": 1000000,
-      "output": 128000
-    },
     "cc/claude-sonnet-5": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "cc/claude-sonnet-5-high": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "cc/claude-sonnet-5-low": {
       "context": 1000000,
       "output": 128000
     },

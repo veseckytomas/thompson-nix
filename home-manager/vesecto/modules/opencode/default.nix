@@ -263,6 +263,8 @@ in {
         bash = let
           # Last match wins, so the denies must render after the glab/gsd allows.
           afterAllows = lib.hm.dag.entryAfter ["glab *" "*gsd-tools*" "*gsd_run*"];
+          # ...and the `pass ls` carve-out after the pass denies it reopens.
+          afterPassDenies = lib.hm.dag.entryAfter ["pass *" "*/pass *"];
         in {
           "glab *" = "allow";
           "*.env*" = afterAllows "deny";
@@ -279,6 +281,12 @@ in {
           "*id_ecdsa*" = afterAllows "deny";
           "*id_ed25519*" = afterAllows "deny";
           "*id_rsa*" = afterAllows "deny";
+          # `pass show X` prints a live secret; only entry listing stays allowed.
+          # `*/pass *` closes the absolute-path bypass; the allows must land last.
+          "pass *" = afterAllows "deny";
+          "*/pass *" = afterAllows "deny";
+          "pass ls *" = afterPassDenies "allow";
+          "*/pass ls *" = afterPassDenies "allow";
         };
       };
       # reserved leaves headroom to compact before a chain's real floor (min 128k).

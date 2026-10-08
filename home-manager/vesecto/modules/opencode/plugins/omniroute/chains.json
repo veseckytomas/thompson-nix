@@ -301,13 +301,28 @@
       "strategy": "priority"
     },
     {
+      "name": "deep-high-chain",
+      "models": [
+        "cc/claude-opus-5",
+        "ctu/vic/GLM-5.3-Flash"
+      ],
+      "strategy": "priority"
+    },
+    {
       "name": "eurybates-chain",
       "models": [
-        "gh/claude-fable-5.1",
-        "cc/claude-fable-5",
+        "cc/claude-fable-5-1-medium",
         "cc/claude-opus-5",
         "antigravity/claude-opus-4-6-thinking",
         "litellm/glm-5.3",
+        "ctu/vic/GLM-5.3-Flash"
+      ],
+      "strategy": "priority"
+    },
+    {
+      "name": "reword-chain",
+      "models": [
+        "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
