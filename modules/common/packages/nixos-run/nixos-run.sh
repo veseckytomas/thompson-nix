@@ -545,6 +545,8 @@ action_clean() {
     "Clean nix-store (gc + optimize)" \
     "Prune Nix fetcher cache (git/tarball)" \
     "Prune opencode plugin cache (stale versions)" \
+    "Clean npm cache (_cacache + _npx)" \
+    "Prune repo node_modules" \
     "Prune docker cache" \
     "Empty trash" || true)
 
@@ -591,6 +593,18 @@ action_clean() {
   if grep -qF "opencode plugin cache" <<<"$choices"; then
     hdr "Pruning opencode plugin cache (stale plugin versions) ..."
     run bash "@pruneOpencodeNpmPluginsScript@" || warn "opencode plugin cache prune failed."
+  fi
+  if grep -qF "npm cache" <<<"$choices"; then
+    # Pure download caches npm recreates on demand; rm -rf avoids needing npm on PATH.
+    hdr "Cleaning npm cache (_cacache + _npx) ..."
+    run rm -rf "$HOME/.npm/_cacache" "$HOME/.npm/_npx" "$HOME/.npm/_logs" || warn "npm cache cleanup failed."
+  fi
+  if grep -qF "repo node_modules" <<<"$choices"; then
+    # Scoped to ~/Git: a $HOME-wide sweep also matches shipped app bundles
+    # (.paradoxlauncher, .copilot, codegraph) that no package.json can restore.
+    # .opencode is excluded as live plugin state; --prune stops fd descending into a match.
+    hdr "Pruning repo node_modules (~/Git) ..."
+    run fd -HI --prune '^node_modules$' "$HOME/Git" -t d -E .git -E Trash -E .opencode -X rm -rf || warn "node_modules prune failed."
   fi
   if grep -qF "docker cache" <<<"$choices"; then
     hdr "Pruning docker cache ..."
