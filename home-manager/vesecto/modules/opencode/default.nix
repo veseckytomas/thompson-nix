@@ -260,6 +260,10 @@ in {
           "*id_rsa" = "deny";
           "*id_rsa.pub" = "deny";
         };
+        # A repo-local user.name/email outranks the global one, so commits land as a bot.
+        edit = {
+          "*.git/config" = "deny";
+        };
         bash = let
           # Last match wins, so the denies must render after the glab/gsd allows.
           afterAllows = lib.hm.dag.entryAfter ["glab *" "*gsd-tools*" "*gsd_run*"];
@@ -287,6 +291,9 @@ in {
           "*/pass *" = afterAllows "deny";
           "pass ls *" = afterPassDenies "allow";
           "*/pass ls *" = afterPassDenies "allow";
+          # `ask`, not `deny`: the glob cannot tell a `--get` read from an identity write.
+          "*config*user.email*" = afterAllows "ask";
+          "*config*user.name*" = afterAllows "ask";
         };
       };
       # reserved leaves headroom to compact before a chain's real floor (min 128k).
