@@ -152,6 +152,19 @@ in {
             ;;
         esac
       }
+
+      function topdf {
+        if [ -z "$1" ]; then
+          echo "Usage: topdf <file> [file...]" >&2
+          return 1
+        fi
+        for f in "$@"; do
+          # Private profile, else the call dies when a GUI LibreOffice already holds the default one.
+          soffice --headless -env:UserInstallation=file:///tmp/soffice-topdf \
+            --convert-to pdf --outdir "$(dirname "$f")" "$f" 2>&1 \
+            | grep -v '^Fontconfig warning:'
+        done
+      }
     '';
     shellAliases = {
       "pentaho" = "export ORACLE_SID=DS.CVUT.CZ && export TNS_ADMIN=~/oracle-instantclient/network/admin/ && export ORACLE_HOME=~/oracle-instantclient/ && steam-run ~/pentaho/spoon.sh";
