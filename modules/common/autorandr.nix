@@ -21,10 +21,17 @@
     PATH=${lib.makeBinPath [pkgs.autorandr pkgs.xrandr pkgs.coreutils pkgs.gnugrep]}
     topology() { xrandr --query 2>/dev/null | grep -E " connected| disconnected"; }
 
+    # Nothing to converge until X accepts us: udev fires this before the session writes .Xauthority.
+    ready=0
     for _ in $(seq 1 30); do
-      xrandr --query >/dev/null 2>&1 && break
+      xrandr --query >/dev/null 2>&1 && {
+        ready=1
+        break
+      }
       sleep 1
     done
+    # The session's own `autorandr --change` covers this boot, so leave rather than log an auth failure.
+    [ "$ready" -eq 1 ] || exit 0
 
     prev=""
     stable=0
