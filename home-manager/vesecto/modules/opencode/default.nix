@@ -55,6 +55,14 @@
   context7KeyPath = "${config.home.homeDirectory}/.config/api_keys/context7_api_key.gpg";
   # `error` is a tripwire: fail loudly if this key ever moves to the Yubikey.
   context7Decrypt = "${gnupgTools.gpg-decrypt-hardened}/bin/gpg-decrypt-hardened --pinentry error";
+  sessionListAll = pkgs.callPackage ./sessions-cli.nix {};
+  # opencode's subcommand tree is compiled in, so the wrapper is the only place a `session list-all` can exist.
+  sessionListAllGuard = ''
+    if [ "$1" = "session" ] && [ "$2" = "list-all" ]; then
+      shift 2
+      exec ${sessionListAll}/bin/opencode-session-list-all "$@"
+    fi
+  '';
   # An unset var renders the header as a bare "Bearer", which Context7 rejects outright -
   # unlike sending no header at all, so a missing key BREAKS the server, it does not degrade it.
   context7Prelude = ''
@@ -83,6 +91,7 @@
     postBuild = ''
       rm $out/bin/${opencodeMainProgram}
       makeWrapper ${opencodeBase}/bin/${opencodeMainProgram} $out/bin/${opencodeMainProgram} \
+        --run ${lib.escapeShellArg sessionListAllGuard} \
         --run ${lib.escapeShellArg context7Prelude}
     '';
     passthru = opencodeBase.passthru or {};
@@ -159,6 +168,7 @@ in {
     cache-control-cap.enable = false;
     system-message-hoist.enable = false;
     graphify.enable = true;
+    session-list-all.enable = true;
     superpowers = {
       enable = true;
       skills.enableAll = true;
@@ -223,7 +233,8 @@ in {
         ++ lib.optional config.opencodeProviders.anthropic.enable anthropicProvider.plugin
         ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js"
         ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js"
-        ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify/plugin.js";
+        ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify/plugin.js"
+        ++ lib.optional config.opencodePlugins.session-list-all.enable "./plugins/session-list-all/plugin.js";
       provider =
         lib.optionalAttrs config.opencodeProviders.litellm.enable {litellm = import ./providers/litellm.nix;}
         // lib.optionalAttrs config.opencodeProviders.omniroute.enable {omniroute = import ./providers/omniroute.nix;}
@@ -304,6 +315,11 @@ in {
         preserve_recent_tokens = 8000;
         reserved = 32000;
       };
+      # Cap per-call tool payloads so truncated previews stay small in context.
+      tool_output = {
+        max_lines = 800;
+        max_bytes = 16384;
+      };
       mcp = {
         # Remote transport keeps the key out of argv and avoids an impure npx fetch.
         context7 = {
@@ -317,7 +333,7 @@ in {
         markitdown = {
           type = "local";
           command = ["${pkgs.markitdown-mcp}/bin/markitdown-mcp"];
-          enabled = true;
+          enabled = false;
         };
         # Per-project graph server; graphify-mcp loads graphify-out/graph.json lazily, so it is safe with no graph.
         graphify = {
@@ -376,33 +392,13 @@ in {
       ''
         # Background tasks
 
-        Before asserting a task is done, correct, or verified, account for every
-        background task you launched. Silence is not proof of life: a stalled task, one
-        you cancelled, and one killed out from under you by a session interrupt all look
-        identical from here - none of them will ever send a completion notification. "I
-        never cancelled it, so it must still be running" is not sound, least of all after
-        an interrupt, an error, or a resumed session, which kill in-flight tasks wholesale
-        without telling you.
-
-        Settle it with `background_output(block=false, full_session=true)`, reading
-        `Status` against the message timestamps:
-
-        - `completed` - collect the result and let it confirm or overturn the claim.
-        - `running` with timestamps advancing - genuinely working; wait for the
-          notification.
-        - Anything else - frozen timestamps, a terminal status, an id that no longer
-          resolves - is dead. Relaunch it, or drop the claim it was meant to support.
-
-        Re-probe every outstanding task after any interrupt or resumption, and name the
-        surviving ids explicitly: a task you have merely stopped thinking about is the one
-        most likely to be silently dead. This is a liveness check, not a poll for results
-        - reach for it when you are about to assert completion, when a task has gone quiet
-        implausibly long, or after an interrupt; otherwise let the notification arrive.
-
-        End every message with a one-line count, zero included: "2 background tasks
-        running." or "No background tasks running." The zero line is the one that
-        carries information - it reports that you checked and found none, where silence
-        is ambiguous between that and forgetting to look.
+        Before claiming a task done, settle every background task you launched:
+        silence is not proof of life (interrupts/resumes kill tasks silently).
+        Probe with `background_output(block=false, full_session=true)`: `completed`
+        = collect it; `running` with advancing timestamps = wait for the
+        notification; anything else = dead, relaunch or drop the claim. Re-probe
+        after any interrupt; name surviving ids explicitly. End every message with
+        a one-line count, zero included: "2 background tasks running."
 
         # GitLab issues
 
@@ -412,6 +408,17 @@ in {
         - View one issue:        glab issue view <id> --comments
         - Issues assigned to me: glab issue list --assignee=@me
         - Search:                glab issue list --search "<text>"
+
+        # Library docs
+
+        Reach for `context7` before webfetch/websearch on any library,
+        framework, SDK, CLI or cloud service: `resolve-library-id`, then
+        `query-docs` with one concept per call. It is indexed and version-aware,
+        so prefer it over reading sources off raw.githubusercontent.com or a
+        docs site - even for libraries you think you know, since training data
+        lags releases. Fall back to webfetch only once context7 has no entry or
+        returns nothing usable. Not for this repo's own code (graphify/grep),
+        general programming concepts, or debugging business logic.
       ''
       + "\n"
       + (

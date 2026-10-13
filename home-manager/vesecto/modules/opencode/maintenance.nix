@@ -13,7 +13,7 @@
   config,
   ...
 }: let
-  dbPath = "${config.xdg.dataHome}/opencode/opencode-stable.db";
+  dbPath = "${config.xdg.dataHome}/opencode/opencode.db";
   # Rolling session retention in days.
   ageDays = 7;
   # Delete sessions whose stored parts exceed this many MB (the giants that slow session loads).

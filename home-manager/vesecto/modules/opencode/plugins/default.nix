@@ -16,6 +16,7 @@
     ./local-skills
     ./oh-my-openagent
     ./omniroute
+    ./session-list-all
     ./system-message-hoist
     ./gsd-sdk.nix
     ./gsd.nix

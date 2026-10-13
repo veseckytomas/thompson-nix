@@ -316,6 +316,9 @@
       "max_parallel_members": 5,
       "max_members": 8,
       "tmux_visualization": true
-    }
+    },
+    "disabled_tools": [
+      "grep_app_searchgithub"
+    ]
   }
 }
