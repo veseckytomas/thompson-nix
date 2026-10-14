@@ -13,6 +13,7 @@
     ./eduroam.nix
     ./fortivpn.nix
     ./networkmanager-recover.nix
+    ./omniroute-connectivity.nix
     ./omniroute-proxy.nix
     ./vic-vpn-watchdog.nix
     ./vpn.nix
@@ -25,7 +26,12 @@
       pkgs.networkmanager-openvpn
       pkgs.networkmanager-openconnect
     ];
+    # resolved keeps the DHCP/VPN servers per-link, so *.cvut.cz still resolves through the tunnel.
+    dns = "systemd-resolved";
   };
+
+  # Caches lookups across a link flap, so a brief drop no longer bursts into ENOTFOUND failures.
+  services.resolved.enable = true;
   programs.nm-applet.enable = true;
 
   networking.firewall = {
