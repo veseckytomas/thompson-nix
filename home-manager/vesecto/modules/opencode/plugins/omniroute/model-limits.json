@@ -37,6 +37,10 @@
       "context": 200000,
       "output": 64000
     },
+    "cc/claude-haiku-5-5": {
+      "context": 1000000,
+      "output": 64000
+    },
     "cc/claude-fable-5-1-medium": {
       "context": 1000000,
       "output": 128000
@@ -45,7 +49,15 @@
       "context": 1000000,
       "output": 128000
     },
+    "cc/claude-opus-5-5": {
+      "context": 1000000,
+      "output": 128000
+    },
     "cc/claude-sonnet-5": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cc/claude-sonnet-5-5": {
       "context": 1000000,
       "output": 128000
     },

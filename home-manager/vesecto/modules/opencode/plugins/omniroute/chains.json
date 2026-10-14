@@ -326,6 +326,25 @@
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
+    },
+    {
+      "name": "didaskalos-chain",
+      "models": [
+        "cc/claude-opus-5-5",
+        "cc/claude-sonnet-5-5",
+        "litellm/kimi-k3",
+        "ctu/vic/GLM-5.3-Flash"
+      ],
+      "strategy": "priority"
+    },
+    {
+      "name": "mageiros-chain",
+      "models": [
+        "cc/claude-haiku-5-5",
+        "litellm/kimi-k3",
+        "ctu/vic/GLM-5.3-Flash"
+      ],
+      "strategy": "priority"
     }
   ]
 }
