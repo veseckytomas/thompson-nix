@@ -10,17 +10,16 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 #
-# Raise the cooldown-aware retry bounds to their ceilings so a 429 cooldown parks
-# the request instead of killing the agent; omniroute ships 90s/5 and the values
-# are only reachable by writing the DB (the API's zod schema caps maxWaitMs at 30s).
+# Disable cooldown waits: a cooled-down member fails over at once instead of
+# parking the request, so a stale breaker cannot stall the whole chain.
 set -euo pipefail
 
 db="${OMNIROUTE_DB:?OMNIROUTE_DB not set}"
 
 # maxRetryWaitMs is derived from maxRetryWaitSec, so writing it would be ignored.
 desired='{
-  "comboCooldownWait": {"enabled": true, "maxWaitMs": 300000, "maxAttempts": 10, "budgetMs": 300000},
-  "waitForCooldown": {"enabled": true, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000}
+  "comboCooldownWait": {"enabled": false, "maxWaitMs": 300000, "maxAttempts": 10, "budgetMs": 300000},
+  "waitForCooldown": {"enabled": false, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000}
 }'
 
 # Every call needs the busy timeout: the gateway's PRAGMA journal_mode=WAL on each open briefly locks exclusively.

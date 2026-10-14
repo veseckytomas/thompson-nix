@@ -44,14 +44,25 @@
       # No server stop: runs alongside a live opencode-server or with the unit absent.
       sqlite3 "$db" "PRAGMA busy_timeout=30000;
       PRAGMA foreign_keys=ON;
-      DELETE FROM session WHERE time_updated IS NOT NULL AND time_updated < (strftime('%s','now') - $age_days * 86400) * 1000;
+      -- never prune a (TODO)-titled session or anything below it in the subsession tree
+      WITH RECURSIVE protected(id) AS (
+        SELECT id FROM session WHERE instr(title, '(TODO)') > 0
+        UNION
+        SELECT s.id FROM session s JOIN protected pr ON s.parent_id = pr.id
+      )
+      DELETE FROM session WHERE time_updated IS NOT NULL AND time_updated < (strftime('%s','now') - $age_days * 86400) * 1000 AND id NOT IN (SELECT id FROM protected);
+      WITH RECURSIVE protected(id) AS (
+        SELECT id FROM session WHERE instr(title, '(TODO)') > 0
+        UNION
+        SELECT s.id FROM session s JOIN protected pr ON s.parent_id = pr.id
+      )
       DELETE FROM session WHERE id IN (
         SELECT m.session_id FROM part p
         JOIN message m ON p.message_id = m.id
         JOIN session s ON s.id = m.session_id
         WHERE s.time_updated < (strftime('%s','now') - $active_hours * 3600) * 1000
         GROUP BY m.session_id HAVING sum(length(CAST(p.data AS BLOB))) > $size_mb * 1048576
-      );"
+      ) AND id NOT IN (SELECT id FROM protected);"
 
       # VACUUM needs exclusive access; fall back to a WAL checkpoint when a live server holds the lock.
       if ! sqlite3 "$db" "PRAGMA busy_timeout=30000; VACUUM;" 2>/dev/null; then

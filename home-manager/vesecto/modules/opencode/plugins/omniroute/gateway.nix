@@ -108,6 +108,10 @@ in {
             "RATE_LIMIT_EXECUTION_MAX_WAIT_MS=3600000"
             # Explicitly unbounded; any non-zero value turns on the queue_full fast-reject.
             "RATE_LIMIT_MAX_QUEUE_DEPTH=0"
+            # Starting the gateway before any link is up makes every lookup ENOTFOUND, which counts as a
+            # provider failure: the 8/60s default latches the breaker long after connectivity returns.
+            "OMNIROUTE_CIRCUIT_BREAKER_OAUTH_THRESHOLD=20"
+            "OMNIROUTE_CIRCUIT_BREAKER_OAUTH_RESET_MS=20000"
           ];
           Restart = "on-failure";
           RestartSec = "10s";
