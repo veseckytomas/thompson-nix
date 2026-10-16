@@ -181,10 +181,7 @@ in {
       skills = {
         enableAll = false;
         deprecated.enable = false;
-        engineering = {
-          enable = true;
-          triage = false;
-        };
+        engineering.enable = true;
         in-progress.enable = false;
         misc = {
           enable = false;
