@@ -10,16 +10,21 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 #
-# Disable cooldown waits: a cooled-down member fails over at once instead of
-# parking the request, so a stale breaker cannot stall the whole chain.
+# Bound cooldown waits instead of disabling them: a short wait rides out a transient
+# breaker, while waitForCooldown stays off so nothing can park a request for 300s.
 set -euo pipefail
 
 db="${OMNIROUTE_DB:?OMNIROUTE_DB not set}"
 
 # maxRetryWaitMs is derived from maxRetryWaitSec, so writing it would be ignored.
+# resetTimeout is the BASE: _openCircuit escalates it by 2^(openCycleCount-3), capped at 16x.
 desired='{
-  "comboCooldownWait": {"enabled": false, "maxWaitMs": 300000, "maxAttempts": 10, "budgetMs": 300000},
-  "waitForCooldown": {"enabled": false, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000}
+  "comboCooldownWait": {"enabled": true, "maxWaitMs": 15000, "maxAttempts": 2, "budgetMs": 30000},
+  "waitForCooldown": {"enabled": false, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000},
+  "providerBreaker": {
+    "oauth": {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000},
+    "apikey": {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000}
+  }
 }'
 
 # Every call needs the busy timeout: the gateway's PRAGMA journal_mode=WAL on each open briefly locks exclusively.
@@ -65,5 +70,5 @@ SELECT changes();")"
 if [ "$changed" = "0" ]; then
   echo "omniroute-resilience: no-op (already provisioned)"
 else
-  echo "omniroute-resilience: provisioned 300s cooldown wait bounds"
+  echo "omniroute-resilience: provisioned 15s cooldown wait + breaker thresholds"
 fi

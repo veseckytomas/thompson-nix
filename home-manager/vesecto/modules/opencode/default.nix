@@ -397,6 +397,15 @@ in {
         after any interrupt; name surviving ids explicitly. End every message with
         a one-line count, zero included: "2 background tasks running."
 
+        Stalled is not running. A task still showing `running` past ~30-40 min
+        needs progress evidence, not faith: the `Last tool` field must advance
+        between probes and a promised target file's mtime must move. Same last
+        tool + untouched target = cancel that one id (`background_cancel`,
+        never `all=true`) and redo the work inline yourself. Do not keep
+        waiting (a running task cannot accept new prompts, so nudging is not an
+        option) and do not blindly relaunch the same brief - it can re-hang the
+        same way.
+
         # GitLab issues
 
         `glab` is installed and authenticated. Read issue context via bash before
