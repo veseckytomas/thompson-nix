@@ -16,9 +16,8 @@
 }: let
   # MST sink names follow the USB-C port used (DP-1-* vs DP-2-*), and a closed lid blanks eDP-1's EDID.
   matchFlags = "--match-edid --ignore-lid";
-  # A start request against the running oneshot is a no-op, so retry inside the run instead.
   converge = pkgs.writeShellScript "autorandr-converge" ''
-    PATH=${lib.makeBinPath [pkgs.autorandr pkgs.xrandr pkgs.coreutils pkgs.gnugrep]}
+    PATH=${lib.makeBinPath [pkgs.autorandr pkgs.xrandr pkgs.coreutils pkgs.gnugrep pkgs.util-linux pkgs.dbus]}
     topology() { xrandr --query 2>/dev/null | grep -E " connected| disconnected"; }
 
     # Nothing to converge until X accepts us: udev fires this before the session writes .Xauthority.
@@ -41,22 +40,38 @@
       if [ "$cur" = "$prev" ]; then
         stable=$((stable + 1))
       else
-        # Topology moved: apply now so a half-built dock still gets a best-effort layout.
         stable=0
-        autorandr --change ${matchFlags} || true
       fi
       prev=$cur
-      # Three quiet samples in a row means enumeration finished; apply once more and stop.
-      if [ "$stable" -ge 3 ]; then
-        autorandr --change ${matchFlags} || true
-        # Re-apply only if the final apply itself perturbed the topology (e.g. a mode set).
-        [ "$(topology)" = "$cur" ] && exit 0
-        stable=0
-      fi
+      # Five quiet 1s samples: a KVM re-plans its MST streams in bursts spread over several seconds.
+      [ "$stable" -ge 5 ] && break
       sleep 1
     done
-    autorandr --change ${matchFlags} || true
-    exit 0
+
+    # --force skips autorandr's "config already loaded" exit: KMS can match while an MST payload is blank.
+    autorandr --change ${matchFlags} --force || true
+
+    # Payload kick: a real OFF/ON re-plans the stream a silent MST drop left dark; the brief blank is accepted.
+    for profile in $(autorandr --current 2>/dev/null); do
+      config="$HOME/.config/autorandr/$profile/config"
+      [ -r "$config" ] || config="/etc/xdg/autorandr/$profile/config"
+      [ -r "$config" ] || continue
+      name=""
+      off=0
+      while IFS= read -r line; do
+        case $line in
+          "output "*)
+            [ -z "$name" ] || [ "$off" -eq 1 ] || xrandr --output "$name" --off
+            name=''${line#output }
+            off=0
+            ;;
+          off) off=1 ;;
+        esac
+      done < "$config"
+      [ -z "$name" ] || [ "$off" -eq 1 ] || xrandr --output "$name" --off
+    done
+    sleep 0.4
+    autorandr --change ${matchFlags} --force || true
   '';
 in {
   services = {
@@ -69,25 +84,37 @@ in {
       ${pkgs.autorandr}/bin/autorandr --change ${matchFlags}
     '';
 
-    # MST sinks are created, not changed, on plug, and autorandr's own rule only matches "change".
+    # Every connector event re-arms the timer, so the last event of a burst wins and no uevent is swallowed.
     udev.extraRules = ''
-      ACTION=="add", SUBSYSTEM=="drm", ENV{DEVTYPE}=="drm_connector", RUN+="${pkgs.systemd}/bin/systemctl start --no-block autorandr.service"
+      ACTION=="add|change", SUBSYSTEM=="drm", ENV{DEVTYPE}=="drm_connector", RUN+="${pkgs.systemd}/bin/systemctl --no-block restart autorandr-trigger.timer"
     '';
   };
 
-  systemd.services.autorandr = {
-    # Module default of 1 start / 5s drops the udev event burst an MST hotplug emits
-    startLimitIntervalSec = lib.mkForce 30;
-    startLimitBurst = lib.mkForce 10;
-    serviceConfig = {
-      User = username;
-      # Reuse XAUTHORITY and DISPLAY from the session symlink
-      Environment = [
-        "DISPLAY=:0"
-        "XAUTHORITY=/home/${username}/.Xauthority"
-      ];
-      # No --default: an unmatched topology then keeps the current layout instead of blanking the dock.
-      ExecStart = lib.mkForce converge;
+  systemd = {
+    services = {
+      # nixpkgs's 40-monitor-hotplug.rules still starts this unit on "change", so it is parked as a no-op.
+      autorandr.serviceConfig.ExecStart = lib.mkForce "${pkgs.coreutils}/bin/true";
+      autorandr-converge = {
+        description = "Apply the detected autorandr profile once the topology is stable";
+        startLimitIntervalSec = lib.mkForce 0;
+        serviceConfig = {
+          Type = "oneshot";
+          User = username;
+          # Reuse XAUTHORITY and DISPLAY from the session symlink
+          Environment = [
+            "DISPLAY=:0"
+            "XAUTHORITY=/home/${username}/.Xauthority"
+          ];
+          ExecStart = converge;
+        };
+      };
+    };
+    timers.autorandr-trigger = {
+      description = "Debounce window between the last DRM connector uevent and the converge run";
+      timerConfig = {
+        OnActiveSec = 5;
+        Unit = "autorandr-converge.service";
+      };
     };
   };
 }

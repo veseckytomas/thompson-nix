@@ -246,6 +246,8 @@ sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
   "SELECT timestamp, provider, status, error_summary FROM call_logs WHERE status >= 400 ORDER BY timestamp DESC LIMIT 10;"
 ```
 
+`call_logs.timestamp` is local time — filter with `datetime('now','localtime','-N minutes')` or the comparison matches everything.
+
 ### Gotchas
 
 - **Failover lives in the gateway chains, not in `omo.jsonc`'s `models` arrays.** Each agent/category has exactly one entry there (`models[0]` is the primary; upstream migrated `model`+`fallback_models` into `models`); oh-my-openagent's reactive runtime fallback is gated on `[opencode].runtime_fallback.enabled`, which is `false` here (and upstream's default) — the hook returns early. Extra entries beyond `models[0]` change nothing unless that flag is flipped.
