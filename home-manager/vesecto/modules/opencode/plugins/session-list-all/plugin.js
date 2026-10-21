@@ -20,9 +20,11 @@ const description = `List opencode sessions across ALL projects/directories from
 
 Use when the agent needs to find or resume work done anywhere on the machine, not just in the current directory: "what sessions exist", "where did I work on X", "find the session about Y", "resume my earlier work elsewhere". opencode 1.18.34 has no server API for cross-project session listing, so this tool reads the local DB directly.
 
-Each result row gives the last-updated time (UTC), session title, the session's absolute directory, and the session id. A full result for resuming work elsewhere = the absolute directory plus the session id.
+Each result row gives the last-updated time (UTC), session title, the session's absolute directory, the owning project worktree, and the session id. A full result for resuming work elsewhere = the absolute directory plus the session id.
 
-Filtering: "search" matches (case-insensitively) against session titles and (case-sensitively) against directory paths as a substring; "directory" filters by directory substring; "includeArchived" and "includeSubsessions" are off by default; "limit" caps rows (default 30, max 200), newest-updated first.
+opencode groups sessions by project, not by directory, so sibling git worktrees of one repo share a project and appear under several directories; directory/search filters therefore match the project worktree as well as the session directory, which is what makes them agree with "opencode session list".
+
+Filtering: "search" matches (case-insensitively) against session titles and (case-sensitively) against the session directory and project worktree as a substring; "directory" filters by substring of either path; "includeArchived" and "includeSubsessions" are off by default; "limit" caps rows (default 30, max 200), newest-updated first, and the header always reports how many matched in total so truncation is visible.
 
 Returns a markdown table, or a short message when the database is missing/empty or nothing matches the filters.`;
 
@@ -74,26 +76,30 @@ export const SessionListAllPlugin = async ({ client, project, directory, worktre
         }
 
         let rows;
+        let total = 0;
         try {
           const clauses = [];
           const params = [];
           if (!includeArchived) clauses.push("s.time_archived IS NULL");
           if (!includeSubsessions) clauses.push("s.parent_id IS NULL");
+          // opencode scopes sessions by project, so a path is resolved to its project(s) and every session there matches - sibling worktrees share one project and would otherwise be invisible.
+          const pathScope = `(instr(s.directory, ?) > 0 OR instr(ifnull(p.worktree, ''), ?) > 0 OR s.project_id IN (SELECT s2.project_id FROM "session" s2 LEFT JOIN project p2 ON p2.id = s2.project_id WHERE instr(s2.directory, ?) > 0 OR instr(ifnull(p2.worktree, ''), ?) > 0))`;
           if (args.directory) {
-            clauses.push("instr(s.directory, ?) > 0");
-            params.push(args.directory);
+            clauses.push(pathScope);
+            params.push(args.directory, args.directory, args.directory, args.directory);
           }
           if (args.search) {
-            clauses.push("(instr(lower(s.title), lower(?)) > 0 OR instr(s.directory, ?) > 0)");
-            params.push(args.search, args.search);
+            clauses.push(`(instr(lower(s.title), lower(?)) > 0 OR ${pathScope})`);
+            params.push(args.search, args.search, args.search, args.search, args.search);
           }
 
-          let query = `SELECT s.id, s.slug, s.title, s.directory, s.time_created, s.time_updated, s.summary_additions, s.summary_deletions, p.worktree AS project_worktree, p.name AS project_name
-FROM "session" s LEFT JOIN project p ON p.id = s.project_id`;
-          if (clauses.length) query += " WHERE " + clauses.join(" AND ");
-          query += " ORDER BY s.time_updated DESC LIMIT ?";
-          params.push(limit);
-          rows = db.prepare(query).all(...params);
+          const from = `FROM "session" s LEFT JOIN project p ON p.id = s.project_id`;
+          const where = clauses.length ? " WHERE " + clauses.join(" AND ") : "";
+          total = db.prepare(`SELECT COUNT(*) AS n ${from}${where}`).get(...params).n;
+
+          const query = `SELECT s.id, s.slug, s.title, s.directory, s.time_created, s.time_updated, s.summary_additions, s.summary_deletions, p.worktree AS project_worktree, p.name AS project_name
+${from}${where} ORDER BY s.time_updated DESC LIMIT ?`;
+          rows = db.prepare(query).all(...params, limit);
         } finally {
           db.close();
         }
@@ -109,18 +115,20 @@ FROM "session" s LEFT JOIN project p ON p.id = s.project_id`;
         }
 
         const directoryCount = new Set(rows.map((r) => r.directory)).size;
+        const hidden = total - rows.length;
         const lines = [
-          `Found ${rows.length} session(s) across ${directoryCount} distinct directories — showing latest ${Math.min(rows.length, limit)} (UTC timestamps):`,
+          `Found ${total} session(s) across ${directoryCount} distinct directories — showing latest ${rows.length} (UTC timestamps).${hidden > 0 ? ` ${hidden} more match; raise "limit" (max 200) to see them.` : ""}`,
           "",
-          "| Updated | Title | Directory | ID |",
-          "| --- | --- | --- | --- |",
+          "| Updated | Title | Directory | Project worktree | ID |",
+          "| --- | --- | --- | --- | --- |",
         ];
         for (const row of rows) {
           const updated = new Date(row.time_updated).toISOString().slice(0, 16).replace("T", " ");
           const title = escapeCell(truncateTitle(String(row.title ?? "")));
           const dir = escapeCell(row.directory);
+          const worktree = escapeCell(row.project_worktree === row.directory ? "=" : (row.project_worktree ?? "—"));
           const id = escapeCell(row.id);
-          lines.push(`| ${updated} | ${title} | ${dir} | ${id} |`);
+          lines.push(`| ${updated} | ${title} | ${dir} | ${worktree} | ${id} |`);
         }
         return lines.join("\n");
       },

@@ -387,6 +387,12 @@ in {
     };
     "opencode/AGENTS.md".text =
       ''
+        # Subagent claims
+
+        A subagent report that names an artifact (file+line, function body, ADR)
+        is a lead, not a fact: confirm one anchor directly in the repo before it
+        becomes load-bearing in a plan.
+
         # Background tasks
 
         Before claiming a task done, settle every background task you launched:

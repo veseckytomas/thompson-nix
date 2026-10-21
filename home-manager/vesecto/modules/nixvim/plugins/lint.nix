@@ -8,7 +8,11 @@
 # Email: vesecky@proton.me
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-stable,
+  ...
+}: {
   programs.nixvim = {
     plugins.lint = {
       enable = true;
@@ -61,11 +65,12 @@
     eslint
     markdownlint-cli
     statix
-    pylint
+    # pylint via programs.pylint module (python3Packages attr); bare top-level alias collides in buildEnv
     ruff
     clippy
     shellcheck
-    sqlfluff
+    # unstable sqlfluff pulls diff-cover whose self-tests fail on pygments drift; pin stable
+    pkgs-stable.sqlfluff
     vale
     # cpplint 2.0.2 self-tests fail on current python (codecs.open deprecation warning leaks to stderr); skip them
     (cpplint.overridePythonAttrs (_: {doCheck = false;}))

@@ -107,11 +107,18 @@ pkgs.writeShellApplication {
     if [ "$include_all" = false ]; then
       where="$where AND s.time_archived IS NULL AND s.parent_id IS NULL"
     fi
+    # opencode scopes sessions by project, so a path is resolved to its project(s) and every session there matches - sibling worktrees share one project and would otherwise be invisible.
+    scope_sql() {
+      printf "s.project_id IN (SELECT s2.project_id FROM \"session\" s2 LEFT JOIN project p2 ON p2.id = s2.project_id WHERE instr(s2.directory, '%s') > 0 OR (p2.worktree IS NOT NULL AND instr(p2.worktree, '%s') > 0))" "$1" "$1"
+    }
+
     if [ -n "$dir" ]; then
-      where="$where AND instr(s.directory, '$(sqlesc "$dir")') > 0"
+      e=$(sqlesc "$dir")
+      where="$where AND (instr(s.directory, '$e') > 0 OR (p.worktree IS NOT NULL AND instr(p.worktree, '$e') > 0) OR $(scope_sql "$e"))"
     fi
     if [ -n "$search" ]; then
-      where="$where AND (instr(lower(s.title), lower('$(sqlesc "$search")')) > 0 OR instr(s.directory, '$(sqlesc "$search")') > 0)"
+      e=$(sqlesc "$search")
+      where="$where AND (instr(lower(s.title), lower('$e')) > 0 OR instr(s.directory, '$e') > 0 OR (p.worktree IS NOT NULL AND instr(p.worktree, '$e') > 0) OR $(scope_sql "$e"))"
     fi
 
     from="FROM \"session\" s LEFT JOIN project p ON p.id = s.project_id"
@@ -140,6 +147,7 @@ pkgs.writeShellApplication {
         s.id,
         substr(replace(replace(s.title, char(9), ' '), char(10), ' '), 1, 60),
         s.directory,
+        CASE WHEN p.worktree IS NULL THEN '-' WHEN p.worktree = s.directory THEN '=' ELSE p.worktree END,
         strftime('%Y-%m-%d %H:%M', s.time_updated / 1000, 'unixepoch')
       $from
       WHERE $where
@@ -151,9 +159,16 @@ pkgs.writeShellApplication {
       exit 0
     fi
 
+    total=$(sqlite3 -readonly "file:$db?mode=ro" "SELECT COUNT(*) $from WHERE $where;")
+    shown=$(printf '%s\n' "$rows" | wc -l)
+
     {
-      printf 'Session ID\tTitle\tDirectory\tUpdated\n'
+      printf 'Session ID\tTitle\tDirectory\tProject worktree\tUpdated\n'
       printf '%s\n' "$rows"
     } | column -t -s $'\t'
+
+    if [ "$total" -gt "$shown" ]; then
+      printf '\nShowing %s of %s matching sessions; use --limit (max 200) to see more.\n' "$shown" "$total"
+    fi
   '';
 }
