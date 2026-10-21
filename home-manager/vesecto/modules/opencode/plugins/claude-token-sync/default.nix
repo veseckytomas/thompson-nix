@@ -31,8 +31,8 @@ in {
     home.activation.copyClaudeTokenSyncPlugin = lib.hm.dag.entryAfter ["linkGeneration"] ''
       dir="$HOME/.config/opencode/plugins/claude-token-sync"
       mkdir -p "$dir"
-      rm -f "$dir/plugin.js" "$dir/package.json"
-      install -m 0644 ${./plugin.js}   "$dir/plugin.js"
+      rm -f "$dir/plugin.js" "$dir/index.js" "$dir/package.json"
+      install -m 0644 ${./index.js}   "$dir/index.js"
       install -m 0644 ${./package.json} "$dir/package.json"
     '';
   };

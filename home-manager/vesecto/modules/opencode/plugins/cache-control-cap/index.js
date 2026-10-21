@@ -70,10 +70,12 @@ function withoutContentLength(headers) {
   return clone;
 }
 
-export const CacheControlCapPlugin = async () => {
+export default {
+  id: "cache-control-cap",
+  setup: async (ctx) => {
   const original = globalThis.fetch;
   // Guard against a double-wrap if opencode loads the plugin more than once.
-  if (!original || original.__cacheControlCapWrapped) return {};
+  if (!original || original.__cacheControlCapWrapped) return;
 
   const wrapped = async (input, init) => {
     try {
@@ -104,7 +106,5 @@ export const CacheControlCapPlugin = async () => {
 
   wrapped.__cacheControlCapWrapped = true;
   globalThis.fetch = wrapped;
-  return {};
+  },
 };
-
-export default CacheControlCapPlugin;

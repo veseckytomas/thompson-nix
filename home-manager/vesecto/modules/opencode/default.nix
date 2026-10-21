@@ -214,24 +214,23 @@ in {
     settings = {
       autoupdate = false;
       lsp = true;
-      plugin =
-        [
-          "./plugins/caveman/plugin.js"
-        ]
+      # v2 resolves a local plugin to <dir>/index.js and rejects a path naming a file.
+      plugins =
+        lib.optional config.opencodePlugins.caveman.enable "./plugins/caveman"
         ++ lib.optional config.opencodePlugins.omo.enable "./node_modules/oh-my-openagent"
-        ++ lib.optional config.opencodePlugins.superpowers.enable "./plugins/superpowers/plugin.js"
+        ++ lib.optional config.opencodePlugins.superpowers.enable "./plugins/superpowers"
         ++ [
           "opencode-wakatime@${npmPlugins."opencode-wakatime"}"
-          # "./plugins/claude-token-sync/plugin.js"
+          # "./plugins/claude-token-sync"
           # "@slkiser/opencode-quota@${npmPlugins."@slkiser/opencode-quota"}"
         ]
         ++ lib.optional config.opencodeProviders.openai.enable "opencode-openai-multi-auth@${npmPlugins."opencode-openai-multi-auth"}"
         ++ lib.optional config.opencodeProviders."google-agy".enable googleProvider.plugin
         ++ lib.optional config.opencodeProviders.anthropic.enable anthropicProvider.plugin
-        ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap/plugin.js"
-        ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist/plugin.js"
-        ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify/plugin.js"
-        ++ lib.optional config.opencodePlugins.session-list-all.enable "./plugins/session-list-all/plugin.js";
+        ++ lib.optional config.opencodePlugins.cache-control-cap.enable "./plugins/cache-control-cap"
+        ++ lib.optional config.opencodePlugins.system-message-hoist.enable "./plugins/system-message-hoist"
+        ++ lib.optional config.opencodePlugins.graphify.enable "./plugins/graphify"
+        ++ lib.optional config.opencodePlugins.session-list-all.enable "./plugins/session-list-all";
       provider =
         lib.optionalAttrs config.opencodeProviders.litellm.enable {litellm = import ./providers/litellm.nix;}
         // lib.optionalAttrs config.opencodeProviders.omniroute.enable {omniroute = import ./providers/omniroute.nix;}

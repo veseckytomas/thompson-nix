@@ -183,17 +183,19 @@ function report(result) {
   }
 }
 
-export const ClaudeTokenSyncPlugin = async (_ctx) => {
-  // Opportunistic sync at load: covers ~/.claude already being stale when
-  // OpenCode starts, before the first idle event fires.
-  report(syncClaudeCredentials());
+export default {
+  id: "claude-token-sync",
+  setup: async (ctx) => {
+    // Opportunistic sync at load: covers ~/.claude already being stale when
+    // OpenCode starts, before the first idle event fires.
+    report(syncClaudeCredentials());
 
-  return {
-    event: async ({ event } = {}) => {
-      if (!event || !TRIGGER_EVENTS.has(event.type)) return;
-      report(syncClaudeCredentials());
-    },
-  };
+    const sub = await ctx.event.subscribe();
+    (async () => {
+      for await (const event of sub) {
+        if (!event || !TRIGGER_EVENTS.has(event.type)) continue;
+        report(syncClaudeCredentials());
+      }
+    })();
+  },
 };
-
-export default ClaudeTokenSyncPlugin;

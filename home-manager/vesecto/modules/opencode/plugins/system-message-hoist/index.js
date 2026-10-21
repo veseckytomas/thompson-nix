@@ -70,10 +70,12 @@ function withoutContentLength(headers) {
   return clone;
 }
 
-export const SystemMessageHoistPlugin = async () => {
+export default {
+  id: "system-message-hoist",
+  setup: async (ctx) => {
   const original = globalThis.fetch;
   // Guard against a double-wrap if opencode loads the plugin more than once.
-  if (!original || original.__systemMessageHoistWrapped) return {};
+  if (!original || original.__systemMessageHoistWrapped) return;
 
   const wrapped = async (input, init) => {
     try {
@@ -104,7 +106,5 @@ export const SystemMessageHoistPlugin = async () => {
 
   wrapped.__systemMessageHoistWrapped = true;
   globalThis.fetch = wrapped;
-  return {};
+  },
 };
-
-export default SystemMessageHoistPlugin;

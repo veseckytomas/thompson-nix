@@ -31,14 +31,14 @@
   enabledSkills = builtins.filter (name: cfg.skills.${name}) skillNames;
 
   # Local copy of the superpowers plugin entry point.
-  # When installed at ~/.config/opencode/plugins/superpowers/plugin.js,
+  # When installed at ~/.config/opencode/plugins/superpowers/index.js,
   # path.resolve(__dirname, '../../skills') inside the plugin resolves to
   # ~/.config/opencode/skills/, which is where we symlink all superpowers
   # skill directories.  This makes the bootstrap message injection and the
   # config hook work from the local copy just like the npm/git install.
   superpowersPlugin = pkgs.runCommand "superpowers-opencode-plugin" {} ''
     mkdir -p $out
-    cp ${superpowersSrc}/.opencode/plugins/superpowers.js $out/plugin.js
+    cp ${superpowersSrc}/.opencode/plugins/superpowers.js $out/index.js
   '';
 in {
   options.opencodePlugins.superpowers = {

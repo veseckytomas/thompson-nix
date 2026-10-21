@@ -3,6 +3,6 @@
   "version": "0.1.0",
   "description": "Nudge opencode toward `graphify query` before grepping when graphify-out/graph.json exists (tool.execute.before hook)",
   "type": "module",
-  "main": "plugin.js",
+  "main": "index.js",
   "private": true
 }

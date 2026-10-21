@@ -24,8 +24,8 @@ in {
     home.activation.copySessionListAllPlugin = lib.hm.dag.entryAfter ["linkGeneration"] ''
       dir="''${XDG_CONFIG_HOME:-$HOME/.config}/opencode/plugins/session-list-all"
       run mkdir -p "$dir"
-      run rm -f "$dir/plugin.js" "$dir/package.json"
-      run install -m 0644 ${./plugin.js} "$dir/plugin.js"
+      run rm -f "$dir/plugin.js" "$dir/index.js" "$dir/package.json"
+      run install -m 0644 ${./index.js} "$dir/index.js"
       run install -m 0644 ${./package.json} "$dir/package.json"
     '';
   };
