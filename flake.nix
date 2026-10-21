@@ -15,6 +15,8 @@
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-26.05";
+    # TEMP: drop once nixos-unstable ships hplip 3.26.6 (build fix from master rev below).
+    nixpkgs-hplip.url = "github:NixOS/nixpkgs/950cb897dddf4ed47cb7fefc6858f3bf5e458f5b";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -220,12 +222,16 @@
       inherit system;
       config = {allowUnfree = true;};
     };
+    pkgs-hplip = import inputs.nixpkgs-hplip {
+      inherit system;
+      config = {allowUnfree = true;};
+    };
   in {
     nixosConfigurations = {
       TomasVesa-PC-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
           hostname = "TomasVesa-PC-NixOS";
-          inherit inputs username system pkgs-stable;
+          inherit inputs username system pkgs-stable pkgs-hplip;
         };
         modules = [
           ./hosts/desktop/TomasVesa-PC-NixOS
@@ -237,7 +243,7 @@
       TomasVesa-NTB-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
           hostname = "TomasVesa-NTB-NixOS";
-          inherit inputs username system pkgs-stable;
+          inherit inputs username system pkgs-stable pkgs-hplip;
         };
         modules = [
           inputs.asus-numberpad-driver.nixosModules.default
@@ -253,7 +259,7 @@
 
       TomasVesa-Portable-NixOS = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs username system pkgs-stable;
+          inherit inputs username system pkgs-stable pkgs-hplip;
           hostname = "TomasVesa-Portable-NixOS";
         };
         modules = [

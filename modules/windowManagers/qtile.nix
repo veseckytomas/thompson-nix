@@ -25,7 +25,8 @@
         });
         extraPackages = _:
           with pkgs.python3Packages; [
-            qtile-extras
+            # Checks collect 0 tests under python 3.14 + pytest 9 and fail the build.
+            (qtile-extras.overrideAttrs (_: {doInstallCheck = false;}))
           ];
       };
     };

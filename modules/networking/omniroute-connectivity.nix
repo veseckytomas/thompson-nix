@@ -19,10 +19,20 @@
   restartHook = pkgs.writeShellScript "omniroute-restart-on-connectivity" ''
     [ "$2" = "up" ] || exit 0
 
-    # Breaker state is only worth clearing once the gateway is actually running.
-    ${pkgs.systemd}/bin/systemctl --machine=${username}@.host --user is-active --quiet omniroute.service || exit 0
+    uid=$(${pkgs.coreutils}/bin/id -u ${username}) || exit 0
 
-    ${pkgs.systemd}/bin/systemctl --machine=${username}@.host --user restart omniroute.service
+    # systemctl --machine= hardcodes -pPAMName=login, whose session stack auto_starts a passwordless gnome-keyring that then rejects the real login's password; reach the user bus directly instead.
+    export XDG_RUNTIME_DIR="/run/user/$uid"
+    export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus"
+    [ -S "/run/user/$uid/bus" ] || exit 0
+
+    # setpriv drops to the user without PAM, so no pam_u2f Yubikey touch on every network event.
+    as_user="${pkgs.util-linux}/bin/setpriv --reuid=$uid --regid=$uid --init-groups"
+
+    # Breaker state is only worth clearing once the gateway is actually running.
+    $as_user ${pkgs.systemd}/bin/systemctl --user is-active --quiet omniroute.service || exit 0
+
+    $as_user ${pkgs.systemd}/bin/systemctl --user restart omniroute.service
   '';
 in {
   networking.networkmanager.dispatcherScripts = [

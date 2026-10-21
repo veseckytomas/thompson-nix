@@ -11,6 +11,7 @@
 {
   hostname,
   pkgs,
+  pkgs-hplip,
   lib,
   ...
 }: {
@@ -47,13 +48,24 @@
     printing = {
       enable = true;
       drivers = [
-        pkgs.hplipWithPlugin
+        # hplip 3.26.4 breaks on unstable; use pinned fixed rev. Remove with nixpkgs-hplip input when channel catches up.
+        pkgs-hplip.hplipWithPlugin
       ];
     };
     avahi = {
       enable = true;
       nssmdns4 = true;
       openFirewall = true;
+      # nixpkgs' ipp-usb.nix still sets the deprecated publish.* options; force-null them and replicate via settings (behavior identical).
+      publish = {
+        enable = lib.mkForce null;
+        userServices = lib.mkForce null;
+      };
+      settings.publish = {
+        disable-publishing = false;
+        disable-user-service-publishing = false;
+        publish-addresses = true;
+      };
     };
     ipp-usb.enable = true;
 
