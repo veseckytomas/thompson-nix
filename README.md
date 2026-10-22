@@ -330,6 +330,22 @@ only because the credential it holds was rotated; deletion is impractical, rotat
 - Every blob in `api_keys/` has a single recipient, so losing that key loses all of them with no recovery
   path.
 
+## MCP servers
+
+The servers opencode loads are declared under `mcp` in `home-manager/vesecto/modules/opencode/default.nix`.
+
+Diagnostics:
+
+```bash
+opencode mcp list                                # per-server status: connected | disabled | failed
+opencode mcp list | grep -A2 '<name>'            # one server's status and its resolved command
+<resolved-command> <<< '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"t","version":"1"}}}'
+```
+
+`mcp list` is the only thing that tells `disabled` apart from a genuine spawn failure — the log reports both
+as `server unavailable ... status=failed`. Check it before suspecting the binary; the stdio handshake above
+confirms a server works outside opencode entirely.
+
 ## GnuPG keyboxd and the hardened decrypt
 
 This machine runs GnuPG with **keyboxd** enabled (`~/.gnupg/common.conf` contains `use-keyboxd`, now
