@@ -371,6 +371,31 @@ update_librewolf() {
   fi
 }
 
+# A sidecar npm pin is a bare string the Nix build never resolves, and installOmniroute
+# swallows a failed `npm install` to keep the previous version -- so a nonexistent pin
+# builds clean, activates clean, and silently leaves the old version running. Resolve
+# every pin against the registry here, where it is still cheap to abort.
+verify_npm_pins() {
+  local json="home-manager/vesecto/modules/opencode/plugins/npm-plugins.json"
+  local pkg version escaped code missing=()
+  while IFS=$'\t' read -r pkg version; do
+    # A scoped name's slash must survive as %2f or the registry reads it as a path.
+    escaped=${pkg//\//%2f}
+    code=$(curl -s -o /dev/null -m 15 -w '%{http_code}' "https://registry.npmjs.org/${escaped}/${version}" || true)
+    case "$code" in
+      200) info "  ${pkg}@${version} ok" ;;
+      404) missing+=("${pkg}@${version}") ;;
+      *) warn "  ${pkg}@${version}: registry unreachable (${code}), not verified" ;;
+    esac
+  done < <(jq -r 'to_entries[] | "\(.key)\t\(.value)"' "$json" 2>/dev/null || true)
+
+  if [ "${#missing[@]}" -gt 0 ]; then
+    warn "npm pins do not exist on the registry: ${missing[*]}"
+    warn "  Fix ${json} -- a bogus pin builds clean and silently keeps the old version."
+    return 1
+  fi
+}
+
 # CodeGraph ships as a platform-specific npm bundle that runs under nixpkgs Node
 # (see home-manager/vesecto/modules/opencode/codegraph). npm's per-version
 # dist.integrity is already an SRI hash, so we read it straight from the registry
@@ -477,6 +502,11 @@ action_update() {
   run bash "@updateGraphifyScript@" || graphify_rejected=$?
   hdr "Updating opencode npm plugins ..."
   run bash "@updateOpencodeNpmPluginsScript@"
+  hdr "Verifying npm plugin pins ..."
+  if ! verify_npm_pins; then
+    unstage_all
+    return 1
+  fi
   hdr "Updating LibreWolf ..."
   update_librewolf
   hdr "Updating CodeGraph ..."
