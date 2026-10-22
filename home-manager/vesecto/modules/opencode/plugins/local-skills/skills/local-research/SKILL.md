@@ -89,6 +89,16 @@ Plain-text files (`.md`, `.txt`, source code) → read directly with `read` / `l
    - `strings <file> | grep <term>`
 4. **If every method fails:** "I was unable to read [file] due to extraction limitations."
 
+**An empty result on a PDF is a scan, not a failure.** Every text extractor returns `""` for an image-only
+PDF, so retrying the list above wastes turns and the tool is not broken. Confirm before reporting:
+
+```bash
+python3 -c "d=open('FILE','rb').read(); print('/Font:', d.count(b'/Font'), '/Image:', d.count(b'/Image'))"
+```
+
+Near-zero `/Font` against many `/Image` means a scan. Say so plainly — "[file] is a scanned PDF with no text
+layer; reading it needs OCR" — and stop. Do not cite an empty conversion as evidence the file lacks content.
+
 **`markitdown` is bound by the same source rules as every other read — it widens *format* support, not *source* scope:**
 
 - Use it ONLY on (a) files in the current directory and (b) sources listed in `SOURCES.txt`. Convert a `SOURCES.txt` local path with a `file:` URI; for a `SOURCES.txt` URL you may pass that exact URL.

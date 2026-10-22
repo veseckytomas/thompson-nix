@@ -4,10 +4,13 @@
     {
       "name": "sisyphus-chain",
       "models": [
-        "gh/claude-opus-5.5",
+        "cc/claude-opus-5-5",
         "cc/claude-opus-5",
-        "antigravity/claude-opus-4-6-thinking",
+        "gh/claude-opus-5.5",
         "litellm/kimi-k3",
+        "cx/gpt-5.6-sol-medium",
+        "antigravity/claude-opus-4-6-thinking",
+        "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -15,10 +18,11 @@
     {
       "name": "hephaestus-chain",
       "models": [
-        "gh/gpt-6-sol",
+        "cx/gpt-6-sol-medium",
+        "cx/gpt-5.6-sol-medium",
         "cx/gpt-5.6-sol-ultra",
-        "cc/claude-opus-5",
-        "antigravity/claude-opus-4-6-thinking",
+        "gh/gpt-6-sol",
+        "cc/claude-opus-5-5",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -27,10 +31,11 @@
     {
       "name": "oracle-chain",
       "models": [
-        "gh/gpt-6-sol",
+        "cx/gpt-5.6-sol-xhigh",
         "cx/gpt-5.6-sol-ultra",
+        "gh/gpt-6-sol",
+        "cc/claude-opus-5-5",
         "cc/claude-opus-5",
-        "antigravity/gemini-3.1-pro-high",
         "antigravity/claude-opus-4-6-thinking",
         "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
@@ -40,10 +45,12 @@
     {
       "name": "librarian-chain",
       "models": [
-        "gh/gemini-3.8-flash",
-        "antigravity/gemini-3.1-pro-high",
-        "cc/claude-sonnet-5",
         "litellm/kimi-k3",
+        "cx/gpt-6-luna-low",
+        "litellm/deepseek-v4.1-flash",
+        "gh/gemini-3.8-flash",
+        "cc/claude-haiku-5-5",
+        "antigravity/gemini-3.8-flash-low",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -51,9 +58,11 @@
     {
       "name": "explore-chain",
       "models": [
+        "cx/gpt-6-luna-low",
+        "litellm/deepseek-v4.1-flash",
         "gh/gemini-3.8-flash",
         "antigravity/gemini-3.8-flash-low",
-        "cc/claude-sonnet-5",
+        "cc/claude-haiku-5-5",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -62,8 +71,10 @@
     {
       "name": "multimodal-looker-chain",
       "models": [
+        "cc/claude-sonnet-5-5",
         "gh/gemini-3.8-flash",
-        "antigravity/gemini-3.1-pro-high",
+        "antigravity/gemini-3.8-flash-low",
+        "cc/claude-haiku-5-5",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -72,10 +83,11 @@
     {
       "name": "prometheus-chain",
       "models": [
+        "cc/claude-fable-5-1-medium",
+        "cc/claude-opus-5-5",
         "gh/claude-fable-5.1",
-        "cc/claude-opus-5",
+        "cx/gpt-5.6-sol-medium",
         "antigravity/claude-opus-4-6-thinking",
-        "antigravity/gemini-3.1-pro-high",
         "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -84,8 +96,9 @@
     {
       "name": "metis-chain",
       "models": [
+        "cc/claude-fable-5-1-medium",
+        "cc/claude-sonnet-5-5",
         "gh/claude-fable-5.1",
-        "cc/claude-sonnet-5",
         "antigravity/claude-opus-4-6-thinking",
         "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
@@ -95,11 +108,11 @@
     {
       "name": "momus-chain",
       "models": [
-        "gh/gpt-6-astra",
+        "cx/gpt-6-astra-max",
         "cx/gpt-5.6-sol-ultra",
-        "cc/claude-opus-5",
+        "gh/gpt-6-astra",
+        "cc/claude-opus-5-5",
         "antigravity/claude-opus-4-6-thinking",
-        "antigravity/gemini-3.1-pro-high",
         "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -108,8 +121,9 @@
     {
       "name": "atlas-chain",
       "models": [
-        "gh/claude-sonnet-5.5",
+        "cc/claude-sonnet-5-5",
         "cc/claude-sonnet-5",
+        "gh/claude-sonnet-5.5",
         "antigravity/claude-sonnet-4-6",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
@@ -119,8 +133,9 @@
     {
       "name": "sisyphus-junior-chain",
       "models": [
-        "gh/claude-sonnet-5.5",
+        "cc/claude-sonnet-5-5",
         "cc/claude-sonnet-5",
+        "gh/claude-sonnet-5.5",
         "antigravity/claude-sonnet-4-6",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
@@ -130,9 +145,11 @@
     {
       "name": "general-chain",
       "models": [
-        "gh/claude-opus-5.5",
+        "cc/claude-opus-5-5",
         "cc/claude-opus-5",
+        "gh/claude-opus-5.5",
         "litellm/kimi-k3",
+        "antigravity/claude-opus-4-6-thinking",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -140,9 +157,11 @@
     {
       "name": "gsd-planner-chain",
       "models": [
-        "gh/claude-opus-5.5",
+        "cc/claude-opus-5-5",
         "cc/claude-opus-5",
+        "gh/claude-opus-5.5",
         "litellm/kimi-k3",
+        "antigravity/claude-opus-4-6-thinking",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -150,9 +169,11 @@
     {
       "name": "gsd-plan-checker-chain",
       "models": [
-        "gh/claude-opus-5.5",
+        "cc/claude-opus-5-5",
         "cc/claude-opus-5",
+        "gh/claude-opus-5.5",
         "litellm/kimi-k3",
+        "antigravity/claude-opus-4-6-thinking",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -160,9 +181,10 @@
     {
       "name": "gsd-reasoning-chain",
       "models": [
-        "gh/gpt-6-astra",
+        "cx/gpt-6-astra-max",
         "cx/gpt-5.6-sol-ultra",
-        "cc/claude-opus-5",
+        "gh/gpt-6-astra",
+        "cc/claude-opus-5-5",
         "antigravity/claude-opus-4-6-thinking",
         "litellm/deepseek-v4.1-flash",
         "litellm/glm-5.3",
@@ -173,10 +195,10 @@
     {
       "name": "gsd-audit-chain",
       "models": [
-        "gh/gpt-6-astra",
+        "cx/gpt-6-astra-max",
         "cx/gpt-5.6-sol-ultra",
-        "cc/claude-opus-5",
-        "antigravity/gemini-3.1-pro-high",
+        "gh/gpt-6-astra",
+        "cc/claude-opus-5-5",
         "antigravity/claude-opus-4-6-thinking",
         "litellm/deepseek-v4.1-flash",
         "litellm/glm-5.3",
@@ -187,10 +209,11 @@
     {
       "name": "gsd-research-chain",
       "models": [
-        "gh/claude-opus-5.5",
+        "cc/claude-opus-5-5",
         "cc/claude-opus-5",
-        "antigravity/claude-opus-4-6-thinking",
+        "gh/claude-opus-5.5",
         "litellm/kimi-k3",
+        "antigravity/claude-opus-4-6-thinking",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -198,8 +221,9 @@
     {
       "name": "gsd-background-chain",
       "models": [
-        "gh/claude-sonnet-5.5",
+        "cc/claude-sonnet-5-5",
         "cc/claude-sonnet-5",
+        "gh/claude-sonnet-5.5",
         "antigravity/claude-sonnet-4-6",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
@@ -209,10 +233,11 @@
     {
       "name": "visual-engineering-chain",
       "models": [
+        "cc/claude-fable-5-1-medium",
+        "cc/claude-opus-5-5",
         "gh/claude-fable-5.1",
-        "antigravity/gemini-3.1-pro-high",
-        "cc/claude-opus-5",
         "litellm/kimi-k3",
+        "antigravity/claude-opus-4-6-thinking",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -220,12 +245,12 @@
     {
       "name": "ultrabrain-chain",
       "models": [
-        "gh/gpt-6-astra",
+        "cx/gpt-6-astra-max",
+        "cx/gpt-6-astra-xhigh",
         "cx/gpt-5.6-sol-ultra",
-        "cc/claude-opus-5",
+        "gh/gpt-6-astra",
+        "cc/claude-opus-5-5",
         "antigravity/claude-opus-4-6-thinking",
-        "antigravity/gemini-3.1-pro-high",
-        "litellm/deepseek-v4.1-flash",
         "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -234,10 +259,10 @@
     {
       "name": "deep-chain",
       "models": [
-        "gh/gpt-6-astra",
+        "cx/gpt-5.6-sol-medium",
         "cx/gpt-5.6-sol-ultra",
-        "cc/claude-opus-5",
-        "antigravity/gemini-3.1-pro-high",
+        "cc/claude-opus-5-5",
+        "gh/gpt-6-sol",
         "litellm/deepseek-v4.1-flash",
         "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
@@ -247,8 +272,9 @@
     {
       "name": "artistry-chain",
       "models": [
+        "cc/claude-fable-5-1-medium",
+        "cc/claude-opus-5-5",
         "gh/claude-fable-5.1",
-        "antigravity/gemini-3.1-pro-high",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -257,12 +283,13 @@
     {
       "name": "quick-chain",
       "models": [
-        "gh/gemini-3.8-flash",
-        "gh/gpt-6-luna",
-        "antigravity/gemini-3.8-flash-low",
+        "cx/gpt-6-luna-low",
         "cx/gpt-5.6-luna-low",
+        "gh/gemini-3.8-flash",
+        "antigravity/gemini-3.8-flash-low",
         "litellm/mini",
         "ctu/vic/Qwen3.8-27B",
+        "cc/claude-haiku-5-5",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -270,11 +297,11 @@
     {
       "name": "unspecified-low-chain",
       "models": [
-        "gh/grok-4.7",
-        "cx/gpt-5.6-terra-high",
-        "antigravity/claude-sonnet-4-6",
-        "cc/claude-sonnet-5",
-        "litellm/kimi-k3",
+        "cx/gpt-6-luna-low",
+        "litellm/deepseek-v4.1-flash",
+        "gh/gemini-3.8-flash",
+        "cc/claude-haiku-5-5",
+        "antigravity/gemini-3.8-flash-low",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -282,10 +309,11 @@
     {
       "name": "unspecified-high-chain",
       "models": [
-        "gh/claude-opus-5.5",
+        "cc/claude-opus-5-5",
         "cc/claude-opus-5",
-        "antigravity/claude-opus-4-6-thinking",
+        "gh/claude-opus-5.5",
         "litellm/kimi-k3",
+        "antigravity/claude-opus-4-6-thinking",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -293,9 +321,11 @@
     {
       "name": "writing-chain",
       "models": [
+        "cc/claude-fable-5-1-medium",
+        "cc/claude-opus-5-5",
         "gh/claude-opus-5.5",
-        "antigravity/gemini-3.8-flash-low",
         "litellm/kimi-k3",
+        "antigravity/claude-opus-4-6-thinking",
         "ctu/vic/GLM-5.3-Flash"
       ],
       "strategy": "priority"
@@ -303,16 +333,10 @@
     {
       "name": "deep-high-chain",
       "models": [
-        "cc/claude-opus-5",
-        "ctu/vic/GLM-5.3-Flash"
-      ],
-      "strategy": "priority"
-    },
-    {
-      "name": "eurybates-chain",
-      "models": [
-        "cc/claude-fable-5-1-medium",
-        "cc/claude-opus-5",
+        "cx/gpt-6-astra-max",
+        "cx/gpt-5.6-sol-xhigh",
+        "cc/claude-opus-5-5",
+        "gh/gpt-6-astra",
         "antigravity/claude-opus-4-6-thinking",
         "litellm/glm-5.3",
         "ctu/vic/GLM-5.3-Flash"
@@ -320,8 +344,22 @@
       "strategy": "priority"
     },
     {
+      "name": "eurybates-chain",
+      "models": [
+        "cc/claude-sonnet-5-5",
+        "cc/claude-fable-5-1-medium",
+        "cc/claude-opus-5-5",
+        "gh/claude-sonnet-5.5",
+        "antigravity/claude-sonnet-4-6",
+        "litellm/kimi-k3",
+        "ctu/vic/GLM-5.3-Flash"
+      ],
+      "strategy": "priority"
+    },
+    {
       "name": "reword-chain",
       "models": [
+        "cc/claude-haiku-5-5",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -332,6 +370,9 @@
       "models": [
         "cc/claude-opus-5-5",
         "cc/claude-sonnet-5-5",
+        "gh/claude-opus-5.5",
+        "cc/claude-fable-5-1-medium",
+        "antigravity/claude-opus-4-6-thinking",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],
@@ -341,6 +382,8 @@
       "name": "mageiros-chain",
       "models": [
         "cc/claude-haiku-5-5",
+        "cc/claude-sonnet-5-5",
+        "gh/claude-sonnet-5.5",
         "litellm/kimi-k3",
         "ctu/vic/GLM-5.3-Flash"
       ],

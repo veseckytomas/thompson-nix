@@ -13,6 +13,7 @@
     ./connection-caps.nix
     ./gateway.nix
     ./normalize-providers.nix
+    ./reasoning-rules.nix
     ./resilience-defaults.nix
   ];
 }

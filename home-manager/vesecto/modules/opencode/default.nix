@@ -238,12 +238,10 @@ in {
         // lib.optionalAttrs config.opencodeProviders.openai.enable {openai = import ./providers/openai.nix;}
         // lib.optionalAttrs config.opencodeProviders."google-agy".enable {"google-agy" = googleProvider.provider;}
         // lib.optionalAttrs config.opencodeProviders.anthropic.enable {anthropic = anthropicProvider.provider;};
-      permission = {
-        external_directory = {
-          "/tmp/**" = "allow";
-        };
-        # Matcher is regex, not glob: `*` crosses `/`, so a `**/` prefix never matches a top-level file.
-        read = {
+      permission = let
+        # grep and glob read file contents and paths just like read does, so one list
+        # feeds all three -- a secret added here closes every path at once.
+        secretFiles = {
           "*.env" = "deny";
           "*.env.*" = "deny";
           "*.env.example" = "allow";
@@ -268,6 +266,16 @@ in {
           "*id_rsa" = "deny";
           "*id_rsa.pub" = "deny";
         };
+      in {
+        external_directory = {
+          "/tmp/**" = "allow";
+        };
+        # Matcher is regex, not glob: `*` crosses `/`, so a `**/` prefix never matches a top-level file.
+        read = secretFiles;
+        # A bare directory grep skips dotfiles, but -\-include=.env.local or a direct path
+        # defeats that, so grep needs the same denies as read.
+        grep = secretFiles;
+        glob = secretFiles;
         # A repo-local user.name/email outranks the global one, so commits land as a bot.
         edit = {
           "*.git/config" = "deny";
@@ -330,7 +338,7 @@ in {
         markitdown = {
           type = "local";
           command = ["${pkgs.markitdown-mcp}/bin/markitdown-mcp"];
-          enabled = false;
+          enabled = true;
         };
         # Per-project graph server; graphify-mcp loads graphify-out/graph.json lazily, so it is safe with no graph.
         graphify = {
@@ -406,6 +414,11 @@ in {
         option) and do not blindly relaunch the same brief - it can re-hang the
         same way.
 
+        A reported timeout is not a failure. It can fire after a task finished
+        writing its output and hung on cleanup, so always check the promised
+        target file exists and is complete before treating the timed-out work
+        as lost. Never relaunch based on the error line alone.
+
         # GitLab issues
 
         `glab` is installed and authenticated. Read issue context via bash before
@@ -463,6 +476,8 @@ in {
     packages = [
       pkgs.wakatime-cli
       pkgs.python3Packages.markitdown
+      # local-research names pdftotext/pdfgrep as its PDF fallbacks, so they must be on PATH.
+      pkgs.pdfgrep
       pkgs.worktrunk
       pkgs.nodejs
       pkgs.gh

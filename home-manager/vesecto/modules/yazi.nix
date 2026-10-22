@@ -189,10 +189,13 @@
     flavor = "mocha";
   };
   home.packages = with pkgs; [
+    # yazi's one hard dependency: it shells out to file(1) for the mime-type every preview rule keys on.
+    file
     ffmpeg-full
     _7zz
     jq
-    poppler
+    # -utils, not plain poppler: the latter is the glib library alone, with no pdftoppm for PDF previews.
+    poppler-utils
     fd
     ripgrep
     fzf
