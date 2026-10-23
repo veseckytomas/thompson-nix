@@ -342,6 +342,11 @@
       };
     };
 
+    # bun runs the opencode plugins, so testing one by hand needs it without a store-path hunt.
+    devShells.${system}.default = pkgs.mkShell {
+      packages = [pkgs.bun pkgs.nodejs pkgs.sqlite pkgs.jq pkgs.alejandra pkgs.statix];
+    };
+
     packages.${system} = {
       nixos-run = pkgs.callPackage ./modules/common/packages/nixos-run {
         flakePath = "/home/${username}/Git/Personal/thompson-nix";

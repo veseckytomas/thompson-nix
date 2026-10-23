@@ -15,5 +15,7 @@ result
 eduroam.py
 *.qcow2
 .omo/
-docs/
+# docs/ is scratch, but AGENTS.md points at docs/gotchas/ - those must survive a clone.
+docs/*
+!docs/gotchas/
 graphify-out/
