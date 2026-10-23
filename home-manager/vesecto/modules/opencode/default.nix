@@ -338,7 +338,7 @@ in {
         markitdown = {
           type = "local";
           command = ["${pkgs.markitdown-mcp}/bin/markitdown-mcp"];
-          enabled = true;
+          enabled = false;
         };
         # Per-project graph server; graphify-mcp loads graphify-out/graph.json lazily, so it is safe with no graph.
         graphify = {
@@ -427,6 +427,13 @@ in {
         - View one issue:        glab issue view <id> --comments
         - Issues assigned to me: glab issue list --assignee=@me
         - Search:                glab issue list --search "<text>"
+
+        # Searching symlinked trees
+
+        Use `grep -R`, never `grep -r`, under home-manager or nix-store paths
+        (`~/.config`, `~/.local`, anything linked into `/nix/store`): those files
+        are symlinks, and `-r` skips them, so a string that is present returns
+        nothing. An empty `-r` result there is not evidence of absence.
 
         # Library docs
 

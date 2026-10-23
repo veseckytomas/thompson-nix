@@ -10,6 +10,7 @@
 # GitLab: vesecky.tomas
 {...}: {
   imports = [
+    ./compression-defaults.nix
     ./connection-caps.nix
     ./gateway.nix
     ./normalize-providers.nix

@@ -9,6 +9,7 @@
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 {pkgs, ...}:
+# Twin of the session_list_all agent tool in plugins/session-list-all/plugin.js - columns, filters and SQL must change in both.
 pkgs.writeShellApplication {
   name = "opencode-session-list-all";
   runtimeInputs = [pkgs.sqlite pkgs.coreutils pkgs.util-linux];
@@ -147,7 +148,6 @@ pkgs.writeShellApplication {
         s.id,
         substr(replace(replace(s.title, char(9), ' '), char(10), ' '), 1, 60),
         s.directory,
-        CASE WHEN p.worktree IS NULL THEN '-' WHEN p.worktree = s.directory THEN '=' ELSE p.worktree END,
         strftime('%Y-%m-%d %H:%M', s.time_updated / 1000, 'unixepoch')
       $from
       WHERE $where
@@ -163,7 +163,7 @@ pkgs.writeShellApplication {
     shown=$(printf '%s\n' "$rows" | wc -l)
 
     {
-      printf 'Session ID\tTitle\tDirectory\tProject worktree\tUpdated\n'
+      printf 'Session ID\tTitle\tDirectory\tUpdated\n'
       printf '%s\n' "$rows"
     } | column -t -s $'\t'
 

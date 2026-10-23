@@ -8,6 +8,7 @@
 // Email: vesecky@proton.me
 // GitHub: veseckytomas
 // GitLab: vesecky.tomas
+// Twin of the `opencode session list-all` CLI in ../../sessions-cli.nix - columns, filters and SQL must change in both.
 import { Database } from "bun:sqlite";
 import { existsSync } from "node:fs";
 import os from "node:os";
@@ -20,7 +21,7 @@ const description = `List opencode sessions across ALL projects/directories from
 
 Use when the agent needs to find or resume work done anywhere on the machine, not just in the current directory: "what sessions exist", "where did I work on X", "find the session about Y", "resume my earlier work elsewhere". opencode 1.18.34 has no server API for cross-project session listing, so this tool reads the local DB directly.
 
-Each result row gives the last-updated time (UTC), session title, the session's absolute directory, the owning project worktree, and the session id. A full result for resuming work elsewhere = the absolute directory plus the session id.
+Each result row gives the last-updated time (UTC), session title, the session's absolute directory (where it was run), and the session id. A full result for resuming work elsewhere = the absolute directory plus the session id.
 
 opencode groups sessions by project, not by directory, so sibling git worktrees of one repo share a project and appear under several directories; directory/search filters therefore match the project worktree as well as the session directory, which is what makes them agree with "opencode session list".
 
@@ -97,7 +98,7 @@ export const SessionListAllPlugin = async ({ client, project, directory, worktre
           const where = clauses.length ? " WHERE " + clauses.join(" AND ") : "";
           total = db.prepare(`SELECT COUNT(*) AS n ${from}${where}`).get(...params).n;
 
-          const query = `SELECT s.id, s.slug, s.title, s.directory, s.time_created, s.time_updated, s.summary_additions, s.summary_deletions, p.worktree AS project_worktree, p.name AS project_name
+          const query = `SELECT s.id, s.slug, s.title, s.directory, s.time_created, s.time_updated, s.summary_additions, s.summary_deletions
 ${from}${where} ORDER BY s.time_updated DESC LIMIT ?`;
           rows = db.prepare(query).all(...params, limit);
         } finally {
@@ -119,16 +120,15 @@ ${from}${where} ORDER BY s.time_updated DESC LIMIT ?`;
         const lines = [
           `Found ${total} session(s) across ${directoryCount} distinct directories — showing latest ${rows.length} (UTC timestamps).${hidden > 0 ? ` ${hidden} more match; raise "limit" (max 200) to see them.` : ""}`,
           "",
-          "| Updated | Title | Directory | Project worktree | ID |",
-          "| --- | --- | --- | --- | --- |",
+          "| Updated | Title | Directory | ID |",
+          "| --- | --- | --- | --- |",
         ];
         for (const row of rows) {
           const updated = new Date(row.time_updated).toISOString().slice(0, 16).replace("T", " ");
           const title = escapeCell(truncateTitle(String(row.title ?? "")));
           const dir = escapeCell(row.directory);
-          const worktree = escapeCell(row.project_worktree === row.directory ? "=" : (row.project_worktree ?? "—"));
           const id = escapeCell(row.id);
-          lines.push(`| ${updated} | ${title} | ${dir} | ${worktree} | ${id} |`);
+          lines.push(`| ${updated} | ${title} | ${dir} | ${id} |`);
         }
         return lines.join("\n");
       },
