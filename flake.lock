@@ -752,6 +752,22 @@
         "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"
       }
     },
+    "nixpkgs-opencode": {
+      "locked": {
+        "lastModified": 1792432679,
+        "narHash": "sha256-OjYouA4mCLhvrwXRHgeCoqzo+wVEhOPwu9q9E6HKxkI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "48571feca7fb156248ed747dab5860467c141768",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "48571feca7fb156248ed747dab5860467c141768",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1791254437,
@@ -1077,6 +1093,7 @@
         "mattpocock-skills": "mattpocock-skills",
         "nix-flatpak": "nix-flatpak",
         "nixpkgs": "nixpkgs_4",
+        "nixpkgs-opencode": "nixpkgs-opencode",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "nixvim-stable": "nixvim-stable",
