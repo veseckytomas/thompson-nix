@@ -82,9 +82,6 @@ in {
       # Variables
       export DIRENV_WARN_TIMEOUT=0
 
-      # Enable SSH Agent
-      { eval $(gnome-keyring-daemon -s) } &>/dev/null
-
       # Enable wt
       if command -v wt >/dev/null 2>&1; then
         eval "$(wt config shell init zsh)"

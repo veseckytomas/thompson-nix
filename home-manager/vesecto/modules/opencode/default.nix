@@ -78,8 +78,8 @@
       echo "opencode: context7 key not readable - the context7 MCP server will reject every call" >&2
     fi
   '';
-  # Must stay pkgs.opencode; config.programs.opencode.package would recurse infinitely.
-  opencodeBase = pkgs.opencode;
+  # Must not be config.programs.opencode.package (infinite recursion); pinned to 1.x, see flake.nix.
+  opencodeBase = inputs.nixpkgs-opencode.legacyPackages.${pkgs.stdenv.hostPlatform.system}.opencode;
   opencodeMainProgram = opencodeBase.meta.mainProgram or "opencode";
   # symlinkJoin drops meta/passthru, which the upstream module dereferences for extraPackages.
   opencodeWithContext7 = pkgs.symlinkJoin {
@@ -287,12 +287,20 @@ in {
           afterPassDenies = lib.hm.dag.entryAfter ["pass *" "*/pass *"];
         in {
           "glab *" = "allow";
-          "*.env*" = afterAllows "deny";
-          "*.gpg*" = afterAllows "deny";
           # Trailing " *" compiles to an optional arg group, keeping `jq '.key' x.json` allowed.
+          # Bare `*.env*` also matched os.environ and any grep pattern naming the file, so
+          # every secret suffix below is anchored to a path-shaped use, not a substring.
+          "*.env" = afterAllows "deny";
+          "*.env *" = afterAllows "deny";
+          "*.env.*" = afterAllows "deny";
+          "*/.env*" = afterAllows "deny";
+          "*.gpg" = afterAllows "deny";
+          "*.gpg *" = afterAllows "deny";
           "*.key *" = afterAllows "deny";
-          "*.netrc*" = afterAllows "deny";
-          "*.npmrc*" = afterAllows "deny";
+          "*.netrc" = afterAllows "deny";
+          "*.netrc *" = afterAllows "deny";
+          "*.npmrc" = afterAllows "deny";
+          "*.npmrc *" = afterAllows "deny";
           "*.p12*" = afterAllows "deny";
           "*.pem *" = afterAllows "deny";
           "*.pfx*" = afterAllows "deny";
@@ -428,6 +436,14 @@ in {
         - Issues assigned to me: glab issue list --assignee=@me
         - Search:                glab issue list --search "<text>"
 
+        # Scratch files
+
+        `/tmp/opencode` is shared by every concurrent session and is swept
+        while you work, so a file you wrote earlier may be gone by your next
+        turn. Put scratch under your own `/tmp/opencode/<session-id>/` and
+        re-derive rather than trust anything you find at the top level. Never
+        copy a large file there to read it - query it in place.
+
         # Searching symlinked trees
 
         Use `grep -R`, never `grep -r`, under home-manager or nix-store paths
@@ -482,7 +498,11 @@ in {
 
     packages = [
       pkgs.wakatime-cli
-      pkgs.python3Packages.markitdown
+      # The bare package ships no PDF reader, so every .pdf fails with
+      # MissingDependencyException — the lecture pipeline converts slide PDFs.
+      (pkgs.python3Packages.markitdown.overridePythonAttrs (o: {
+        dependencies = o.dependencies ++ o.optional-dependencies.pdf;
+      }))
       # local-research names pdftotext/pdfgrep as its PDF fallbacks, so they must be on PATH.
       pkgs.pdfgrep
       pkgs.worktrunk

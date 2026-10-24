@@ -33,6 +33,14 @@
       "context": 1000000,
       "output": 128000
     },
+    "cc/claude-fable-5-1": {
+      "context": 1000000,
+      "output": 128000
+    },
+    "cc/claude-fable-5-1-medium": {
+      "context": 1000000,
+      "output": 128000
+    },
     "cc/claude-haiku-4-5-20251001": {
       "context": 200000,
       "output": 64000
@@ -40,10 +48,6 @@
     "cc/claude-haiku-5-5": {
       "context": 1000000,
       "output": 64000
-    },
-    "cc/claude-fable-5-1-medium": {
-      "context": 1000000,
-      "output": 128000
     },
     "cc/claude-opus-5": {
       "context": 1000000,
@@ -73,8 +77,16 @@
       "context": 262144,
       "output": 32768
     },
+    "cx/gpt-5.6-luna": {
+      "context": 272000,
+      "output": 128000
+    },
     "cx/gpt-5.6-luna-low": {
       "context": 272000,
+      "output": 128000
+    },
+    "cx/gpt-5.6-sol": {
+      "context": 872000,
       "output": 128000
     },
     "cx/gpt-5.6-sol-low": {
@@ -101,6 +113,10 @@
       "context": 872000,
       "output": 128000
     },
+    "cx/gpt-6-astra": {
+      "context": 272000,
+      "output": 128000
+    },
     "cx/gpt-6-astra-high": {
       "context": 272000,
       "output": 128000
@@ -113,7 +129,15 @@
       "context": 272000,
       "output": 128000
     },
+    "cx/gpt-6-luna": {
+      "context": 272000,
+      "output": 128000
+    },
     "cx/gpt-6-luna-low": {
+      "context": 272000,
+      "output": 128000
+    },
+    "cx/gpt-6-sol": {
       "context": 272000,
       "output": 128000
     },

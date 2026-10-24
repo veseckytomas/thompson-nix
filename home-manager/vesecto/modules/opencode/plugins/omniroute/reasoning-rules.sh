@@ -21,16 +21,16 @@ rules="
 visual-engineering-chain max
 artistry-chain max
 ultrabrain-chain max
-oracle-chain max
-momus-chain max
+oracle-chain xhigh
+momus-chain xhigh
 deep-high-chain high
-sisyphus-chain high
-prometheus-chain high
-metis-chain high
-gsd-planner-chain high
-gsd-plan-checker-chain high
-gsd-reasoning-chain high
-gsd-audit-chain high
+sisyphus-chain max
+prometheus-chain xhigh
+metis-chain max
+gsd-planner-chain xhigh
+gsd-plan-checker-chain medium
+gsd-reasoning-chain medium
+gsd-audit-chain medium
 didaskalos-chain high
 deep-chain medium
 unspecified-low-chain medium
@@ -44,10 +44,9 @@ eurybates-chain medium
 mageiros-chain medium
 writing-chain low
 multimodal-looker-chain low
-librarian-chain low
-explore-chain low
-reword-chain low
-gsd-background-chain low
+librarian-chain none
+explore-chain none
+gsd-background-chain medium
 quick-chain low
 "
 
