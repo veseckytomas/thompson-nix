@@ -64,11 +64,15 @@ chain:
 GSD is authoritative for these seven. It overrides any guess based on a
 similarly-named omo agent: gsd-plan-checker is sonnet, not momus-grade.
 
-## 3. No upstream documentation — 5 chains
+## 3. No upstream documentation — 4 chains
 
 Not in omo and not in GSD. Keep their current tier and members; there is nothing
 to be faithful to. Each entry records what the agent is for, so a later run does
 not have to rediscover it.
+
+A chain here must still have a consumer. Before trusting one, grep this repo and
+both obsidian worktrees for an agent whose `model:` names it. If nothing
+references it, propose removing the chain rather than retiering it.
 
 ### general-chain
 opencode's own built-in `general` agent — multi-step research and parallel work
@@ -91,11 +95,6 @@ do not weaken it. Current tier: medium.
 ### mageiros-chain
 thompson-obsidian subagent. Staged recipe extract to finished Czech recipe note;
 also fixes existing recipe notes. Narrow, templated, cheap. Current tier: medium.
-
-### reword-chain
-**Orphaned.** Defined in `chains.json` and `reasoning-rules.sh`, but no agent
-anywhere references it (checked both obsidian worktrees and this repo). Keep it
-untouched, or raise removal with the user — never silently retier or delete it.
 
 ## Vision
 

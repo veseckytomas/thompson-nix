@@ -82,6 +82,12 @@ wipes it — so write the bare id and let the rule carry the effort. Codex path:
 `open-sse/executors/codex/reasoningPolicy.ts` uses
 `forcedEffort || split.effort || …`.
 
+Stripping suffixes collapses duplicates, and that is correct: two entries
+differing only by suffix (`cx/gpt-5.6-sol-medium`, `cx/gpt-5.6-sol-ultra`) are
+one fallback slot once the rule carries the effort, not two. Expect some chains
+to get shorter; keeping both would only buy a dead retry against the same
+target.
+
 Declared vocabularies worth remembering: `gh/claude-opus-5.5` and
 `cc/claude-haiku-5-5` have **no** `max`; `cc/claude-opus-5`, `cc/claude-opus-5-5`
 and `cx/gpt-6-sol` go up to `max`.

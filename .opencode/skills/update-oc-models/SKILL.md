@@ -18,7 +18,7 @@ aliases, suffixes) before deriving anything.
 ## Rules that are not negotiable
 
 **Never invent a tier.** A chain is documented by omo or by GSD, or it keeps its
-current tier. Five chains have no upstream at all — see `agent-sources.md`.
+current tier. Some chains have no upstream at all — see `agent-sources.md`.
 
 **Entry 1 wins.** omo's `fallbackChain` is ordered best-first; the chain tier is
 entry 1's `variant`, `off` → `none`. Do not aggregate across the chain.
@@ -50,15 +50,38 @@ most of its models. Entries carry `id`, `name`, `source`, `outputTokenLimit`,
 and **no modality field**.
 
 `GET /v1/models` needs the Yubikey-backed token. It is a human-run step, not an
-agent one; the DB replaces it. Never attempt to read a `*.gpg` / `*.env` path —
-the user's permission rules deny it.
+agent one; the DB replaces it. Never attempt to read a secret path — the
+user's permission rules deny it.
+
+Query the DB in place. It is ~1GB; copying it to scratch buys nothing.
+
+## Reading OmniRoute's own source
+
+Do **not** try to execute OmniRoute's TypeScript. Its `@/…` path aliases do not
+resolve from inside `node_modules`, and no `tsconfig.json` ships with the
+package — `tsx` fails three different ways before you give up. Read the values
+statically instead.
+
+Effort vocabularies live in `open-sse/config/index.ts` and `glmProvider.ts` as
+`supportedThinkingEfforts`. Grep those for the models in your chains; the ones
+that decide drops:
+
+| model | vocabulary |
+|---|---|
+| `cc/claude-opus-5-5`, `cc/claude-fable-5-1`, `gh/claude-fable-5.1` | low medium high xhigh **max** |
+| `cc/claude-sonnet-5-5`, `cc/claude-haiku-5-5`, `gh/claude-opus-5.5`, `gh/claude-sonnet-5.5` | low medium high xhigh (**no max**) |
+| `cx/*`, `gh/gpt-*` | low medium high xhigh max |
+| `litellm/glm-5.3`, `litellm/kimi-k3`, `ctu/vic/GLM-5.3-Flash` | low high max (**no medium, no xhigh**) |
+
+So the glm/kimi tail drops at every `medium` and `xhigh` chain. That is normal
+and pre-existing — only a chain where *every* member drops is a failure.
 
 ## Procedure
 
 1. Resolve the two upstream store paths from the flake (commands in
    `agent-sources.md`). Pin the revisions via `flake.lock`, never by hand.
 2. Dump the catalog, merging `syncedAvailableModels` and `customModels`.
-3. For each of the 31 chains, resolve its owner:
+3. For each chain in `chains.json`, resolve its owner:
    omo (`~/.omo/omo.jsonc` maps agent/category → `omniroute/<chain>`), then GSD,
    else undocumented. When a GSD agent reuses an omo chain, `<name>-chain`
    belongs to `<name>` — a reuser must not displace the owner.
@@ -87,7 +110,7 @@ Then confirm, before claiming success:
 
 - every chain has exactly one rule, and rule count matches combo count
 - every member exists in the catalog and in `model-limits.json`
-- the last two members are `litellm/*` then `ctu/vic/GLM-5.3-Flash`
+- every chain ends `litellm/*` then `ctu/vic/*` — enforced, no exceptions
 - `omniroute-reasoning-rules.service` still has `After=omniroute-provision.service`
 
 After the user activates, verify the live rows:

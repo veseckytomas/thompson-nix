@@ -15,6 +15,8 @@
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-26.05";
+    # Last nixpkgs rev with opencode 1.x (1.19.3): oh-my-openagent does not support V2 yet.
+    nixpkgs-opencode.url = "github:NixOS/nixpkgs/48571feca7fb156248ed747dab5860467c141768";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
