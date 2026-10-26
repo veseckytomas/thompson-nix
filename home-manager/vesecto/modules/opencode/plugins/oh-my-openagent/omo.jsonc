@@ -65,7 +65,7 @@
     },
     "general": {
       "models": [
-        "omniroute/general-chain"
+        "omniroute/sisyphus-chain"
       ]
     },
     "gsd-planner": {

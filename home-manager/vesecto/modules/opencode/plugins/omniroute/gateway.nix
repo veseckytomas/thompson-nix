@@ -64,6 +64,9 @@ in {
 
       if [ -x "$vd/node_modules/.bin/omniroute" ]; then
         ln -sfn "$vd" "$d/current"
+
+        # Clamp combo Retry-After hints so one member's far-future rate_limited_until cannot park clients ~1 day (idempotent; re-applies on every switch).
+        ${pkgs.python3}/bin/python3 ${./patch-retry-hint.py} "$vd/node_modules/omniroute"
       fi
 
       for old in "$d"/omniroute@*; do

@@ -68,6 +68,10 @@ in {
       saveNoDups = true;
       share = true;
     };
+    # An unmatched glob aborts the command under nomatch, and a piped `wc -l` still prints 0 — a failed agent search reads as a real empty result.
+    envExtra = ''
+      [[ -n "$OPENCODE" ]] && setopt no_nomatch
+    '';
     initContent = ''
       # Keybinds
       bindkey -e

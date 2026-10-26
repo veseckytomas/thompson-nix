@@ -36,7 +36,6 @@ deep-chain medium
 unspecified-low-chain medium
 unspecified-high-chain medium
 hephaestus-chain medium
-general-chain medium
 atlas-chain medium
 sisyphus-junior-chain medium
 gsd-research-chain medium

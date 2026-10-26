@@ -440,9 +440,9 @@ in {
 
         `/tmp/opencode` is shared by every concurrent session and is swept
         while you work, so a file you wrote earlier may be gone by your next
-        turn. Put scratch under your own `/tmp/opencode/<session-id>/` and
-        re-derive rather than trust anything you find at the top level. Never
-        copy a large file there to read it - query it in place.
+        turn. Claim your own dir with `mktemp -d -p /tmp/opencode`, echo that
+        path, and re-derive rather than trust anything you find at the top
+        level. Never copy a large file there to read it - query it in place.
 
         # Searching symlinked trees
 
