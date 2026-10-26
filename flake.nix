@@ -15,8 +15,8 @@
     catppuccin.url = "github:catppuccin/nix";
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-26.05";
-    # Last nixpkgs rev with opencode 1.x (1.19.3): oh-my-openagent does not support V2 yet.
-    nixpkgs-opencode.url = "github:NixOS/nixpkgs/48571feca7fb156248ed747dab5860467c141768";
+    # Last channel rev with opencode 1.x (1.19.0): oh-my-openagent does not support V2 yet.
+    nixpkgs-opencode.url = "github:NixOS/nixpkgs/09063bd1f2b36fd9fd793c36dfade7bd40a93dfc";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -214,6 +214,18 @@
   outputs = inputs: let
     system = "x86_64-linux";
     username = "vesecto";
+    lib = inputs.nixpkgs.lib;
+    # .nix sources only, so the lint check ignores result/, graphify-out/ and the docs tree.
+    lintSrc = lib.fileset.toSource {
+      root = ./.;
+      fileset = lib.fileset.unions [
+        ./flake.nix
+        ./home-manager/vesecto/modules/statix/statix.toml
+        (lib.fileset.fileFilter (f: f.hasExt "nix") ./home-manager)
+        (lib.fileset.fileFilter (f: f.hasExt "nix") ./hosts)
+        (lib.fileset.fileFilter (f: f.hasExt "nix") ./modules)
+      ];
+    };
     pkgs = import inputs.nixpkgs {
       inherit system;
       config = {allowUnfree = true;};
@@ -343,6 +355,18 @@
         ];
       };
     };
+
+    # `nix flake check` would evaluate every host; build this attr directly to lint alone.
+    checks.${system}.lint =
+      pkgs.runCommand "lint" {
+        nativeBuildInputs = [pkgs.alejandra pkgs.statix];
+      } ''
+        cd ${lintSrc}
+        # bun2nix generates this one; alejandra would reformat it on every regeneration.
+        alejandra --quiet --check --exclude ./home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix .
+        statix check -c home-manager/vesecto/modules/statix .
+        touch $out
+      '';
 
     # bun runs the opencode plugins, so testing one by hand needs it without a store-path hunt.
     devShells.${system}.default = pkgs.mkShell {

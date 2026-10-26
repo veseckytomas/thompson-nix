@@ -7,6 +7,50 @@ This repository contains these configurations:
 - ISO configuration for NixOS installation
 - ISO configuration for disk rescue
 
+## Temporary pins & workarounds
+
+Audited 2026-10-26 — every entry below is still required; nothing was safely removable. Lift the pin only when its condition is met. See `docs/gotchas/` for the deep dives.
+
+| Pin / workaround | Why it's needed | Lift when |
+| --- | --- | --- |
+| `nixpkgs-opencode` input pinned to rev `09063bd` (opencode 1.19.0) | oh-my-openagent has not ported to opencode 2.x | `code-yeongyu/oh-my-openagent#9391` merges |
+| `omniroute` sidecar locked at 3.8.51 (`plugins/npm-plugins.json`) | ≥3.8.52 breaks the gateway (zombie connection breakers, omniroute#17324) | upstream ships the fix in a release |
+| `graphify-src` flake.lock pin (v0.9.x tag) | v1.x/main dropped `uv.lock`, which the uv2nix build requires | upstream ships a release restoring a lockfile |
+| `oh-my-openagent` dev pin (`flake.lock`) + 3 patches + inline `substituteInPlace` fixes | upstream still ships the bugs they patch | upstream merges equivalents — see `docs/gotchas/oh-my-openagent.md`; dropped patches survive under `refs/dropped-patches/*` |
+| `ratbagd` input pinned to master rev `8235b5bb` (post-v0.18) | newer device support than nixpkgs ships | nixpkgs ships ratbagd ≥ this rev |
+| `piper` input pinned to master rev `5d3c8845` | pairs with the pinned ratbagd | same as above |
+| openfortivpn `max_tries` patch (`modules/networking/fortivpn.nix`) | upstream master still hardcodes 5 connection retries | upstream makes it configurable |
+| avahi `ExecStartPre= mkdir /run/avahi-daemon` (`modules/common/common.nix`) | NixOS/nixpkgs#554650 — daemon fails without it | nixpkgs fixes #554650 |
+| `networkmanager-recover` service | dbus-broker v37 can drop NetworkManager off the bus | dbus-broker v38+ lands in our nixpkgs |
+| eduroam pinned CA certificate (`modules/networking/eduroam.nix`) | environmental: this network's CA isn't in the system store | the CTU/eduroam CA chain changes |
+| Hyprland uwsm session removal (`modules/windowManagers/hyprland.nix`) | package ships a uwsm session file while `withUWSM` is off | upstream stops shipping the desktop file unconditionally |
+| `codegraph` 1.6.2 sidecar pin (`plugins/codegraph.json`) + NixOS repackage | no nixpkgs package; repackage keeps the npm binary runnable | permanent by design (drop only if nixpkgs packages it) |
+| `librewolf-bin.json` pin | nixpkgs librewolf binary is unmaintained | nixpkgs package becomes trustworthy |
+| `tock` input + `tock.json` rev pin | kriuchkov/tock is not in nixpkgs — required vendoring | upstream adds it to nixpkgs |
+
+## Self-healing mechanisms
+
+Audited 2026-10-26 on the live machine (previous boot, scenario S4 = read-only diagnosis; no destructive live-fire tests). Status legend: **WORKING** = observed healthy; **WIRED** = correctly installed, no failure to heal yet; **ARMED** = timer/trigger only, not live-verified; **BROKEN** = confirmed dead.
+
+| Mechanism | What it does | Status |
+| --- | --- | --- |
+| autorandr converge chain (`modules/common/autorandr.nix`) | re-applies the detected monitor profile after switch/resume | WORKING |
+| G502 DPI reassert (`modules/common/gaming-mouse.nix`: udev → `g502-dpi.service` via ratbagd) | restores the DPI index the KVM switch resets | **BROKEN** — `ratbagd.service` has failed to load since ~Gen 346: the old `serviceConfig.ExecStart = lib.mkForce` added a **second** `ExecStart` line to the non-oneshot unit, and systemd rejects that with "bad unit file setting". Fix applied in this audit (override removed; `nix eval …systemd.services.ratbagd.serviceConfig` now = `{}`). Verdict flips to WORKING after rebuild. |
+| NetworkManager-recover (`modules/networking/networkmanager-recover.nix`) | restarts NetworkManager when dbus-broker v37 drops it | WIRED — never fired, nothing to heal |
+| NetworkManager ensure-profiles (`modules/networking/vpn.nix`) | declaratively re-provisions the vic-vpn + eduroam profiles from a secrets env file | **BROKEN** — `NetworkManager-ensure-profiles.service` fails on every boot: `EnvironmentFile=/etc/NetworkManager/vic-vpn-secrets.env` does not exist on this machine, so the unit dies on resources and both profiles are absent from `nmcli`. Fix lives in the uncommitted WIP on this branch (removes the env-file reference). |
+| omniroute-connectivity dispatcher (`modules/networking/omniroute-connectivity.nix`) | NetworkManager dispatcher (`03userscript0001`) restarts the user omniroute gateway on carrier flaps | WIRED — unit and script deployed, loop logic sound |
+| omniroute.service (`home-manager/.../opencode/plugins/omniroute/`) | `Restart=on-failure` + install-time pinned-version self-heal | WORKING — running `omniroute@3.8.51`, matches the pin |
+| vic-vpn-watchdog (`modules/networking/vic-vpn-watchdog.nix`) | timer prods the fortivpn connection | WORKING but **removed in the uncommitted WIP** — the watchdog masked the root cause, which `disable_udp=yes` fixed |
+| rclone mounts (`home-manager/vesecto/modules/rclone.nix`) | stale-FUSE cleanup before mount + `Restart=on-failure` per remote | WORKING |
+| keyboxd socket activation + hardened gpg-decrypt (`home-manager/vesecto/modules/gnupg/`) | keeps signing/decryption working across session restarts | WORKING — provision service succeeded |
+| borgbackup (`modules/common/backups.nix`) | daily timer with `RestartSec=5m` + OnFailure notification | ARMED — timer only, not live-fired |
+| power-profile-auto (`hosts/desktop/TomasVesa-NTB-NixOS/power-profile.nix`) | 2-minute timer + udev rule re-asserts profile on AC/battery change | WORKING |
+| opencode-db-maint (`home-manager/vesecto/modules/opencode/`) | periodic DB maintenance/freshness | WORKING — last fired 09:19 |
+| avahi `ExecStartPre` (`modules/common/common.nix`) | creates `/run/avahi-daemon` so the daemon doesn't flap | ACTIVE |
+| thunar daemon (`home-manager/vesecto/modules/thunar.nix`) | starts at login instead of first D-Bus activation; `Restart=on-failure` | RUNNING |
+| polkit-gnome agent (`modules/common/security.nix`) | auto-restart keeps the auth agent alive | RUNNING |
+| wacom-hotplug (`home-manager/vesecto/modules/wacom.nix`) | inputplug-driven output mapping; `Restart=on-failure` | RUNNING |
+
 ## Configurations present
 
 - Desktop
@@ -191,7 +235,7 @@ gpg --decrypt -q ~/.config/api_keys/omniroute_token.gpg   # verify → OMNIROUTE
 ```bash
 nixos-run                                       # home-only rebuild
 systemctl --user restart omniroute.service      # provision runs after the gateway (Yubikey touch to decrypt)
-journalctl --user -u omniroute-provision.service -f   # expect "27 provisioned, 0 failed"
+journalctl --user -u omniroute-provision.service -f   # expect "<n> provisioned, 0 failed" (n = combos in chains.json)
 ```
 
 Verify combos and available models:
@@ -204,7 +248,7 @@ curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq 
 
 ### Chain shape: fallback tail and context cap
 
-Two invariants hold across all 28 chains in `chains.json`, both enforced in Nix rather than by hand.
+Two invariants hold across every chain in `chains.json`, both enforced in Nix rather than by hand.
 
 **Every chain ends with `ctu/vic/GLM-5.3-Flash`.** `strategy` is `priority`, so members are tried in array order and the last one is the last resort — the self-hosted CTU endpoint, unmetered, reached only when every provider ahead of it fails. Keep it last in any chain you add or edit; putting it earlier would route ordinary traffic there and starve the better models.
 
@@ -217,7 +261,7 @@ jq '.provider.omniroute.models | to_entries
   ~/.config/opencode/opencode.json
 ```
 
-Expect 24 chains at 250000 and 4 chains at 128000: `quick-chain`, `librarian-chain`, `explore-chain` and `gsd-plan-checker-chain`. Those outliers are correct: `limit.context` is `min(floor across members, 250000)` and those chains contain 128k-window members (`litellm/mini`, `litellm/qwen3.5`, `litellm/deepseek*`), whose real windows are *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
+Most chains sit at 250000; the outliers at 128000 are `quick-chain`, `librarian-chain`, `explore-chain` and `gsd-plan-checker-chain`, and they are correct: `limit.context` is `min(floor across members, 250000)` and those chains contain 128k-window members (`litellm/mini`, `litellm/qwen3.5`, `litellm/deepseek*`), whose real windows are *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
 
 Adding a model to a chain therefore needs **two** edits, in `chains.json` and `model-limits.json`. The latter is not optional: `providers/omniroute.nix` throws on a member id with no limits entry, deliberately, so that a typo fails the build instead of silently advertising a wrong window. A new id must also exist in the gateway's live catalog — `provision-combos.sh` only *warns* about an unknown id, and the chain position then 404s at request time:
 
@@ -398,7 +442,7 @@ nixos-run                                             # 4. home-only rebuild
 gpgconf --kill keyboxd                                # 5. retire the orphan daemon
 systemctl --user daemon-reload && systemctl --user restart keyboxd.socket
 gpg --list-keys | grep -c '^pub'                      # 6. -> 3; keyboxd.service becomes active on demand
-systemctl --user restart omniroute.service            # 7. journal -> "27 provisioned, 0 failed"
+systemctl --user restart omniroute.service            # 7. journal -> "<n> provisioned, 0 failed"
 keybox-sweep && keybox-lock-harness                   # 8. -> 0 removed, then GREEN
 ls ~/.gnupg/public-keys.d/.\#lk* 2>/dev/null | wc -l  # 9. after a logout/login -> 0 (the real proof)
 ```

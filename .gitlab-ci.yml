@@ -1,0 +1,5 @@
+# Lint gate as CI: a commit pushed outside nixos-run's lint_gate is still checked here.
+lint:
+  image: nixos/nix:latest
+  script:
+    - nix --extra-experimental-features 'nix-command flakes' build --no-link .#checks.x86_64-linux.lint

@@ -1,3 +1,16 @@
+<!--
+  ________
+ /_  __/ /_  ____  ____ ___  ____  _________  ____
+  / / / __ \/ __ \/ __ `__ \/ __ \/ ___/ __ \/ __ \
+ / / / / / / /_/ / / / / / / /_/ (__  ) /_/ / / / /
+/_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
+                         /_/
+Tomáš Vesecký
+Email: vesecky@proton.me
+GitHub: veseckytomas
+GitLab: vesecky.tomas
+-->
+
 # Translation tables
 
 omo names a model by its upstream provider namespace. OmniRoute names it by
@@ -58,11 +71,20 @@ substitute for gemini-3.1-pro.
 ## Keep newer
 
 When a newer release of the same product line exists, prefer it — across family
-versions, not just dated variants.
+versions, not just dated variants. **An upgrade only counts if the pinned
+gateway can shape it:** check `src/shared/constants/modelSpecs.ts` in the
+installed `omniroute@<pin>` first. Routing reads the live catalog, but request
+shaping (max_tokens cap, tool_choice, thinking support) reads that static
+table — a model that routes but is absent from it mis-resolves by prefix and
+400s. On the 3.8.51 pin the claude `-5-5` line is absent, so the upgrades
+below are gated OFF until the pin catches up:
 
-- `claude-haiku-4-5-20251001` → `claude-haiku-5-5`
-- `claude-sonnet-5` → `claude-sonnet-5-5`
-- `claude-opus-4-6` → `claude-opus-5-5`
+- `claude-haiku-4-5-20251001` → ~~`claude-haiku-5-5`~~ (gated: not in 3.8.51 spec table)
+- `claude-sonnet-5` → ~~`claude-sonnet-5-5`~~ (gated: not in 3.8.51 spec table)
+- `claude-opus-4-6` → ~~`claude-opus-5-5`~~ (gated: not in 3.8.51 spec table)
+
+Re-enable by deleting the "(gated…)" notes once the pin's spec table carries
+the `-5-5` ids (`grep -c '"claude-opus-5-5"' …/modelSpecs.ts` > 0).
 
 Strip a trailing `-20\d{6}` date stamp before comparing versions, or the dated
 id sorts below its successor and the upgrade silently fails.

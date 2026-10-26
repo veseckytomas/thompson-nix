@@ -15,16 +15,14 @@ GitLab: vesecky.tomas
 
 ## State
 
-The repo has **no automated guardrail**: no pre-commit hook, no CI (no `.github/`, no `.gitlab-ci.yml`), and no `checks` output in `flake.nix`. `alejandra` and `statix` are declared as the formatter and linter in `AGENTS.md`, but nothing enforces them — a human or an agent that forgets to run them produces a commit nobody flags. The only enforced gate is whatever `nixos-rebuild build` / `home-manager build` happens to evaluate, and that gate is weaker than it looks: files copied at activation (see `home-manager/vesecto/modules/opencode/plugins/session-list-all/default.nix`) and sidecar pin bumps are not evaluated by a build at all unless something forces them.
+The one guardrail is **`checks.x86_64-linux.lint`** in `flake.nix`: `alejandra --check` plus `statix check` over the `.nix` files, run by `nixos-run`'s rebuild and home actions (`lint_gate`) before the long build. `.gitlab-ci.yml` runs the same `lint` check on push, so a commit made outside `nixos-run` is still checked on GitLab; there is no local pre-commit hook.
 
-## Deliberately not fixed
+Build it directly — `nix build .#checks.x86_64-linux.lint` — never via `nix flake check`, which evaluates every host and ISO to find it.
 
-Adding `checks.x86_64-linux` + a hook was considered and **declined** during the 2026-10-23 retro — recorded here rather than acted on. Revisit when a lint-level mistake actually lands in a commit.
+Three things it deliberately does not cover:
 
-What it would take, if revisited:
+- **Non-Nix formatters** (`stylua`, `isort`+`black`, `beautysh`, `taplo`): still manual.
+- **`oh-my-openagent-bun.nix`**, excluded by path — bun2nix regenerates it unformatted on every bump.
+- **Activation-copied files and sidecar pins**, which no build evaluates: the `node --check` wrapper in `home-manager/vesecto/modules/opencode/plugins/session-list-all/default.nix` is the per-file pattern to copy.
 
-- `checks.${system}.lint` in `flake.nix` running `alejandra --check .` and `statix check .` over the tree.
-- Wiring it into `nixos-run` (or a `git-hooks.nix` pre-commit hook) so it runs without being remembered.
-- Per-file build gates for anything activation copies rather than builds — the `node --check` wrapper in `plugins/session-list-all/default.nix` is the pattern to copy.
-
-With `nix flake check` wired up, the "Formatter / Linter" lines in `AGENTS.md` collapse to a single pointer at that command.
+`lint_gate` warns and asks rather than aborting, so a failing lint cannot strand a half-applied machine; it is skipped outright on non-x86_64 hosts, where `checks` is undefined.

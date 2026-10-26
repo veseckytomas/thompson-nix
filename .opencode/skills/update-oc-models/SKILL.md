@@ -11,9 +11,12 @@ Rewrites three files from upstream documentation plus the live catalog:
 - `home-manager/vesecto/modules/opencode/plugins/omniroute/reasoning-rules.sh`
 - `home-manager/vesecto/modules/opencode/plugins/omniroute/model-limits.json`
 
-Read `agent-sources.md` (which upstream documents which chain, and what the
+Read `agent-sources.md` (which upstream owns which chain's tier, and what the
 undocumented agents are for) and `translation-tables.md` (namespace, order,
 aliases, suffixes) before deriving anything.
+
+`verify.py` in this directory runs every static check below. Run it before and
+after editing: `python3 .opencode/skills/update-oc-models/verify.py . --live`.
 
 ## Rules that are not negotiable
 
@@ -81,12 +84,15 @@ and pre-existing — only a chain where *every* member drops is a failure.
 1. Resolve the two upstream store paths from the flake (commands in
    `agent-sources.md`). Pin the revisions via `flake.lock`, never by hand.
 2. Dump the catalog, merging `syncedAvailableModels` and `customModels`.
-3. For each chain in `chains.json`, resolve its owner:
-   omo (`~/.omo/omo.jsonc` maps agent/category → `omniroute/<chain>`), then GSD,
-   else undocumented. When a GSD agent reuses an omo chain, `<name>-chain`
-   belongs to `<name>` — a reuser must not displace the owner.
+3. Take each chain's tier owner from the table in `agent-sources.md`. A chain
+   usually has several consumers; only the owner sets the tier.
 4. Derive the tier, and the members via the order and aliases in
-   `translation-tables.md`.
+   `translation-tables.md`. Write the derivation as `derive.py` **in this skill
+   directory** and commit it, with a case per alias and per keep-newer rule. The
+   2026-10 run threw its script away in `/tmp` and lost eight fixed bugs —
+   merging `customModels` into the same prefix, upgrading a date-stamped id,
+   excluding `-tiered`/`-lite` substitutes, counting no-route per model rather
+   than per entry, owner precedence, and the litellm fallback slot.
 5. Check the tier drop: `filterComboForReasoningDecision` removes members whose
    `capabilityFor` is unsupported at the target effort. If **every** member
    drops, the gateway returns HTTP 400 "Reasoning routing policy leaves no
@@ -106,12 +112,26 @@ The build is the gate:
 nix run home-manager/master -- build --flake .#vesecto > /tmp/hm-build.log 2>&1; echo "EXIT=$?"
 ```
 
-Then confirm, before claiming success:
+Then run the static checks — one rule and one `agent-sources.md` row per chain,
+`model-limits.json` coverage, the `litellm/*` + `ctu/vic/*` tail, duplicate
+members, a consumer per chain, and stale DB combos:
 
-- every chain has exactly one rule, and rule count matches combo count
-- every member exists in the catalog and in `model-limits.json`
-- every chain ends `litellm/*` then `ctu/vic/*` — enforced, no exceptions
-- `omniroute-reasoning-rules.service` still has `After=omniroute-provision.service`
+```bash
+python3 .opencode/skills/update-oc-models/verify.py . --live
+```
+
+The built config is **not** under `result/home-files`. `chains.json` and the
+rules script are arguments on the `ExecStart` lines of the systemd units, so
+read them from there:
+
+```bash
+H=$(readlink -f result); U=$H/home-files/.config/systemd/user
+grep ExecStart $U/omniroute-provision.service $U/omniroute-reasoning-rules.service
+grep After= $U/omniroute-reasoning-rules.service   # must stay omniroute-provision.service
+```
+
+Test file absence with an exit code, never `find … && echo`: `find` exits 0 on
+no match, so that idiom reports the opposite of the truth.
 
 After the user activates, verify the live rows:
 
@@ -122,6 +142,12 @@ sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
 
 Keep `effort_mode='force'` and `budget_action='remove'`. With `budget_action='set'`
 the gateway writes a thinking object that shadows `target_effort`.
+
+Dropping a chain leaves its combo behind: `reasoning-rules.sh` wipes every
+`nix:reasoning-rules:` row and reinserts, but `provision-combos.sh` only deletes
+combos it is about to POST, and `combos` has no marker column. `verify.py
+--live` reports the strays; remove them in the dashboard. Do not auto-delete
+every unlisted `*-chain` — hand-made combos share the suffix.
 
 Rules are provider-agnostic: `applyReasoningRuleDirective`
 (`src/lib/reasoningRouting/policy.ts`) writes `reasoning_effort`,

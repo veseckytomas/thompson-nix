@@ -15,6 +15,10 @@ GitLab: vesecky.tomas
 
 Package lives in `home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/`; its pin is `flake.lock` (see the pinned-inputs bullet in `AGENTS.md`).
 
+## opencode is frozen at 1.x
+
+**`opencode` does not come from `pkgs`:** omo is a V1 plugin and its V2 port is unfinished, so `nixpkgs-opencode` in `flake.nix` pins the package to the last nixpkgs channel commit carrying 1.x while the rest of the tree tracks unstable. Lift it — drop the input, restore `opencodeBase = pkgs.opencode` — only once an omo bump lands the V2 port (upstream `code-yeongyu/oh-my-openagent#9391`, plus the V2 compaction and MCP bugs `#10465` / `#10245`). The rev sits in the input URL, so `nixos-run`'s update action cannot move it: this pin is bumped by hand, against nixpkgs history, unlike every other pin in `AGENTS.md`. Prefer a rev the channel actually shipped — an intermediate nixpkgs commit builds opencode from source on every host.
+
 ## Bumps are build-gated
 
 **`oh-my-openagent` bumps are build-gated:** the gate is a candidate-lock transaction — the update action resolves the `dev` tip into a candidate `flake.lock` and promotes it over the live lock only if the package builds against it, so a rejected bump never moves the live lock and there is nothing to roll back; the regenerated `*-bun.nix` and `*-bun.lock` are the only artifacts written in place, so that pair gets backed up and restored together — restoring either alone desynchronises them. A rejected bump means upstream moved code a patch is anchored to — reconcile the patches in `home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/`. The rejected `dev` tip is then memoised to `$XDG_STATE_HOME/nixos-run/oh-my-openagent-rejected-rev` and skipped on later runs, so a drifted patch set costs one failed build rather than a multi-minute refetch every update; a newer tip retries automatically, and deleting that file forces a retry of the same one.

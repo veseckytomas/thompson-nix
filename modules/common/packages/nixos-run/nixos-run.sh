@@ -228,6 +228,20 @@ git_pull() {
   run git pull || warn "git pull failed, continuing."
 }
 
+# Lint before the long build, so a formatting slip is caught while the user is still present.
+lint_gate() {
+  # checks is defined for x86_64-linux only; an aarch64 server would cross-build it.
+  [ "$(uname -m)" = "x86_64" ] || return 0
+
+  hdr "Lint (alejandra + statix) ..."
+  if run nix build --no-link ".#checks.x86_64-linux.lint"; then
+    ok "Lint clean."
+    return 0
+  fi
+  warn "Lint failed (see output above)."
+  gate "Continue anyway?"
+}
+
 # Up-front step: pick how much CPU the unattended build may use. Sets the global
 # PERF_FLAGS array, passed through nh to nix build + switch in the chosen action.
 #   - Light: one job, one core   -> machine stays responsive during the build.
@@ -277,6 +291,7 @@ action_rebuild() {
   choose_performance
   cache_sudo
   git_pull
+  lint_gate || return 1
 
   stage_all
 
@@ -313,6 +328,7 @@ action_rebuild() {
 action_home() {
   choose_performance
   git_pull
+  lint_gate || return 1
 
   stage_all
   if ! nh_home; then

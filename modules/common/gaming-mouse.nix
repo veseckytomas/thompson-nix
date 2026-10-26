@@ -31,11 +31,10 @@
       }))
   ];
 
-  # ratbagd exits after 30s dbus-idle by default; persist it so a udev-triggered reassert always has someone to talk to.
-  systemd.services.ratbagd = {
-    wantedBy = ["multi-user.target"];
-    serviceConfig.ExecStart = lib.mkForce "${config.services.ratbagd.package}/bin/ratbagd";
-  };
+  # ratbagd exits after 30s dbus-idle by default; keep it wanted so a udev-triggered reassert always has someone to talk to.
+  # Never override ExecStart here: the package unit already provides one, and a second line on a
+  # non-oneshot unit is rejected with "bad unit file setting" — the daemon then never starts.
+  systemd.services.ratbagd.wantedBy = ["multi-user.target"];
 
   # G502's active DPI index is volatile: re-enumeration (KVM switch) drops it back to the flash default.
   services.udev.extraRules = ''

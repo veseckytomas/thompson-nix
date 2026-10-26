@@ -8,6 +8,7 @@ Flake-based NixOS + Home Manager configuration for Tomáš Vesecký's machines (
 - Comment **only** to capture a non-obvious idea, intent, or gotcha. If the code already says it, say nothing.
 - Never narrate what the code does (`# Enable zsh` above `zsh.enable = true;` is acceptable only as a section label; prefer no comment).
 - **Every config file MUST start with the ASCII banner authorship header below**, verbatim, before any code. This is an authorship convention exempt from the 1-line rule — it is not a code comment. Adapt the comment marker for non-`#` languages (Lua `--`); skip only formats without comments (JSON).
+- Markdown counts: banner it in an HTML comment (`docs/`, skill reference files). Exempt are `README.md` and any file whose first line is reserved — a `SKILL.md` must open with its `---` frontmatter.
 - Pre-existing multi-line comments may stay, but do not add new ones.
 
 Required header (copy verbatim to the top of every file):
@@ -33,22 +34,24 @@ Required header (copy verbatim to the top of every file):
 - `home-manager/vesecto/` — standalone Home Manager config for the desktop user. `default.nix` → `home.nix` + `modules/`.
 - `home-manager/vesecto-server/` — leaner Home Manager config used by servers.
 - `hosts/<class>/<name>/` — per-machine config: `default.nix` imports `configuration.nix` + `hardware-configuration.nix` (+ host extras).
+- `home-manager/vesecto/modules/opencode/` — opencode config; `plugins/` paths below in Gotchas are relative to it.
 
 ## Wiring
 
 - `specialArgs` / `extraSpecialArgs` pass `inputs`, `username`, `system`, `pkgs-stable`, and (NixOS) `hostname`.
-- Desktops/laptop track `nixpkgs-unstable`; servers track `nixpkgs-stable` (25.11). Use `pkgs-stable.<pkg>` to pin a stable package on an unstable host.
+- Desktops/laptop track `nixpkgs-unstable`; servers track `nixpkgs-stable`. Use `pkgs-stable.<pkg>` to pin a stable package on an unstable host.
+- `flake.lock` node names are not input names (node `nixpkgs` is catppuccin's): read a root input as `.nodes[.nodes.root.inputs.<input>]`.
 - `allowUnfree = true` is set globally.
 - Add a new host: create `hosts/<class>/<name>/`, then register it under `nixosConfigurations` in `flake.nix`.
 - Add a new module: drop the `.nix` file in the right domain dir and add it to that dir's `default.nix` `imports` list (alphabetical).
 
 ## Conventions
 
-- **Formatter: `alejandra`** (Nix). Run it on every changed `.nix` file.
-- **Linter: `statix`** (`empty_pattern` disabled).
+- **Formatter: `alejandra`** (Nix). **Linter: `statix`** (`empty_pattern` disabled). Both run as `nix build .#checks.x86_64-linux.lint`.
 - Other formatters in use: `stylua` (Lua), `isort`+`black` (Python), `beautysh` (shell), `taplo` (TOML).
 - `default.nix` files stay pure aggregators: `{...}: { imports = [ ... ]; }`. Put logic in named leaf files, not in `default.nix`.
 - Disable a module by commenting its line in the relevant `default.nix` (existing pattern) rather than deleting it.
+- Self-healing loops (watchdogs, auto-restart/-reconnect) must not destroy working state they can't reliably restore: probe must measure what it heals, and the recovery path (secrets `notSaved`, prompts, headless auth) must be able to succeed.
 
 ## Build & verify
 
@@ -73,9 +76,9 @@ A **sidecar pin bump builds clean whatever you write in it** — the version is 
 
 - **Pinned inputs are bumped by `nixos-run`'s update action, not by hand:** `flake.lock` is the sole pin for `oh-my-openagent` and `graphify-src` (no `rev` lives in `flake.nix`), and `librewolf-bin.json`, `codegraph.json`, `tock.json` and `plugins/npm-plugins.json` (omniroute plus the opencode npm plugins) carry sidecar pins — the update action moves all of them for you.
 - `.omo/`, `build/`, `result`, `__pycache__` are git-ignored.
-- Bumping or patching `oh-my-openagent` (`plugins/oh-my-openagent/`, its `*-bun.lock`, `strip-senpi.py`) → read `docs/gotchas/oh-my-openagent.md`.
+- Bumping or patching `oh-my-openagent` (`plugins/oh-my-openagent/`, its `*-bun.lock`, `strip-senpi.py`), or lifting the `nixpkgs-opencode` pin → read `docs/gotchas/oh-my-openagent.md`.
 - Bumping `graphify-src` or editing `upstreamGraphifyAgentsMdSha256` → read `docs/gotchas/graphify.md`.
 - OmniRoute or opencode config (`chains.json`, `omo.jsonc`, `plugins/omniroute/`, MCP `status=failed`, provider/500 errors) → read `docs/gotchas/omniroute.md`.
 - Monitors, KVM or mouse (`modules/common/autorandr.nix`, `modules/common/gaming-mouse.nix`) → read `docs/gotchas/hardware.md`.
 - Decrypting with gpg, `~/.gnupg/`, or `modules/api_keys/` secrets → read `docs/gotchas/gnupg-secrets.md`.
-- Adding CI, a pre-commit hook or a `flake.nix` `checks` output → read `docs/gotchas/repo-guardrails.md` first (deliberately absent).
+- Adding CI or a pre-commit hook, or editing `checks.x86_64-linux.lint` → read `docs/gotchas/repo-guardrails.md` first.

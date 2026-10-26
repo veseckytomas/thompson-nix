@@ -15,7 +15,6 @@
     ./networkmanager-recover.nix
     ./omniroute-connectivity.nix
     ./omniroute-proxy.nix
-    ./vic-vpn-watchdog.nix
     ./vpn.nix
   ];
 
