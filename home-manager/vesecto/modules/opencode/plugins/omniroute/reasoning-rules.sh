@@ -96,6 +96,31 @@ done <<EOF
 $rules
 EOF
 
+# Kimi K3 rejects medium upstream with HTTP 400; direct requests must clamp to high at the rule layer.
+sql="$sql INSERT INTO reasoning_routing_rules
+  (id, name, description, scope, model_pattern, source_effort, effort_mode, target_effort, budget_action, enabled, created_at, updated_at)
+  VALUES ($(sqstr "${marker_prefix}model:kimi-k3"), $(sqstr "${marker_prefix}model:kimi-k3"),
+          $(sqstr "Kimi K3 accepts only low/high/max upstream"), 'model', '*kimi-k3*',
+          'medium', 'force', 'high', 'remove', 1, $(sqstr "$now"), $(sqstr "$now"));"
+
+# Capability sync may own these keys again, so provision reruns restore instead of assuming.
+sql="$sql DELETE FROM model_capability_overrides
+  WHERE model_id = 'kimi-k3' AND override_key = 'reasoning_efforts'
+    AND (provider = 'litellm' OR provider IN
+      (SELECT DISTINCT provider FROM provider_connections WHERE default_model LIKE '%kimi-k3%'));"
+
+
+kimi_efforts='["low","high","max"]'
+sql="$sql INSERT OR REPLACE INTO model_capability_overrides (provider, model_id, override_key, override_value, refreshed_at)
+  VALUES ('litellm', 'kimi-k3', 'reasoning_efforts', $(sqstr "$kimi_efforts"), $(sqstr "$now"));"
+
+while read -r kimi_provider; do
+  [ -n "$kimi_provider" ] || continue
+  [ "$kimi_provider" = "litellm" ] && continue
+  sql="$sql INSERT OR REPLACE INTO model_capability_overrides (provider, model_id, override_key, override_value, refreshed_at)
+    VALUES ($(sqstr "$kimi_provider"), 'kimi-k3', 'reasoning_efforts', $(sqstr "$kimi_efforts"), $(sqstr "$now"));"
+done < <(sq "SELECT DISTINCT provider FROM provider_connections WHERE default_model LIKE '%kimi-k3%';")
+
 sql="$sql COMMIT;"
 sq "$sql" >/dev/null
 

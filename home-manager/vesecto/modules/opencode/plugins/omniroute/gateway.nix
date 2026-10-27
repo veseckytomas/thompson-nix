@@ -65,6 +65,9 @@ in {
       if [ -x "$vd/node_modules/.bin/omniroute" ]; then
         ln -sfn "$vd" "$d/current"
 
+        # Teach the learned-effort parser Kimi's `supports ... values` wording and `k=v` annotation stripping (idempotent; re-applies on every switch).
+        ${pkgs.python3}/bin/python3 ${./patch-omniroute.py} "$vd/node_modules/omniroute"
+
         # Clamp combo Retry-After hints so one member's far-future rate_limited_until cannot park clients ~1 day (idempotent; re-applies on every switch).
         ${pkgs.python3}/bin/python3 ${./patch-retry-hint.py} "$vd/node_modules/omniroute"
       fi
@@ -105,10 +108,10 @@ in {
             "OMNIROUTE_CHAT_LARGE_BODY_BYTES=1048576"
             # Bounds one upstream attempt, not the cooldown wait, which is awaited between fetches.
             "FETCH_TIMEOUT_MS=600000"
-            # Parks queued requests far past the 300 s cooldown; 0 would drop the deadline entirely.
-            "RATE_LIMIT_MAX_WAIT_MS=600000"
-            # Real source of the observed 504; the 600 s default expires waits we now allow.
-            "RATE_LIMIT_EXECUTION_MAX_WAIT_MS=3600000"
+            # Cap the dead-member queue wait: 600 s let latched chains burn ~2 min per request before failing over.
+            "RATE_LIMIT_MAX_WAIT_MS=60000"
+            # Backstop for limiter lease waits; 1 h let orphaned waits pile up after 600 s cap removal.
+            "RATE_LIMIT_EXECUTION_MAX_WAIT_MS=120000"
             # Explicitly unbounded; any non-zero value turns on the queue_full fast-reject.
             "RATE_LIMIT_MAX_QUEUE_DEPTH=0"
             # Starting the gateway before any link is up makes every lookup ENOTFOUND, which counts as a

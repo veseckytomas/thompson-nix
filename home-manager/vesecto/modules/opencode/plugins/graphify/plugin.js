@@ -13,11 +13,11 @@ import { existsSync } from "fs";
 import { join } from "path";
 
 export const GraphifyPlugin = async ({ directory }) => {
-  let reminded = false;
+  const remindedSessions = new Set();
 
   return {
     "tool.execute.before": async (input, output) => {
-      if (reminded) return;
+      if (remindedSessions.has(input.sessionID)) return;
       if (!existsSync(join(directory, "graphify-out", "graph.json"))) return;
 
       if (input.tool === "bash") {
@@ -28,7 +28,7 @@ export const GraphifyPlugin = async ({ directory }) => {
         output.args.command =
           'echo "[graphify] knowledge graph at graphify-out/. Prefer the graphify MCP tools over grepping raw files, narrowest first: GetNode/GetNeighbors for a known label, ShortestPath for two nodes, GraphStats/GodNodes/GetCommunity to orient, QueryGraph only for open-ended exploration. Matching is lexical, so name the exact indexed label. Read GRAPH_REPORT.md only for whole-repo review." ; ' +
           output.args.command;
-        reminded = true;
+        remindedSessions.add(input.sessionID);
       }
     },
   };

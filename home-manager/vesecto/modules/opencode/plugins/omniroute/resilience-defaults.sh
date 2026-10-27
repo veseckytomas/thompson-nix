@@ -23,7 +23,7 @@ desired='{
   "waitForCooldown": {"enabled": false, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000},
   "providerBreaker": {
     "oauth": {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000},
-    "apikey": {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000}
+    "apikey": {"failureThreshold": 4, "degradationThreshold": 2, "resetTimeoutMs": 60000}
   }
 }'
 
@@ -70,5 +70,5 @@ SELECT changes();")"
 if [ "$changed" = "0" ]; then
   echo "omniroute-resilience: no-op (already provisioned)"
 else
-  echo "omniroute-resilience: provisioned 15s cooldown wait + breaker thresholds"
+  echo "omniroute-resilience: provisioned 15s cooldown wait + oauth 24/12/15s and apikey 4/2/60s breakers"
 fi

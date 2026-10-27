@@ -409,8 +409,10 @@ in {
         silence is not proof of life (interrupts/resumes kill tasks silently).
         Probe with `background_output(block=false, full_session=true)`: `completed`
         = collect it; `running` with advancing timestamps = wait for the
-        notification; anything else = dead, relaunch or drop the claim. Re-probe
-        after any interrupt; name surviving ids explicitly. End every message with
+        notification; anything else = dead, relaunch or drop the claim. For a task
+        known completed by notification or probe, collect with
+        `background_output(task_id="...", from_end=true, full_session=true, thinking_max_chars=2000)`.
+        Re-probe after any interrupt; name surviving ids explicitly. End every message with
         a one-line count, zero included: "2 background tasks running."
 
         Stalled is not running. A task still showing `running` past ~30-40 min
@@ -437,6 +439,8 @@ in {
         - Search:                glab issue list --search "<text>"
 
         # Scratch files
+
+        If an edit anchor misses after a recent read, re-read the exact region with a second tool before retrying; never guess whitespace or content.
 
         `/tmp/opencode` is shared by every concurrent session and is swept
         while you work, so a file you wrote earlier may be gone by your next

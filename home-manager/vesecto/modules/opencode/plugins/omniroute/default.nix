@@ -12,6 +12,7 @@
   imports = [
     ./compression-defaults.nix
     ./connection-caps.nix
+    ./diagnostics-cli.nix
     ./gateway.nix
     ./normalize-providers.nix
     ./reasoning-rules.nix
