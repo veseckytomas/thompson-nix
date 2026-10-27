@@ -39,7 +39,7 @@ GitLab: vesecky.tomas
 
 ## Provider/500 diagnostics
 
-**opencode provider/500 errors → query OmniRoute `call_logs`, not journald:** the gateway only logs service start/fatal to the journal; per-call failures live in `~/.local/share/omniroute/data/storage.sqlite` (queries + `omniroute logs/health` shorthands in the repo `README.md` Diagnostics section).
+**opencode provider/500 errors → query OmniRoute `call_logs`, not journald:** the gateway only logs service start/fatal to the journal; per-call failures live in `~/.local/share/omniroute/data/storage.sqlite` (queries + `omniroute logs/health` shorthands in the repo `README.md` Diagnostics section; deeper reads in Forensic SQLite queries below).
 
 ## All-targets-skipped 429 and `Retry-After` poisoning
 
@@ -49,6 +49,44 @@ GitLab: vesecky.tomas
 
 ## Version pin held below `latest`
 
-**`omniroute` is pinned to 3.8.51 deliberately — 3.8.52 is broken, so do not "update" it to `latest`.** On 3.8.52 every thinking-enabled request to a `cc/` member dies with Anthropic 400 `` `thinking` or `redacted_thinking` blocks in the latest assistant message cannot be modified `` (upstream issue #17324): `prepareClaudeRequest` rewrites each non-latest thinking block to a `redacted_thinking` carrying one hardcoded placeholder signature, and Anthropic rejects the repeat. Our `reasoning-rules.sh` forces effort ≥ `low`, so the bug fires on every medium-tier chain — 528 failures in one day — while effort-`none` chains (explore, librarian) stay clean. 3.8.52 also stops dropping `litellm/kimi-k3` at `medium` chains, producing a second 400 (`thinking_effort` accepts only low/high/max); both faults disappear on 3.8.51.
+**`omniroute` is pinned to 3.8.51 deliberately — 3.8.52 is broken, so do not "update" it to `latest`.** On 3.8.52 every thinking-enabled request to a `cc/` member dies with Anthropic 400 `` `thinking` or `redacted_thinking` blocks in the latest assistant message cannot be modified `` (upstream issue #17324): `prepareClaudeRequest` rewrites each non-latest thinking block to a `redacted_thinking` carrying one hardcoded placeholder signature, and Anthropic rejects the repeat. Our `reasoning-rules.sh` forces effort ≥ `low`, so the bug fires on every medium-tier chain — 528 failures in one day — while effort-`none` chains (explore, librarian) stay clean. 3.8.52 also stops dropping `litellm/kimi-k3` at `medium` chains, producing a second 400 (`thinking_effort` accepts only low/high/max) — and the Kimi fault provably fires on 3.8.51 as well (journal + call_logs, 2026-10-26/27), because the native-Kimi registry vocabulary doesn't apply to dynamic `openai-compatible-chat-<uuid>/kimi-k3` connections and the learned-effort parser misses Kimi's `supports thinking_effort values` wording plus truncates `max` when the trailing annotation contains a comma; `plugins/omniroute/patch-omniroute.py` repairs the parser at install time; `reasoning-rules.sh` additionally seeds a model-scope rule forcing medium→high for `*kimi-k3*` and `model_capability_overrides` rows advertising `["low","high","max"]`, so medium-forced combos route around kimi without editing `chains.json`.
 
 **The pin is load-bearing, not bookkeeping:** `installOmniroute` (`gateway.nix`) prunes every `omniroute@*` directory that is not the pinned one, so a single `home-manager switch` with the pin back at 3.8.52 reinstalls it, deletes the running 3.8.51 tree, and repoints `ExecStart` — the bug returns in one step. `nixos-run`'s update action does not auto-bump this file (it only runs `verify_npm_pins`, a 404 check), so the regression can only come from a hand edit. The pin *is* interpolated into the unit, so `grep -o 'omniroute@[0-9.]*' result/home-files/.config/systemd/user/omniroute.service` after a build confirms it; check the live service with `systemctl --user show omniroute.service -p ExecStart`.
+
+## Forensic SQLite queries
+
+For failures the provider/500 and all-targets-skipped checks can't explain from logs alone, query the live store read-only. All commands use `mode=ro` and select no bodies or credentials, so never add `request_body`, `response_body`, `access_token`, `refresh_token`, `id_token`, `api_key`, `options`, or `details` columns to them.
+
+Set once per shell:
+
+```bash
+DB="file:$HOME/.local/share/omniroute/data/storage.sqlite?mode=ro"
+```
+
+1. Recent failed calls, newest first, error text truncated to 80 chars. Proves which provider and upstream error produced each 4xx/5xx.
+
+```bash
+sqlite3 -header "$DB" "SELECT timestamp, provider, status, substr(coalesce(error_summary,''),1,80) AS err FROM call_logs WHERE status >= 400 ORDER BY timestamp DESC LIMIT 15;"
+```
+
+2. Provider cooldown, active, and test state. The CASE renders both ISO text and numeric epoch-ms values of `rate_limited_until` (live rows are text, older ones may differ); a listed row proves the provider is parked by a rate limit, backoff, or failed test rather than by routing choice.
+
+```bash
+sqlite3 -header "$DB" "SELECT provider, is_active, test_status, CASE WHEN rate_limited_until GLOB '[0-9]*' AND rate_limited_until NOT GLOB '*[^0-9]*' THEN datetime(CAST(rate_limited_until AS INTEGER)/1000,'unixepoch') ELSE rate_limited_until END AS cooldown_until, backoff_level, last_error_type FROM provider_connections WHERE is_active=0 OR test_status<>'active' OR rate_limited_until IS NOT NULL OR backoff_level>0;"
+```
+
+3. Audit warnings, failures, and operator enable/disable actions. `details` is deliberately omitted (it can carry serialized payloads); each row proves whether a change or failure came from a user action or the system, and when.
+
+```bash
+sqlite3 -header "$DB" "SELECT timestamp, action, actor, target, status FROM audit_log WHERE action LIKE '%test%' OR action LIKE '%fail%' OR action LIKE '%skip%' OR action LIKE '%enable%' OR action LIKE '%disable%' OR status<>'success' ORDER BY timestamp DESC LIMIT 20;"
+```
+
+4. Circuit breakers and active lockouts. Two commands, because the shapes and epoch columns don't UNION cleanly; an OPEN/HALF_OPEN breaker or an unexpired lockout row proves OmniRoute is refusing traffic to that domain regardless of credential health.
+
+```bash
+sqlite3 -header "$DB" "SELECT name, state, failure_count, datetime(last_failure_time/1000,'unixepoch') AS last_failure_utc FROM domain_circuit_breakers;"
+
+sqlite3 -header "$DB" "SELECT identifier, attempts, datetime(CAST(locked_until AS INTEGER)/1000,'unixepoch') AS locked_until_utc FROM domain_lockout_state WHERE locked_until IS NOT NULL AND CAST(locked_until AS INTEGER) > unixepoch('now') * 1000;"
+```
+
+Empty rows mean healthy state, not a broken query. Effective on 3.8.51; re-check `.schema <table>` after a version bump before trusting a query.

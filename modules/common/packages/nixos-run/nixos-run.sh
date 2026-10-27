@@ -412,6 +412,29 @@ verify_npm_pins() {
   fi
 }
 
+verify_omniroute_resilience_readers() (
+  local version expected_integrity pack_json actual_integrity tarball package_root
+  local json="home-manager/vesecto/modules/opencode/plugins/npm-plugins.json"
+  local seed="home-manager/vesecto/modules/opencode/plugins/omniroute/resilience-defaults.sh"
+  local scratch
+  version=$(jq -er '.omniroute' "$json")
+  expected_integrity=$(npm view "omniroute@${version}" dist.integrity --json | jq -er '.')
+  scratch=$(mktemp -d)
+  trap 'rm -rf -- "$scratch"' EXIT
+  pack_json=$(npm pack "omniroute@${version}" --json --pack-destination "$scratch")
+  actual_integrity=$(jq -er '.[0].integrity' <<<"$pack_json")
+  tarball=$(jq -er '.[0].filename' <<<"$pack_json")
+  if [ "$actual_integrity" != "$expected_integrity" ]; then
+    warn "OmniRoute resilience preflight: integrity mismatch for omniroute@${version}"
+    return 1
+  fi
+  package_root="$scratch/package"
+  mkdir "$package_root"
+  tar -xzf "$scratch/$tarball" -C "$package_root" --strip-components=1
+  python3 "@verifyOmnirouteResilienceReadersScript@" \
+    --package-root "$package_root" --resilience-script "$seed" --version "$version"
+)
+
 # CodeGraph ships as a platform-specific npm bundle that runs under nixpkgs Node
 # (see home-manager/vesecto/modules/opencode/codegraph). npm's per-version
 # dist.integrity is already an SRI hash, so we read it straight from the registry
@@ -518,6 +541,11 @@ action_update() {
   run bash "@updateGraphifyScript@" || graphify_rejected=$?
   hdr "Updating opencode npm plugins ..."
   run bash "@updateOpencodeNpmPluginsScript@"
+  hdr "Verifying OmniRoute resilience readers ..."
+  if ! verify_omniroute_resilience_readers; then
+    unstage_all
+    return 1
+  fi
   hdr "Verifying npm plugin pins ..."
   if ! verify_npm_pins; then
     unstage_all

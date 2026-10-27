@@ -283,7 +283,6 @@ network.trr.excluded-domains = omniroute
 
 ```bash
 omniroute logs --lines 30 --filter error        # recent errors
-omniroute providers test-all                    # test every connection
 omniroute health                                 # circuit breakers, lockouts
 journalctl --user -u omniroute-normalize-providers.service   # agy→antigravity key normalization
 sqlite3 ~/.local/share/omniroute/data/storage.sqlite \

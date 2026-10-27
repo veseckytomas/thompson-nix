@@ -215,12 +215,14 @@
     system = "x86_64-linux";
     username = "vesecto";
     lib = inputs.nixpkgs.lib;
-    # .nix sources only, so the lint check ignores result/, graphify-out/ and the docs tree.
+    # Limit lint inputs so the check ignores result/, graphify-out/ and the docs tree.
     lintSrc = lib.fileset.toSource {
       root = ./.;
       fileset = lib.fileset.unions [
         ./flake.nix
         ./home-manager/vesecto/modules/statix/statix.toml
+        ./home-manager/vesecto/modules/opencode/plugins/graphify/plugin.js
+        ./home-manager/vesecto/modules/opencode/plugins/graphify/plugin.test.js
         (lib.fileset.fileFilter (f: f.hasExt "nix") ./home-manager)
         (lib.fileset.fileFilter (f: f.hasExt "nix") ./hosts)
         (lib.fileset.fileFilter (f: f.hasExt "nix") ./modules)
@@ -359,12 +361,14 @@
     # `nix flake check` would evaluate every host; build this attr directly to lint alone.
     checks.${system}.lint =
       pkgs.runCommand "lint" {
-        nativeBuildInputs = [pkgs.alejandra pkgs.statix];
+        nativeBuildInputs = [pkgs.alejandra pkgs.nodejs pkgs.statix];
       } ''
         cd ${lintSrc}
         # bun2nix generates this one; alejandra would reformat it on every regeneration.
         alejandra --quiet --check --exclude ./home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/oh-my-openagent-bun.nix .
         statix check -c home-manager/vesecto/modules/statix .
+        node --check home-manager/vesecto/modules/opencode/plugins/graphify/plugin.js
+        node --test home-manager/vesecto/modules/opencode/plugins/graphify/plugin.test.js
         touch $out
       '';
 

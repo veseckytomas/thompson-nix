@@ -19,6 +19,8 @@ The one guardrail is **`checks.x86_64-linux.lint`** in `flake.nix`: `alejandra -
 
 Build it directly — `nix build .#checks.x86_64-linux.lint` — never via `nix flake check`, which evaluates every host and ISO to find it.
 
+**Git-backed flake visibility:** new files must be staged with `git add <new-file>` before Nix evaluation or builds can see them; staging makes them visible without committing them.
+
 Three things it deliberately does not cover:
 
 - **Non-Nix formatters** (`stylua`, `isort`+`black`, `beautysh`, `taplo`): still manual.

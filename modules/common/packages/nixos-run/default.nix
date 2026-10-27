@@ -27,6 +27,8 @@
   gnused,
   coreutils,
   python3,
+  nodejs,
+  gnutar,
   gnupg,
   flakePath ? "/home/vesecto/Git/Personal/thompson-nix",
 }: let
@@ -49,11 +51,13 @@ in
       gnused
       coreutils
       python3
+      nodejs
+      gnutar
       gnupg
     ];
     text =
       builtins.replaceStrings
-      ["@flakePath@" "@updateOhMyOpenagentScript@" "@updateGraphifyScript@" "@updateOpencodeNpmPluginsScript@" "@pruneOpencodeNpmPluginsScript@"]
-      [flakePath "${./update-oh-my-openagent.sh}" "${./update-graphify.sh}" "${./update-opencode-npm-plugins.sh}" "${./prune-opencode-npm-plugins.sh}"]
+      ["@flakePath@" "@updateOhMyOpenagentScript@" "@updateGraphifyScript@" "@updateOpencodeNpmPluginsScript@" "@pruneOpencodeNpmPluginsScript@" "@verifyOmnirouteResilienceReadersScript@"]
+      [flakePath "${./update-oh-my-openagent.sh}" "${./update-graphify.sh}" "${./update-opencode-npm-plugins.sh}" "${./prune-opencode-npm-plugins.sh}" "${./verify-omniroute-resilience-readers.py}"]
       (builtins.readFile ./nixos-run.sh);
   }
