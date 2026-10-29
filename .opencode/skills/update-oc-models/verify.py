@@ -39,13 +39,6 @@ def chains() -> dict[str, list[str]]:
     return {c["name"]: c["models"] for c in d["combos"]}
 
 
-def rules() -> dict[str, str]:
-    body = re.search(r'rules="\n(.*?)\n"', (OMNI / "reasoning-rules.sh").read_text(), re.S)
-    if not body:
-        raise SystemExit("reasoning-rules.sh: no rules=\" heredoc found")
-    return dict(line.split() for line in body.group(1).splitlines() if line.strip())
-
-
 def consumers() -> dict[str, list[str]]:
     src = re.sub(r"(?m)^\s*//.*$", "", OMO_JSONC.read_text())
     cfg = json.loads(re.sub(r",(\s*[}\]])", r"\1", src))
@@ -59,12 +52,11 @@ def consumers() -> dict[str, list[str]]:
 
 
 def main() -> int:
-    ch, ru = chains(), rules()
+    ch = chains()
     limits = json.loads((OMNI / "model-limits.json").read_text())["models"]
     # The table is the contract: a chain missing a row is how `writing` was lost in 2026-10.
     rows = set(re.findall(r"^\| (\S+-chain) \|", (SKILL / "agent-sources.md").read_text(), re.M))
 
-    check(set(ru) == set(ch), "rule per chain", f"only in one: {set(ru) ^ set(ch)}")
     check(rows == set(ch), "agent-sources row per chain", f"only in one: {rows ^ set(ch)}")
 
     missing = {m for ms in ch.values() for m in ms} - set(limits)

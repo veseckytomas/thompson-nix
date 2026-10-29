@@ -43,9 +43,8 @@ Fixed, per chain:
 4. `litellm/<best fit for the chain>` — always second-to-last
 5. `ctu/vic/GLM-5.3-Flash` — always last
 
-If omo lists no litellm entry for a chain, synthesize one from the tier:
-`glm-5.3` at medium and above, `glm-5.3-flash` at low/none. Both match
-`MAX_TIER_REASONING_MODEL_PATTERN`, so they stay valid at max/ultra.
+If omo lists no litellm entry for a chain, synthesize one to match the chain's
+weight: `glm-5.3` for heavyweight chains, `glm-5.3-flash` for lightweight ones.
 
 ## Model aliases
 
@@ -93,26 +92,9 @@ Never auto-select these variants as a substitute:
 `-tiered`, `-lite`, `-disabled`, `-utility`, `-preview`, `-reserve`, and the
 `exec-agent` / `copilot-search` / `trajectory` families.
 
-## Effort suffixes
+## Bare ids
 
-A suffixed id (`cc/claude-opus-5-5-max`) declares a model's effort vocabulary.
-Parser: `open-sse/config/providerModels.ts` → `CLAUDE_EFFORT_SUFFIXES`,
-`splitClaudeEffortSuffix`.
-
-Under `effort_mode='force'` a rule beats the suffix — `clearDiscreteReasoning`
-wipes it — so write the bare id and let the rule carry the effort. Codex path:
-`open-sse/executors/codex/reasoningPolicy.ts` uses
-`forcedEffort || split.effort || …`.
-
-Stripping suffixes collapses duplicates, and that is correct: two entries
-differing only by suffix (`cx/gpt-5.6-sol-medium`, `cx/gpt-5.6-sol-ultra`) are
-one fallback slot once the rule carries the effort, not two. Expect some chains
-to get shorter; keeping both would only buy a dead retry against the same
-target.
-
-Declared vocabularies worth remembering: `gh/claude-opus-5.5` and
-`cc/claude-haiku-5-5` have **no** `max`; `cc/claude-opus-5`, `cc/claude-opus-5-5`
-and `cx/gpt-6-sol` go up to `max`.
-
-Valid `target_effort` (migration 126 CHECK):
-`none low medium high xhigh max ultra`. `minimal` is rejected; `ultra` is valid.
+Write the bare model id in `chains.json`, never a suffixed variant. Two entries
+differing only by a suffix (`cx/gpt-5.6-sol-medium`, `cx/gpt-5.6-sol-ultra`)
+are the same model in one fallback slot, not two — the second is a dead retry
+against the same target.

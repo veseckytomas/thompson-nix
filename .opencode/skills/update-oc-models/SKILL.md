@@ -1,37 +1,32 @@
 ---
 name: update-oc-models
-description: Re-derive the OmniRoute chain members and reasoning-effort tiers from upstream docs (omo, GSD) and the live model catalog. Use when bumping oh-my-openagent or get-shit-done-redux, when a provider adds or drops models, or when chains.json / reasoning-rules.sh / model-limits.json drift from upstream.
+description: Re-derive the OmniRoute chain members and model limits from upstream docs (omo, GSD) and the live model catalog. Use when bumping oh-my-openagent or get-shit-done-redux, when a provider adds or drops models, or when chains.json / model-limits.json drift from upstream.
 ---
 
 # update-oc-models
 
-Rewrites three files from upstream documentation plus the live catalog:
+Rewrites two files from upstream documentation plus the live catalog:
 
 - `home-manager/vesecto/modules/opencode/plugins/omniroute/chains.json`
-- `home-manager/vesecto/modules/opencode/plugins/omniroute/reasoning-rules.sh`
 - `home-manager/vesecto/modules/opencode/plugins/omniroute/model-limits.json`
 
-Read `agent-sources.md` (which upstream owns which chain's tier, and what the
+Read `agent-sources.md` (which upstream owns which chain, and what the
 undocumented agents are for) and `translation-tables.md` (namespace, order,
-aliases, suffixes) before deriving anything.
+aliases, keep-newer gates) before deriving anything.
 
 `verify.py` in this directory runs every static check below. Run it before and
 after editing: `python3 .opencode/skills/update-oc-models/verify.py . --live`.
 
 ## Rules that are not negotiable
 
-**Never invent a tier.** A chain is documented by omo or by GSD, or it keeps its
-current tier. Some chains have no upstream at all — see `agent-sources.md`.
+**Follow the doc even when it looks wrong.** A keep-newer gate pinning a dated
+id (`claude-haiku-4-5-20251001`) over a polished `-5-5` successor is a
+deliberate pin, not an oversight — the 2026-10 precedent documented in
+`translation-tables.md`. Keep the documented pick.
 
-**Entry 1 wins.** omo's `fallbackChain` is ordered best-first; the chain tier is
-entry 1's `variant`, `off` → `none`. Do not aggregate across the chain.
-
-**Follow the doc even when it looks wrong.** omo documents `unspecified-low`
-entry 1 as `claude-sonnet-5-5 medium`, which makes it heavier than `quick`
-(`low`). That is the documented answer; keep it.
-
-**GSD overrides name-similarity guesses.** `gsd-plan-checker` is `sonnet`
-(medium), not momus-grade. Read the catalog, never infer from the agent name.
+**GSD overrides name-similarity guesses.** `gsd-plan-checker` maps to
+sonnet-family members, not momus-grade models. Read the catalog, never infer
+from the agent name.
 
 **Report, never silently substitute.** Any model with no route, and any alias
 that resolves to a different product (`glm-4.6v` → `glm-5.3-flash`), goes in the
@@ -58,49 +53,28 @@ user's permission rules deny it.
 
 Query the DB in place. It is ~1GB; copying it to scratch buys nothing.
 
-## Reading OmniRoute's own source
-
-Do **not** try to execute OmniRoute's TypeScript. Its `@/…` path aliases do not
-resolve from inside `node_modules`, and no `tsconfig.json` ships with the
-package — `tsx` fails three different ways before you give up. Read the values
-statically instead.
-
-Effort vocabularies live in `open-sse/config/index.ts` and `glmProvider.ts` as
-`supportedThinkingEfforts`. Grep those for the models in your chains; the ones
-that decide drops:
-
-| model | vocabulary |
-|---|---|
-| `cc/claude-opus-5-5`, `cc/claude-fable-5-1`, `gh/claude-fable-5.1` | low medium high xhigh **max** |
-| `cc/claude-sonnet-5-5`, `cc/claude-haiku-5-5`, `gh/claude-opus-5.5`, `gh/claude-sonnet-5.5` | low medium high xhigh (**no max**) |
-| `cx/*`, `gh/gpt-*` | low medium high xhigh max |
-| `litellm/glm-5.3`, `litellm/kimi-k3`, `ctu/vic/GLM-5.3-Flash` | low high max (**no medium, no xhigh**) |
-
-So the glm/kimi tail drops at every `medium` and `xhigh` chain. That is normal
-and pre-existing — only a chain where *every* member drops is a failure.
-
 ## Procedure
 
 1. Resolve the two upstream store paths from the flake (commands in
    `agent-sources.md`). Pin the revisions via `flake.lock`, never by hand.
 2. Dump the catalog, merging `syncedAvailableModels` and `customModels`.
-3. Take each chain's tier owner from the table in `agent-sources.md`. A chain
-   usually has several consumers; only the owner sets the tier.
-4. Derive the tier, and the members via the order and aliases in
-   `translation-tables.md`. Write the derivation as `derive.py` **in this skill
-   directory** and commit it, with a case per alias and per keep-newer rule. The
-   2026-10 run threw its script away in `/tmp` and lost eight fixed bugs —
-   merging `customModels` into the same prefix, upgrading a date-stamped id,
-   excluding `-tiered`/`-lite` substitutes, counting no-route per model rather
-   than per entry, owner precedence, and the litellm fallback slot.
-5. Check the tier drop: `filterComboForReasoningDecision` removes members whose
-   `capabilityFor` is unsupported at the target effort. If **every** member
-   drops, the gateway returns HTTP 400 "Reasoning routing policy leaves no
-   compatible combo target". Fail the run rather than write that.
-6. Show the user a per-chain diff — members, tier change, no-route models, drop
-   warnings, and which upstream each tier came from. **Get approval before
+3. Take each chain's owner upstream from the table in `agent-sources.md`. A
+   chain usually has several consumers; the owner is the doc you derive
+   members from.
+4. Derive the members via the order and aliases in `translation-tables.md`.
+   Write the derivation as `derive.py` **in this skill directory** and commit
+   it, with a case per alias and per keep-newer rule. The 2026-10 run threw its
+   script away in `/tmp` and lost eight fixed bugs — merging `customModels`
+   into the same prefix, upgrading a date-stamped id, excluding substitute
+   variants, counting no-route per model rather than per entry, owner
+   precedence, and the litellm fallback slot.
+5. Check every resolved member against the live catalog. `provision-combos.sh`
+   only warns about an unknown id, and the chain position then 404s at request
+   time. Fail the run rather than write that.
+6. Show the user a per-chain diff — members added and removed, no-route
+   models, and which upstream each chain came from. **Get approval before
    editing.**
-7. Write the three files. Every new member needs a `model-limits.json` entry
+7. Write the two files. Every new member needs a `model-limits.json` entry
    (`{"context": N, "output": N}`) or `providers/omniroute.nix:26` throws.
 8. `alejandra` any changed `.nix`, then build-gate (below).
 
@@ -112,47 +86,30 @@ The build is the gate:
 nix run home-manager/master -- build --flake .#vesecto > /tmp/hm-build.log 2>&1; echo "EXIT=$?"
 ```
 
-Then run the static checks — one rule and one `agent-sources.md` row per chain,
-`model-limits.json` coverage, the `litellm/*` + `ctu/vic/*` tail, duplicate
-members, a consumer per chain, and stale DB combos:
+Then run the static checks — one `agent-sources.md` row per chain,
+`model-limits.json` covering every member, `ctu/vic/GLM-5.3-Flash` last,
+`litellm/*` second-to-last, no duplicate members, a consumer per chain, and no
+stale combo in the DB (--live only):
 
 ```bash
 python3 .opencode/skills/update-oc-models/verify.py . --live
 ```
 
-The built config is **not** under `result/home-files`. `chains.json` and the
-rules script are arguments on the `ExecStart` lines of the systemd units, so
-read them from there:
+The built config is **not** under `result/home-files`. `chains.json` is an
+argument on the `ExecStart` line of the provision unit, so read it from there:
 
 ```bash
 H=$(readlink -f result); U=$H/home-files/.config/systemd/user
-grep ExecStart $U/omniroute-provision.service $U/omniroute-reasoning-rules.service
-grep After= $U/omniroute-reasoning-rules.service   # must stay omniroute-provision.service
+grep ExecStart $U/omniroute-provision.service
 ```
 
 Test file absence with an exit code, never `find … && echo`: `find` exits 0 on
 no match, so that idiom reports the opposite of the truth.
 
-After the user activates, verify the live rows:
-
-```bash
-sqlite3 ~/.local/share/omniroute/data/storage.sqlite \
-  "select combo_name, target_effort, effort_mode, budget_action from reasoning_routing_rules order by combo_name;"
-```
-
-Keep `effort_mode='force'` and `budget_action='remove'`. With `budget_action='set'`
-the gateway writes a thinking object that shadows `target_effort`.
-
-Dropping a chain leaves its combo behind: `reasoning-rules.sh` wipes every
-`nix:reasoning-rules:` row and reinserts, but `provision-combos.sh` only deletes
+Dropping a chain leaves its combo behind: `provision-combos.sh` only deletes
 combos it is about to POST, and `combos` has no marker column. `verify.py
 --live` reports the strays; remove them in the dashboard. Do not auto-delete
 every unlisted `*-chain` — hand-made combos share the suffix.
-
-Rules are provider-agnostic: `applyReasoningRuleDirective`
-(`src/lib/reasoningRouting/policy.ts`) writes `reasoning_effort`,
-`reasoning.effort` and `output_config.effort`. Do **not** add a `cc/`-only
-fallback rule.
 
 ## Scope
 
