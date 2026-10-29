@@ -65,9 +65,6 @@ in {
       if [ -x "$vd/node_modules/.bin/omniroute" ]; then
         ln -sfn "$vd" "$d/current"
 
-        # Teach the learned-effort parser Kimi's `supports ... values` wording and `k=v` annotation stripping (idempotent; re-applies on every switch).
-        ${pkgs.python3}/bin/python3 ${./patch-omniroute.py} "$vd/node_modules/omniroute"
-
         # Clamp combo Retry-After hints so one member's far-future rate_limited_until cannot park clients ~1 day (idempotent; re-applies on every switch).
         ${pkgs.python3}/bin/python3 ${./patch-retry-hint.py} "$vd/node_modules/omniroute"
       fi
@@ -114,6 +111,8 @@ in {
             "RATE_LIMIT_EXECUTION_MAX_WAIT_MS=120000"
             # Explicitly unbounded; any non-zero value turns on the queue_full fast-reject.
             "RATE_LIMIT_MAX_QUEUE_DEPTH=0"
+            # Refresh the Claude/GH catalogs hourly; the 6 h default leaves a DNS blip pinned in the cache half the day.
+            "MODEL_SYNC_INTERVAL_HOURS=1"
             # Starting the gateway before any link is up makes every lookup ENOTFOUND, which counts as a
             # provider failure: the 8/60s default latches the breaker long after connectivity returns.
             "OMNIROUTE_CIRCUIT_BREAKER_OAUTH_THRESHOLD=20"
