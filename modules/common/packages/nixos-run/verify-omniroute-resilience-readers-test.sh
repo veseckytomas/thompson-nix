@@ -36,7 +36,7 @@ EOF
 cat >"$fixture/package/open-sse/services/combo.ts" <<'EOF'
 async function handleComboChatInner(options: Options): Promise<Response> {
   const { strategy, resilienceSettings, config } = phaseComboSetup(comboCtx);
-  const comboCooldownBudgetLeftMs = { current: resilienceSettings.comboCooldownWait.budgetMs };
+  const comboCooldownBudgetLeftMs = { current: Math.max(0, resilienceSettings.comboCooldownWait.budgetMs - (pinnedLockWaitMs > 0 ? pinnedLockWaitMs + PINNED_LOCK_WAIT_SLACK_MS : 0)), };
   const deps: AttemptLoopDeps = { strategy, resilienceSettings, config };
   return dispatchWithCooldownRetry({ state, deps, extra });
 }
@@ -204,7 +204,10 @@ if python3 "$verifier" --package-root "$fixture/package" --resilience-script "$f
 fi
 printf 'PASS: unknown seeded key fails\n'
 
-repo_root="$(GIT_MASTER=1 git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+# The lint sandbox has the sources but no .git, so fall back to this script's own depth.
+if ! repo_root="$(GIT_MASTER=1 git -C "$(dirname "$0")" rev-parse --show-toplevel 2>/dev/null)"; then
+    repo_root="$(cd "$(dirname "$0")/../../../.." && pwd)"
+fi
 python3 - "$repo_root/modules/common/packages/nixos-run/nixos-run.sh" "$repo_root/modules/common/packages/nixos-run/default.nix" <<'PY'
 import sys
 from pathlib import Path

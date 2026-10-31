@@ -201,8 +201,9 @@ between, with a no-timeout confirmation gate before any system-changing
 activation.
 
 Rebuild actions first ask for a build performance profile:
-  Light  --max-jobs 1 --cores 1     (one job, one core; keeps the PC usable)
-  Full   --max-jobs auto --cores 0  (all jobs, all cores; finishes ASAP)
+  Balanced --max-jobs 2 --cores 4     (default; fast without exhausting RAM)
+  Light    --max-jobs 1 --cores 1     (one job, one core; minimum load)
+  Full     --max-jobs auto --cores 0  (all jobs, all cores; finishes ASAP)
 
 Interactive controls:
   ↑/↓ or h/j/k/l  Navigate lists
@@ -244,17 +245,21 @@ lint_gate() {
 
 # Up-front step: pick how much CPU the unattended build may use. Sets the global
 # PERF_FLAGS array, passed through nh to nix build + switch in the chosen action.
-#   - Light: one job, one core   -> machine stays responsive during the build.
-#   - Full:  all jobs, all cores -> build finishes as fast as possible.
-# A cancelled prompt defaults to Light (the safe, non-hogging choice).
+# Peak RAM tracks max-jobs x cores, since each job forks that many compilers.
+#   - Light:    one job, one core -> machine stays responsive during the build.
+#   - Balanced: 2x4 = 8 compilers -> fits the RAM budget, leaves threads for the desktop.
+#   - Full:     all jobs, all cores -> fastest, and only safe behind the nix-daemon cgroup caps.
+# A cancelled prompt defaults to Balanced (fast enough, and cannot thrash swap).
 choose_performance() {
   local choice
   choice=$(gum choose --header "Build performance (CPU usage for this run):" \
-    "Light - keep PC usable (1 job, 1 core)" \
+    "Balanced - fast, keeps PC usable (2 jobs, 4 cores)" \
+    "Light - minimum load (1 job, 1 core)" \
     "Full - finish ASAP (unlimited jobs, unlimited cores)" || true)
   case "$choice" in
   "Full"*) PERF_FLAGS=(--max-jobs auto --cores 0) ;;
-  *) PERF_FLAGS=(--max-jobs 1 --cores 1) ;;
+  "Light"*) PERF_FLAGS=(--max-jobs 1 --cores 1) ;;
+  *) PERF_FLAGS=(--max-jobs 2 --cores 4) ;;
   esac
   info "Build performance: ${PERF_FLAGS[*]}"
 }

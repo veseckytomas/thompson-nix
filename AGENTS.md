@@ -32,7 +32,7 @@ Required header (copy verbatim to the top of every file):
 - `modules/` — system-level NixOS modules, grouped by domain (`audio`, `bootLoaders`, `common`, `loginManagers`, `networking`, `virtualisation`, `windowManagers`). Each dir's `default.nix` is a pure import aggregator.
 - `modules/server.nix` — standalone server profile; pulls in Home Manager as a NixOS module using `home-manager/vesecto-server`.
 - `home-manager/vesecto/` — standalone Home Manager config for the desktop user. `default.nix` → `home.nix` + `modules/`.
-- `home-manager/vesecto-server/` — leaner Home Manager config used by servers.
+- `home-manager/vesecto-server/` — leaner Home Manager config used by servers. Its `tmux.nix`, `zsh.nix`, `starship.nix` and `nixvim/` are near-copies of the `vesecto/` originals: changing one means checking the other, since both profiles build clean independently.
 - `hosts/<class>/<name>/` — per-machine config: `default.nix` imports `configuration.nix` + `hardware-configuration.nix` (+ host extras).
 - `home-manager/vesecto/modules/opencode/` — opencode config; `plugins/` paths below in Gotchas are relative to it.
 
@@ -78,7 +78,8 @@ A **sidecar pin bump builds clean whatever you write in it** — the version is 
 - `.omo/`, `build/`, `result`, `__pycache__` are git-ignored.
 - Bumping or patching `oh-my-openagent` (`plugins/oh-my-openagent/`, its `*-bun.lock`, `strip-senpi.py`), or lifting the `nixpkgs-opencode` pin → read `docs/gotchas/oh-my-openagent.md`.
 - Bumping `graphify-src` or editing `upstreamGraphifyAgentsMdSha256` → read `docs/gotchas/graphify.md`.
-- OmniRoute or opencode config (`chains.json`, `omo.jsonc`, `plugins/omniroute/`, MCP `status=failed`, provider/500 errors) → read `docs/gotchas/omniroute.md`.
+- OmniRoute or opencode config (`chains.json`, `omo.jsonc`, `plugins/omniroute/`, MCP `status=failed`, provider/500 errors, `omniroute-resilience-readers: FAIL`) → read `docs/gotchas/omniroute.md`.
 - Monitors, KVM or mouse (`modules/common/autorandr.nix`, `modules/common/gaming-mouse.nix`) → read `docs/gotchas/hardware.md`.
+- Testing tmux behavior → always `tmux -L <throwaway>` and kill it after; a bare `tmux` command hits the socket the user is attached to.
 - Decrypting with gpg, `~/.gnupg/`, or `modules/api_keys/` secrets → read `docs/gotchas/gnupg-secrets.md`.
-- Adding CI or a pre-commit hook, or editing `checks.x86_64-linux.lint` → read `docs/gotchas/repo-guardrails.md` first.
+- Adding CI or a pre-commit hook, editing `checks.x86_64-linux.lint`, adding a new file the flake must see, aborting a rebuild, or fixing an `update-*.sh`/`verify-*.py` gate that keeps failing after the fix → read `docs/gotchas/repo-guardrails.md` first.

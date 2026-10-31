@@ -89,7 +89,8 @@ CONTRACTS: Final[dict[str, tuple[Proof, ...]]] = {
             "handleComboChatInner",
             (
                 "const { @ resilienceSettings, @ } = phaseComboSetup(comboCtx);",
-                "const comboCooldownBudgetLeftMs = { current: resilienceSettings.comboCooldownWait.budgetMs };",
+                # 3.8.52 deducts an already-served pinned-lock wait from the seeded budget.
+                "const comboCooldownBudgetLeftMs = { current: Math.max( 0, resilienceSettings.comboCooldownWait.budgetMs - (pinnedLockWaitMs > 0 ? pinnedLockWaitMs + PINNED_LOCK_WAIT_SLACK_MS : 0) ), };",
             ),
         ),
     ),

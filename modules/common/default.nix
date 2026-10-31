@@ -18,6 +18,7 @@
     ./journald.nix
     ./kanata.nix
     ./locale.nix
+    ./nix-build-limits.nix
     # ./notebook.nix
     ./packages
     ./security.nix

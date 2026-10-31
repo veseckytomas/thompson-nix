@@ -13,6 +13,10 @@ GitLab: vesecky.tomas
 
 # OmniRoute and opencode gotchas
 
+## `omniroute-resilience-readers: FAIL <leaf>`
+
+**The gate asserts that every seeded resilience leaf is still read at runtime; a FAIL means the literal in `verify-omniroute-resilience-readers.py`'s `CONTRACTS` no longer matches upstream's text, which is not the same as the reader being gone.** Decide which before touching the literal: trace the leaf to its decision in the packed tarball (`npm pack omniroute@<version>`), and retarget only if the read survives — for `comboCooldownWait.budgetMs` that means `budgetLeftMs` still reaching `comboAttemptLoop.ts`. A genuinely dropped reader means the seeded value is dead config and must be reported, never papered over by relaxing the literal. Retargeting also means updating the matching fixture in `verify-omniroute-resilience-readers-test.sh`, whose `@`-free steps are tokenized exactly — a trailing comma is a mismatch. Both run under `checks.x86_64-linux.lint`.
+
 ## Chain invariants
 
 **OmniRoute chains carry two invariants:** every chain in `chains.json` ends with `ctu/vic/GLM-5.3-Flash` (the unmetered self-hosted last resort, documented in the VPN-only wiki at `https://gitlab.dev1/ppsr-26/ai-coding/lokalni-ai/-/wikis/home` — `strategy` is `priority`, so keep it last), and `contextCeiling` in `providers/omniroute.nix` caps every advertised window at 250k to avoid context rot. `limit.context` is `min(member floor, ceiling)`, so the clamp only lowers — `quick-chain` stays at 128k because `litellm/mini` is genuinely that small. Adding a chain member needs a `model-limits.json` entry too, or the eval throws by design.

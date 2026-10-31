@@ -226,6 +226,9 @@
         (lib.fileset.fileFilter (f: f.hasExt "nix") ./home-manager)
         (lib.fileset.fileFilter (f: f.hasExt "nix") ./hosts)
         (lib.fileset.fileFilter (f: f.hasExt "nix") ./modules)
+        # nixos-run interpolates these as data, so nothing else ever parses them.
+        (lib.fileset.fileFilter (f: f.hasExt "sh" || f.hasExt "py") ./modules/common/packages/nixos-run)
+        (lib.fileset.fileFilter (f: f.hasExt "sh") ./home-manager/vesecto/modules/opencode/plugins/omniroute)
       ];
     };
     pkgs = import inputs.nixpkgs {
@@ -361,7 +364,7 @@
     # `nix flake check` would evaluate every host; build this attr directly to lint alone.
     checks.${system}.lint =
       pkgs.runCommand "lint" {
-        nativeBuildInputs = [pkgs.alejandra pkgs.nodejs pkgs.statix];
+        nativeBuildInputs = [pkgs.alejandra pkgs.jq pkgs.nodejs pkgs.python3 pkgs.shellcheck pkgs.sqlite pkgs.statix];
       } ''
         cd ${lintSrc}
         # bun2nix generates this one; alejandra would reformat it on every regeneration.
@@ -369,6 +372,19 @@
         statix check -c home-manager/vesecto/modules/statix .
         node --check home-manager/vesecto/modules/opencode/plugins/graphify/plugin.js
         node --test home-manager/vesecto/modules/opencode/plugins/graphify/plugin.test.js
+        PYTHONPYCACHEPREFIX="$TMPDIR/pycache" python3 -m compileall -q modules/common/packages/nixos-run
+        # writeShellApplication already shellchecks its own fragments, which lack a shebang here.
+        grep -lx '#!.*' modules/common/packages/nixos-run/*.sh home-manager/vesecto/modules/opencode/plugins/omniroute/*.sh | xargs shellcheck
+        # A stub a harness generates must not use /usr/bin/env, absent from the build sandbox; a harness's own line-1 shebang is inert.
+        if awk 'FNR>1 && /#!\/usr\/bin\/env/ {print FILENAME": "FNR; f=1} END {exit !f}' modules/common/packages/nixos-run/*.sh home-manager/vesecto/modules/opencode/plugins/omniroute/*.sh; then
+          echo "above: generated stub uses /usr/bin/env, absent from the build sandbox; emit printf '#!%s\\n' \"\$(command -v bash)\" instead" >&2
+          exit 1
+        fi
+        # These harnesses are hermetic; the gates they cover otherwise only fail mid-update.
+        bash modules/common/packages/nixos-run/choose-performance-test.sh
+        bash modules/common/packages/nixos-run/verify-omniroute-resilience-readers-test.sh
+        bash home-manager/vesecto/modules/opencode/plugins/omniroute/diagnostics-cli-test.sh
+        bash home-manager/vesecto/modules/opencode/plugins/omniroute/resilience-defaults-test.sh
         touch $out
       '';
 

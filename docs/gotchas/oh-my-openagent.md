@@ -31,6 +31,10 @@ Package lives in `home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/
 
 **`oh-my-openagent` patches must fail loudly:** every upstream edit is a `.patch` in the `patches` list or a `substituteInPlace --replace-fail` in `postPatch`. Never use bare `sed`/`perl` there — a drifted anchor would silently no-op and quietly drop the fix (this already happened once to the symlinked-skills loader).
 
+A rejected bump does not always mean *retarget*: a patch upstream has made redundant must be **dropped**, since `-F0` turns a fix-that-is-now-upstream into a permanently failing build. `skills-loader-accept-symlinked-skills.patch` was dropped this way — upstream `c487cf246` (security containment, #10693) rewrote `skill-directory-loader.ts` to `fs.stat` the resolved path, which follows symlinks, so symlinked `SKILL.md` files now load unpatched. The sibling `isMarkdownFile` fix in `postPatch` is still required: it serves the Claude-compat agent/command loaders, which kept the `isFile()` filter.
+
+Prefer a `--replace-fail` anchor over a context diff for any edit whose surroundings drift each bump. The `nix` build profile moved to `postPatch` for exactly that reason: its old `.patch` carried the `BUILD_NODES` list as context, so every upstream node addition broke the hunk even though its real anchor — the `BUILD_PROFILES` declaration line — had not moved. Both forms fail loudly; only the anchor survives churn.
+
 ## Only patch what is reachable
 
 **Only patch what is reachable — 7 fallback patches were dropped because both gates are off.** `runtime_fallback.enabled` is `false` and `model_fallback` is omitted (`?? false`), so `hooks/runtime-fallback/*` (`chat-message-handler.ts` returns at `if (!config.enabled)`) and `hooks/model-fallback/*` never execute; patches there are dead code that still costs anchor drift on every bump.
