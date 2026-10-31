@@ -27,6 +27,10 @@ Audited 2026-10-26 — every entry below is still required; nothing was safely r
 | `codegraph` 1.6.2 sidecar pin (`plugins/codegraph.json`) + NixOS repackage | no nixpkgs package; repackage keeps the npm binary runnable | permanent by design (drop only if nixpkgs packages it) |
 | `librewolf-bin.json` pin | nixpkgs librewolf binary is unmaintained | nixpkgs package becomes trustworthy |
 | `tock` input + `tock.json` rev pin | kriuchkov/tock is not in nixpkgs — required vendoring | upstream adds it to nixpkgs |
+| udiskie `keyutils.py` patch (`modules/common/packages/default.nix`) | NixOS/nixpkgs#576985 — `buffer.value` truncates a keyring's serial array at the first NUL byte, so the check phase dies | upstream fixes the `read_key` return |
+| qtile-extras `pytestFlags` override (`modules/common/packages/default.nix`) | NixOS/nixpkgs#579425 — structuredAttrs stopped word-splitting `--reruns 3`, so pytest collects 0 tests and exits 5 | nixpkgs splits the flag itself |
+| openldap `doCheck = false` (`modules/common/packages/default.nix`) | its test suite fails in the build sandbox | nixpkgs makes the suite sandbox-clean |
+| `swt` inherited from `pkgs-stable` (`modules/common/packages/default.nix`) | unstable's swt 4.34 fails to build | unstable's swt builds again |
 
 ## Self-healing mechanisms
 
