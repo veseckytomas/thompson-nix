@@ -59,6 +59,9 @@
   home.packages = with pkgs; [
     htmlhint
     eslint
+    stylelint
+    # Avoid the huge system texliveFull while providing lint and format binaries to Home Manager.
+    (texlive.withPackages (ps: [ps.chktex ps.latexindent]))
     markdownlint-cli
     statix
     ruff

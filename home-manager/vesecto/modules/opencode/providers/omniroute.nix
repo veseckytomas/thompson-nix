@@ -10,7 +10,9 @@
 # GitLab: vesecky.tomas
 # OmniRoute combo model entries generated from ../plugins/omniroute/chains.json.
 # REQUIRE_API_KEY=false on the gateway; the SDK still needs a dummy key.
-let
+{lib}: let
+  # Ascending cost; opencode cycles the variants in this order.
+  effortOrder = ["none" "low" "medium" "high" "xhigh" "max"];
   # A bare member id resolves to no combo, so the gateway pins it with no chain fallback.
   pinnedIds = [
     "cc/claude-fable-5-1"
@@ -81,7 +83,8 @@ let
       name = m;
       value = {
         name = "${m} (pinned)";
-        reasoning = true;
+        # true makes opencode force low/medium/high to the front of the variant cycle.
+        reasoning = false;
         tool_call = true;
         attachment = true;
         modalities = {
@@ -99,6 +102,16 @@ let
           input = 0;
           output = 0;
         };
+        # openai-compatible forwards variant keys into the body, where the gateway reads `effort`.
+        # Nix sorts attrs alphabetically, so the cycle order survives only as a DAG chain.
+        variants = builtins.listToAttrs (lib.imap0 (i: e: {
+            name = e;
+            value =
+              if i == 0
+              then {effort = e;}
+              else lib.hm.dag.entryAfter [(builtins.elemAt effortOrder (i - 1))] {effort = e;};
+          })
+          effortOrder);
       };
     })
     pinnedIds);

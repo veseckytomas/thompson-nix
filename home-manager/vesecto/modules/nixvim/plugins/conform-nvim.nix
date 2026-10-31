@@ -54,7 +54,7 @@
           # Java
           java = ["google-java-format"];
           # Typst
-          typ = ["prettytypst"];
+          typ = ["prettypst"];
         };
       };
     };
@@ -76,6 +76,8 @@
     ];
   };
   home.packages = with pkgs; [
+    prettypst
+    # latexindent ships in lint.nix's scoped texlive; a second one here would collide on the texlive pname.
     codespell
     prettierd
     prettier

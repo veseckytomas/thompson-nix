@@ -238,7 +238,7 @@ in {
         ++ lib.optional config.opencodePlugins.session-list-all.enable "./plugins/session-list-all/plugin.js";
       provider =
         lib.optionalAttrs config.opencodeProviders.litellm.enable {litellm = import ./providers/litellm.nix;}
-        // lib.optionalAttrs config.opencodeProviders.omniroute.enable {omniroute = import ./providers/omniroute.nix;}
+        // lib.optionalAttrs config.opencodeProviders.omniroute.enable {omniroute = import ./providers/omniroute.nix {inherit lib;};}
         // lib.optionalAttrs config.opencodeProviders.openai.enable {openai = import ./providers/openai.nix;}
         // lib.optionalAttrs config.opencodeProviders."google-agy".enable {"google-agy" = googleProvider.provider;}
         // lib.optionalAttrs config.opencodeProviders.anthropic.enable {anthropic = anthropicProvider.provider;};
@@ -432,11 +432,6 @@ in {
         Re-probe after any interrupt; name surviving ids explicitly. End every message with
         a one-line count, zero included: "2 background tasks running."
 
-        A completed task whose id returns "Task not found" is a lost registry
-        entry, not lost work: it finished. Read the result with
-        `session_read(session_id="ses_...", from_end=true)` using the
-        continuation id from the launch; never relaunch the brief on that error.
-
         Stalled is not running. A task still showing `running` past ~30-40 min
         needs progress evidence, not faith: the `Last tool` field must advance
         between probes and a promised target file's mtime must move. Same last
@@ -453,11 +448,23 @@ in {
 
         `Task not found` means vanished, not failed: no notification will ever
         arrive, so waiting is futile. It can strike seconds after a successful
-        launch, and it says nothing about how much work landed first. Before
-        relaunching, read the evidence - the promised target file's mtime and
-        `git status`/`git log`. Untouched target plus clean tree = nothing was
-        lost, relaunch the same brief. Work already landed = resume from it or
-        scope the relaunch around it, or you duplicate commits.
+        launch, and it says nothing about how much work landed first - treat it
+        as "unknown progress", never as "it finished".
+
+        Resolve that unknown from evidence on disk, in this order, before
+        relaunching anything:
+
+        1. `session_read(session_id="ses_...", from_end=true)` with the
+           continuation id from the launch. A real final message = the work
+           finished; collect it and do not relaunch.
+        2. No session, or it ends mid-flight: check the promised target file's
+           mtime and `git status`/`git log`.
+           - Untouched target, clean tree = nothing landed; relaunch the brief.
+           - Work already landed = resume from it or scope the relaunch around
+             it, or you duplicate commits.
+
+        Two dispatches can vanish back-to-back. After the second, stop
+        relaunching and do the work inline - a third costs more than the task.
 
         # GitLab issues
 
@@ -468,6 +475,14 @@ in {
         - Issues assigned to me: glab issue list --assignee=@me
         - Search:                glab issue list --search "<text>"
 
+        # The bash tool runs zsh
+
+        Not bash, despite the name. `PIPESTATUS[0]` is empty here - zsh indexes
+        arrays from 1 and spells it `pipestatus[1]`. A gate written as
+        `[ "''${PIPESTATUS[0]}" -eq 0 ]` compares an empty string and silently
+        misreports. Capture `$?` straight after the command instead of reaching
+        into either array, and it works in both shells.
+
         # Scratch files
 
         If an edit anchor misses after a recent read, re-read the exact region with a second tool before retrying; never guess whitespace or content.
@@ -477,6 +492,26 @@ in {
         turn. Claim your own dir with `mktemp -d -p /tmp/opencode`, echo that
         path, and re-derive rather than trust anything you find at the top
         level. Never copy a large file there to read it - query it in place.
+
+        # Nix store diagnosis
+
+        On any "two different versions of the same package" or buildEnv
+        conflicting-subpath error, run `nix-diff <drvA> <drvB>` before
+        theorising; it names the exact differing field, and the error's own
+        "two versions" hint is only a guess - the delta is often one build
+        hook between two identical versions. Get each drv with
+        `nix-store --query --deriver <storepath>`.
+
+        Never hardcode a `/nix/store/<hash>/` path into a command you will
+        reuse, and never carry one across turns. Garbage collection deletes it
+        mid-session and every later call fails `No such file or directory` on a
+        path that demonstrably worked an hour earlier. Go through the stable
+        symlink - `~/.config/opencode/...` for anything home-manager deploys -
+        and re-resolve rather than remember.
+
+        A store path copied out of an older error message may be stale, and
+        `nix derivation show` then reports `inputDrvs: 0` instead of failing.
+        Re-run the build for a live drv rather than trusting scrollback.
 
         # Searching symlinked trees
 

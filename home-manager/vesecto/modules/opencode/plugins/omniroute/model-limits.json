@@ -9,35 +9,11 @@
       "context": 1000000,
       "output": 64000
     },
-    "antigravity/gemini-3.1-pro-high": {
-      "context": 1048576,
-      "output": 65535
-    },
-    "antigravity/gemini-3.1-pro-low": {
-      "context": 1048576,
-      "output": 65535
-    },
-    "antigravity/gemini-3.7-flash-low": {
-      "context": 1048576,
-      "output": 65536
-    },
-    "antigravity/gemini-3.7-flash-tiered": {
-      "context": 1048576,
-      "output": 65536
-    },
     "antigravity/gemini-3.8-flash-low": {
       "context": 1048576,
       "output": 65536
     },
-    "cc/claude-fable-5": {
-      "context": 1000000,
-      "output": 128000
-    },
     "cc/claude-fable-5-1": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "cc/claude-fable-5-1-medium": {
       "context": 1000000,
       "output": 128000
     },
@@ -73,15 +49,7 @@
       "context": 262144,
       "output": 32768
     },
-    "ctu/vic/Qwen3.8-Flash-Next": {
-      "context": 262144,
-      "output": 32768
-    },
     "cx/gpt-5.6-luna": {
-      "context": 272000,
-      "output": 128000
-    },
-    "cx/gpt-5.6-luna-low": {
       "context": 272000,
       "output": 128000
     },
@@ -89,43 +57,7 @@
       "context": 872000,
       "output": 128000
     },
-    "cx/gpt-5.6-sol-low": {
-      "context": 872000,
-      "output": 128000
-    },
-    "cx/gpt-5.6-sol-medium": {
-      "context": 872000,
-      "output": 128000
-    },
-    "cx/gpt-5.6-sol-ultra": {
-      "context": 872000,
-      "output": 128000
-    },
-    "cx/gpt-5.6-sol-xhigh": {
-      "context": 872000,
-      "output": 128000
-    },
-    "cx/gpt-5.6-terra": {
-      "context": 272000,
-      "output": 128000
-    },
-    "cx/gpt-5.6-terra-high": {
-      "context": 872000,
-      "output": 128000
-    },
     "cx/gpt-6-astra": {
-      "context": 272000,
-      "output": 128000
-    },
-    "cx/gpt-6-astra-high": {
-      "context": 272000,
-      "output": 128000
-    },
-    "cx/gpt-6-astra-max": {
-      "context": 272000,
-      "output": 128000
-    },
-    "cx/gpt-6-astra-xhigh": {
       "context": 272000,
       "output": 128000
     },
@@ -133,15 +65,7 @@
       "context": 272000,
       "output": 128000
     },
-    "cx/gpt-6-luna-low": {
-      "context": 272000,
-      "output": 128000
-    },
     "cx/gpt-6-sol": {
-      "context": 272000,
-      "output": 128000
-    },
-    "cx/gpt-6-sol-medium": {
       "context": 272000,
       "output": 128000
     },
@@ -149,39 +73,11 @@
       "context": 1000000,
       "output": 128000
     },
-    "gh/claude-fable-5.1-xhigh": {
-      "context": 1000000,
-      "output": 128000
-    },
     "gh/claude-opus-5.5": {
       "context": 1000000,
       "output": 128000
     },
-    "gh/claude-opus-5.5-low": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "gh/claude-opus-5.5-medium": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "gh/claude-opus-5.5-xhigh": {
-      "context": 1000000,
-      "output": 128000
-    },
     "gh/claude-sonnet-5.5": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "gh/claude-sonnet-5.5-high": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "gh/claude-sonnet-5.5-low": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "gh/claude-sonnet-5.5-medium": {
       "context": 1000000,
       "output": 128000
     },
@@ -193,25 +89,9 @@
       "context": 272000,
       "output": 128000
     },
-    "gh/gpt-6-luna": {
-      "context": 272000,
-      "output": 128000
-    },
     "gh/gpt-6-sol": {
       "context": 272000,
       "output": 128000
-    },
-    "gh/grok-4.7": {
-      "context": 256000,
-      "output": 128000
-    },
-    "litellm/deepseek": {
-      "context": 128000,
-      "output": 32768
-    },
-    "litellm/deepseek-thinking": {
-      "context": 128000,
-      "output": 32768
     },
     "litellm/deepseek-v4.1-flash": {
       "context": 1000000,
@@ -226,10 +106,6 @@
       "output": 1048576
     },
     "litellm/mini": {
-      "context": 128000,
-      "output": 32768
-    },
-    "litellm/qwen3.5": {
       "context": 128000,
       "output": 32768
     }
