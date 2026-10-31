@@ -88,7 +88,7 @@ in {
       # Open windows and panes in current directory
       bind b split-window -v -c "#{pane_current_path}"
       bind v split-window -h -c "#{pane_current_path}"
-      bind c new-window -c "#{pane_current_path}"
+      bind c new-window -a -c "#{pane_current_path}"
     '';
   };
   catppuccin.tmux = {

@@ -26,7 +26,7 @@ export const GraphifyPlugin = async ({ directory }) => {
         // Reminder must stay backtick/$()-free: the hook echoes it via bash, which would execute them.
         // ';' not '&&': Windows PowerShell 5.1 rejects '&&' as a statement separator (#1646).
         output.args.command =
-          'echo "[graphify] knowledge graph at graphify-out/. Prefer the graphify MCP tools over grepping raw files, narrowest first: GetNode/GetNeighbors for a known label, ShortestPath for two nodes, GraphStats/GodNodes/GetCommunity to orient, QueryGraph only for open-ended exploration. Matching is lexical, so name the exact indexed label. Read GRAPH_REPORT.md only for whole-repo review." ; ' +
+          'echo "[graphify] knowledge graph at graphify-out/. Before grep, search, or source-file reads, use the graphify MCP tools, narrowest first: GetNode/GetNeighbors for a known label, ShortestPath for two nodes, GraphStats/GodNodes/GetCommunity to orient, QueryGraph only for open-ended exploration. Matching is lexical, so name the exact indexed label. Read GRAPH_REPORT.md only for whole-repo review." ; ' +
           output.args.command;
         remindedSessions.add(input.sessionID);
       }

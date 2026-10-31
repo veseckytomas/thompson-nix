@@ -61,7 +61,6 @@
     eslint
     markdownlint-cli
     statix
-    pylint
     ruff
     clippy
     shellcheck

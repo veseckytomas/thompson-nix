@@ -22,7 +22,7 @@
   graphify = import ./graphify {inherit inputs pkgs;};
   upstreamGraphifyAgentsMd = inputs.graphify-src + "/graphify/always_on/agents-md.md";
   # Hash guard: a graphify-src bump fails eval loudly instead of silently keeping our divergent copy.
-  upstreamGraphifyAgentsMdSha256 = "6a4a2e13159f2d89a9ab83351766e72ab94de06929d80767ac50913e4350e3a5";
+  upstreamGraphifyAgentsMdSha256 = "2ba0bd9e19da9d2d63332334b3290b80ab2d155d036f9f14a5aaac66d0347018";
   # Replaces upstream's block, which leads with `query` - the costliest scoped command.
   # `query` is a depth-3 BFS that spends its whole token budget: ~6.4KB even for an
   # exact node (AGENTS.md 174 nodes, flake.nix 49), while `explain` is bounded by real
@@ -30,7 +30,9 @@
   graphifyAgentsMd = ''
     ## graphify
 
-    If `graphify-out/graph.json` exists, start codebase questions with Graphify.
+    If `graphify-out/graph.json` exists, start codebase questions with Graphify
+    before the first grep, search, or source-file read. Carry this rule into every
+    subagent prompt that explores code.
 
     - `/graphify`: load the `graphify` skill first.
     - Prefer the `graphify` MCP server over the CLI, and pick the narrowest tool:
@@ -42,6 +44,8 @@
     - On broad or truncated output, narrow the label/depth/`context_filter` before
       raising `token_budget` - the budget caps output, it cannot fix a wrong start node.
     - Reserve `GRAPH_REPORT.md` for whole-repo review. Use the CLI only if MCP is down.
+    - If `graphify-out/graph.json` is tracked, expect whole-file rebuild diffs; do
+      not flag them as churn or suggest skipping graph updates or hooks.
     - A git-dirty `graphify-out/` is still usable. After code changes: `graphify update .`
   '';
   # Google (Antigravity CLI) provider + its agy-auth plugin are kept together so the provider always ships with its auth plugin.
@@ -246,6 +250,9 @@ in {
           "*.env.*" = "deny";
           "*.env.example" = "allow";
           "*.env.sample" = "allow";
+          # This matcher is regex, so `*.env` compiles to `.*\.env` and matches
+          # `.envrc` as a prefix. direnv config is not a secret -- reopen it.
+          "*.envrc" = "allow";
           "*.gpg" = "deny";
           "*.jks" = "deny";
           "*.key" = "deny";
@@ -285,6 +292,8 @@ in {
           afterAllows = lib.hm.dag.entryAfter ["glab *" "*gsd-tools*" "*gsd_run*"];
           # ...and the `pass ls` carve-out after the pass denies it reopens.
           afterPassDenies = lib.hm.dag.entryAfter ["pass *" "*/pass *"];
+          # ...and the direnv carve-out after the `.env` denies that swallow it.
+          afterEnvDenies = lib.hm.dag.entryAfter ["*.env" "*.env *" "*.env.*" "*/.env*"];
         in {
           "glab *" = "allow";
           # Trailing " *" compiles to an optional arg group, keeping `jq '.key' x.json` allowed.
@@ -294,6 +303,9 @@ in {
           "*.env *" = afterAllows "deny";
           "*.env.*" = afterAllows "deny";
           "*/.env*" = afterAllows "deny";
+          # direnv config, not a secret: `*/.env*` swallows `.envrc` on an absolute
+          # path. Reopened after those denies so the last match is this allow.
+          "*.envrc*" = afterEnvDenies "allow";
           "*.gpg" = afterAllows "deny";
           "*.gpg *" = afterAllows "deny";
           "*.key *" = afterAllows "deny";
@@ -311,6 +323,11 @@ in {
           "*id_rsa*" = afterAllows "deny";
           # `pass show X` prints a live secret; only entry listing stays allowed.
           # `*/pass *` closes the absolute-path bypass; the allows must land last.
+          # A bare tmux kill reaches the socket the user is attached to; `-L` test sockets stay free.
+          "tmux kill-server*" = afterAllows "ask";
+          "tmux kill-session*" = afterAllows "ask";
+          "tmux -L * kill-server*" = lib.hm.dag.entryAfter ["tmux kill-server*"] "allow";
+          "tmux -L * kill-session*" = lib.hm.dag.entryAfter ["tmux kill-session*"] "allow";
           "pass *" = afterAllows "deny";
           "*/pass *" = afterAllows "deny";
           "pass ls *" = afterPassDenies "allow";
@@ -415,6 +432,11 @@ in {
         Re-probe after any interrupt; name surviving ids explicitly. End every message with
         a one-line count, zero included: "2 background tasks running."
 
+        A completed task whose id returns "Task not found" is a lost registry
+        entry, not lost work: it finished. Read the result with
+        `session_read(session_id="ses_...", from_end=true)` using the
+        continuation id from the launch; never relaunch the brief on that error.
+
         Stalled is not running. A task still showing `running` past ~30-40 min
         needs progress evidence, not faith: the `Last tool` field must advance
         between probes and a promised target file's mtime must move. Same last
@@ -428,6 +450,14 @@ in {
         writing its output and hung on cleanup, so always check the promised
         target file exists and is complete before treating the timed-out work
         as lost. Never relaunch based on the error line alone.
+
+        `Task not found` means vanished, not failed: no notification will ever
+        arrive, so waiting is futile. It can strike seconds after a successful
+        launch, and it says nothing about how much work landed first. Before
+        relaunching, read the evidence - the promised target file's mtime and
+        `git status`/`git log`. Untouched target plus clean tree = nothing was
+        lost, relaunch the same brief. Work already landed = resume from it or
+        scope the relaunch around it, or you duplicate commits.
 
         # GitLab issues
 
@@ -454,6 +484,11 @@ in {
         (`~/.config`, `~/.local`, anything linked into `/nix/store`): those files
         are symlinks, and `-r` skips them, so a string that is present returns
         nothing. An empty `-r` result there is not evidence of absence.
+
+        Never `find /`. It burns the full command timeout and returns nothing
+        useful. Scope every search to the repo or `$HOME` and bound it with
+        `-maxdepth`; if you do not know where a file is, that is a question for
+        `git ls-files` or the graph, not a filesystem walk.
 
         # Library docs
 

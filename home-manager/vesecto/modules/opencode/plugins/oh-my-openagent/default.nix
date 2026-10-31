@@ -45,16 +45,20 @@
     # Every edit below must fail the build if upstream moves its anchor: silent
     # no-ops previously dropped a fix for months without any build signal.
     patches = [
-      # 99 skill .md files arrive as symlinks from home-manager; upstream accepts only symlinked dirs.
-      ./skills-loader-accept-symlinked-skills.patch
       # Live via delegate-task/category-resolver, which is behind no fallback gate.
       ./fallback-chain-honour-empty-optout.patch
-      # Two of upstream's 16 build nodes reach `npm ci`, which the sandbox has no network for.
-      ./build-nodes-nix-profile.patch
     ];
 
     postPatch = ''
-      # isMarkdownFile drops Home Manager's symlinked agents/commands/skills,
+      # Two of upstream's build nodes reach `npm ci`, which the sandbox has no network for.
+      # Anchored on the declaration, not a context diff: the node list drifts every bump.
+      substituteInPlace script/build-nodes.ts \
+        --replace-fail 'export const BUILD_PROFILES: Record<string, readonly string[]> = {' 'const NIX_EXCLUDED_NODES: readonly string[] = ["codex-plugin", "senpi-plugin"]
+
+      export const BUILD_PROFILES: Record<string, readonly string[]> = {
+      	nix: BUILD_NODES.map((node) => node.id).filter((id) => !NIX_EXCLUDED_NODES.includes(id)),'
+
+      # isMarkdownFile drops Home Manager's symlinked agents/commands,
       # because Node's fs.Dirent.isFile() is false for a symlink.
       substituteInPlace packages/utils/src/file-utils.ts \
         --replace-fail 'isFile: () => boolean })' 'isFile: () => boolean; isSymbolicLink?: () => boolean })' \

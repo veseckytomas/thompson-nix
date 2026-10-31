@@ -11,6 +11,19 @@
 # OmniRoute combo model entries generated from ../plugins/omniroute/chains.json.
 # REQUIRE_API_KEY=false on the gateway; the SDK still needs a dummy key.
 let
+  # A bare member id resolves to no combo, so the gateway pins it with no chain fallback.
+  pinnedIds = [
+    "cc/claude-fable-5-1"
+    "cc/claude-opus-5-5"
+    "cc/claude-sonnet-5-5"
+    "cc/claude-haiku-5-5"
+    "litellm/kimi-k3"
+    "litellm/glm-5.3"
+    "ctu/vic/GLM-5.3-Flash"
+    "cx/gpt-6-astra"
+    "cx/gpt-6-sol"
+    "cx/gpt-6-luna"
+  ];
   chains = builtins.fromJSON (builtins.readFile ../plugins/omniroute/chains.json);
   modelLimits = (builtins.fromJSON (builtins.readFile ../plugins/omniroute/model-limits.json)).models;
   # A priority chain can land on ANY member, so its honest window is the weakest one.
@@ -23,7 +36,7 @@ let
   # Fail loudly: a silent fallback would advertise a wrong window for a typo'd id.
   limitsOf = m:
     modelLimits.${m}
-    or (throw "omniroute: '${m}' is in chains.json but missing from model-limits.json");
+    or (throw "omniroute: '${m}' is in chains.json or pinnedIds but missing from model-limits.json");
   floorOf = c: field: let
     vals = map (m: (limitsOf m).${field}) c.models;
   in
@@ -62,6 +75,33 @@ let
       };
     })
     chains.combos);
+  pinnedModels = builtins.listToAttrs (map (m: let
+      inherit (limitsOf m) context output;
+    in {
+      name = m;
+      value = {
+        name = "${m} (pinned)";
+        reasoning = true;
+        tool_call = true;
+        attachment = true;
+        modalities = {
+          input = ["text" "image"];
+          output = ["text"];
+        };
+        limit = {
+          context =
+            if context < contextCeiling
+            then context
+            else contextCeiling;
+          inherit output;
+        };
+        cost = {
+          input = 0;
+          output = 0;
+        };
+      };
+    })
+    pinnedIds);
 in {
   npm = "@ai-sdk/openai-compatible";
   name = "OmniRoute";
@@ -72,5 +112,5 @@ in {
     chunkTimeout = 600000;
     headerTimeout = 600000;
   };
-  models = comboModels;
+  models = comboModels // pinnedModels;
 }
