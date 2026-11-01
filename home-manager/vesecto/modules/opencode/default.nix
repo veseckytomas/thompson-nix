@@ -483,6 +483,17 @@ in {
         misreports. Capture `$?` straight after the command instead of reaching
         into either array, and it works in both shells.
 
+        # Comparing a string read from a file
+
+        Inspect it with `cat -A` (or `printf %q`), never `od -c`. Trailing
+        whitespace is what breaks the comparison, and `od -c` renders
+        `"x     "` and `"x"` almost identically - the only tell is the next
+        offset - while `cat -A` marks the line end with `$`. Piping `od`
+        through `head` hides it outright, since 16 bytes share one line.
+        Sysfs is the common source: SCSI fields like
+        `/sys/block/sda/device/model` are space-padded to a fixed width, so
+        an equality guard against the unpadded literal fails.
+
         # Scratch files
 
         If an edit anchor misses after a recent read, re-read the exact region with a second tool before retrying; never guess whitespace or content.
@@ -509,6 +520,15 @@ in {
         symlink - `~/.config/opencode/...` for anything home-manager deploys -
         and re-resolve rather than remember.
 
+        A tool fetched ad-hoc has no such symlink, and `nix build
+        --print-out-paths` or `nix shell` leaves its result rooted only for the
+        command that fetched it. Pin it for the task with `nix build --out-link
+        "$RUN_TMP/tool"` - an out-link is a GC root - and invoke through that
+        path, or keep the whole sequence inside one `nix shell nixpkgs#pkg
+        --command`. Check with `nix-store --query --roots <path>`: empty output
+        means a GC timer can delete the binary between writing a script and
+        running it, which strands a destructive sequence mid-flight.
+
         A store path copied out of an older error message may be stale, and
         `nix derivation show` then reports `inputDrvs: 0` instead of failing.
         Re-run the build for a live drv rather than trusting scrollback.
@@ -524,6 +544,28 @@ in {
         useful. Scope every search to the repo or `$HOME` and bound it with
         `-maxdepth`; if you do not know where a file is, that is a question for
         `git ls-files` or the graph, not a filesystem walk.
+
+        A bare `$HOME` is not a bound. A content search rooted there walks
+        `node_modules`, `.cache` and every store-linked tree, and times out at
+        120s having printed nothing - `--exclude-dir` does not save it, because
+        the walk still descends. When hunting a file, match the name
+        (`find ~ -maxdepth 3 -name flake.nix`) instead of its contents; reserve
+        content search for a tree you have already narrowed.
+
+        # Claims about the environment
+
+        Before asserting an environment fact - what a command does, whether a
+        path exists, what a tool returns on a given input - run it. This binds
+        hardest in a subagent prompt, where an invented justification is
+        indistinguishable from a checked one and the child cannot tell the
+        difference: it inherits the claim as fact and acts on it. Writing
+        "do not run X, it will corrupt state" into a brief, without ever
+        running X, is the shape to catch; `gsd-tools query workstream.set` on
+        a flat project turned out to no-op harmlessly with exit 0. The
+        instruction was right by luck, the reason was fabricated.
+
+        Cheaper than it feels: one command, usually milliseconds. Do not reason
+        about an exit code you could observe.
 
         # Library docs
 

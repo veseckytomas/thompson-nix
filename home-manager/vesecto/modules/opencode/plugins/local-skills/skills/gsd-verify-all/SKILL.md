@@ -11,28 +11,42 @@ Run the five post-build quality **gates** for every phase that hasn't passed the
 ## When to use
 
 - After `/gsd-execute-phase`, when you want the full quality sweep before the MR.
-- On a feature branch, inside a workstream.
+- On a feature branch, in either project layout (workstream or flat).
 - User types `verify-all` or asks to "run all verification" / "run all gates".
 
-## Step 1 — Confirm workstream routing
+## Step 1 — Resolve the phase root
 
 ```bash
 gsd-tools query workstream.get
 ```
 
-If no active workstream, set it:
-```bash
-gsd-tools query workstream.set <GSD_WORKSTREAM>
-```
+Two layouts, and every path below depends on which one you are in. Resolve it first:
 
-Parse `<GSD_WORKSTREAM>` from `.gsd-workstream` if needed.
+| `workstream.get` returns | Layout | `PHASE_ROOT` | `ROADMAP` |
+|---|---|---|---|
+| `{"active": "<ws>", …}` | workstream | `.planning/workstreams/<ws>/phases` | `.planning/workstreams/<ws>/ROADMAP.md` |
+| `{"active": null, "mode": "flat"}` | flat | `.planning/phases` | `.planning/ROADMAP.md` |
+| `{"active": null}`, mode not `flat` | workstream, unset | resolve first, below | — |
+
+In **flat** mode there is no workstream to name: never run `workstream.set`, never pass `--ws`, and do not treat the null `active` as "unset". `workstream.set` on a flat project is a silent no-op — it returns `{"error": "not_found"}` with **exit 0** and leaves `active` null, so a caller checking only the exit status reads success, and every later `--ws` then resolves against a directory that does not exist.
+
+Only in the third row is the workstream merely unset: parse it from `.gsd-workstream` or the branch name, `workstream.set <ws>`, verify with `config-path`.
+
+Bind both once and use them for the rest of the run:
+
+```bash
+# flat
+PHASE_ROOT=.planning/phases;                  ROADMAP=.planning/ROADMAP.md
+# workstream
+PHASE_ROOT=.planning/workstreams/<ws>/phases; ROADMAP=.planning/workstreams/<ws>/ROADMAP.md
+```
 
 ## Step 2 — Find phases and their gate status
 
-Read the workstream ROADMAP.md to get the phase list:
+Read the ROADMAP for the phase list:
 
 ```bash
-cat .planning/workstreams/<GSD_WORKSTREAM>/ROADMAP.md
+cat "$ROADMAP"
 ```
 
 Extract phase numbers (skip phase 999 — backlog).
@@ -49,10 +63,10 @@ Evidence files are prefixed with the padded phase number, e.g. `06-REVIEW.md` �
 | validate-phase | `<NN>-VALIDATION.md` |
 | secure-phase | `<NN>-SECURITY.md` |
 
-Phase directory pattern: `.planning/workstreams/<ws>/phases/<N>-*/`
+Phase directory pattern: `$PHASE_ROOT/<N>-*/`
 
 ```bash
-for phase_dir in .planning/workstreams/<GSD_WORKSTREAM>/phases/[0-9]*/; do
+for phase_dir in "$PHASE_ROOT"/[0-9]*/; do
   phase=$(basename "$phase_dir" | cut -d- -f1)
   echo "Phase $phase:"
   for gate_evidence in code-review:REVIEW verify-work:VERIFICATION validate-phase:VALIDATION secure-phase:SECURITY; do
@@ -84,16 +98,23 @@ For each phase with missing gates, spawn one subagent per gate (sequential withi
 ```
 task(
   category="unspecified-high",
-  prompt="Execute /gsd-<gate-name> for phase <N> in workstream <ws>.
+  prompt="Execute /gsd-<gate-name> for phase <N>. Phase directory: <PHASE_ROOT>/<N>-*/
 
 Before starting:
-1. Run: gsd-tools query workstream.set <ws>
+1. <routing line — see below>
 2. Read the workflow file: ~/.config/opencode/gsd-core/workflows/<gate-workflow>.md
-3. Follow the workflow steps. Pass --ws <ws> to every gsd-tools call.
-4. Commit results as the workflow instructs.
+3. Follow the workflow steps.
+4. Commit results as the workflow instructs. Never use --no-verify.
 5. Report exactly: PASS, FAIL or SKIP, with a one-line summary of what was verified/found."
 )
 ```
+
+Line 1 differs by layout, and getting it wrong is the failure described in Step 1:
+
+- **workstream:** `Run: gsd-tools query workstream.set <ws>, and pass --ws <ws> to every gsd-tools call.`
+- **flat:** `This project is flat mode. Do NOT run workstream.set and do NOT pass --ws to any gsd-tools call.`
+
+Always give the subagent the resolved phase directory. It cannot see your `PHASE_ROOT` shell variable, and a gate agent that guesses `.planning/workstreams/…` on a flat project writes its artifact to a path nobody reads.
 
 Gate → workflow mapping:
 
@@ -129,11 +150,13 @@ Marks: `pass`, `fail`, `skip` (with reason), `—` (not run). code-review append
 
 ### No phases found
 
-ROADMAP.md has no phases or phases dir is empty. Say so in one line. The user may need to run `/gsd-plan-phase` first.
+Before reporting this, re-check `PHASE_ROOT` against Step 1 — a wrong root is indistinguishable from an empty one, and on a flat project the workstream path yields zero matches while the phases sit in `.planning/phases`. Confirm with `ls .planning/phases .planning/workstreams 2>&1`.
+
+If the root is right and still empty, the ROADMAP has no phases. Say so in one line; the user may need `/gsd-plan-phase` first.
 
 ### Workstream not set
 
-`gsd-tools query workstream.get` returns null. Parse from `.gsd-workstream` or branch name, run `workstream.set`, verify with `config-path`.
+Only when `workstream.get` returns a null `active` **and** `mode` is not `flat`. Parse from `.gsd-workstream` or branch name, run `workstream.set`, verify with `config-path`. If `mode` is `flat`, this is not an error — go to the flat row in Step 1.
 
 ### Subagent can't execute workflow
 
