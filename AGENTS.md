@@ -35,6 +35,7 @@ Required header (copy verbatim to the top of every file):
 - `home-manager/vesecto-server/` — leaner Home Manager config used by servers. Its `tmux.nix`, `zsh.nix`, `starship.nix` and `nixvim/` are near-copies of the `vesecto/` originals: changing one means checking the other, since both profiles build clean independently.
 - `hosts/<class>/<name>/` — per-machine config: `default.nix` imports `configuration.nix` + `hardware-configuration.nix` (+ host extras).
 - `home-manager/vesecto/modules/opencode/` — opencode config; `plugins/` paths below in Gotchas are relative to it.
+- `plugins/local-skills/skills/` — skills authored here. Everything under `~/.config/opencode/` is a read-only `/nix/store` symlink: edit the repo source, then rebuild to deploy.
 
 ## Wiring
 

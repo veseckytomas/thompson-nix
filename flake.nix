@@ -231,6 +231,8 @@
         (lib.fileset.fileFilter (f: f.hasExt "sh" || f.hasExt "py") ./modules/common/packages/nixos-run)
         # verify-model-limits.py reads the two json files, so the check needs all three in the sandbox.
         (lib.fileset.fileFilter (f: f.hasExt "sh" || f.hasExt "py" || f.hasExt "json") ./home-manager/vesecto/modules/opencode/plugins/omniroute)
+        # The fence check parses these; without them in the sandbox its loop matches nothing and passes silently.
+        (lib.fileset.fileFilter (f: f.hasExt "md") ./home-manager/vesecto/modules/opencode/plugins/local-skills/skills)
       ];
     };
     pkgs = import inputs.nixpkgs {
@@ -418,6 +420,16 @@
           echo "above: generated stub uses /usr/bin/env, absent from the build sandbox; emit printf '#!%s\\n' \"\$(command -v bash)\" instead" >&2
           exit 1
         fi
+        # A skill's bash ships as prose: nothing else ever parses it. Placeholders stand in for values the agent fills.
+        for skill in home-manager/vesecto/modules/opencode/plugins/local-skills/skills/*/*.md; do
+          awk '/^```bash$/{inb=1;next} /^```$/{inb=0} inb' "$skill" \
+            | sed 's/<[A-Za-z_][A-Za-z0-9_]*>/PLACEHOLDER/g' > "$TMPDIR/fences.sh"
+          if ! bash -n "$TMPDIR/fences.sh" 2>"$TMPDIR/fence-err"; then
+            echo "$skill: bash fence has a syntax error:" >&2
+            cat "$TMPDIR/fence-err" >&2
+            exit 1
+          fi
+        done
         # The table is the ledger for lifting a workaround, so a patch may not cite an issue it omits.
         if grep -rhoE 'nixpkgs#[0-9]+' --include='*.nix' modules home-manager | sort -u | grep -vFf <(grep -oE 'nixpkgs#[0-9]+' README.md | sort -u) > "$TMPDIR/unlisted"; then
           echo "above: nixpkgs issues cited in a workaround but absent from README.md's pins table:" >&2
