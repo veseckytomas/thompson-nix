@@ -5,7 +5,7 @@
 # /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
 #                          /_/
 # Tomáš Vesecký
-# Email: vesecky@proton.me
+# Email: tomas@vesecky.net
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 # OmniRoute combo model entries generated from ../plugins/omniroute/chains.json.
@@ -15,7 +15,7 @@
   effortOrder = ["none" "low" "medium" "high" "xhigh" "max"];
   # A bare member id resolves to no combo, so the gateway pins it with no chain fallback.
   pinnedIds = [
-    "cc/claude-fable-5-1"
+    "ctu-cc/claude-fable-5-1"
     "cc/claude-opus-5-5"
     "cc/claude-sonnet-5-5"
     "cc/claude-haiku-5-5"

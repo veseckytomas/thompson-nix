@@ -5,7 +5,7 @@
 // /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
 //                          /_/
 // Tomáš Vesecký
-// Email: vesecky@proton.me
+// Email: tomas@vesecky.net
 // GitHub: veseckytomas
 // GitLab: vesecky.tomas
 // graphify opencode plugin: nudge toward the targeted graphify MCP tools before grepping when a graph exists.

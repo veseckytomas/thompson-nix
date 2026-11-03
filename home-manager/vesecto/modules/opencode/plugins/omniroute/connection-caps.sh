@@ -6,7 +6,7 @@
 # /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
 #                          /_/
 # Tomáš Vesecký
-# Email: vesecky@proton.me
+# Email: tomas@vesecky.net
 # GitHub: veseckytomas
 # GitLab: vesecky.tomas
 #
@@ -32,14 +32,17 @@ if [ "$(sq "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='prov
 fi
 
 # json_valid() must short-circuit malformed provider metadata before json_extract().
-count="$(sq "SELECT count(*) FROM provider_connections WHERE json_valid(provider_specific_data) AND json_extract(provider_specific_data,'$.prefix')='litellm' AND (max_concurrent IS NULL OR max_concurrent != 4);")"
+# maxWaitMs=1000 shrink-waits a full 4-slot pool to ~1s so combos cascade fast (default 60s).
+count="$(sq "SELECT count(*) FROM provider_connections WHERE json_valid(provider_specific_data) AND json_extract(provider_specific_data,'$.prefix')='litellm' AND (max_concurrent IS NULL OR max_concurrent != 4 OR rate_limit_overrides_json IS NULL OR NOT json_valid(rate_limit_overrides_json) OR COALESCE(json_extract(rate_limit_overrides_json,'$.maxWaitMs'),0) != 1000);")"
 
 if [ "${count:-0}" -eq 0 ]; then
   echo "omniroute-caps: no-op (no litellm cap drift found)"
   exit 0
 fi
 
-# Nix owns this cap, so every valid litellm row is corrected on each run.
-sq "UPDATE provider_connections SET max_concurrent=4 WHERE json_valid(provider_specific_data) AND json_extract(provider_specific_data,'$.prefix')='litellm';" >/dev/null
+# json_set preserves other operator overrides while Nix owns cap + maxWaitMs.
+sq "UPDATE provider_connections SET max_concurrent=4,
+  rate_limit_overrides_json=json_set(CASE WHEN json_valid(rate_limit_overrides_json) THEN rate_limit_overrides_json ELSE '{}' END,'$.maxWaitMs',1000)
+  WHERE json_valid(provider_specific_data) AND json_extract(provider_specific_data,'$.prefix')='litellm';" >/dev/null
 
-echo "omniroute-caps: set $count litellm cap row(s) to max_concurrent=4"
+echo "omniroute-caps: set $count litellm row(s) to cap 4 + maxWaitMs 1000"

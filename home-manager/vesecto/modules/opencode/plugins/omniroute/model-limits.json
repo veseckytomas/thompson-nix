@@ -13,11 +13,11 @@
       "context": 1048576,
       "output": 65536
     },
-    "cc/claude-fable-5-1": {
+    "ctu-cc/claude-fable-5-1": {
       "context": 1000000,
       "output": 128000
     },
-    "cc/claude-haiku-4-5-20251001": {
+    "ctu-cc/claude-haiku-4-5-20251001": {
       "context": 200000,
       "output": 64000
     },
@@ -25,7 +25,7 @@
       "context": 200000,
       "output": 64000
     },
-    "cc/claude-opus-5": {
+    "ctu-cc/claude-opus-5": {
       "context": 1000000,
       "output": 128000
     },
@@ -33,7 +33,7 @@
       "context": 1000000,
       "output": 128000
     },
-    "cc/claude-sonnet-5": {
+    "ctu-cc/claude-sonnet-5": {
       "context": 1000000,
       "output": 128000
     },
