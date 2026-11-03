@@ -6,7 +6,7 @@
 /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
                          /_/
 Tomáš Vesecký
-Email: vesecky@proton.me
+Email: tomas@vesecky.net
 GitHub: veseckytomas
 GitLab: vesecky.tomas
 -->
@@ -18,6 +18,8 @@ GitLab: vesecky.tomas
 **The gate asserts that every seeded resilience leaf is still read at runtime; a FAIL means the literal in `verify-omniroute-resilience-readers.py`'s `CONTRACTS` no longer matches upstream's text, which is not the same as the reader being gone.** Decide which before touching the literal: trace the leaf to its decision in the packed tarball (`npm pack omniroute@<version>`), and retarget only if the read survives — for `comboCooldownWait.budgetMs` that means `budgetLeftMs` still reaching `comboAttemptLoop.ts`. A genuinely dropped reader means the seeded value is dead config and must be reported, never papered over by relaxing the literal. Retargeting also means updating the matching fixture in `verify-omniroute-resilience-readers-test.sh`, whose `@`-free steps are tokenized exactly — a trailing comma is a mismatch. Both run under `checks.x86_64-linux.lint`.
 
 ## Chain invariants
+
+**A version downgrade poisons `providerSpecificData` secrets (gh/ 2026-11-02):** ≥3.8.52 encrypts PSD secret fields (`copilotToken` et al. — `PROVIDER_SPECIFIC_SECRET_FIELDS`) at rest **and decrypts on read**; 3.8.51 neither, so rows ciphertext-enveloped under ≥3.8.52 hand the executor a raw `enc:v1:…` string as the Bearer token → GitHub 400 “`IDE token is malformed … invalid token format`”. Real fix = bump the pin back (rebuild). SQL shortcut while stuck on 3.8.51: `json_remove(psd,'$.copilotToken','$.copilotTokenExpiresAt')` + `is_active=1` — the executor refreshes itself with a fresh plaintext sub-token on the next request using the still-valid device-flow `access_token` (decryptable by both versions). Never attempt dashboard re-auth as the cure on 3.8.51: it saves a plaintext PSD row while top-level `refresh_token` stays NULL, so any later ciphertext revert strand-locks the row.
 
 **OmniRoute chains carry two invariants:** every chain in `chains.json` ends with `ctu/vic/GLM-5.3-Flash` (the unmetered self-hosted last resort, documented in the VPN-only wiki at `https://gitlab.dev1/ppsr-26/ai-coding/lokalni-ai/-/wikis/home` — `strategy` is `priority`, so keep it last), and `contextCeiling` in `providers/omniroute.nix` caps every advertised window at 250k to avoid context rot. `limit.context` is `min(member floor, ceiling)`, so the clamp only lowers — `quick-chain` stays at 128k because `litellm/mini` is genuinely that small. Adding a chain member needs a `model-limits.json` entry too, or the eval throws by design.
 
@@ -41,7 +43,7 @@ Then two layers reorder what you wrote. `reasoning = true` on a model makes open
 
 ## Per-provider concurrency caps
 
-**OmniRoute per-provider concurrency caps are Nix-provisioned, not dashboard state:** `plugins/omniroute/connection-caps.{nix,sh}` sets `provider_connections.max_concurrent=4` on the e-infra `litellm` connection before every gateway start, so `executeTargetGates` skips a full litellm pool and the priority chain advances to the next member instead of queueing. The cap is identified by `json_extract(provider_specific_data,'$.prefix')='litellm'`, and a manual dashboard edit of this value is stomped the next time `omniroute-connection-caps` runs — normally on the next `omniroute.service` start — because Nix is the source of truth; the gateway itself reads the cap per request, so no gateway restart is needed once the DB is written. The `ctu` connection intentionally stays uncapped (NULL).
+**OmniRoute per-provider concurrency caps are Nix-provisioned, not dashboard state:** `plugins/omniroute/connection-caps.{nix,sh}` sets `provider_connections.max_concurrent=4` and `rate_limit_overrides_json.maxWaitMs=1000` on the e-infra `litellm` connection before every gateway start. The cap makes `executeTargetGates` skip a full litellm pool; the maxWaitMs override shortens the *other* wait — the account semaphore in `chatCore` (`acquireConcurrencyGates`, key `provider:<connectionId>`, shared by every chain at once) waits only ~1s on a full pool instead of the global 60s `requestQueue.maxWaitMs`, so overflowed members cascade to the next chain member in ~1s instead of parking for a minute. The cap is identified by `json_extract(provider_specific_data,'$.prefix')='litellm'`, and a manual dashboard edit of either value is stomped the next time `omniroute-connection-caps` runs — normally on the next `omniroute.service` start — because Nix is the source of truth; the override map is loaded at gateway startup only, so a hand-written `rate_limit_overrides_json` needs a gateway restart to load (the deployed script runs pre-start, so the normal flow already has it). The `ctu` connection intentionally stays uncapped (NULL).
 
 ## Combo-keyed tables and unit ordering
 
