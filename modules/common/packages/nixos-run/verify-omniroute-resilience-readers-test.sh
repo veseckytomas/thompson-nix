@@ -22,7 +22,7 @@ desired='{
   "waitForCooldown": {"enabled": false, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000},
   "providerBreaker": {
     "oauth": {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000},
-    "apikey": {"failureThreshold": 4, "degradationThreshold": 2, "resetTimeoutMs": 60000}
+    "apikey": {"failureThreshold": 12, "degradationThreshold": 6, "resetTimeoutMs": 60000}
   }
 }'
 EOF
