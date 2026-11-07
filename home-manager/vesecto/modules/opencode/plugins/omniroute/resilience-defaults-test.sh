@@ -36,7 +36,7 @@ assert_json() {
 
 run_script >/dev/null
 settings="$(read_settings)"
-assert_json "$settings" '.providerBreaker.apikey == {"failureThreshold": 4, "degradationThreshold": 2, "resetTimeoutMs": 60000}'
+assert_json "$settings" '.providerBreaker.apikey == {"failureThreshold": 12, "degradationThreshold": 6, "resetTimeoutMs": 60000}'
 assert_json "$settings" '.providerBreaker.oauth == {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000}'
 
 sqlite3 "$db" <<'SQL'
@@ -52,7 +52,7 @@ SQL
 run_script >/dev/null
 settings="$(read_settings)"
 assert_json "$settings" '.unrelated.keep == true and .providerBreaker.custom.keep == "yes"'
-assert_json "$settings" '.providerBreaker.apikey == {"failureThreshold": 4, "degradationThreshold": 2, "resetTimeoutMs": 60000, "extra": "preserved"}'
+assert_json "$settings" '.providerBreaker.apikey == {"failureThreshold": 12, "degradationThreshold": 6, "resetTimeoutMs": 60000, "extra": "preserved"}'
 assert_json "$settings" '.providerBreaker.oauth == {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000, "extra": "preserved"}'
 
 before="$settings"

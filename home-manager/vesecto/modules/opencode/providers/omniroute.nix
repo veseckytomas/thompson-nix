@@ -15,7 +15,7 @@
   effortOrder = ["none" "low" "medium" "high" "xhigh" "max"];
   # A bare member id resolves to no combo, so the gateway pins it with no chain fallback.
   pinnedIds = [
-    "ctu-cc/claude-fable-5-1"
+    "cc/claude-fable-5-1"
     "cc/claude-opus-5-5"
     "cc/claude-sonnet-5-5"
     "cc/claude-haiku-5-5"

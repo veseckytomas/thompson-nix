@@ -12,6 +12,7 @@
 #
 # Bound cooldown waits instead of disabling them: a short wait rides out a transient
 # breaker, while waitForCooldown stays off so nothing can park a request for 300s.
+# apikey thr must tolerate one 5xx combo fan-out (4 slots × cascade), else OPEN gates 503 every litellm target (2026-11-04).
 set -euo pipefail
 
 db="${OMNIROUTE_DB:?OMNIROUTE_DB not set}"
@@ -23,7 +24,7 @@ desired='{
   "waitForCooldown": {"enabled": false, "maxRetries": 10, "maxRetryWaitSec": 300, "budgetMs": 300000},
   "providerBreaker": {
     "oauth": {"failureThreshold": 24, "degradationThreshold": 12, "resetTimeoutMs": 15000},
-    "apikey": {"failureThreshold": 4, "degradationThreshold": 2, "resetTimeoutMs": 60000}
+    "apikey": {"failureThreshold": 12, "degradationThreshold": 6, "resetTimeoutMs": 60000}
   }
 }'
 
@@ -70,5 +71,5 @@ SELECT changes();")"
 if [ "$changed" = "0" ]; then
   echo "omniroute-resilience: no-op (already provisioned)"
 else
-  echo "omniroute-resilience: provisioned 15s cooldown wait + oauth 24/12/15s and apikey 4/2/60s breakers"
+  echo "omniroute-resilience: provisioned 15s cooldown wait + oauth 24/12/15s and apikey 12/6/60s breakers"
 fi
