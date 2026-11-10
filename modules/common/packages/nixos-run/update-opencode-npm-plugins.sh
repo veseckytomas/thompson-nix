@@ -23,11 +23,6 @@ cp "$target" "$tmp"
 changed=0
 while IFS= read -r pkg; do
     current="$(jq -r --arg p "$pkg" '.[$p]' "$tmp")"
-    # omniroute 3.8.52 stalls chat (docs/gotchas/omniroute.md); bump by hand once fixed.
-    if [ "$pkg" = omniroute ]; then
-        printf 'omniroute: %s (skipped, 3.8.52 broken)\n' "$current"
-        continue
-    fi
     latest="$(curl -fsSL "https://registry.npmjs.org/${pkg}" 2>/dev/null | jq -r '."dist-tags".latest // empty')"
     if [ -z "$latest" ]; then
         printf 'WARN: could not resolve latest for %s (keeping %s)\n' "$pkg" "$current" >&2

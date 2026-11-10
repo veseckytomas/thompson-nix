@@ -50,3 +50,7 @@ The three survivors are reachable:
 - `build-nodes-nix-profile` (build-time).
 
 Judge reachability by tracing the gate, never by the patch name.
+
+## The relink helper is gone (bun ≥1.4.4)
+
+**`relink-build-symlinks.py` was dropped, not patched:** bun ≤1.4.2's hoisted linker emitted absolute `/build/source/…` symlinks into the copied `node_modules`, which the helper re-pointed into `$out`; bun 1.4.4 hoists nested members itself (its output carries zero build-dir links — verified on both the rejected `a815fdf` and the promoted `0d890b9`), so the helper's own fail-loud contract would kill every future build as dead code. If a bun bump ever reintroduces dangling `/build` links, the failure will surface in `fixupPhase` (dangling symlink), and the recovery is to restore the helper from git history rather than reinstall the FATAL guard.

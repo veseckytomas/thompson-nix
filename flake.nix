@@ -238,6 +238,30 @@
     pkgs = import inputs.nixpkgs {
       inherit system;
       config = {allowUnfree = true;};
+      # geopandas pytest fails via installCheckPhase even with doCheck=false; nixpkgs#584540, skiplist only lands at 1.2.0.
+      overlays = [
+        (
+          _: prev: {
+            taskwarrior3 = prev.taskwarrior3.overrideAttrs (old: {
+              # taskchampion staticlib leaves libsqlite3-sys's -lsqlite3 unembedded; corrosion link list omits it, CMake exe link must add it.
+              buildInputs = (old.buildInputs or []) ++ [prev.sqlite];
+              cmakeFlags = (old.cmakeFlags or []) ++ ["-DCMAKE_EXE_LINKER_FLAGS=-lsqlite3"];
+            });
+            python3Packages = prev.python3Packages.overrideScope (
+              _: pprev: {
+                geopandas = pprev.geopandas.overridePythonAttrs (_: {
+                  doCheck = false;
+                  doInstallCheck = false;
+                });
+                speechrecognition = pprev.speechrecognition.overridePythonAttrs (_: {
+                  doCheck = false;
+                  doInstallCheck = false;
+                });
+              }
+            );
+          }
+        )
+      ];
     };
     pkgs-stable = import inputs.nixpkgs-stable {
       inherit system;

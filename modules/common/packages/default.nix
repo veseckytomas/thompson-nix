@@ -38,16 +38,6 @@
       });
       # swt 4.34 strips -Werror in its own postPatch, so the -Wno-error override this overlay used to carry is gone.
       inherit (pkgs-stable) swt;
-      # Upstream glues "--reruns 3" into one argv, which structuredAttrs no longer word-splits, so pytest collects 0 tests and exits 5 (NixOS/nixpkgs#579425).
-      pythonPackagesExtensions =
-        prev.pythonPackagesExtensions
-        ++ [
-          (_: pyPrev: {
-            qtile-extras = pyPrev.qtile-extras.overridePythonAttrs (_: {
-              pytestFlags = ["--reruns" "3" "--reruns-delay" "5"];
-            });
-          })
-        ];
     })
   ];
 

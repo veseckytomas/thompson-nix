@@ -9,18 +9,17 @@ This repository contains these configurations:
 
 ## Temporary pins & workarounds
 
-Audited 2026-10-26 — every entry below is still required; nothing was safely removable. Lift the pin only when its condition is met. See `docs/gotchas/` for the deep dives.
+Audited 2026-11-07 — every entry below is still required; nothing else was safely removable. Lift the pin only when its condition is met. See `docs/gotchas/` for the deep dives.
 
 | Pin / workaround | Why it's needed | Lift when |
 | --- | --- | --- |
 | `nixpkgs-opencode` input pinned to rev `09063bd` (opencode 1.19.0) | oh-my-openagent has not ported to opencode 2.x | `code-yeongyu/oh-my-openagent#9391` merges |
-| `omniroute` sidecar locked at 3.8.51 (`plugins/npm-plugins.json`) | ≥3.8.52 breaks the gateway (zombie connection breakers, omniroute#17324) | upstream ships the fix in a release |
 | `graphify-src` flake.lock pin (v0.9.x tag) | v1.x/main dropped `uv.lock`, which the uv2nix build requires | upstream ships a release restoring a lockfile |
-| `oh-my-openagent` dev pin (`flake.lock`) + 3 patches + inline `substituteInPlace` fixes | upstream still ships the bugs they patch | upstream merges equivalents — see `docs/gotchas/oh-my-openagent.md`; dropped patches survive under `refs/dropped-patches/*` |
+| `oh-my-openagent` dev pin (`flake.lock`) + 1 patch + inline `substituteInPlace` fixes | upstream still ships the bugs they patch | upstream merges equivalents — see `docs/gotchas/oh-my-openagent.md`; dropped patches survive under `refs/dropped-patches/*` |
 | `ratbagd` input pinned to master rev `8235b5bb` (post-v0.18) | newer device support than nixpkgs ships | nixpkgs ships ratbagd ≥ this rev |
 | `piper` input pinned to master rev `5d3c8845` | pairs with the pinned ratbagd | same as above |
 | openfortivpn `max_tries` patch (`modules/networking/fortivpn.nix`) | upstream master still hardcodes 5 connection retries | upstream makes it configurable |
-| avahi `ExecStartPre= mkdir /run/avahi-daemon` (`modules/common/common.nix`) | NixOS/nixpkgs#554650 — daemon fails without it | nixpkgs fixes #554650 |
+| avahi `ExecStartPre= rm -f /run/avahi-daemon/pid` (`modules/common/common.nix`) | NixOS/nixpkgs#554650 — daemon fails without it | nixpkgs fixes #554650 |
 | `networkmanager-recover` service | dbus-broker v37 can drop NetworkManager off the bus | dbus-broker v38+ lands in our nixpkgs |
 | eduroam pinned CA certificate (`modules/networking/eduroam.nix`) | environmental: this network's CA isn't in the system store | the CTU/eduroam CA chain changes |
 | Hyprland uwsm session removal (`modules/windowManagers/hyprland.nix`) | package ships a uwsm session file while `withUWSM` is off | upstream stops shipping the desktop file unconditionally |
@@ -28,23 +27,22 @@ Audited 2026-10-26 — every entry below is still required; nothing was safely r
 | `librewolf-bin.json` pin | nixpkgs librewolf binary is unmaintained | nixpkgs package becomes trustworthy |
 | `tock` input + `tock.json` rev pin | kriuchkov/tock is not in nixpkgs — required vendoring | upstream adds it to nixpkgs |
 | udiskie `keyutils.py` patch (`modules/common/packages/default.nix`) | NixOS/nixpkgs#576985 — `buffer.value` truncates a keyring's serial array at the first NUL byte, so the check phase dies | upstream fixes the `read_key` return |
-| qtile-extras `pytestFlags` override (`modules/common/packages/default.nix`) | NixOS/nixpkgs#579425 — structuredAttrs stopped word-splitting `--reruns 3`, so pytest collects 0 tests and exits 5 | nixpkgs splits the flag itself |
 | openldap `doCheck = false` (`modules/common/packages/default.nix`) | its test suite fails in the build sandbox | nixpkgs makes the suite sandbox-clean |
 | `swt` inherited from `pkgs-stable` (`modules/common/packages/default.nix`) | unstable's swt 4.34 fails to build | unstable's swt builds again |
 
 ## Self-healing mechanisms
 
-Audited 2026-10-26 on the live machine (previous boot, scenario S4 = read-only diagnosis; no destructive live-fire tests). Status legend: **WORKING** = observed healthy; **WIRED** = correctly installed, no failure to heal yet; **ARMED** = timer/trigger only, not live-verified; **BROKEN** = confirmed dead.
+Audited 2026-11-07 on the live machine (read-only diagnosis; no destructive live-fire tests). Status legend: **WORKING** = observed healthy; **WIRED** = correctly installed, no failure to heal yet; **ARMED** = timer/trigger only, not live-verified; **BROKEN** = confirmed dead.
 
 | Mechanism | What it does | Status |
 | --- | --- | --- |
 | autorandr converge chain (`modules/common/autorandr.nix`) | re-applies the detected monitor profile after switch/resume | WORKING |
-| G502 DPI reassert (`modules/common/gaming-mouse.nix`: udev → `g502-dpi.service` via ratbagd) | restores the DPI index the KVM switch resets | **BROKEN** — `ratbagd.service` has failed to load since ~Gen 346: the old `serviceConfig.ExecStart = lib.mkForce` added a **second** `ExecStart` line to the non-oneshot unit, and systemd rejects that with "bad unit file setting". Fix applied in this audit (override removed; `nix eval …systemd.services.ratbagd.serviceConfig` now = `{}`). Verdict flips to WORKING after rebuild. |
+| G502 DPI reassert (`modules/common/gaming-mouse.nix`: udev → `g502-dpi.service` via ratbagd) | restores the DPI index the KVM switch resets | WORKING — ratbagd.service loads again since the second `ExecStart` override was removed (~Gen 355); a second `ExecStart` is illegal on a non-oneshot unit, so the override was dropped and the source comment bans its return. |
 | NetworkManager-recover (`modules/networking/networkmanager-recover.nix`) | restarts NetworkManager when dbus-broker v37 drops it | WIRED — never fired, nothing to heal |
-| NetworkManager ensure-profiles (`modules/networking/vpn.nix`) | declaratively re-provisions the vic-vpn + eduroam profiles from a secrets env file | **BROKEN** — `NetworkManager-ensure-profiles.service` fails on every boot: `EnvironmentFile=/etc/NetworkManager/vic-vpn-secrets.env` does not exist on this machine, so the unit dies on resources and both profiles are absent from `nmcli`. Fix lives in the uncommitted WIP on this branch (removes the env-file reference). |
+| NetworkManager ensure-profiles (`modules/networking/vpn.nix`) | declaratively re-provisions the vic-vpn + eduroam profiles | WORKING — service succeeds on boot; the stale `EnvironmentFile` reference is gone, so profiles re-provision without a secrets env file (secrets live in gnome-keyring per the VPN setup section). |
 | omniroute-connectivity dispatcher (`modules/networking/omniroute-connectivity.nix`) | NetworkManager dispatcher (`03userscript0001`) restarts the user omniroute gateway on carrier flaps | WIRED — unit and script deployed, loop logic sound |
-| omniroute.service (`home-manager/.../opencode/plugins/omniroute/`) | `Restart=on-failure` + install-time pinned-version self-heal | WORKING — running `omniroute@3.8.51`, matches the pin |
-| vic-vpn-watchdog (`modules/networking/vic-vpn-watchdog.nix`) | timer prods the fortivpn connection | WORKING but **removed in the uncommitted WIP** — the watchdog masked the root cause, which `disable_udp=yes` fixed |
+| omniroute.service (`home-manager/.../opencode/plugins/omniroute/`) | `Restart=on-failure` + install-time pinned-version self-heal | WORKING — pin `omniroute@3.8.53` (3.8.52–3.8.54 gap closed by upstream #17324 fix, shipped in v3.8.53); service picks it up on next switch |
+| vic-vpn-watchdog (`modules/networking/vic-vpn-watchdog.nix`) | timer prods the fortivpn connection | REMOVED (committed ~Gen 354) — the watchdog masked the root cause, which `disable_udp=yes` fixed | |
 | rclone mounts (`home-manager/vesecto/modules/rclone.nix`) | stale-FUSE cleanup before mount + `Restart=on-failure` per remote | WORKING |
 | keyboxd socket activation + hardened gpg-decrypt (`home-manager/vesecto/modules/gnupg/`) | keeps signing/decryption working across session restarts | WORKING — provision service succeeded |
 | borgbackup (`modules/common/backups.nix`) | daily timer with `RestartSec=5m` + OnFailure notification | ARMED — timer only, not live-fired |
