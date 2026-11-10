@@ -29,22 +29,6 @@
       "context": 1000000,
       "output": 128000
     },
-    "ctu-cc/claude-fable-5-1": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "ctu-cc/claude-haiku-5-5": {
-      "context": 200000,
-      "output": 64000
-    },
-    "ctu-cc/claude-opus-5-5": {
-      "context": 1000000,
-      "output": 128000
-    },
-    "ctu-cc/claude-sonnet-5-5": {
-      "context": 1000000,
-      "output": 128000
-    },
     "ctu/vic/GLM-5.3-Flash": {
       "context": 262144,
       "output": 32768

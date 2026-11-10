@@ -14,6 +14,7 @@
     ./connection-caps.nix
     ./diagnostics-cli.nix
     ./gateway.nix
+    ./kimi-effort-vocab.nix
     ./normalize-providers.nix
     ./resilience-defaults.nix
   ];

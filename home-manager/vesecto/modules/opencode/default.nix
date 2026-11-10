@@ -627,7 +627,16 @@ in {
       codegraph
       graphify
       pkgs.claude-code
-      pkgs.codex
+      (pkgs.codex.overrideAttrs (old: {
+        buildInputs =
+          (old.buildInputs or [])
+          ++ [
+            pkgs.aws-lc
+            pkgs.oniguruma
+            pkgs.zstd
+            pkgs.sqlite
+          ];
+      }))
       pkgs.github-copilot-cli
       pkgs.antigravity-cli
       context7KeyCheck

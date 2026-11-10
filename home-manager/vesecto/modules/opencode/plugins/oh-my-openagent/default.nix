@@ -135,9 +135,8 @@
       cp package.json postinstall.mjs $out/
       cp -R dist bin node_modules .opencode .agents packages $out/
 
-      python3 ${./relink-build-symlinks.py} $out
-
       chmod +x $out/bin/oh-my-opencode.js
+
       ln -s oh-my-opencode.js $out/bin/oh-my-openagent
       ln -s oh-my-opencode.js $out/bin/oh-my-opencode
       ln -s oh-my-opencode.js $out/bin/omo
