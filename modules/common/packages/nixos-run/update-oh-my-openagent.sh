@@ -129,53 +129,12 @@ regenerate_bun_nix() {
   local bun2nix_rev
   bun2nix_rev="$(jq -er '.nodes as $n | $n[$n.root.inputs["bun2nix"]].locked.rev' "$candidate")" || return 1
 
-  # An ephemeral copy: the arity transform below must never reach the shipped lock.
+  # bun2nix reads ./bun.lock from cwd; the shipped lock stays untouched.
   cp "$lock_target" "$tmpdir/bun.lock" || return 1
   if [ ! -s "$tmpdir/bun.lock" ]; then
     printf 'oh-my-openagent: derived bun.lock is empty\n' >&2
     return 1
   fi
-
-  # bun2nix dispatches on tuple arity alone, so its github: handler is reachable only at 3.
-  python3 - "$tmpdir/bun.lock" <<'PY' || return 1
-import re
-import sys
-from pathlib import Path
-
-path = Path(sys.argv[1])
-lines = path.read_text().split("\n")
-
-# Only "packages" holds tuples; the workspace section names github: specs as plain strings.
-try:
-    start = next(i for i, l in enumerate(lines) if re.match(r'\s*"packages":\s*\{', l))
-except StopIteration:
-    sys.exit("bun.lock has no packages section; it changed shape")
-
-entry = re.compile(r'^\s+"(?:[^"\\]|\\.)+":\s*\["[^"]*@github:')
-# Integrity is always last and always hash-prefixed, unlike the resolved-dir element.
-integrity = re.compile(r',\s*"(?:sha512|sha256|sha1)-[^"]*"\s*(\],?\s*)$')
-
-seen = stripped = 0
-for i in range(start + 1, len(lines)):
-    if re.match(r"^\s{2}\}", lines[i]):
-        break
-    if not entry.match(lines[i]):
-        continue
-    seen += 1
-    rewritten = integrity.sub(r"\1", lines[i])
-    if rewritten != lines[i]:
-        lines[i] = rewritten
-        stripped += 1
-
-if seen == 0:
-    sys.exit("no github: package entries; this transform is anchored to nothing")
-# A no-op here means bun or bun2nix changed behaviour and the transform should go, not idle.
-if stripped == 0:
-    sys.exit(f"all {seen} github: entries already lack integrity; drop this transform")
-
-path.write_text("\n".join(lines))
-print(f"normalised {stripped} of {seen} github: entr(ies) for bun2nix")
-PY
 
   if ! (cd "$tmpdir" && nix run "github:nix-community/bun2nix/$bun2nix_rev" -- -o oh-my-openagent-bun.nix); then
     printf 'bun2nix could not process the new bun.lock\n' >&2
