@@ -37,7 +37,7 @@ Connection ids behind the prefixes: `litellm` = openai-compatible
 
 Fixed, per chain:
 
-1. direct — `cc/` or `cx/`
+1. direct — `cx/` (`cc/` is pinned-only via `pinnedIds`; never a chain member, except the three obsidian chains below)
 2. `gh/`
 3. `antigravity/`
 4. `litellm/<best fit for the chain>` — always second-to-last
@@ -75,15 +75,20 @@ gateway can shape it:** check `src/shared/constants/modelSpecs.ts` in the
 installed `omniroute@<pin>` first. Routing reads the live catalog, but request
 shaping (max_tokens cap, tool_choice, thinking support) reads that static
 table — a model that routes but is absent from it mis-resolves by prefix and
-400s. On the 3.8.51 pin the claude `-5-5` line is absent, so the upgrades
-below are gated OFF until the pin catches up:
+400s.
 
-- `claude-haiku-4-5-20251001` → ~~`claude-haiku-5-5`~~ (gated: not in 3.8.51 spec table)
-- `claude-sonnet-5` → ~~`claude-sonnet-5-5`~~ (gated: not in 3.8.51 spec table)
-- `claude-opus-4-6` → ~~`claude-opus-5-5`~~ (gated: not in 3.8.51 spec table)
+The claude `-5-5` gates (2026-10 precedent) lifted at `omniroute@3.8.53`, which
+carries all three ids; the chains ride them now. The pin currently gates one
+upgrade:
 
-Re-enable by deleting the "(gated…)" notes once the pin's spec table carries
-the `-5-5` ids (`grep -c '"claude-opus-5-5"' …/modelSpecs.ts` > 0).
+- `claude-fable-5-1` → ~~`claude-fable-5-2`~~ (gated: absent from the 3.8.53 spec
+  table — prefix matching resolves `5-2` to Fable 5's spec, which lacks 5.1's
+  `rejectsForcedToolChoice`, so like-shaping is unverified and a pinned id has
+  no fallback member to absorb the 400)
+
+Re-enable by deleting the "(gated…)" note once the pin's spec table carries the
+id (`grep -c '"claude-fable-5-2"' …/modelSpecs.ts` > 0), then re-read the 5-2
+spec entry — its flags may differ from 5.1's.
 
 Strip a trailing `-20\d{6}` date stamp before comparing versions, or the dated
 id sorts below its successor and the upgrade silently fails.
@@ -91,6 +96,21 @@ id sorts below its successor and the upgrade silently fails.
 Never auto-select these variants as a substitute:
 `-tiered`, `-lite`, `-disabled`, `-utility`, `-preview`, `-reserve`, and the
 `exec-agent` / `copilot-search` / `trajectory` families.
+
+## Obsidian chains carry `cc/`
+
+`didaskalos-chain`, `eurybates-chain` and `mageiros-chain` are owned by the
+thompson-obsidian agents, not by omo or GSD, and they lead with direct
+Anthropic (`cc/`) members by decision of the vault owner. The derivation
+(`resolve_family` order) never places `cc/` on a chain, so keep those members
+exactly as they stand; a later run may renew their ids via keep-newer, but
+never drop a `cc/` member or add one elsewhere.
+
+| chain | cc/ members |
+|---|---|
+| didaskalos-chain | opus-5-5, sonnet-5-5, fable-5-1 |
+| eurybates-chain | sonnet-5-5, fable-5-1, opus-5-5 |
+| mageiros-chain | haiku-5-5, sonnet-5-5 |
 
 ## Bare ids
 

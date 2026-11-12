@@ -24,6 +24,9 @@ OMNI = REPO / "home-manager/vesecto/modules/opencode/plugins/omniroute"
 OMO_JSONC = REPO / "home-manager/vesecto/modules/opencode/plugins/oh-my-openagent/omo.jsonc"
 DB = Path.home() / ".local/share/omniroute/data/storage.sqlite"
 TAIL = "ctu/vic/GLM-5.3-Flash"
+# The only chains allowed (and required) to carry cc/ members; their consumers
+# live in thompson-obsidian, not omo.jsonc.
+OBSIDIAN = {"didaskalos-chain", "eurybates-chain", "mageiros-chain"}
 
 fails: list[str] = []
 
@@ -70,9 +73,13 @@ def main() -> int:
     dupes = {n: ms for n, ms in ch.items() if len(ms) != len(set(ms))}
     check(not dupes, "no duplicate members", str(sorted(dupes)))
 
+    cc = {n: ms for n, ms in ch.items() if any(m.startswith("cc/") for m in ms)}
+    check(set(cc) == OBSIDIAN,
+          "cc members only in the three obsidian chains",
+          f"carry cc: {sorted(set(cc) - OBSIDIAN)}, missing: {sorted(OBSIDIAN - set(cc))}")
+
     cons = consumers()
-    obsidian = {"didaskalos-chain", "eurybates-chain", "mageiros-chain"}
-    orphans = sorted(set(ch) - set(cons) - obsidian)
+    orphans = sorted(set(ch) - set(cons) - OBSIDIAN)
     check(not orphans, "every chain has a consumer", str(orphans))
 
     if "--live" in sys.argv and DB.exists():

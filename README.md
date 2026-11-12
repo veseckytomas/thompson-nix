@@ -248,13 +248,13 @@ curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/api/combos | jq
 curl -s -H "Authorization: Bearer $TOKEN" http://localhost:20128/v1/models | jq -r '.data[].id' | grep -E '^(cc|cx|gh|antigravity|litellm|ctu)/' | sort
 ```
 
-### Chain shape: fallback tail and context cap
+### Chain shape: fallback tail and context windows
 
 Two invariants hold across every chain in `chains.json`, both enforced in Nix rather than by hand.
 
 **Every chain ends with `ctu/vic/GLM-5.3-Flash`.** `strategy` is `priority`, so members are tried in array order and the last one is the last resort — the self-hosted CTU endpoint, unmetered, reached only when every provider ahead of it fails. Keep it last in any chain you add or edit; putting it earlier would route ordinary traffic there and starve the better models.
 
-**Every chain advertises at most 250k context**, via `contextCeiling` in `providers/omniroute.nix`. Long-context attention degrades well before a model's nominal 1M window (context rot), so the ceiling is a deliberate quality choice, not a provider limit. Verify after a rebuild:
+**A chain advertises the smallest member window** (`limit.context` = min across members), while pinned models advertise their own `model-limits.json` window untouched. Since every chain ends with `ctu/vic/GLM-5.3-Flash` (262144), most chains sit there; the outliers at 128000 are `quick-chain`, `librarian-chain`, `explore-chain` and `gsd-plan-checker-chain`, and they are correct: those chains contain 128k-window members (`litellm/mini`, `litellm/qwen3.5`, `litellm/deepseek*`). The window must never exceed what the weakest member can honour, because a `priority` chain can land on any member. Verify after a rebuild:
 
 ```bash
 jq '.provider.omniroute.models | to_entries
@@ -262,8 +262,6 @@ jq '.provider.omniroute.models | to_entries
     | group_by(.ctx) | map({ctx:.[0].ctx, out:.[0].out, chains:length})' \
   ~/.config/opencode/opencode.json
 ```
-
-Most chains sit at 250000; the outliers at 128000 are `quick-chain`, `librarian-chain`, `explore-chain` and `gsd-plan-checker-chain`, and they are correct: `limit.context` is `min(floor across members, 250000)` and those chains contain 128k-window members (`litellm/mini`, `litellm/qwen3.5`, `litellm/deepseek*`), whose real windows are *below* the ceiling. The clamp only ever lowers a window — it must never advertise more than the weakest member can honour, because a `priority` chain can land on any member.
 
 Adding a model to a chain therefore needs **two** edits, in `chains.json` and `model-limits.json`. The latter is not optional: `providers/omniroute.nix` throws on a member id with no limits entry, deliberately, so that a typo fails the build instead of silently advertising a wrong window. A new id must also exist in the gateway's live catalog — `provision-combos.sh` only *warns* about an unknown id, and the chain position then 404s at request time:
 

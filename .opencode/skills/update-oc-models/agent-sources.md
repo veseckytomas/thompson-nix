@@ -108,7 +108,11 @@ similarly-named omo agent.
 ## 3. No upstream documentation
 
 Keep the current members; there is nothing to be faithful to. Each entry below
-records what the agent is for, so a later run need not rediscover it.
+records what the agent is for, so a later run need not rediscover it. Unlike
+every other chain these three **lead with `cc/` members, allowed and desired**
+(owner's decision) — the details and the renewal rule live in the Obsidian
+chains section of `translation-tables.md`; renew ids by keep-newer, never drop
+or move them.
 
 A chain here must still have a consumer. Before trusting one, grep this repo and
 both obsidian worktrees for an agent whose `model:` names it. If nothing
@@ -121,18 +125,21 @@ chain has to be added to that set by hand.
 thompson-obsidian subagent (`.opencode/agents/didaskalos.md`). Turns staged
 lecture recordings, slides and transcripts into citation-grade vault notes, and
 repairs existing lecture notes against their staged sources. Long multimodal
-input, citation accuracy matters.
+input, citation accuracy matters. cc members allowed and desired: opus-5-5,
+sonnet-5-5, fable-5-1.
 
 ### eurybates-chain
 thompson-obsidian agent (`mode: all`) — executive assistant for the vault:
 inbox briefings, reply drafts, LinkedIn drafts, thread notes, TODOs, calendar.
 Reads and drafts freely, never decides to send. Its own agent file calls the
 chain "deliberately a strong chain" and warns against compensating elsewhere —
-do not weaken it.
+do not weaken it. cc members allowed and desired: sonnet-5-5, fable-5-1,
+opus-5-5.
 
 ### mageiros-chain
 thompson-obsidian subagent. Staged recipe extract to finished Czech recipe note;
-also fixes existing recipe notes. Narrow, templated, cheap.
+also fixes existing recipe notes. Narrow, templated, cheap. cc members allowed
+and desired: haiku-5-5, sonnet-5-5.
 
 ## Vision
 

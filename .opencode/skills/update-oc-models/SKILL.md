@@ -28,6 +28,12 @@ deliberate pin, not an oversight — the 2026-10 precedent documented in
 sonnet-family members, not momus-grade models. Read the catalog, never infer
 from the agent name.
 
+**Obsidian chains keep their `cc/` members.** Exactly three chains
+(`mageiros-chain`, `didaskalos-chain`, `eurybates-chain`) may — and should —
+carry models from the EA vault's own agents; the derivation never places
+`cc/`, so preserve them unchanged (see `translation-tables.md` and §3 of
+`agent-sources.md`). Never add a `cc/` member to any other chain.
+
 **Report, never silently substitute.** Any model with no route, and any alias
 that resolves to a different product (`glm-4.6v` → `glm-5.3-flash`), goes in the
 diff shown to the user.
@@ -88,7 +94,8 @@ nix run home-manager/master -- build --flake .#vesecto > /tmp/hm-build.log 2>&1;
 
 Then run the static checks — one `agent-sources.md` row per chain,
 `model-limits.json` covering every member, `ctu/vic/GLM-5.3-Flash` last,
-`litellm/*` second-to-last, no duplicate members, a consumer per chain, and no
+`litellm/*` second-to-last, no duplicate members, a consumer per chain,
+`cc/` members confined to the three obsidian chains and present in each, and no
 stale combo in the DB (--live only):
 
 ```bash
