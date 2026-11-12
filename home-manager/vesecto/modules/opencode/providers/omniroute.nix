@@ -33,8 +33,6 @@
     context = 128000;
     output = 32768;
   };
-  # Capped below every member's real window: attention degrades long before 1M.
-  contextCeiling = 250000;
   # Fail loudly: a silent fallback would advertise a wrong window for a typo'd id.
   limitsOf = m:
     modelLimits.${m}
@@ -62,12 +60,7 @@
           output = ["text"];
         };
         limit = {
-          context = let
-            f = floorOf c "context";
-          in
-            if f < contextCeiling
-            then f
-            else contextCeiling;
+          context = floorOf c "context";
           output = floorOf c "output";
         };
         cost = {
@@ -91,13 +84,7 @@
           input = ["text" "image"];
           output = ["text"];
         };
-        limit = {
-          context =
-            if context < contextCeiling
-            then context
-            else contextCeiling;
-          inherit output;
-        };
+        limit = {inherit context output;};
         cost = {
           input = 0;
           output = 0;

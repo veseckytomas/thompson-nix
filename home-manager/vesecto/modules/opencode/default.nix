@@ -335,6 +335,16 @@ in {
           # `ask`, not `deny`: the glob cannot tell a `--get` read from an identity write.
           "*config*user.email*" = afterAllows "ask";
           "*config*user.name*" = afterAllows "ask";
+          # rm is fatal at home scale (2026-11-12: rm -rf ~ killed mid-recursion,
+          # ~30G of cache/data unrecoverable). `* rm *` closes mid-chain use
+          # (`echo x && rm ...`, `sudo rm ...`); the git rm carve-out lands after
+          # both (+ the glab/gsd allows) so the last match is the allow.
+          "rm *" = afterAllows "deny";
+          "* rm *" = afterAllows "deny";
+          "git rm *" = lib.hm.dag.entryAfter ["rm *" "* rm *"] "allow";
+          # deletion = trash instead; ask before each trash run.
+          "trash *" = afterAllows "ask";
+          "trash" = afterAllows "ask";
         };
       };
       # reserved leaves headroom to compact before a chain's real floor (min 128k).
