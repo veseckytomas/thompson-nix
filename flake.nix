@@ -479,6 +479,9 @@
         bash modules/common/packages/nixos-run/verify-omniroute-resilience-readers-test.sh
         bash home-manager/vesecto/modules/opencode/plugins/omniroute/diagnostics-cli-test.sh
         bash home-manager/vesecto/modules/opencode/plugins/omniroute/resilience-defaults-test.sh
+        bash home-manager/vesecto/modules/opencode/plugins/omniroute/connection-caps-test.sh
+        bash home-manager/vesecto/modules/opencode/plugins/omniroute/patch-semaphore-failfast-test.sh
+        bash home-manager/vesecto/modules/opencode/plugins/omniroute/patch-operator-rules-global-test.sh
         touch $out
       '';
 
@@ -494,6 +497,11 @@
       ykman-run = pkgs.callPackage ./modules/common/packages/ykman-run {};
       graphify = import ./home-manager/vesecto/modules/opencode/graphify {
         inherit inputs pkgs;
+      };
+      # Needs the npm-installed gateway, which the sandbox lacks, so it is an app, not a check.
+      omniroute-e2e = import ./home-manager/vesecto/modules/opencode/plugins/omniroute/e2e.nix {
+        inherit pkgs;
+        gatewayService = vesectoHome.config.systemd.user.services.omniroute.Service;
       };
     };
   };

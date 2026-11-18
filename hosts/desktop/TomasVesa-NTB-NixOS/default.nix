@@ -12,6 +12,7 @@
   imports = [
     ./configuration.nix
     ./hardware-configuration.nix
+    ./lid-display.nix
     ./power-profile.nix
     # ./combine-headphones.nix
     # ./media-server.nix

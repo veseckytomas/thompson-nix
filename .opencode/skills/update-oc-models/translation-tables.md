@@ -46,6 +46,12 @@ Fixed, per chain:
 If omo lists no litellm entry for a chain, synthesize one to match the chain's
 weight: `glm-5.3` for heavyweight chains, `glm-5.3-flash` for lightweight ones.
 
+Owner decision (2026-11): every rung may resolve to `gh` because gh mirrors
+everything ag carries — yet ag stays as a mid-chain fallback wherever the
+previous run had one. Re-place each chain's current `antigravity/` member(s)
+just before the litellm slot, unchanged, even when the strict order places
+nothing on the prefix.
+
 ## Model aliases
 
 omo id on the left, resolved target on the right.

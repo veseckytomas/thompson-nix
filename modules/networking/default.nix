@@ -13,7 +13,7 @@
     ./eduroam.nix
     ./fortivpn.nix
     ./networkmanager-recover.nix
-    ./omniroute-connectivity.nix
+    # ./omniroute-connectivity.nix
     ./omniroute-proxy.nix
     ./vpn.nix
   ];
