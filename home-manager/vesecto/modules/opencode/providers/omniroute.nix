@@ -48,6 +48,11 @@
         then a
         else b) (builtins.head vals)
       vals;
+  # opencode compacts at context - output, so an output over half the context would starve the prompt.
+  sane = id: l:
+    if l.output * 2 > l.context
+    then throw "omniroute: '${id}' output ${toString l.output} exceeds half its context ${toString l.context}; lower it in model-limits.json"
+    else l;
   comboModels = builtins.listToAttrs (map (c: {
       inherit (c) name;
       value = {
@@ -59,7 +64,7 @@
           input = ["text" "image"];
           output = ["text"];
         };
-        limit = {
+        limit = sane c.name {
           context = floorOf c "context";
           output = floorOf c "output";
         };
@@ -84,7 +89,7 @@
           input = ["text" "image"];
           output = ["text"];
         };
-        limit = {inherit context output;};
+        limit = sane m {inherit context output;};
         cost = {
           input = 0;
           output = 0;

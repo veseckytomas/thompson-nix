@@ -82,6 +82,8 @@
       echo "opencode: context7 key not readable - the context7 MCP server will reject every call" >&2
     fi
   '';
+  # opencode sends min(limit.output, this), default 32000; the largest configured limit.output lets every model's own limit win.
+  outputTokenMax = lib.foldl' lib.max 32000 (lib.concatMap (p: map (m: m.limit.output or 0) (builtins.attrValues (p.models or {}))) (builtins.attrValues config.programs.opencode.settings.provider));
   # Must not be config.programs.opencode.package (infinite recursion); pinned to 1.x, see flake.nix.
   opencodeBase = inputs.nixpkgs-opencode.legacyPackages.${pkgs.stdenv.hostPlatform.system}.opencode;
   opencodeMainProgram = opencodeBase.meta.mainProgram or "opencode";
@@ -95,6 +97,7 @@
     postBuild = ''
       rm $out/bin/${opencodeMainProgram}
       makeWrapper ${opencodeBase}/bin/${opencodeMainProgram} $out/bin/${opencodeMainProgram} \
+        --set-default OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX ${toString outputTokenMax} \
         --run ${lib.escapeShellArg sessionListAllGuard} \
         --run ${lib.escapeShellArg context7Prelude}
     '';

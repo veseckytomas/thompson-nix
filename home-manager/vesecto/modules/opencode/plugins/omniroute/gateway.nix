@@ -67,6 +67,10 @@ in {
 
         # Clamp combo Retry-After hints so one member's far-future rate_limited_until cannot park clients ~1 day (idempotent; re-applies on every switch).
         ${pkgs.python3}/bin/python3 ${./patch-retry-hint.py} "$vd/node_modules/omniroute"
+        # A combo skips a full litellm pool at once instead of queueing for it; pinned requests still wait (idempotent).
+        ${pkgs.python3}/bin/python3 ${./patch-semaphore-failfast.py} "$vd/node_modules/omniroute"
+        # Rules loaded at boot (the litellm 429 rule) must reach the chat route's own module copy (idempotent).
+        ${pkgs.python3}/bin/python3 ${./patch-operator-rules-global.py} "$vd/node_modules/omniroute"
       fi
 
       for old in "$d"/omniroute@*; do
@@ -105,8 +109,10 @@ in {
             "OMNIROUTE_CHAT_LARGE_BODY_BYTES=1048576"
             # Bounds one upstream attempt, not the cooldown wait, which is awaited between fetches.
             "FETCH_TIMEOUT_MS=600000"
-            # Cap the dead-member queue wait: 600 s let latched chains burn ~2 min per request before failing over.
-            "RATE_LIMIT_MAX_WAIT_MS=60000"
+            # Total stream lifetime: the 21 min default kills a 128k-token Opus turn, which takes up to ~38 min at a measured 56 tok/s.
+            "STREAM_ACTIVE_TIMEOUT_MS=3600000"
+            # Cap the queue wait: 600 s let latched chains burn ~2 min per request; 4 s also bounds a full litellm pool before failover.
+            "RATE_LIMIT_MAX_WAIT_MS=4000"
             # Backstop for limiter lease waits; 1 h let orphaned waits pile up after 600 s cap removal.
             "RATE_LIMIT_EXECUTION_MAX_WAIT_MS=120000"
             # Explicitly unbounded; any non-zero value turns on the queue_full fast-reject.

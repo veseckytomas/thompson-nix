@@ -1,5 +1,5 @@
 {
-  "_comment": "Hand-maintained: every model id in chains.json must have an entry here or the nix eval fails.",
+  "_comment": "Hand-maintained: the nix eval fails when a chains.json or pinned id has no entry here, or when a pin's or chain floor's output exceeds half its context.",
   "models": {
     "antigravity/claude-opus-4-6-thinking": {
       "context": 1000000,
@@ -91,7 +91,7 @@
     },
     "litellm/kimi-k3": {
       "context": 1048576,
-      "output": 1048576
+      "output": 131072
     },
     "litellm/mini": {
       "context": 128000,
