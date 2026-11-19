@@ -23,7 +23,7 @@ After writing, print next steps for the user: `direnv allow`, `git init` + first
 
 - **Banner**: every generated code/config file opens with the ASCII banner below, verbatim, before any code. No trailing whitespace on banner lines. The template below is marker-free — prefix each line with a comment marker suited to the file's format, so the banner stays legal syntax: `#` for nix/yaml/gitignore/.envrc/.editorconfig/python/shell files, `//` for rust/go/c-family/ts, `--` for lua/sql, `<!-- ... -->` for markdown/html. `README.md` gets it as an HTML comment at the very top. No banner in `AGENTS.md` or other agent-instruction files (CLAUDE.md, GEMINI.md, …); none in `LICENSE` (license text untouched); none in `SKILL.md` (reserved — frontmatter first — not generated here).
 - **Comments (STRICT)**: at most 1 line per comment; comment only non-obvious intent or gotchas; never narrate what the code does.
-- **Authorship**: Tomáš Vesecký / vesecky@proton.me / GitHub: veseckytomas / GitLab: vesecky.tomas — goes in banner, LICENSE, README.
+- **Authorship**: Tomáš Vesecký / tomas@vesecky.net / GitHub: veseckytomas / GitLab: vesecky.tomas — goes in banner, LICENSE, README.
 
 Banner template (verbatim, NO comment markers — add the right marker per file when writing it):
 
@@ -35,7 +35,7 @@ Banner template (verbatim, NO comment markers — add the right marker per file 
 /_/ /_/ /_/\____/_/ /_/ /_/ .___/____/\____/_/ /_/
                          /_/
 Tomáš Vesecký
-Email: vesecky@proton.me
+Email: tomas@vesecky.net
 GitHub: veseckytomas
 GitLab: vesecky.tomas
 ```
