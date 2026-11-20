@@ -229,6 +229,8 @@
         (lib.fileset.fileFilter (f: f.hasExt "nix") ./modules)
         # nixos-run interpolates these as data, so nothing else ever parses them.
         (lib.fileset.fileFilter (f: f.hasExt "sh" || f.hasExt "py") ./modules/common/packages/nixos-run)
+        # The launcher harness runs in the lint check below, so its files must be in lintSrc.
+        (lib.fileset.fileFilter (f: f.hasExt "sh") ./modules/common/packages/opencode-sandbox)
         # verify-model-limits.py reads the two json files, so the check needs all three in the sandbox.
         (lib.fileset.fileFilter (f: f.hasExt "sh" || f.hasExt "py" || f.hasExt "json") ./home-manager/vesecto/modules/opencode/plugins/omniroute)
         # The fence check parses these; without them in the sandbox its loop matches nothing and passes silently.
@@ -273,6 +275,15 @@
       modules = [
         ./home-manager/vesecto
       ];
+    };
+    opencodeSandboxHome = inputs.home-manager.lib.homeManagerConfiguration {
+      extraSpecialArgs = {inherit inputs system username pkgs-stable;};
+      inherit pkgs;
+      modules = [./modules/common/packages/opencode-sandbox/profile.nix];
+    };
+    opencodeSandboxImage = import ./modules/common/packages/opencode-sandbox/image.nix {
+      inherit pkgs lib;
+      profile = opencodeSandboxHome;
     };
     # buildEnv dedupes a pname that resolves to one path, so only a second path for the same pname collides.
     hmCollisions = let
@@ -428,7 +439,7 @@
     # `nix flake check` would evaluate every host; build this attr directly to lint alone.
     checks.${system}.lint =
       pkgs.runCommand "lint" {
-        nativeBuildInputs = [pkgs.alejandra pkgs.jq pkgs.nodejs pkgs.python3 pkgs.shellcheck pkgs.sqlite pkgs.statix];
+        nativeBuildInputs = [pkgs.alejandra pkgs.jq pkgs.nodejs pkgs.python3 pkgs.shellcheck pkgs.sqlite pkgs.statix pkgs.util-linux];
       } ''
         cd ${lintSrc}
         # bun2nix generates this one; alejandra would reformat it on every regeneration.
@@ -482,6 +493,9 @@
         bash home-manager/vesecto/modules/opencode/plugins/omniroute/connection-caps-test.sh
         bash home-manager/vesecto/modules/opencode/plugins/omniroute/patch-semaphore-failfast-test.sh
         bash home-manager/vesecto/modules/opencode/plugins/omniroute/patch-operator-rules-global-test.sh
+        # These banner-first files carry no shebang, so shellcheck needs --shell=bash.
+        shellcheck --shell=bash modules/common/packages/opencode-sandbox/launcher.sh modules/common/packages/opencode-sandbox/launcher-test.sh
+        bash modules/common/packages/opencode-sandbox/launcher-test.sh
         touch $out
       '';
 
@@ -495,6 +509,9 @@
         flakePath = "/home/${username}/Git/Personal/thompson-nix";
       };
       ykman-run = pkgs.callPackage ./modules/common/packages/ykman-run {};
+      opencode-sandbox = pkgs.callPackage ./modules/common/packages/opencode-sandbox {
+        image = opencodeSandboxImage;
+      };
       graphify = import ./home-manager/vesecto/modules/opencode/graphify {
         inherit inputs pkgs;
       };

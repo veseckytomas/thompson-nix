@@ -47,7 +47,7 @@ async function dispatchWithCooldownRetry(opts: Options): Promise<Response> {
   return resolveComboCooldownWaitDecision({
     targets: state.orderedTargets, earliestRetryAfter: state.earliestRetryAfter,
     attempt: extra.comboCooldownAttempt.current,
-    budgetLeftMs: extra.comboCooldownBudgetLeftMs.current,
+    budgetLeftMs: resolveCooldownWaitBudgetMs(extra),
     settings: deps.resilienceSettings.comboCooldownWait,
     lookupLock, computeWaitMs,
   });

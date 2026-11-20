@@ -27,15 +27,6 @@
       openldap = prev.openldap.overrideAttrs (old: {
         doCheck = false;
       });
-      # read_key returned buffer.value, whose NUL-terminated semantics truncate a keyring's binary serial array whenever a serial contains a zero byte (NixOS/nixpkgs#576985).
-      udiskie = prev.udiskie.overrideAttrs (old: {
-        postPatch =
-          (old.postPatch or "")
-          + ''
-            substituteInPlace udiskie/keyutils.py \
-              --replace-fail 'return buffer.value' 'return buffer.raw[:ret]'
-          '';
-      });
       # swt 4.34 strips -Werror in its own postPatch, so the -Wno-error override this overlay used to carry is gone.
       inherit (pkgs-stable) swt;
     })

@@ -51,7 +51,7 @@ COMBO_FLOW: Final = (
         "dispatchWithCooldownRetry",
         (
             "const { state, deps, extra } = opts;",
-            "resolveComboCooldownWaitDecision({ targets: state.orderedTargets, earliestRetryAfter: state.earliestRetryAfter, attempt: extra.comboCooldownAttempt.current, budgetLeftMs: extra.comboCooldownBudgetLeftMs.current, settings: deps.resilienceSettings.comboCooldownWait,",
+            "resolveComboCooldownWaitDecision({ targets: state.orderedTargets, earliestRetryAfter: state.earliestRetryAfter, attempt: extra.comboCooldownAttempt.current, budgetLeftMs: resolveCooldownWaitBudgetMs(extra), settings: deps.resilienceSettings.comboCooldownWait,",
         ),
     ),
     Proof(

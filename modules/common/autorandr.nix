@@ -111,6 +111,7 @@ in {
     };
     timers.autorandr-trigger = {
       description = "Debounce window between the last DRM connector uevent and the converge run";
+      startLimitIntervalSec = lib.mkForce 0;
       timerConfig = {
         OnActiveSec = 5;
         Unit = "autorandr-converge.service";
