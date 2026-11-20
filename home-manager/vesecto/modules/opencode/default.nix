@@ -22,7 +22,7 @@
   graphify = import ./graphify {inherit inputs pkgs;};
   upstreamGraphifyAgentsMd = inputs.graphify-src + "/graphify/always_on/agents-md.md";
   # Hash guard: a graphify-src bump fails eval loudly instead of silently keeping our divergent copy.
-  upstreamGraphifyAgentsMdSha256 = "2ba0bd9e19da9d2d63332334b3290b80ab2d155d036f9f14a5aaac66d0347018";
+  upstreamGraphifyAgentsMdSha256 = "ead6ea966c41931c88cf1de4e9c52451c0d6124f57f8de9c02597b23bbb5f18d";
   # Replaces upstream's block, which leads with `query` - the costliest scoped command.
   # `query` is a depth-3 BFS that spends its whole token budget: ~6.4KB even for an
   # exact node (AGENTS.md 174 nodes, flake.nix 49), while `explain` is bounded by real
@@ -41,6 +41,8 @@
       open-ended exploration -> `QueryGraph`.
     - Name the exact indexed label. Matching is lexical, not semantic, so a prose
       question can land on an unrelated same-named node and return its whole fanout.
+    - When the target is under a Markdown heading, `graphify section "<heading>"`
+      prints that section's text, so the .md need not be opened.
     - On broad or truncated output, narrow the label/depth/`context_filter` before
       raising `token_budget` - the budget caps output, it cannot fix a wrong start node.
     - Reserve `GRAPH_REPORT.md` for whole-repo review. Use the CLI only if MCP is down.
@@ -70,16 +72,18 @@
   # An unset var renders the header as a bare "Bearer", which Context7 rejects outright -
   # unlike sending no header at all, so a missing key BREAKS the server, it does not degrade it.
   context7Prelude = ''
-    if [ -r "${context7KeyPath}" ]; then
-      __c7="$(${context7Decrypt} "${context7KeyPath}" 2>/dev/null | ${pkgs.coreutils}/bin/tr -d '\r\n' || true)"
-      if [ -n "$__c7" ]; then
-        export CONTEXT7_API_KEY="$__c7"
+    if [ -z "''${CONTEXT7_API_KEY:-}" ]; then
+      if [ -r "${context7KeyPath}" ]; then
+        __c7="$(${context7Decrypt} "${context7KeyPath}" 2>/dev/null | ${pkgs.coreutils}/bin/tr -d '\r\n' || true)"
+        if [ -n "$__c7" ]; then
+          export CONTEXT7_API_KEY="$__c7"
+        else
+          echo "opencode: context7 key failed to decrypt - the context7 MCP server will reject every call" >&2
+        fi
+        unset __c7
       else
-        echo "opencode: context7 key failed to decrypt - the context7 MCP server will reject every call" >&2
+        echo "opencode: context7 key not readable - the context7 MCP server will reject every call" >&2
       fi
-      unset __c7
-    else
-      echo "opencode: context7 key not readable - the context7 MCP server will reject every call" >&2
     fi
   '';
   # opencode sends min(limit.output, this), default 32000; the largest configured limit.output lets every model's own limit win.
@@ -640,18 +644,19 @@ in {
       codegraph
       graphify
       pkgs.claude-code
-      (pkgs.codex.overrideAttrs (old: {
-        buildInputs =
-          (old.buildInputs or [])
-          ++ [
-            pkgs.aws-lc
-            pkgs.oniguruma
-            pkgs.zstd
-            pkgs.sqlite
-          ];
-      }))
-      pkgs.github-copilot-cli
-      pkgs.antigravity-cli
+      # AI harnesses off — opencode + claude-code only.
+      # (pkgs.codex.overrideAttrs (old: {
+      #   buildInputs =
+      #     (old.buildInputs or [])
+      #     ++ [
+      #       pkgs.aws-lc
+      #       pkgs.oniguruma
+      #       pkgs.zstd
+      #       pkgs.sqlite
+      #     ];
+      # }))
+      # pkgs.github-copilot-cli
+      # pkgs.antigravity-cli
       context7KeyCheck
     ];
   };

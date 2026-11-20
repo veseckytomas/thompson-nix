@@ -18,12 +18,12 @@ trap 'rm -rf "$fixture"' EXIT
 chunks="$fixture/pkg/dist/.build/next/server/chunks"
 mkdir -p "$chunks"
 
-# Mirrors 3.8.53's minified providerErrorRules module: a module-local store, its setter and the operator-rule reader.
+# Mirrors 3.8.54's configured-rule store beside an operator-default store that must not be shared.
 write_chunk() {
     local file="$1" store="$2" factory="$3"
     cat >"$chunks/$file" <<JS
 "use strict";
-module.exports=(()=>{var t;let r,n,$store={};function $factory(){return[{id:"minimax-per-model-quota",match:()=>null}]}function b(e){if(!e)return!1;let t=${store}[e.toLowerCase()];return!!t&&t.length>0}function w(e,t,r,n,s){if(!e)return null;let i=e.toLowerCase(),a=(s??$store)?.[i];if(a&&a.length>0){let e=("string"==typeof n?n:JSON.stringify(n??"")).toLowerCase();for(let r of a)if(r.status===t&&e.includes(r.match.toLowerCase()))return{reason:r.reason??"quota_exhausted",scope:r.scope,cooldownMs:r.cooldownMs}}return null}return{has:b,match:w,set:function(e){if($store={},e)for(let[t,r]of Object.entries(e))Array.isArray(r)&&r.length>0&&(${store}[t.toLowerCase()]=r)}}})();
+module.exports=(()=>{var t;let r,n,\$default={},${store}={};function $factory(){return[{id:"minimax-per-model-quota",match:()=>null}]}function b(e){if(!e)return!1;let t=${store}[e.toLowerCase()];return!!t&&t.length>0}function w(e,t,r,n,s){if(!e)return null;let i=e.toLowerCase(),a=(s??$store)?.[i];if(a&&a.length>0){let e=("string"==typeof n?n:JSON.stringify(n??"")).toLowerCase();for(let r of a)if(r.status===t&&e.includes(r.match.toLowerCase()))return{reason:r.reason??"quota_exhausted",scope:r.scope,cooldownMs:r.cooldownMs}}return null}return{has:b,match:w,defaults:function(){return \$default},set:function(e){if($store={},e)for(let[t,r]of Object.entries(e))Array.isArray(r)&&r.length>0&&(${store}[t.toLowerCase()]=r)}}})();
 JS
 }
 write_chunk a._.js o s
@@ -75,6 +75,8 @@ b.set({ other: rule });
 if (a.has("litellm-x") || !a.has("other")) fail("a later set must replace the shared rules, not merge into them");
 a.set(null);
 if (b.has("other")) fail("clearing through one copy must clear the other");
+a.defaults().other = rule;
+if (b.has("other")) fail("operator defaults must remain module-local");
 JS
 }
 
@@ -91,7 +93,7 @@ assert_eq "$(cat "$chunks"/*.js | sha256sum)" "$before" 'second run leaves bytes
 
 # A drifted chunk aborts before any file is written.
 cp -r "$fixture/pristine" "$fixture/drift"
-sed -i 's/minimax-per-model-quota/minimax-quota/' "$fixture/drift/dist/.build/next/server/chunks/b._.js"
+sed -i 's/,q={};/,q=Object.create(null);/' "$fixture/drift/dist/.build/next/server/chunks/b._.js"
 expect_failure 'drifted declaration' 'rule store declaration anchor not unique in b._.js (0 hits)' run_patcher "$fixture/drift"
 cmp "$fixture/drift/dist/.build/next/server/chunks/a._.js" "$pristine/a._.js"
 

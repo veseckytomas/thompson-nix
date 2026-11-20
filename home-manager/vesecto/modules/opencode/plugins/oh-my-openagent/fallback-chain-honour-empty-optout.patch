@@ -49,16 +49,16 @@
 +++ b/packages/omo-opencode/src/plugin/event-model-fallback-state.ts
 @@ -44,11 +44,11 @@
  ): void {
-   const agentKey = getAgentConfigKey(agentName);
-   const rawFallbackModels = getRawFallbackModels(sessionID, agentKey, pluginConfig);
--  if (!rawFallbackModels || rawFallbackModels.length === 0) return;
-+  if (!rawFallbackModels) return;
+   const agentKey = getAgentConfigKey(agentName)
+   const rawFallbackModels = getRawFallbackModels(sessionID, agentKey, pluginConfig)
+-  if (!rawFallbackModels || rawFallbackModels.length === 0) return
++  if (!rawFallbackModels) return
  
-   const fallbackChain = buildFallbackChainFromModels(rawFallbackModels, currentProviderID);
+   const fallbackChain = buildFallbackChainFromModels(rawFallbackModels, currentProviderID)
  
 -  if (fallbackChain && fallbackChain.length > 0 && modelFallback) {
 +  if (fallbackChain && modelFallback) {
-     setSessionFallbackChain(modelFallback, sessionID, fallbackChain);
+     setSessionFallbackChain(modelFallback, sessionID, fallbackChain)
    }
  }
 --- a/packages/omo-opencode/src/shared/fallback-chain-from-models.test.ts

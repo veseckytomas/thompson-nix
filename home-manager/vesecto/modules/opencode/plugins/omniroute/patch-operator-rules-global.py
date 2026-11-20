@@ -20,10 +20,11 @@ SIGNATURE = b'.reason??"quota_exhausted",scope:'
 MARKER = "__omniroute_operatorProviderErrorRules__"
 ID = r"[A-Za-z_$][\w$]*"
 
-# The module-local store, declared right before the minimax rule factory.
-DECL = re.compile(
-    rf"((?<![\w$])let (?:{ID},)*)({ID})=\{{\}};(?=function {ID}\(\)\{{return\[\{{id:\"minimax-per-model-quota\")"
-)
+READER = re.compile(rf"\(({ID})\?\?({ID})\)\?\.\[{ID}\];")
+
+
+def declaration(store):
+    return re.compile(rf"(?<=,){re.escape(store)}=\{{\}}(?=[,;])")
 
 
 def setter(store):
@@ -49,12 +50,12 @@ def one(rx, text, what, name):
 
 
 def patch(text, name):
-    store = one(DECL, text, "rule store declaration", name).group(2)
+    store = one(READER, text, "rule store reader", name).group(2)
+    decl = declaration(store)
+    one(decl, text, "rule store declaration", name)
     rx = setter(store)
     one(rx, text, "rule store setter", name)
-    text = DECL.sub(
-        lambda m: f"{m.group(1)}{store}=(globalThis.{MARKER}??={{}});", text, count=1
-    )
+    text = decl.sub(f"{store}=(globalThis.{MARKER}??={{}})", text, count=1)
     # Reassigning would detach this copy from the shared store, so the setter empties it in place.
     clear = f"if(Object.keys({store}).forEach(__omniKey=>delete {store}[__omniKey]),"
     return rx.sub(
